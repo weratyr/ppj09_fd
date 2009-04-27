@@ -1,10 +1,12 @@
 package ppj09.gwt.swapweb.client.datatype;
 
+import java.io.Serializable;
+
 /**
  * Der Datentyp welcher zwischen Client und Server ausgetauscht wird, und über
  * den DataBanker in die DB abgelegt wird.
  */
-public class User {
+public class User implements Serializable{
 	
 	//eindeutige, unveränderliche user Identificationsnummer
 	private int userId;

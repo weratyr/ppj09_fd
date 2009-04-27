@@ -1,5 +1,7 @@
 package ppj09.gwt.swapweb.client;
 
+import ppj09.gwt.swapweb.client.gui.LoginForm;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,6 +30,8 @@ public class SwapWeb implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
+	RootPanel rootPanel;
+	LoginForm loginForm;
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
@@ -38,6 +42,8 @@ public class SwapWeb implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {		
-		RootPanel.get(); //Just the Root Panel
+		rootPanel = RootPanel.get(); //Just the Root Panel
+		loginForm = new LoginForm();
+		rootPanel.add(loginForm);
 	}
 }
