@@ -32,6 +32,7 @@ public class SwapWeb implements EntryPoint {
 			+ "connection and try again.";
 
 	RootPanel rootPanel;
+	ArticleSearchForm articleSearchForm;
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
@@ -43,6 +44,7 @@ public class SwapWeb implements EntryPoint {
 	 */
 	public void onModuleLoad() {		
 		rootPanel = RootPanel.get(); //Just the Root Panel
-		
+		articleSearchForm = new ArticleSearchForm();
+		rootPanel.add(articleSearchForm);
 	}
 }

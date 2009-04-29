@@ -24,101 +24,120 @@ import com.google.gwt.event.dom.client.ClickEvent;
  * 
  */
 public class ArticleSearchForm extends Composite implements Form {
+	private TabPanel tabPanel;
+	private AbsolutePanel absolutePanel;
+	private Label searchqueryLabel;
+	private TextBox searchqueryTextBox;
+	private Label excludeArticleLabel;
+	private TextBox excludeArticleTextBox;
+	private Label articleLocationLabel;
+	private TextBox articleLocationTextBox;
+	private Label articleConditionLabel;
+	private ListBox articleConditionComboBox;
+	private ListBox deliveryComboBox;
+	private Label deliveryLabel;
+	private ListBox categoryComboBox;
+	private CheckBox activeArticleCheckBox;
+	private CheckBox pictureArticlesCheckBox;
+	private Button resultButton;
+	private Label resultLabel;
+	private UserSearchForm userSearchForm;
 	public ArticleSearchForm() {
 		{
-			TabPanel tabPanel = new TabPanel();
+			tabPanel = new TabPanel();
 			initWidget(tabPanel);
 			{
-				AbsolutePanel absolutePanel = new AbsolutePanel();
+				absolutePanel = new AbsolutePanel();
 				tabPanel.add(absolutePanel, "Artikelsuche", false);
-				absolutePanel.setSize("600px", "221px");
+				tabPanel.selectTab(0);
+				absolutePanel.setSize("600px", "250");
 				{
-					Label lblSuchbegriffOderTauschnummer = new Label("Suchbegriff oder Tauschnummer:");
-					absolutePanel.add(lblSuchbegriffOderTauschnummer, 5, 5);
-					lblSuchbegriffOderTauschnummer.setSize("218", "18");
+					searchqueryLabel = new Label("Suchbegriff oder Tauschnummer:");
+					absolutePanel.add(searchqueryLabel, 5, 5);
+					searchqueryLabel.setSize("218", "18");
 				}
 				{
-					TextBox textBox = new TextBox();
-					absolutePanel.add(textBox, 5, 23);
-					textBox.setWidth("218");
+					searchqueryTextBox = new TextBox();
+					absolutePanel.add(searchqueryTextBox, 5, 23);
+					searchqueryTextBox.setWidth("218");
 				}
 				{
-					Label lblBegriffeVonDer = new Label("Begriffe von der Suche ausschlie\u00DFen:");
-					absolutePanel.add(lblBegriffeVonDer, 5, 48);
+					excludeArticleLabel = new Label("Begriffe von der Suche ausschlie\u00DFen:");
+					absolutePanel.add(excludeArticleLabel, 5, 48);
 				}
 				{
-					TextBox textBox = new TextBox();
-					absolutePanel.add(textBox, 5, 66);
-					textBox.setSize("218", "");
+					excludeArticleTextBox = new TextBox();
+					absolutePanel.add(excludeArticleTextBox, 5, 66);
+					excludeArticleTextBox.setSize("218", "");
 				}
 				{
-					Label lblArtikelstandort = new Label("Artikelstandort:");
-					absolutePanel.add(lblArtikelstandort, 5, 94);
+					articleLocationLabel = new Label("Artikelstandort:");
+					absolutePanel.add(articleLocationLabel, 5, 94);
 				}
 				{
-					TextBox textBox = new TextBox();
-					absolutePanel.add(textBox, 103, 91);
-					textBox.setWidth("120");
+					articleLocationTextBox = new TextBox();
+					absolutePanel.add(articleLocationTextBox, 103, 91);
+					articleLocationTextBox.setWidth("120");
 				}
 				{
-					Label lblZustand = new Label("Zustand:");
-					absolutePanel.add(lblZustand, 42, 118);
+					articleConditionLabel = new Label("Zustand:");
+					absolutePanel.add(articleConditionLabel, 42, 118);
 				}
 				{
-					ListBox comboBox = new ListBox();
-					absolutePanel.add(comboBox, 103, 116);
-					comboBox.addItem("Beliebig");
-					comboBox.addItem("Neu");
-					comboBox.addItem("Gebraucht");
-					comboBox.setWidth("120");
+					articleConditionComboBox = new ListBox();
+					absolutePanel.add(articleConditionComboBox, 103, 116);
+					articleConditionComboBox.addItem("Beliebig");
+					articleConditionComboBox.addItem("Neu");
+					articleConditionComboBox.addItem("Gebraucht");
+					articleConditionComboBox.setWidth("120");
 				}
 				{
-					ListBox comboBox = new ListBox();
-					absolutePanel.add(comboBox, 103, 140);
-					comboBox.addItem("Beliebig");
-					comboBox.addItem("Postversand");
-					comboBox.addItem("Abholung");
-					comboBox.addItem("Treffen");
-					comboBox.setWidth("120");
+					deliveryComboBox = new ListBox();
+					absolutePanel.add(deliveryComboBox, 103, 140);
+					deliveryComboBox.addItem("Beliebig");
+					deliveryComboBox.addItem("Postversand");
+					deliveryComboBox.addItem("Abholung");
+					deliveryComboBox.addItem("Treffen");
+					deliveryComboBox.setWidth("120");
 				}
 				{
-					Label lblVersandart = new Label("Versandart:");
-					absolutePanel.add(lblVersandart, 26, 142);
+					deliveryLabel = new Label("Versandart:");
+					absolutePanel.add(deliveryLabel, 26, 142);
 				}
 				{
-					ListBox comboBox = new ListBox();
-					absolutePanel.add(comboBox, 230, 24);
-					comboBox.addItem("Kategorie");
-					comboBox.setSize("120", "");
+					categoryComboBox = new ListBox();
+					absolutePanel.add(categoryComboBox, 230, 24);
+					categoryComboBox.addItem("Kategorie");
+					categoryComboBox.setSize("120", "");
 				}
 				{
-					CheckBox checkBox = new CheckBox("New check box");
-					absolutePanel.add(checkBox, 387, 23);
-					checkBox.setHTML("Nur aktive Artikel Anzeigen");
+					activeArticleCheckBox = new CheckBox("New check box");
+					absolutePanel.add(activeArticleCheckBox, 387, 23);
+					activeArticleCheckBox.setHTML("Nur aktive Artikel Anzeigen");
 				}
 				{
-					CheckBox chckbxNurArtikelMit = new CheckBox("Nur Artikel mit Bildern anzeigen");
-					absolutePanel.add(chckbxNurArtikelMit, 387, 45);
+					pictureArticlesCheckBox = new CheckBox("Nur Artikel mit Bildern anzeigen");
+					absolutePanel.add(pictureArticlesCheckBox, 387, 45);
 				}
 				{
-					Button button = new Button("New button");
-					absolutePanel.add(button, 387, 138);
-					button.addClickHandler(new ClickHandler() {
+					resultButton = new Button("New button");
+					absolutePanel.add(resultButton, 387, 138);
+					resultButton.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 						}
 					});
-					button.setText("Ergebnisse anzeigen");
+					resultButton.setText("Ergebnisse anzeigen");
 				}
 				{
-					Label artikelGefundenLabel = new Label("5 Artikel gefunden");
-					absolutePanel.add(artikelGefundenLabel, 387, 115);
-					artikelGefundenLabel.setWidth("143");
+					resultLabel = new Label("5 Artikel gefunden");
+					absolutePanel.add(resultLabel, 387, 115);
+					resultLabel.setWidth("143");
 				}
 			}
 			{
-				UserSearchForm userSearchForm = new UserSearchForm();
+				userSearchForm = new UserSearchForm();
 				tabPanel.add(userSearchForm, "Benutzersuche", false);
-				userSearchForm.setSize("600px", "3cm");
+				userSearchForm.setSize("600px", "250");
 			}
 		}
 	}
