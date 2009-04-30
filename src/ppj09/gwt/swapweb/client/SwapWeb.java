@@ -2,6 +2,7 @@ package ppj09.gwt.swapweb.client;
 
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.UserForm;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -37,6 +38,7 @@ public class SwapWeb implements EntryPoint {
 	RootPanel rootPanel;
 	LoginForm loginForm;
 	ArticleSearchForm articleSearchForm;
+	UserForm userForm;
 	
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
@@ -49,6 +51,24 @@ public class SwapWeb implements EntryPoint {
 	 */
 	public void onModuleLoad() {		
 		rootPanel = RootPanel.get(); //Just the Root Panel
+		
+		
+		/**
+		 * Mein SwapWeb
+		 */
+		
+		
+		/**
+		 * Kategoriebaum
+		 */
+	
+		/**
+		 * Suche
+		 */
+		
+		/**
+		 * Hauptfenster mit TabPanel
+		 */
 		{
 			TabPanel tabPanel = new TabPanel();
 			rootPanel.add(tabPanel);
@@ -58,8 +78,9 @@ public class SwapWeb implements EntryPoint {
 			tabPanel.selectTab(0);
 			loginForm = new LoginForm();
 			tabPanel.add(loginForm, "Login", false);
-			
-			
+			userForm = new UserForm();
+			tabPanel.add(userForm, "Registrieren", false);
+
 		}
 		
 			

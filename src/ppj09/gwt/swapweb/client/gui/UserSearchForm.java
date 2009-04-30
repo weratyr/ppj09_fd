@@ -43,7 +43,7 @@ public class UserSearchForm extends Composite implements Form {
 			absolutePanel.setSize("700", "500");
 			{
 				resultsButton = new Button("New button");
-				absolutePanel.add(resultsButton, 304, 204);
+				absolutePanel.add(resultsButton, 333, 213);
 				resultsButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						//TODO
@@ -58,11 +58,11 @@ public class UserSearchForm extends Composite implements Form {
 			}
 			{
 				firstNameLabel = new Label("Vorname:");
-				absolutePanel.add(firstNameLabel, 19, 33);
+				absolutePanel.add(firstNameLabel, 19, 35);
 			}
 			{
 				lastNameLabel = new Label("Nachname:");
-				absolutePanel.add(lastNameLabel, 9, 58);
+				absolutePanel.add(lastNameLabel, 9, 60);
 			}
 			{
 				usernameTextBox = new TextBox();
@@ -71,30 +71,30 @@ public class UserSearchForm extends Composite implements Form {
 			}
 			{
 				firstNameTextBox = new TextBox();
-				absolutePanel.add(firstNameTextBox, 80, 30);
+				absolutePanel.add(firstNameTextBox, 80, 31);
 				firstNameTextBox.setWidth("170");
 			}
 			{
 				lastNameTextBox = new TextBox();
-				absolutePanel.add(lastNameTextBox, 80, 55);
+				absolutePanel.add(lastNameTextBox, 80, 57);
 				lastNameTextBox.setWidth("170");
 			}
 			{
 				cityLabel = new Label("Wohnort:");
-				absolutePanel.add(cityLabel, 23, 81);
+				absolutePanel.add(cityLabel, 23, 87);
 			}
 			{
 				cityTextBox = new TextBox();
-				absolutePanel.add(cityTextBox, 80, 80);
+				absolutePanel.add(cityTextBox, 80, 84);
 				cityTextBox.setWidth("170");
 			}
 			{
 				ageLabel = new Label("Alter:");
-				absolutePanel.add(ageLabel, 80, 105);
+				absolutePanel.add(ageLabel, 80, 114);
 			}
 			{
 				ageComboBox_1 = new ListBox();
-				absolutePanel.add(ageComboBox_1, 115, 107);
+				absolutePanel.add(ageComboBox_1, 115, 112);
 				ageComboBox_1.addItem("18");
 				ageComboBox_1.addItem("19");
 				ageComboBox_1.addItem("20");
@@ -177,15 +177,15 @@ public class UserSearchForm extends Composite implements Form {
 				ageComboBox_1.addItem("97");
 				ageComboBox_1.addItem("98");
 				ageComboBox_1.addItem("99");
-				ageComboBox_1.setSize("50", "25px");
+				ageComboBox_1.setSize("50", "");
 			}
 			{
 				tillLabel = new Label("bis");
-				absolutePanel.add(tillLabel, 175, 105);
+				absolutePanel.add(tillLabel, 175, 114);
 			}
 			{
 				ageComboBox_2 = new ListBox();
-				absolutePanel.add(ageComboBox_2, 200, 105);
+				absolutePanel.add(ageComboBox_2, 200, 112);
 				ageComboBox_2.addItem("99");
 				ageComboBox_2.addItem("98");
 				ageComboBox_2.addItem("97");
@@ -272,53 +272,53 @@ public class UserSearchForm extends Composite implements Form {
 			}
 			{
 				jobTextBox = new TextBox();
-				absolutePanel.add(jobTextBox, 80, 128);
+				absolutePanel.add(jobTextBox, 80, 136);
 				jobTextBox.setWidth("170");
 			}
 			{
 				jobLabel = new Label("Beruf:");
-				absolutePanel.add(jobLabel, 40, 131);
+				absolutePanel.add(jobLabel, 40, 139);
 			}
 			{
 				hobbysTextBox = new TextBox();
-				absolutePanel.add(hobbysTextBox, 80, 154);
+				absolutePanel.add(hobbysTextBox, 80, 163);
 				hobbysTextBox.setWidth("170");
 			}
 			{
 				hobbysLabel = new Label("Hobbys:");
-				absolutePanel.add(hobbysLabel, 27, 157);
+				absolutePanel.add(hobbysLabel, 27, 166);
 			}
 			{
 				musicTextBox = new TextBox();
-				absolutePanel.add(musicTextBox, 80, 179);
+				absolutePanel.add(musicTextBox, 80, 190);
 				musicTextBox.setWidth("170");
 			}
 			{
 				musicLabel = new Label("Musik:");
-				absolutePanel.add(musicLabel, 36, 183);
+				absolutePanel.add(musicLabel, 36, 194);
 			}
 			{
 				filmTextBox = new TextBox();
-				absolutePanel.add(filmTextBox, 80, 204);
+				absolutePanel.add(filmTextBox, 80, 217);
 				filmTextBox.setWidth("170");
 			}
 			{
 				filmLabel = new Label("Film:");
-				absolutePanel.add(filmLabel, 46, 209);
+				absolutePanel.add(filmLabel, 46, 221);
 			}
 			{
 				activeUsersChckbx = new CheckBox("Nur aktive beenutzer zeigen");
-				absolutePanel.add(activeUsersChckbx, 304, 7);
-				activeUsersChckbx.setSize("197px", "37px");
+				absolutePanel.add(activeUsersChckbx, 333, 7);
+				activeUsersChckbx.setSize("197px", "18");
 			}
 			{
 				pictureUsersChckbx = new CheckBox("Nur Benutzer mit Bildern anzeigen");
-				absolutePanel.add(pictureUsersChckbx, 304, 33);
-				pictureUsersChckbx.setSize("226px", "37px");
+				absolutePanel.add(pictureUsersChckbx, 333, 29);
+				pictureUsersChckbx.setSize("226px", "18");
 			}
 			{
 				Label resultLabel = new Label("5 Ergebnisse gefunden");
-				absolutePanel.add(resultLabel, 304, 181);
+				absolutePanel.add(resultLabel, 333, 190);
 				resultLabel.setWidth("150");
 			}
 		}

@@ -72,20 +72,20 @@ public class ArticleSearchForm extends Composite implements Form {
 				}
 				{
 					articleLocationLabel = new Label("Artikelstandort:");
-					absolutePanel.add(articleLocationLabel, 5, 94);
+					absolutePanel.add(articleLocationLabel, 5, 96);
 				}
 				{
 					articleLocationTextBox = new TextBox();
-					absolutePanel.add(articleLocationTextBox, 103, 91);
+					absolutePanel.add(articleLocationTextBox, 103, 93);
 					articleLocationTextBox.setWidth("120");
 				}
 				{
 					articleConditionLabel = new Label("Zustand:");
-					absolutePanel.add(articleConditionLabel, 42, 118);
+					absolutePanel.add(articleConditionLabel, 42, 122);
 				}
 				{
 					articleConditionComboBox = new ListBox();
-					absolutePanel.add(articleConditionComboBox, 103, 116);
+					absolutePanel.add(articleConditionComboBox, 103, 120);
 					articleConditionComboBox.addItem("Beliebig");
 					articleConditionComboBox.addItem("Neu");
 					articleConditionComboBox.addItem("Gebraucht");
@@ -93,7 +93,7 @@ public class ArticleSearchForm extends Composite implements Form {
 				}
 				{
 					deliveryComboBox = new ListBox();
-					absolutePanel.add(deliveryComboBox, 103, 140);
+					absolutePanel.add(deliveryComboBox, 103, 144);
 					deliveryComboBox.addItem("Beliebig");
 					deliveryComboBox.addItem("Postversand");
 					deliveryComboBox.addItem("Abholung");
@@ -102,7 +102,7 @@ public class ArticleSearchForm extends Composite implements Form {
 				}
 				{
 					deliveryLabel = new Label("Versandart:");
-					absolutePanel.add(deliveryLabel, 26, 142);
+					absolutePanel.add(deliveryLabel, 26, 145);
 				}
 				{
 					categoryComboBox = new ListBox();

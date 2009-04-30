@@ -82,16 +82,16 @@ public class LoginForm extends Composite implements Form {
 				}
 				{
 					loginButton = new Button("New button");
-					absolutePanel_1.add(loginButton, 323, 0);
+					absolutePanel_1.add(loginButton, 333, 0);
 					loginButton.setText("Login");
 				}
 				{
 					passwordLostHyperlink = new Hyperlink("New hyperlink", false,
 							"newHistoryToken");
-					absolutePanel_1.add(passwordLostHyperlink, 375, 3);
+					absolutePanel_1.add(passwordLostHyperlink, 390, 3);
 					passwordLostHyperlink.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
-
+							absolutePanel.setVisible(!absolutePanel.isVisible());
 						}
 					});
 					passwordLostHyperlink.setText("Passwort vergessen");
@@ -108,11 +108,11 @@ public class LoginForm extends Composite implements Form {
 					});
 					
 					usernameTextBox.setText("Benutzername");
-					absolutePanel_1.add(pswrdtxtbxPasswort, 160, 0);
+					absolutePanel_1.add(pswrdtxtbxPasswort, 170, 0);
 				}
 				{
 					passwordTextBox = new TextBox();
-					absolutePanel_1.add(passwordTextBox, 160, 0);
+					absolutePanel_1.add(passwordTextBox, 170, 0);
 					passwordTextBox.addFocusHandler(new FocusHandler() {
 						public void onFocus(FocusEvent event) {
 							passwordTextBox.setVisible(false);
@@ -125,6 +125,7 @@ public class LoginForm extends Composite implements Form {
 			{
 				absolutePanel = new AbsolutePanel();
 				verticalPanel.add(absolutePanel);
+				absolutePanel.setVisible(false);
 				absolutePanel.setSize("550", "30");
 				{
 					pwLostUsernameTextBox = new TextBox();
@@ -149,7 +150,7 @@ public class LoginForm extends Composite implements Form {
 				}
 				{
 					pwLostEmailTextBox = new TextBox();
-					absolutePanel.add(pwLostEmailTextBox, 160, 0);
+					absolutePanel.add(pwLostEmailTextBox, 170, 0);
 					pwLostEmailTextBox.setText("eMail");
 					pwLostEmailTextBox.addBlurHandler(new BlurHandler() {
 						public void onBlur(BlurEvent event) {
@@ -170,7 +171,7 @@ public class LoginForm extends Composite implements Form {
 				}
 				{
 					pwLostButton = new Button();
-					absolutePanel.add(pwLostButton, 323, 0);
+					absolutePanel.add(pwLostButton, 333, 0);
 					pwLostButton.setText("Passwort an mich senden");
 				}
 			}
