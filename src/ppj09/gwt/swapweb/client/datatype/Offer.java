@@ -18,7 +18,13 @@ import java.io.Serializable;
  * @version %I%, %G%
  */
 public class Offer implements Serializable {
+	//offerId ist eindeutig
 	private int offerId;
-	private int offeredArticle;
-	private int desiredArticle;
+	//speichert die Artikel Nummer der zu tauschenden Gegenstaende
+	private int offeredArticleId;
+	private int desiredArticleId;
+	//enthaelt die Id des Status; abgelehnt, noch offen des Tausches
+	private boolean swapStatusId;
+	
+	
 }

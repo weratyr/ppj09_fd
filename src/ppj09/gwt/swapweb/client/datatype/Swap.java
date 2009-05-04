@@ -20,4 +20,5 @@ import java.io.Serializable;
 public class Swap implements Serializable {
 	//Bewertung und Taschinfos
 	
+	
 }

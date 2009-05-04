@@ -35,6 +35,42 @@ public class Article implements Serializable {
 	// Wunschgegenstandsnummer und ein moeglicher Kommentar
 	private ArrayList<Integer> desiredItemsCategoryId;
 	private String desiredItemsComment;
+	// Wenn ein Artikel im Tausch ist, aber noch offen ist
+	private boolean inSwap; 
+	
+	
+	
+	/**
+	 * Gibt die articleId zurueck
+	 * 
+	 * @return articleId
+	 */
+	public int getArticleId() {
+		return articleId;
+	}
+
+	/**
+	 * Setzt die articleId
+	 */
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
+
+	/**
+	 * Gibt den inSwap Wert zurueck
+	 * 
+	 * @return inSwap
+	 */
+	public boolean isInSwap() {
+		return inSwap;
+	}
+
+	/**
+	 * Setzt die inSwap
+	 */
+	public void setInSwap(boolean inSwap) {
+		this.inSwap = inSwap;
+	}
 
 	/**
 	 * Gibt den title zurueck

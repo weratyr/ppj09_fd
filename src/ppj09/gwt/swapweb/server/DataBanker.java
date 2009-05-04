@@ -8,7 +8,6 @@ import ppj09.gwt.swapweb.server.datatype.Parameter;
 public class DataBanker {
 	public ArrayList<SearchResult> retriveArticles(ArrayList<Parameter> parameters) {
 		return null;
-		
 	}
 	public ArrayList<SearchResult> retriveUsers() {
 		return null;

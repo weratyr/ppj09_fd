@@ -17,10 +17,11 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * @author Projekt Team 4711
  * @version %I%, %G%
  */
-public class MessageSearchResult implements SearchResult,Serializable {
+public class MessageSearchResult implements SearchResult, Serializable {
 
 	/**
-	 * 
+	 * @return <code>MessageSearchResultView</code> Objekt mit den gesuchten
+	 *         Informationen
 	 */
 	public SearchResultView getView() {
 		// TODO Auto-generated method stub
