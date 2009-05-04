@@ -1,6 +1,5 @@
 /**
  * Formularfelder und Submit
- * testkommentar
  */
 package ppj09.gwt.swapweb.client.gui;
 
@@ -15,7 +14,7 @@ import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
 
 
 /**
- * @author
+ * @author Florian Liersch
  * 
  */
 public class ArticleForm extends Composite implements Form {
@@ -32,10 +31,6 @@ public class ArticleForm extends Composite implements Form {
 
 	}
 
-	/**
-	 * Schickt die validierten Formulardaten an den Artikelmanager, und wartet
-	 * auf Rückmeldung
-	 */
 	/**
 	 * Schickt die validierten Formulardaten an den Artikelmanager, und wartet
 	 * auf Rückmeldung
