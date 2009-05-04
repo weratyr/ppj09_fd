@@ -14,7 +14,7 @@ import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
 
 
 /**
- * @author Florian Liersch
+ * @author Florian Liersch neu
  * 
  */
 public class ArticleForm extends Composite implements Form {
