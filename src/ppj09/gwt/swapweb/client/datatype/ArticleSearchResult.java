@@ -8,10 +8,8 @@
 package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
-
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
-
 import com.google.gwt.user.client.ui.Composite;
 
 /**

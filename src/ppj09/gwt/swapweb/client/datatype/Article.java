@@ -6,7 +6,7 @@
  */
 
 package ppj09.gwt.swapweb.client.datatype;
-
+ 
 import java.io.Serializable;
 import java.util.ArrayList;
 

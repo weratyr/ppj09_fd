@@ -26,5 +26,4 @@ public class Offer implements Serializable {
 	//enthaelt die Id des Status; abgelehnt, noch offen des Tausches
 	private boolean swapStatusId;
 	
-	
 }

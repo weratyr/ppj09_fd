@@ -9,6 +9,7 @@ public class DataBanker {
 	public ArrayList<SearchResult> retriveArticles(ArrayList<Parameter> parameters) {
 		return null;
 	}
+	
 	public ArrayList<SearchResult> retriveUsers() {
 		return null;
 		

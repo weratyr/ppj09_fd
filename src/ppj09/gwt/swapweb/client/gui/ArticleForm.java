@@ -10,17 +10,13 @@ package ppj09.gwt.swapweb.client.gui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import ppj09.gwt.swapweb.client.Validation;
-import ppj09.gwt.swapweb.client.datatype.Article;
-import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
-import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
 
 /**
  * Formularfelder und Submit des neuen Artikels. Der Benutzer hat die
  * Mšglichkeit, einen neuen Artikel im System zu erstellen. Diese Klasse
  * implementiert das Interface Form
  * 
- * @author Christian Happ
+ * @author Florian Liersch
  * @author Projekt Team 4711
  * @version %I%, %G%
  */
@@ -40,10 +36,6 @@ public class ArticleForm extends Composite implements Form {
 
 	}
 
-	/**
-	 * Schickt die validierten Formulardaten an den Artikelmanager, und wartet
-	 * auf Rueckmeldung
-	 */
 	/**
 	 * Schickt die validierten Formulardaten an den Artikelmanager, und wartet
 	 * auf Rueckmeldung

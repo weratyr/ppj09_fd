@@ -19,5 +19,4 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public class MessageSearchResultView extends Composite implements
 		SearchResultView {
-
 }

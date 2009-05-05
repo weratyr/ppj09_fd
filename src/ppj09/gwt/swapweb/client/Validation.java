@@ -11,7 +11,7 @@ import ppj09.gwt.swapweb.client.gui.UserForm;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version %I%, %G%
+ * @version %I%, %G% 
  */
 public abstract class Validation {
 	/**

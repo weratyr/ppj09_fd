@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author Projekt Team 4711
  * @version %I%, %G%
  */
-public class ArticleSearch implements SearchQuery,Serializable {
+public class ArticleSearch implements SearchQuery {
 	// primitive Suche
 	private String searchPhrase;
 	private ArrayList<Category> category;

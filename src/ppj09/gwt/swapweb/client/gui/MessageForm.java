@@ -4,7 +4,6 @@
  * Copyright (c) 2008-2009 Project Team 4711
  * All rights reserved.
  */
-
 package ppj09.gwt.swapweb.client.gui;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -20,7 +19,8 @@ import com.google.gwt.user.client.ui.Composite;
 public class MessageForm extends Composite implements Form {
 
 	/**
-	 * 
+	 * Schickt die validierten Formulardaten an den Article-Search Modul, und
+	 * wartet auf Rueckmeldung
 	 */
 	public boolean submit() {
 		// TODO Auto-generated method stub

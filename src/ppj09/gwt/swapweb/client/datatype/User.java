@@ -17,8 +17,7 @@ import java.io.Serializable;
  * @author Projekt Team 4711
  * @version %I%, %G%
  */
-public class User implements Serializable {
-	
+public class User implements Serializable {	
 	//eindeutige, unveränderliche user Identificationsnummer
 	private int userId;
 	//identification eines Users, Email und Passwort

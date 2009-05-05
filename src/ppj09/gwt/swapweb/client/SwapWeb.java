@@ -1,6 +1,14 @@
 package ppj09.gwt.swapweb.client;
 
 import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
+import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.UserForm;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.Image;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -37,11 +45,48 @@ public class SwapWeb implements EntryPoint {
 			+ "connection and try again.";
 
 	RootPanel rootPanel;
-
 	/**
 	 * Die EntryPoin Methode
 	 */
 	public void onModuleLoad() {
 		rootPanel = RootPanel.get(); // Just the Root Panel
+		LoginForm loginForm;
+		ArticleSearchForm articleSearchForm;
+		UserForm userForm;
+	
+		rootPanel = RootPanel.get(); //Just the Root Panel
+		
+		
+		/**
+		 * Mein SwapWeb
+		 */
+		
+		
+		/**
+		 * Kategoriebaum
+		 */
+	
+		/**
+		 * Suche
+		 */
+		
+		/**
+		 * Hauptfenster mit TabPanel
+		 */
+		{
+			TabPanel tabPanel = new TabPanel();
+			rootPanel.add(tabPanel);
+			tabPanel.setSize("550px", "500px");
+			articleSearchForm = new ArticleSearchForm();
+			tabPanel.add(articleSearchForm, "Ich suche", false);
+			tabPanel.selectTab(0);
+			loginForm = new LoginForm();
+			tabPanel.add(loginForm, "Login", false);
+			userForm = new UserForm();
+			tabPanel.add(userForm, "Registrieren", false);
+
+		}
+						
+			
 	}
 }

@@ -7,7 +7,6 @@
 
 package ppj09.gwt.swapweb.client.datatype;
 
-import java.io.Serializable;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
 /**
@@ -18,13 +17,5 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * @version %I%, %G%
  */
 public class SwapSearchResult implements SearchResult, Serializable {
-
-	/**
-	 * 
-	 */
-	public SearchResultView getView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
