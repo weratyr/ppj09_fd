@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Composite;
  * Stellt eine Benutzersuchanfrage dar.
  * @author christianhapp
  * @author Projekt Team 4711
- * @version %I%, %G%
+ * @version 0.1, 04.05.09
  */
 public class UserSearchResultView extends Composite implements SearchResultView {
 

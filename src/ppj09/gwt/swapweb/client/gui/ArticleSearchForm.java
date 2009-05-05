@@ -31,7 +31,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version %I%, %G%
+ * @version 0.1, 04.05.09
  */
 public class ArticleSearchForm extends Composite implements Form {
 	private TabPanel tabPanel;

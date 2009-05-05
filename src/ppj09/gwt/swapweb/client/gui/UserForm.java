@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version %I%, %G%
+ * @version 0.1, 04.05.09
  */
 public class UserForm extends Composite implements Form {
 	private final UserManagerAsync userManager = GWT.create(UserManager.class);

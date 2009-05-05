@@ -1,3 +1,10 @@
+/*
+ * @(#)UserManagerAsync.java      			 20.04.09
+ *
+ * Copyright (c) 2008-2009 Project Team 4711
+ * All rights reserved.
+ */
+
 package ppj09.gwt.swapweb.client;
 
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
@@ -11,7 +18,7 @@ import ppj09.gwt.swapweb.client.gui.UserForm;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version %I%, %G% 
+ * @version 0.1, 04.05.09
  */
 public abstract class Validation {
 	/**

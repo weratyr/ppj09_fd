@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version %I%, %G%
+ * @version 0.1, 04.05.09
  */
 public class SwapWeb implements EntryPoint {
 	/**
