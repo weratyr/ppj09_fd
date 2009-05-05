@@ -7,6 +7,10 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.Validation;
+import ppj09.gwt.swapweb.client.datatype.Article;
+import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
+import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
