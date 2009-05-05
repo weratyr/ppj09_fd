@@ -1,0 +1,6 @@
+*.class
+.DS_Store
+*.jar
+war/swapweb/*
+war/WEB-INF/classes/*
+doc/*
