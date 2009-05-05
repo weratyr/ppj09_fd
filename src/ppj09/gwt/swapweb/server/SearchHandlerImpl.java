@@ -9,7 +9,6 @@ import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.MessageSearch;
 import ppj09.gwt.swapweb.client.datatype.SearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
-import ppj09.gwt.swapweb.client.datatype.SwapSearch;
 import ppj09.gwt.swapweb.client.datatype.UserSearch;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 
