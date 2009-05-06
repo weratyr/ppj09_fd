@@ -1,9 +1,13 @@
 package ppj09.gwt.swapweb.client;
 
+import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
+import ppj09.gwt.swapweb.client.gui.ArticleView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.MessageForm;
+import ppj09.gwt.swapweb.client.gui.MessageView;
 import ppj09.gwt.swapweb.client.gui.RegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
@@ -36,6 +40,11 @@ public class SwapWeb implements EntryPoint {
 	RegistrationForm registrationForm;
 	ArticleSearchResultView articleSearchResultView;
 	UserView userView;
+	UserForm userForm;
+	ArticleView articleView;
+	ArticleForm articleForm;
+	MessageForm messageForm;
+	MessageView messageView;
 	/**
 	 * Die EntryPoin Methode
 	 */
@@ -83,6 +92,19 @@ public class SwapWeb implements EntryPoint {
 			articleSearchResultView.addSearchResult(result2);
 			userView = new UserView();
 			tabPanel.add(userView, "User", false);
+			userForm=new UserForm();
+			tabPanel.add(userForm, "User aendern", false);
+			articleView = new ArticleView();
+			tabPanel.add(articleView, "Artikel", false);
+			articleForm = new ArticleForm();
+			tabPanel.add(articleForm, "Artikel aendern", false);
+			messageView = new MessageView();
+			tabPanel.add(messageView, "Nachrichten anzeigen", false);
+			messageForm = new MessageForm();
+			tabPanel.add(messageForm, "Nachricht schreiben", false);
+
+
+
 		}
 						
 			

@@ -1,208 +1,221 @@
-/*
- * @(#)UserForm.java      			 20.04.09
- *
- * Copyright (c) 2008-2009 Project Team 4711
- * All rights reserved.
- */
-
 package ppj09.gwt.swapweb.client.gui;
 
-import ppj09.gwt.swapweb.client.Validation;
-import ppj09.gwt.swapweb.client.datatype.User;
-import ppj09.gwt.swapweb.client.serverInterface.UserManager;
-import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
+/**
+ * Autor Daniel Abeska
+ * Klasse User- Form ist zum ändern bzw. bearbeiten eines Profils 
+ */
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.i18n.client.HasDirection;
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.gwtext.client.widgets.form.TextField;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
-/**
- * Formularfelder und Submit des Benutzers zur Registrierung. Implementiert das
- * Interface Form
- * 
- * @author Christian Happ
- * @author Projekt Team 4711
- * @version 0.1, 04.05.09
- */
-public class UserForm extends Composite implements Form {
-	private final UserManagerAsync userManager = GWT.create(UserManager.class);
-	private Label lblFirstName;
+public class UserForm extends Composite implements View {
 	private AbsolutePanel absolutePanel;
-	private Label lblLastName;
-	private Label lblZip_City;
-	private Label lblStreet_Number;
-	private TextBox txtbxFirstName;
-	private TextBox txtbLastName;
-	private TextBox txtbZip;
-	private TextBox txtbCity;
-	private TextBox txtbStreet;
-	private TextBox txtbNumber;
-	private Label lblUserName;
-	private TextBox txtbUserName;
-	private TextBox txtbUsername;
-	private TextBox txtbPassword;
-	private TextBox txtbPasswordRepeat;
-	private Label lblPassword;
-	private Label lblPasswordRepeat;
-	private Label lblEmail;
-	private Label lblEmailRepeat;
-	private TextBox txtbEmailRepeat;
+	private Image Picture;
+	private Label lblFilmgeschmack_1;
+	private Label lblName;
+	private Label lblGeschlecht;
+	private Label lblGeburtstag;
+	private Label lblBeruf;
+	private Label lblHobbys;
+	private Label lblMusikgeschmack;
+	private Label lblIchmag;
+	private Label lblIchMagnicht;
+	private Label lbKontakt;
+	private Label lblUeberMich;
+	private AbsolutePanel absolutePanel_1;
+	private TextBox tBox_Beruf;
+	private Label lblProfilName;
+	private TextBox tBox_Name;
+	private TextBox tBox_Geb;
+	private Label lblWohnort;
+	private TextBox tBox_WohnO;
+	private TextArea tArea_Hobby;
+	private TextArea tArea_Musik;
+	private TextArea tArea_Film;
+	private TextArea tArea_Mag;
+	private TextArea tArea_MagNicht;
+	private TextArea tArea_Kontakt;
+	private TextArea tArea_UeberMich;
+	private Button Button_Bild;
 	private VerticalPanel verticalPanel;
-
-	/**
-	 * Initialisiert Formular Eingabefelder
-	 */
 	public UserForm() {
-		// TODO Organisation in Panels
-		final TextBox nameField = new TextBox();
-		final TextBox vornameField = new TextBox();
-		final TextBox emailField = new TextBox();
-		final TextBox plzField = new TextBox();
-		final TextBox wohnortField = new TextBox();
-		final TextBox hausNummerField = new TextBox();
-
 		{
 			verticalPanel = new VerticalPanel();
+			initWidget(verticalPanel);
 			absolutePanel = new AbsolutePanel();
 			verticalPanel.add(absolutePanel);
-			initWidget(verticalPanel);
-			absolutePanel.setSize("600", "325px");
+			absolutePanel.setSize("650px", "700px");
 			{
-				lblFirstName = new Label("Vorname:");
-				absolutePanel.add(lblFirstName, 33, 3);
-				lblFirstName
-						.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				lblProfilName = new Label("Hans Baembel s Profil");
+				absolutePanel.add(lblProfilName, 5, 5);
+				lblProfilName.setSize("350", "22");
 			}
 			{
-				lblLastName = new Label("Nachname:");
-				absolutePanel.add(lblLastName, 23, 28);
+				Picture = new Image(null);
+				absolutePanel.add(Picture, 5, 32);
+				Picture.setSize("175px", "175px");
 			}
 			{
-				lblZip_City = new Label("PLZ/ Wohnort:");
-				absolutePanel.add(lblZip_City, 5, 54);
+				lblName = new Label("Name:");
+				absolutePanel.add(lblName, 220, 95);
+				lblName.setWidth("100");
 			}
 			{
-				lblStreet_Number = new Label("Stra\u00DFe/ Nr:");
-				absolutePanel.add(lblStreet_Number, 25, 80);
+				tBox_Name = new TextBox();
+				absolutePanel.add(tBox_Name, 350, 95);
+				tBox_Name.setSize("200", "21");
 			}
 			{
-				txtbxFirstName = new TextBox();
-				absolutePanel.add(txtbxFirstName, 94, 0);
+				lblGeschlecht = new Label("Geschlecht:");
+				absolutePanel.add(lblGeschlecht, 220, 118);
+				lblGeschlecht.setWidth("100");
 			}
 			{
-				txtbLastName = new TextBox();
-				absolutePanel.add(txtbLastName, 94, 26);
+				lblGeburtstag = new Label("Geburtstag:");
+				absolutePanel.add(lblGeburtstag, 220, 141);
+				lblGeburtstag.setWidth("100");
 			}
 			{
-				txtbZip = new TextBox();
-				absolutePanel.add(txtbZip, 94, 52);
-				txtbZip.setSize("50", "22");
+				tBox_Geb = new TextBox();
+				absolutePanel.add(tBox_Geb, 350, 141);
+				tBox_Geb.setSize("200", "21");
 			}
 			{
-				txtbCity = new TextBox();
-				absolutePanel.add(txtbCity, 147, 52);
-				txtbCity.setSize("106", "22");
+				lblWohnort = new Label("Wohnort");
+				absolutePanel.add(lblWohnort, 220, 164);
+				lblWohnort.setWidth("100");
 			}
 			{
-				txtbStreet = new TextBox();
-				absolutePanel.add(txtbStreet, 94, 76);
-				txtbStreet.setWidth("96");
+				tBox_WohnO = new TextBox();
+				absolutePanel.add(tBox_WohnO, 350, 164);
+				tBox_WohnO.setSize("200", "21");
 			}
 			{
-				txtbNumber = new TextBox();
-				absolutePanel.add(txtbNumber, 193, 76);
-				txtbNumber.setWidth("60");
+				lblBeruf = new Label("Beruf:");
+				absolutePanel.add(lblBeruf, 220, 187);
+				lblBeruf.setWidth("100");
 			}
 			{
-				lblUserName = new Label("Benutzername:");
-				absolutePanel.add(lblUserName, 331, 3);
+				tBox_Beruf = new TextBox();
+				absolutePanel.add(tBox_Beruf, 350, 187);
+				tBox_Beruf.setSize("200", "21");
 			}
 			{
-				txtbUserName = new TextBox();
-				absolutePanel.add(txtbUserName, 424, 78);
+				lblHobbys = new Label("Hobbys:");
+				absolutePanel.add(lblHobbys, 220, 210);
+				lblHobbys.setWidth("100");
 			}
 			{
-				txtbUsername = new TextBox();
-				absolutePanel.add(txtbUsername, 424, 0);
+				tArea_Hobby = new TextArea();
+				absolutePanel.add(tArea_Hobby, 350, 210);
+				tArea_Hobby.setSize("200", "38");
 			}
 			{
-				txtbPassword = new TextBox();
-				absolutePanel.add(txtbPassword, 424, 26);
+				lblMusikgeschmack = new Label("Musikgeschmack:");
+				absolutePanel.add(lblMusikgeschmack, 220, 256);
+				lblMusikgeschmack.setWidth("100");
 			}
 			{
-				txtbPasswordRepeat = new TextBox();
-				absolutePanel.add(txtbPasswordRepeat, 424, 52);
+				tArea_Musik = new TextArea();
+				absolutePanel.add(tArea_Musik, 350, 256);
+				tArea_Musik.setSize("200", "38");
 			}
 			{
-				lblPassword = new Label("Password:");
-				absolutePanel.add(lblPassword, 358, 28);
+				lblFilmgeschmack_1 = new Label("Filmgeschmack:");
+				absolutePanel.add(lblFilmgeschmack_1, 220, 302);
+				lblFilmgeschmack_1.setWidth("100");
 			}
 			{
-				lblPasswordRepeat = new Label("Password Wiederholen:");
-				absolutePanel.add(lblPasswordRepeat, 283, 54);
+				tArea_Film = new TextArea();
+				absolutePanel.add(tArea_Film, 350, 302);
+				tArea_Film.setSize("200", "38");
 			}
 			{
-				lblEmail = new Label("E-Mail:");
-				absolutePanel.add(lblEmail, 378, 81);
+				lblIchmag = new Label("Ich mag:");
+				absolutePanel.add(lblIchmag, 220, 348);
 			}
 			{
-				lblEmailRepeat = new Label("E-Mail Wiederholen:");
-				absolutePanel.add(lblEmailRepeat, 303, 107);
+				tArea_Mag = new TextArea();
+				absolutePanel.add(tArea_Mag, 350, 348);
+				tArea_Mag.setSize("200", "38");
 			}
 			{
-				txtbEmailRepeat = new TextBox();
-				absolutePanel.add(txtbEmailRepeat, 424, 104);
+				lblIchMagnicht = new Label("Ich mag nicht:");
+				absolutePanel.add(lblIchMagnicht, 220, 394);
+				lblIchMagnicht.setWidth("100");
 			}
 			{
-				Button Registration = new Button();
-				absolutePanel.add(Registration, 424, 159);
-				Registration.setText("Registrieren");
-				Registration.addClickHandler(new ClickHandler() {
+				tArea_MagNicht = new TextArea();
+				absolutePanel.add(tArea_MagNicht, 350, 394);
+				tArea_MagNicht.setSize("200", "38");
+			}
+			{
+				lbKontakt = new Label("Kontakt:");
+				absolutePanel.add(lbKontakt, 220, 440);
+				lbKontakt.setWidth("100");
+			}
+			{
+				tArea_Kontakt = new TextArea();
+				absolutePanel.add(tArea_Kontakt, 350, 440);
+				tArea_Kontakt.setSize("200", "38");
+			}
+			{
+				lblUeberMich = new Label("\u00DCber mich:");
+				absolutePanel.add(lblUeberMich, 220, 486);
+				lblUeberMich.setWidth("100");
+			}
+			{
+				tArea_UeberMich = new TextArea();
+				absolutePanel.add(tArea_UeberMich, 350, 486);
+				tArea_UeberMich.setSize("200", "38");
+			}
+			{
+				absolutePanel_1 = new AbsolutePanel();
+				absolutePanel.add(absolutePanel_1, 5, 469);
+				absolutePanel_1.setSize("650px", "100px");
+			}
+			{
+				Button_Bild = new Button("New button");
+				absolutePanel.add(Button_Bild, 5, 212);
+				Button_Bild.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						Window.alert("Hallo");
+						Window.alert("Bild hochgeladen");
 					}
 				});
-				Registration.setSize("140", "25");
+				Button_Bild.setText("Bild Hochladen");
+				Button_Bild.setSize("175", "25");
+			}
+			{
+				Button Button_BackUp = new Button("New button");
+				absolutePanel.add(Button_BackUp, 350, 540);
+				Button_BackUp.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						Window.alert("Profil geändert");
+					}
+				});
+				Button_BackUp.setText("Best\u00E4tigen");
+				Button_BackUp.setSize("200", "25");
+			}
+			{
+				ListBox comboBox = new ListBox();
+				absolutePanel.add(comboBox, 350, 118);
+				comboBox.addItem("m\u00E4nnlich");
+				comboBox.addItem("weiblich");
+				comboBox.setSize("200", "21");
 			}
 		}
-
-	}
-
-	/**
-	 * Schickt die validierten Formulardaten an den UserManager, und wartet auf
-	 * Rueckmeldung
-	 */
-	public boolean submit() {
-//		if (Validation.validateRegisterForm(this)) {
-//			// Sende Daten an Server
-//			User newUser = null;
-//			userManager.createUser(newUser, new AsyncCallback<Integer>() {
-//				public void onFailure(Throwable caught) {
-//					// :(
-//				}
-//
-//				public void onSuccess(Integer serverMsg) {
-//					// :)
-//				}
-//			});
-//			return true;
-//		} else {
-//			// Hinweis auf Fehler im Formular
-		return false;
-//		}
 	}
 }
