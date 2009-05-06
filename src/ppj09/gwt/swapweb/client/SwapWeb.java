@@ -6,6 +6,7 @@ import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.RegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
+import ppj09.gwt.swapweb.client.gui.UserView;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -34,6 +35,7 @@ public class SwapWeb implements EntryPoint {
 	ArticleSearchForm articleSearchForm;
 	RegistrationForm registrationForm;
 	ArticleSearchResultView articleSearchResultView;
+	UserView userView;
 	/**
 	 * Die EntryPoin Methode
 	 */
@@ -61,7 +63,7 @@ public class SwapWeb implements EntryPoint {
 		{
 			TabPanel tabPanel = new TabPanel();
 			rootPanel.add(tabPanel);
-			tabPanel.setSize("550px", "500px");
+			tabPanel.setSize("650px", "500px");
 			articleSearchForm = new ArticleSearchForm();
 			tabPanel.add(articleSearchForm, "Ich suche", false);
 			tabPanel.selectTab(0);
@@ -79,6 +81,8 @@ public class SwapWeb implements EntryPoint {
 			articleSearchResultView.addSearchResult(result1);
 			ArticleSearchResult result2 = new ArticleSearchResult();
 			articleSearchResultView.addSearchResult(result2);
+			userView = new UserView();
+			tabPanel.add(userView, "User", false);
 		}
 						
 			
