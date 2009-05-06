@@ -1,30 +1,15 @@
 package ppj09.gwt.swapweb.client;
 
-import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResult;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.RegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.Image;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 
 /**
  * SwapWeb implementiert das EntryPoint Interface. Die erst zu ladene Methode
@@ -45,17 +30,17 @@ public class SwapWeb implements EntryPoint {
 			+ "connection and try again.";
 
 	RootPanel rootPanel;
+	LoginForm loginForm;
+	ArticleSearchForm articleSearchForm;
+	RegistrationForm registrationForm;
+	ArticleSearchResultView articleSearchResultView;
 	/**
 	 * Die EntryPoin Methode
 	 */
 	public void onModuleLoad() {
-		rootPanel = RootPanel.get(); // Just the Root Panel
-		LoginForm loginForm;
-		ArticleSearchForm articleSearchForm;
-		UserForm userForm;
-	
-		rootPanel = RootPanel.get(); //Just the Root Panel
 		
+		rootPanel = RootPanel.get(); // Just the Root Panel
+				
 		
 		/**
 		 * Mein SwapWeb
@@ -82,9 +67,18 @@ public class SwapWeb implements EntryPoint {
 			tabPanel.selectTab(0);
 			loginForm = new LoginForm();
 			tabPanel.add(loginForm, "Login", false);
-			userForm = new UserForm();
-			tabPanel.add(userForm, "Registrieren", false);
-
+			registrationForm = new RegistrationForm();
+			tabPanel.add(registrationForm, "Registrieren", false);
+			articleSearchResultView = new ArticleSearchResultView();
+			tabPanel.add(articleSearchResultView, "ArticleSearch", false);
+			articleSearchResultView.setSearchQuery("Test");
+			ArticleSearchResult result1 = new ArticleSearchResult();
+			result1.setArticlename("Testartikel");
+			result1.setUsername("Hans");
+			result1.setShipping("Bla");
+			articleSearchResultView.addSearchResult(result1);
+			ArticleSearchResult result2 = new ArticleSearchResult();
+			articleSearchResultView.addSearchResult(result2);
 		}
 						
 			

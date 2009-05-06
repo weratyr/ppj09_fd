@@ -10,6 +10,7 @@ package ppj09.gwt.swapweb.client;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.RegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 
 /**
@@ -35,7 +36,7 @@ public abstract class Validation {
 	 * zurueckgegeben, bei Fehlern false und anhand eines Labels wird im
 	 * Formular der Fehler beschrieben.
 	 */
-	public static boolean validateRegisterForm(UserForm registerForm) {
+	public static boolean validateRegisterForm(RegistrationForm registrationForm) {
 		return true;
 	}
 

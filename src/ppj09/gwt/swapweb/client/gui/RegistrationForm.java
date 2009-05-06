@@ -34,11 +34,11 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
  * Formularfelder und Submit des Benutzers zur Registrierung. Implementiert das
  * Interface Form
  * 
- * @author Christian Happ
+ * @author Georg Ortwein
  * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @version 0.1, 06.05.09
  */
-public class UserForm extends Composite implements Form {
+public class RegistrationForm extends Composite implements Form {
 	private final UserManagerAsync userManager = GWT.create(UserManager.class);
 	private Label lblFirstName;
 	private AbsolutePanel absolutePanel;
@@ -66,7 +66,7 @@ public class UserForm extends Composite implements Form {
 	/**
 	 * Initialisiert Formular Eingabefelder
 	 */
-	public UserForm() {
+	public RegistrationForm() {
 		// TODO Organisation in Panels
 		final TextBox nameField = new TextBox();
 		final TextBox vornameField = new TextBox();
@@ -187,22 +187,22 @@ public class UserForm extends Composite implements Form {
 	 * Rueckmeldung
 	 */
 	public boolean submit() {
-//		if (Validation.validateRegisterForm(this)) {
-//			// Sende Daten an Server
-//			User newUser = null;
-//			userManager.createUser(newUser, new AsyncCallback<Integer>() {
-//				public void onFailure(Throwable caught) {
-//					// :(
-//				}
-//
-//				public void onSuccess(Integer serverMsg) {
-//					// :)
-//				}
-//			});
-//			return true;
-//		} else {
-//			// Hinweis auf Fehler im Formular
-		return false;
-//		}
+		if (Validation.validateRegisterForm(this)) {
+			// Sende Daten an Server
+			User newUser = null;
+			userManager.createUser(newUser, new AsyncCallback<Integer>() {
+				public void onFailure(Throwable caught) {
+					// :(
+				}
+
+				public void onSuccess(Integer serverMsg) {
+					// :)
+				}
+			});
+			return true;
+		} else {
+			// Hinweis auf Fehler im Formular
+			return false;
+		}
 	}
 }
