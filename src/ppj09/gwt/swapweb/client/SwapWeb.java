@@ -1,14 +1,21 @@
 package ppj09.gwt.swapweb.client;
 
+import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResult;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
+import ppj09.gwt.swapweb.client.gui.ArticleView;
 import ppj09.gwt.swapweb.client.gui.HelpView;
 import ppj09.gwt.swapweb.client.gui.HomeView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.RegistrationForm;
+import ppj09.gwt.swapweb.client.gui.UserSearchForm;
+import ppj09.gwt.swapweb.client.gui.UserView;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -20,6 +27,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
  * SwapWeb implementiert das EntryPoint Interface. Die erst zu ladene Methode
@@ -65,6 +74,16 @@ public class SwapWeb implements EntryPoint {
 	private HomeView homeView;
 	private HelpView helpView;
 	private VerticalPanel verticalPanel;
+	private TabPanel tabPanel;
+	private ArticleForm articleForm;
+	private UserView userView;
+	private ArticleSearchResultView articleSearchResultView;
+
+	private ArticleView articleView;
+	private Hyperlink testartikelHyperlink;
+	private DisclosurePanel disclosurePanel;
+	private VerticalPanel verticalPanel_2;
+	private Hyperlink testProfileHyperlink;
 
 	/**
 	 * Die EntryPoin Methode
@@ -92,11 +111,10 @@ public class SwapWeb implements EntryPoint {
 		image.setUrl("swapweb.tif");
 		image.setWidth("500,70");
 
-		
 		/**
 		 * Suche
 		 */
-		
+
 		SearchtextBox = new TextBox();
 		absolutePanel.add(SearchtextBox, 538, 5);
 		SearchButton = new Button("Suche");
@@ -108,7 +126,7 @@ public class SwapWeb implements EntryPoint {
 		 */
 
 		{
-			TabPanel tabPanel = new TabPanel();
+			tabPanel = new TabPanel();
 			dockPanel.add(tabPanel, DockPanel.CENTER);
 			tabPanel.setSize("650px", "500px");
 
@@ -129,6 +147,10 @@ public class SwapWeb implements EntryPoint {
 			helpView = new HelpView();
 			tabPanel.add(helpView, "Hilfe", false);
 
+			articleForm = new ArticleForm();
+			articleSearchResultView = new ArticleSearchResultView();
+			articleView = new ArticleView();
+			userView = new UserView();
 		}
 
 		/**
@@ -143,13 +165,11 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		verticalPanel.setSpacing(1);
 		verticalPanel.setSize("150", "50");
-		
-		
+
 		/**
 		 * Mein SwapWeb
 		 */
-		
-		
+
 		{
 			disclosurePanelMy = new DisclosurePanel("Mein SwapWeb", false);
 			verticalPanel.add(disclosurePanelMy);
@@ -172,6 +192,16 @@ public class SwapWeb implements EntryPoint {
 			insertArticleHyperlink = new Hyperlink("New hyperlink", false,
 					"newHistoryToken");
 			verticalPanel_1.add(insertArticleHyperlink);
+			insertArticleHyperlink.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					if (!articleForm.isAttached())
+						tabPanel.add(articleForm, "Artikel", false);
+					else
+						tabPanel.remove(articleForm);
+				}
+
+			});
+
 			insertArticleHyperlink.setText("Artikel einstellen");
 
 			myRatingsHyperlink = new Hyperlink("New hyperlink", false,
@@ -210,6 +240,71 @@ public class SwapWeb implements EntryPoint {
 			gardenTreeItem.setText("Garten");
 
 		}
+		
+		disclosurePanel = new DisclosurePanel("Tests", false);
+		verticalPanel.add(disclosurePanel);
+		
+		verticalPanel_2 = new VerticalPanel();
+		disclosurePanel.setContent(verticalPanel_2);
+		verticalPanel_2.setSize("140", "50");
+		Hyperlink SuchenTestHyperlink = new Hyperlink("New hyperlink",						false, "newHistoryToken");
+		verticalPanel_2.add(SuchenTestHyperlink);
+		SuchenTestHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				addTestSearchResult();
+			}
+		});
+		SuchenTestHyperlink.setText("Testsuche");
+			testartikelHyperlink = new Hyperlink("New hyperlink", false,					"newHistoryToken");
+			verticalPanel_2.add(testartikelHyperlink);
+			testartikelHyperlink.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					addTestArticle();
+				}
+			});
+			testartikelHyperlink.setText("Testartikel");
+			
+			testProfileHyperlink = new Hyperlink("New hyperlink", false, "newHistoryToken");
+			verticalPanel_2.add(testProfileHyperlink);
+			testProfileHyperlink.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					addTestProfile();
+				}
+			});
+			testProfileHyperlink.setText("Testprofil");
 
+	}
+
+	public void addTestSearchResult() {
+		if (!articleSearchResultView.isAttached()) {
+
+			tabPanel.add(articleSearchResultView, "Testsuche", false);
+			articleSearchResultView.setSearchQuery("Test");
+
+			for (int i = 1; i < 5; i++) {
+				ArticleSearchResult result = new ArticleSearchResult();
+				articleSearchResultView.addSearchResult(result);
+				result.setUsername("Testuser " + i);
+				result.setArticlename("Testartikel " + i);
+				result.setShipping("Postversand");
+			}
+		} else
+			tabPanel.remove(articleSearchResultView);
+	}
+
+	public void addTestArticle() {
+		if (!articleView.isAttached()) {
+			tabPanel.add(articleView, "Test Artikel", false);
+
+		} else
+			tabPanel.remove(articleView);
+	}
+	
+	public void addTestProfile() {
+		if (!userView.isAttached()) {
+			tabPanel.add(userView, "Test Profil", false);
+
+		} else
+			tabPanel.remove(userView);
 	}
 }

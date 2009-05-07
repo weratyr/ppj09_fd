@@ -7,6 +7,7 @@
  
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.Validation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -134,8 +135,10 @@ public class ArticleSearchForm extends Composite implements Form {
 					absolutePanel.add(resultButton, 387, 138);
 					resultButton.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
+							
 						}
 					});
+				
 					resultButton.setText("Ergebnisse anzeigen");
 				}
 				{
