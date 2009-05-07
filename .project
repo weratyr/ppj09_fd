@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>SwapWeb</name>
+	<name>ppj09_fd</name>
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
+		<buildCommand>
+			<name>com.instantiations.designer.gwt.GWTBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
@@ -25,5 +30,6 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.google.gwt.eclipse.core.gwtNature</nature>
 		<nature>com.google.gdt.eclipse.core.webAppNature</nature>
+		<nature>com.instantiations.designer.gwt.GWTNature</nature>
 	</natures>
 </projectDescription>
