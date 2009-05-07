@@ -64,6 +64,8 @@ public class LoginForm extends Composite implements Form {
 	 */
 	public LoginForm() {
 		{
+			
+			
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
 			verticalPanel.setSize("550", "80");
