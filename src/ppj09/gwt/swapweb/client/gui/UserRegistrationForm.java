@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
  * @author Projekt Team 4711
  * @version 0.1, 06.05.09
  */
-public class RegistrationForm extends Composite implements Form {
+public class UserRegistrationForm extends Composite implements Form {
 	private final UserManagerAsync userManager = GWT.create(UserManager.class);
 	private Label lblFirstName;
 	private AbsolutePanel absolutePanel;
@@ -66,7 +66,7 @@ public class RegistrationForm extends Composite implements Form {
 	/**
 	 * Initialisiert Formular Eingabefelder
 	 */
-	public RegistrationForm() {
+	public UserRegistrationForm() {
 		// TODO Organisation in Panels
 		final TextBox nameField = new TextBox();
 		final TextBox vornameField = new TextBox();

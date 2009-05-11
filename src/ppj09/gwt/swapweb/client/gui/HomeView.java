@@ -6,8 +6,20 @@ import com.google.gwt.user.client.ui.Label;
 
 public class HomeView extends Composite implements View {
 
+
+	/**
+	 * Die Start/Willkommensseite des SwapWebs.
+	 * 
+	 * @author Georg Ortwein
+	 * @author Projekt Team 4711
+	 * @version 0.1, 06.05.09
+	 */
+	
+	
 	public HomeView() {
 		{
+			
+			//Dockpanel und Label zum Tes
 			DockPanel dockPanel = new DockPanel();
 			initWidget(dockPanel);
 			{
