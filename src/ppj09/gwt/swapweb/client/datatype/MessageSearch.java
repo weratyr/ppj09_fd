@@ -10,6 +10,7 @@ package ppj09.gwt.swapweb.client.datatype;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 /**
  * Enthaelt ein MessageSearch Objekt einer Suchanfrage.
  * 
@@ -22,4 +23,8 @@ public class MessageSearch implements SearchQuery,Serializable {
 	private String searchPhrase;
 	// auswahl; Benuztername, Betreff, Nachrichttext usw.
 	private int typeId;
+	public ArrayList<Parameter> getParameters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

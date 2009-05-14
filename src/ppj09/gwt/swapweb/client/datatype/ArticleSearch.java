@@ -9,136 +9,34 @@ package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;  
+import java.util.HashMap;
+
 
 /**
  * Enthaelt ein ArticleSearch Objekt einer Suchanfrage.
  * 
- * @author Christian Happ
+ * @author Christian Happ, André Wagner und NICHT Michael Lukaszczyk (dafür hat er nudeln gekocht)
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
-public class ArticleSearch implements SearchQuery {
+public class ArticleSearch extends Article implements SearchQuery {
 	// primitive Suche
 	private String searchPhrase;
-	private ArrayList<Category> category;
 
-	// erweiterte Suche in Bezug auf Tauscheigenschaften
-	private int swapNumber;
-	private String location;
-	private ArrayList<Integer> conditionId;
-	private ArrayList<Integer> shippingMethodId;
+	// erweiterte Suche
 	private boolean picturesOnly;
 
-	/**
-	 * Gibt den searchPhrase zurück
-	 * 
-	 * @return searchPhrase
-	 */
-	public String getSearchPhrase() {
-		return searchPhrase;
+	public ArrayList<Parameter> getParameters() {
+		ArrayList<Parameter> params = new ArrayList<Parameter>();
+		params.add(new Parameter("searchPhrase", Operator.LIKE, searchPhrase));
+		params.add(new Parameter("pictureUrls", Operator.MIN_LENGTH, 1));
+		params.add(new Parameter("conditionCodes", Operator.HAS, conditionCodes));
+		params.add(new Parameter("categoryIds", Operator.HAS, categoryIds));
+		params.add(new Parameter("shippingMethodIds", Operator.HAS, shippingMethodIds));
+		return params;
 	}
 
-	/**
-	 * Setzt den searchPhrase
-	 */
-	public void setSearchPhrase(String searchPhrase) {
-		this.searchPhrase = searchPhrase;
-	}
-
-	/**
-	 * Gibt den category zurück
-	 * 
-	 * @return category
-	 */
-	public ArrayList<Category> getCategory() {
-		return category;
-	}
-
-	/**
-	 * Setzt die category
-	 */
-	public void setCategory(ArrayList<Category> category) {
-		this.category = category;
-	}
-
-	/**
-	 * Gibt den swapNumber zurück
-	 * 
-	 * @return swapNumber
-	 */
-	public int getSwapNumber() {
-		return swapNumber;
-	}
-
-	/**
-	 * Setzt den swapNumber
-	 */
-	public void setSwapNumber(int swapNumber) {
-		this.swapNumber = swapNumber;
-	}
-
-	/**
-	 * Gibt den location zurück
-	 * 
-	 * @return location
-	 */
-	public String getLocation() {
-		return location;
-	}
-
-	/**
-	 * Setzt den location
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	/**
-	 * Gibt den conditionId zurück
-	 * 
-	 * @return conditionId
-	 */
-	public ArrayList<Integer> getConditionId() {
-		return conditionId;
-	}
-
-	/**
-	 * Setzt den conditionId
-	 */
-	public void setConditionId(ArrayList<Integer> conditionId) {
-		this.conditionId = conditionId;
-	}
-
-	/**
-	 * Gibt den shippingMethodId zurück
-	 * 
-	 * @return shippingMethodId
-	 */
-	public ArrayList<Integer> getShippingMethodId() {
-		return shippingMethodId;
-	}
-
-	/**
-	 * Setzt den shippingMethodId
-	 */
-	public void setShippingMethodId(ArrayList<Integer> shippingMethodId) {
-		this.shippingMethodId = shippingMethodId;
-	}
-
-	/**
-	 * Gibt den picturesOnly zurück
-	 * 
-	 * @return picturesOnly
-	 */
-	public boolean isPicturesOnly() {
-		return picturesOnly;
-	}
-
-	/**
-	 * Setzt den picturesOnly
-	 */
-	public void setPicturesOnly(boolean picturesOnly) {
-		this.picturesOnly = picturesOnly;
-	}
+	
 
 }
