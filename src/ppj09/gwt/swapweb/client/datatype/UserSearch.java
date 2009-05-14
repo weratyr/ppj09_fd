@@ -8,6 +8,9 @@
 package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+
 import com.google.gwt.user.client.ui.Composite;
 
 /**
@@ -18,5 +21,10 @@ import com.google.gwt.user.client.ui.Composite;
  * @version 0.1, 04.05.09
  */
 public class UserSearch extends Composite implements SearchQuery, Serializable {
+
+	public ArrayList<Parameter> getParameters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

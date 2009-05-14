@@ -1,17 +1,6 @@
 package ppj09.gwt.swapweb.client;
 
-import ppj09.gwt.swapweb.client.gui.ArticleForm;
-import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
-import ppj09.gwt.swapweb.client.gui.ArticleSearchResult;
-import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
-import ppj09.gwt.swapweb.client.gui.ArticleView;
-import ppj09.gwt.swapweb.client.gui.HelpView;
-import ppj09.gwt.swapweb.client.gui.HomeView;
-import ppj09.gwt.swapweb.client.gui.LoginForm;
-import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
-import ppj09.gwt.swapweb.client.gui.UserForm;
-import ppj09.gwt.swapweb.client.gui.UserSearchForm;
-import ppj09.gwt.swapweb.client.gui.UserView;
+import ppj09.gwt.swapweb.client.gui.*;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -325,7 +314,7 @@ public class SwapWeb implements EntryPoint {
 	
 	public void addTestProfileForm() {
 		if (!userForm.isAttached()) {
-			tabPanel.add(userForm, "Profil Šndern", false);
+			tabPanel.add(userForm, "Profil ï¿½ndern", false);
 
 		} else
 			tabPanel.remove(userForm);
