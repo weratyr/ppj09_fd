@@ -67,7 +67,7 @@ public class SwapWeb implements EntryPoint {
 	private TabPanel tabPanel;
 	private ArticleForm articleForm;
 	private UserView userView;
-	private ArticleSearchResultView articleSearchResultView;
+	private ArticleSearchResultListView articleSearchResultView;
 	private UserForm userForm;
 	private ArticleView articleView;
 	private Hyperlink testartikelHyperlink;
@@ -139,7 +139,7 @@ public class SwapWeb implements EntryPoint {
 			tabPanel.add(helpView, "Hilfe", false);
 
 			articleForm = new ArticleForm();
-			articleSearchResultView = new ArticleSearchResultView();
+			articleSearchResultView = new ArticleSearchResultListView();
 			articleView = new ArticleView();
 			userView = new UserView();
 			userForm = new UserForm();
@@ -244,7 +244,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(SuchenTestHyperlink);
 		SuchenTestHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				addTestSearchResult();
+				//addTestSearchResult();
 			}
 		});
 		SuchenTestHyperlink.setText("Testsuche");
@@ -277,23 +277,6 @@ public class SwapWeb implements EntryPoint {
 		});
 		testProfileFormHyperlink.setText("Testprofil \u00E4ndern");
 
-	}
-
-	public void addTestSearchResult() {
-		if (!articleSearchResultView.isAttached()) {
-
-			tabPanel.add(articleSearchResultView, "Testsuche", false);
-			articleSearchResultView.setSearchQuery("Test");
-
-			for (int i = 1; i < 5; i++) {
-				ArticleSearchResult result = new ArticleSearchResult();
-				articleSearchResultView.addSearchResult(result);
-				result.setUsername("Testuser " + i);
-				result.setArticlename("Testartikel " + i);
-				result.setShipping("Postversand");
-			}
-		} else
-			tabPanel.remove(articleSearchResultView);
 	}
 
 	public void addTestArticle() {

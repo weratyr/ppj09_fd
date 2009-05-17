@@ -9,6 +9,9 @@ package ppj09.gwt.swapweb.client.serverInterface;
 
 import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import ppj09.gwt.swapweb.client.datatype.ArticleSearch;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 
@@ -22,6 +25,5 @@ import ppj09.gwt.swapweb.client.datatype.SearchResult;
  * @version 0.1, 04.05.09
  */
 public interface SearchHandlerAsync {
-	public void search(SearchQuery s,
-			AsyncCallback<ArrayList<SearchResult>> callback);
+	public void search(ArticleSearch s, AsyncCallback<ArrayList<SearchResult>> callback);
 }
