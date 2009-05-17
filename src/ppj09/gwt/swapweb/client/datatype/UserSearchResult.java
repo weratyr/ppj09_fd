@@ -18,9 +18,17 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * @version 0.1, 04.05.09
  */
 public class UserSearchResult implements SearchResult,Serializable {
+	private String userName;
+	public UserSearchResult(User user) {
+		
+	}
+	
+	public UserSearchResult(String string, String string2) {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * Gibt ein SearchResultView Objekt vom Server zurŸck
+	 * Gibt ein SearchResultView Objekt vom Server zurï¿½ck
 	 */
 	public SearchResultView getView() {
 		// TODO Auto-generated method stub

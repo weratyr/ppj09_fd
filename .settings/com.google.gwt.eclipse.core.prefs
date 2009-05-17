@@ -1,4 +1,8 @@
+<<<<<<< HEAD:.settings/com.google.gwt.eclipse.core.prefs
 #Thu May 14 19:40:17 CEST 2009
+=======
+#Fri May 15 16:23:08 CEST 2009
+>>>>>>> 628a1a43d13d2ef10df58b0d2bbef8961ba6aea7:.settings/com.google.gwt.eclipse.core.prefs
 eclipse.preferences.version=1
 entryPointModules=
 filesCopiedToWebInfLib=gwt-servlet.jar

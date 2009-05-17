@@ -8,9 +8,13 @@
 package ppj09.gwt.swapweb.client.serverInterface;
 
 import java.util.ArrayList;
+
+import ppj09.gwt.swapweb.client.datatype.ArticleSearch;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * SearchHandler Interface ist fuer den RPC des SearchHandlerImpl. Das Interface
@@ -20,6 +24,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
+@RemoteServiceRelativePath("gagaga")
 public interface SearchHandler extends RemoteService {
-	public ArrayList<SearchResult> search(SearchQuery searchQuery);
+	public ArrayList<SearchResult> search(ArticleSearch searchQuery);
 }
