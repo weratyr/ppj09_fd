@@ -8,16 +8,14 @@
 package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
 
 /**
- * Das Interface f�r alle typspezifischen Suchanfragen
+ * Dient im Moment nur zur logischen Zusammenfassung 
+ * der typspezifischen Suchanfragen.
  * 
- * @author Christian Happ
- * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @author Christian, André
+ * @version 0.1, 17.05.09
  */
 public interface SearchQuery extends Serializable {
-	public ArrayList<Parameter> getParameters();
+	// public ArrayList<Parameter> getParameters();
 }

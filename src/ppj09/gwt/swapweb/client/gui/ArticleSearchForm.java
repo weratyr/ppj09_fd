@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.Validation;
-import ppj09.gwt.swapweb.client.datatype.ArticleSearch;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
@@ -155,12 +155,14 @@ public class ArticleSearchForm extends Composite implements Form {
 						 * Objekt und übergibt es per RPC an SearchHandler.search()
 						 */
 						SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-						searchHandler.search(new ArticleSearch(), new AsyncCallback<ArrayList<SearchResult>>() {
+						searchHandler.search(new ArticleSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
 							public void onFailure(Throwable caught) {
-								System.out.println("neeee");
+								System.out.println("neeee: " + caught.getMessage());
 							}
 							public void onSuccess(ArrayList<SearchResult> results) {
-								searchResultPanel.add((Widget) results.get(0).getView());
+								for (SearchResult r : results) {
+									searchResultPanel.add((Widget) r.getView());
+								}
 							}
 						});
 					}

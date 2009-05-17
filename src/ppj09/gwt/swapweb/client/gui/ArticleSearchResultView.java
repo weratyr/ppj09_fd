@@ -52,8 +52,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 					absolutePanel.add(userLabel, 105, 40);
 				}
 				{
-					articlenameHyperlink = new Hyperlink(this.searchResult.getTitle(),
-							false, "newHistoryToken");
+					articlenameHyperlink = new Hyperlink(this.searchResult.getTitle(), false, "newHistoryToken");
 					absolutePanel.add(articlenameHyperlink, 100, 5);
 					articlenameHyperlink.setWidth("400");
 				}
@@ -62,7 +61,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 					absolutePanel.add(shippingLabel, 105, 60);
 				}
 				{
-					userHyperlink = new Hyperlink("New hyperlink", false,
+					userHyperlink = new Hyperlink(this.searchResult.getUserName(), false,
 							"newHistoryToken");
 					absolutePanel.add(userHyperlink, 180, 40);
 					userHyperlink.setWidth("300");
