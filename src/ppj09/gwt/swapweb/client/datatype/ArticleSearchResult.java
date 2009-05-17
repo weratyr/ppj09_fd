@@ -23,12 +23,39 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  */
 public class ArticleSearchResult implements SearchResult, IsSerializable {
 	public String title;
+	public String userName;
+	public String pictureUrl;
+	
+	public ArticleSearchResult() {
+		this.title = null;
+		this.pictureUrl = null;
+		this.userName = null;
+	}
+	
+	public ArticleSearchResult(String title, String userName, String pictureUrl) {
+		this.title = title;
+		this.pictureUrl = pictureUrl;
+		this.userName = userName;
+	}
+	
+	public SearchResultView getView() {
+		return new ArticleSearchResultView(this);
+	}
+
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPictureUrl() {
@@ -39,19 +66,4 @@ public class ArticleSearchResult implements SearchResult, IsSerializable {
 		this.pictureUrl = pictureUrl;
 	}
 
-	public String pictureUrl;
-	
-	public ArticleSearchResult() {
-		this.title = null;
-		this.pictureUrl = null;
-	}
-	
-	public ArticleSearchResult(String title, String pictureUrl) {
-		this.title = title;
-		this.pictureUrl = pictureUrl;
-	}
-	
-	public SearchResultView getView() {
-		return new ArticleSearchResultView(this);
-	}
 }
