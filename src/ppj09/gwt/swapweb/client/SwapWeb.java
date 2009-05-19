@@ -100,7 +100,7 @@ public class SwapWeb implements EntryPoint {
 		image = new Image();
 		absolutePanel.add(image);
 		image.setUrl("swapweb.tif");
-		image.setWidth("500,70");
+		image.setWidth("500,30");
 
 		/**
 		 * Suche
