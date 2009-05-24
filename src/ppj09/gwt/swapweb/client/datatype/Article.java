@@ -21,19 +21,20 @@ import java.util.ArrayList;
 public class Article implements Serializable {
 
 	// Informationen ueber den Artikel
-	private int articleId;
+	protected int articleId;
 	private int userId;
 	private String title;
 	private String location;
-	private int conditionCode;
+	private ArrayList<String> pictureUrls;
+	protected ArrayList<Integer> conditionCodes;
 	private String description;
 	// Auswahl der Kategorien zu dem der Artikel passen koennte
-	private ArrayList<Integer> categoryId;
+	protected ArrayList<Integer> categoryIds;
 	// Versandtartsnummer und ein Kommentar
-	private ArrayList<Integer> shippingMethodId;
+	protected ArrayList<Integer> shippingMethodIds;
 	private String shippingMethodComment;
 	// Wunschgegenstandsnummer und ein moeglicher Kommentar
-	private ArrayList<Integer> desiredItemsCategoryId;
+	private ArrayList<Integer> desiredItemsCategoryIds;
 	private String desiredItemsComment;
 	// Wenn ein Artikel im Tausch ist, aber noch offen ist
 	private boolean inSwap; 
@@ -142,15 +143,15 @@ public class Article implements Serializable {
 	 * 
 	 * @return conditionCode
 	 */
-	public int getConditionCode() {
-		return conditionCode;
+	public ArrayList<Integer> getConditionCode() {
+		return conditionCodes;
 	}
 
 	/**
 	 * Setzt den condition
 	 */
 	public void setConditionCode(int conditionCode) {
-		this.conditionCode = conditionCode;
+		this.conditionCodes = conditionCodes;
 	}
 
 	/**
@@ -175,14 +176,14 @@ public class Article implements Serializable {
 	 * @return categoryId
 	 */
 	public ArrayList<Integer> getCategoryId() {
-		return categoryId;
+		return categoryIds;
 	}
 
 	/**
 	 * Setzt die categoryId
 	 */
 	public void setCategoryId(ArrayList<Integer> categoryId) {
-		this.categoryId = categoryId;
+		this.categoryIds = categoryId;
 	}
 
 	/**
@@ -191,14 +192,14 @@ public class Article implements Serializable {
 	 * @return shippingMethodId
 	 */
 	public ArrayList<Integer> getShippingMethodId() {
-		return shippingMethodId;
+		return shippingMethodIds;
 	}
 
 	/**
 	 * Setzt die shippingMethodId
 	 */
 	public void setShippingMethodId(ArrayList<Integer> shippingMethodId) {
-		this.shippingMethodId = shippingMethodId;
+		this.shippingMethodIds = shippingMethodId;
 	}
 
 	/**
@@ -223,7 +224,7 @@ public class Article implements Serializable {
 	 * @return desirdItemsCategoryId
 	 */
 	public ArrayList<Integer> getDesiredItemsCategoryId() {
-		return desiredItemsCategoryId;
+		return desiredItemsCategoryIds;
 	}
 
 	/**
@@ -231,7 +232,7 @@ public class Article implements Serializable {
 	 */
 	public void setDesiredItemsCategoryId(
 			ArrayList<Integer> desiredItemsCategoryId) {
-		this.desiredItemsCategoryId = desiredItemsCategoryId;
+		this.desiredItemsCategoryIds = desiredItemsCategoryId;
 	}
 
 	/**

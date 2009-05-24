@@ -10,14 +10,12 @@ package ppj09.gwt.swapweb.client.datatype;
 import java.io.Serializable;
 
 /**
- * Das Interface SearchQuery dient zur Zusammenfassung aller *Search Klassen.
- * Das Interface wird von ihnen implementiert.
+ * Dient im Moment nur zur logischen Zusammenfassung 
+ * der typspezifischen Suchanfragen.
  * 
- * @author Christian Happ
- * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @author Christian, André
+ * @version 0.1, 17.05.09
  */
-
 public interface SearchQuery extends Serializable {
-
+	// public ArrayList<Parameter> getParameters();
 }

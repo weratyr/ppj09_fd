@@ -1,79 +1,131 @@
-/*
- * @(#)ArticleSearchResultView.java     20.04.09
- *
- * Copyright (c) 2008-2009 Project Team 4711
- * All rights reserved.
- */
-
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
+import ppj09.gwt.swapweb.client.datatype.SearchResult;
+
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Hyperlink;
+
 
 /**
- * Zeigt die Suchergebnisse einer Artikelsuche im vertical panel.
+ * Dieser View rendert ein einzelnes Suchergebnis vom Typ ArticleSearchResult.
+ * Er wird zusammen mit anderen SearchResults innerhalb einer *SearchResultListView aufgerufen. 
  * 
- * @author Georg Ortwein
- * @author Projekt Team 4711
- * @version 0.1, 06.05.09
- * 
+ * @author Georg, André
+ * @version 0.1, 15.05.09
  */
+
 public class ArticleSearchResultView extends Composite implements SearchResultView {
 	private VerticalPanel verticalPanel;
-	private HorizontalPanel horizontalPanel;
-	private Label searchResultsForLabel;
-	private Label searchQueryLabel;
-	private Label searchResultsForLabel_2;
-	public ArticleSearchResultView() {
+	private AbsolutePanel absolutePanel;
+	private Image articleImage;
+	private Label userLabel;
+	private Label articleTitle;
+	private Hyperlink articlenameHyperlink;
+	private Label shippingLabel;
+	private Hyperlink userHyperlink;
+	private Label shippingLabel_1;
+	private ArticleSearchResult searchResult;
+
+	public ArticleSearchResultView(SearchResult searchResult) {
 		{
+			this.searchResult = (ArticleSearchResult) searchResult;
+			
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
-			verticalPanel.setWidth("650");
+			verticalPanel.setSize("650", "90");
 			{
-				horizontalPanel = new HorizontalPanel();
-				verticalPanel.add(horizontalPanel);
-				horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-				horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				absolutePanel = new AbsolutePanel();
+				verticalPanel.add(absolutePanel);
+				absolutePanel.setSize("650", "90");
 				{
-					searchResultsForLabel = new Label("Suchergebnisse f\u00FCr \"");
-					horizontalPanel.add(searchResultsForLabel);
-					searchResultsForLabel.setHeight("25");
+					articleImage = new Image(null);
+					absolutePanel.add(articleImage, 5, 5);
+					articleImage.setSize("80", "80");
 				}
 				{
-					searchQueryLabel = new Label("New label");
-					horizontalPanel.add(searchQueryLabel);
-					searchQueryLabel.setHeight("25");
+					userLabel = new Label("Benutzer:");
+					absolutePanel.add(userLabel, 105, 40);
 				}
 				{
-					searchResultsForLabel_2 = new Label(" \"");
-					horizontalPanel.add(searchResultsForLabel_2);
-					searchResultsForLabel_2.setHeight("25");
+					articlenameHyperlink = new Hyperlink(this.searchResult.getTitle(), false, "newHistoryToken");
+					absolutePanel.add(articlenameHyperlink, 100, 5);
+					articlenameHyperlink.setWidth("400");
+				}
+				{
+					shippingLabel = new Label("Versand:");
+					absolutePanel.add(shippingLabel, 105, 60);
+				}
+				{
+					userHyperlink = new Hyperlink(this.searchResult.getUserName(), false,
+							"newHistoryToken");
+					absolutePanel.add(userHyperlink, 180, 40);
+					userHyperlink.setWidth("300");
+				}
+				{
+					shippingLabel_1 = new Label("New label");
+					absolutePanel.add(shippingLabel_1, 180, 60);
+					shippingLabel_1.setWidth("300");
 				}
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * @param searchQuery
-	 *            the searchQuery to set
+	 * @return the articlenameHyperlink text
 	 */
-	public void setSearchQuery(String searchQuery)
-	{
-		searchQueryLabel.setText(searchQuery);
+	public String getArticlename() {
+		return articlenameHyperlink.getText();
 	}
-	
-	
+
 	/**
-	 * @param result
-	 *            the ArticleSearchResult to add
+	 * @param articlename
+	 *            the articlenameHyperlink to set
 	 */
-	public void addSearchResult(ArticleSearchResult result)
-	{
-		verticalPanel.add(result);
+	public void setArticlename(String articlename) {
+		this.articlenameHyperlink.setText(articlename);
 	}
+
+	/**
+	 * @return the userHyperlink text
+	 */
+	public String getUsername() {
+		return userHyperlink.getText();
+	}
+
+	/**
+	 * @param username
+	 *            the userHyperlink to set
+	 */
+	public void setUsername(String username) {
+		this.userHyperlink.setText(username);
+	}
+
+	/**
+	 * @return the shippingLabel text
+	 */
+	public String getShipping() {
+		return shippingLabel_1.getText();
+	}
+
+	/**
+	 * @param shipping
+	 *            the shippingLabel to set
+	 */
+	public void setShipping(String shipping) {
+		this.shippingLabel_1.setText(shipping);
+	}
+
+	/**
+	 * @param articleImage
+	 *            the articleImage to set
+	 */
+	public void setArticleImage(Image articleImage) {
+		this.articleImage = articleImage;
+	}
+
 }

@@ -1,17 +1,6 @@
 package ppj09.gwt.swapweb.client;
 
-import ppj09.gwt.swapweb.client.gui.ArticleForm;
-import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
-import ppj09.gwt.swapweb.client.gui.ArticleSearchResult;
-import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
-import ppj09.gwt.swapweb.client.gui.ArticleView;
-import ppj09.gwt.swapweb.client.gui.HelpView;
-import ppj09.gwt.swapweb.client.gui.HomeView;
-import ppj09.gwt.swapweb.client.gui.LoginForm;
-import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
-import ppj09.gwt.swapweb.client.gui.UserForm;
-import ppj09.gwt.swapweb.client.gui.UserSearchForm;
-import ppj09.gwt.swapweb.client.gui.UserView;
+import ppj09.gwt.swapweb.client.gui.*;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -78,7 +67,7 @@ public class SwapWeb implements EntryPoint {
 	private TabPanel tabPanel;
 	private ArticleForm articleForm;
 	private UserView userView;
-	private ArticleSearchResultView articleSearchResultView;
+	private ArticleSearchResultListView articleSearchResultView;
 	private UserForm userForm;
 	private ArticleView articleView;
 	private Hyperlink testartikelHyperlink;
@@ -111,7 +100,7 @@ public class SwapWeb implements EntryPoint {
 		image = new Image();
 		absolutePanel.add(image);
 		image.setUrl("swapweb.tif");
-		image.setWidth("500,70");
+		image.setWidth("500,30");
 
 		/**
 		 * Suche
@@ -150,7 +139,7 @@ public class SwapWeb implements EntryPoint {
 			tabPanel.add(helpView, "Hilfe", false);
 
 			articleForm = new ArticleForm();
-			articleSearchResultView = new ArticleSearchResultView();
+			articleSearchResultView = new ArticleSearchResultListView();
 			articleView = new ArticleView();
 			userView = new UserView();
 			userForm = new UserForm();
@@ -255,7 +244,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(SuchenTestHyperlink);
 		SuchenTestHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				addTestSearchResult();
+				//addTestSearchResult();
 			}
 		});
 		SuchenTestHyperlink.setText("Testsuche");
@@ -290,23 +279,6 @@ public class SwapWeb implements EntryPoint {
 
 	}
 
-	public void addTestSearchResult() {
-		if (!articleSearchResultView.isAttached()) {
-
-			tabPanel.add(articleSearchResultView, "Testsuche", false);
-			articleSearchResultView.setSearchQuery("Test");
-
-			for (int i = 1; i < 5; i++) {
-				ArticleSearchResult result = new ArticleSearchResult();
-				articleSearchResultView.addSearchResult(result);
-				result.setUsername("Testuser " + i);
-				result.setArticlename("Testartikel " + i);
-				result.setShipping("Postversand");
-			}
-		} else
-			tabPanel.remove(articleSearchResultView);
-	}
-
 	public void addTestArticle() {
 		if (!articleView.isAttached()) {
 			tabPanel.add(articleView, "Test Artikel", false);
@@ -325,7 +297,7 @@ public class SwapWeb implements EntryPoint {
 	
 	public void addTestProfileForm() {
 		if (!userForm.isAttached()) {
-			tabPanel.add(userForm, "Profil Šndern", false);
+			tabPanel.add(userForm, "Profil ï¿½ndern", false);
 
 		} else
 			tabPanel.remove(userForm);

@@ -11,12 +11,18 @@ import java.io.Serializable;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
 /**
- * Das Interface SearchResult dient zur Darstellung eines SearchResultView type.
+ * Das Interface für alle typspezifischen Suchergebnisse.
  * 
- * @author Christian Happ
- * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @author Christian Happ, André Wagner
+ * @version 0.1, 14.05.09
  */
 public interface SearchResult extends Serializable {
+	/**
+	 * Liefert das Widget zurück welches aus einer der typspezifischen Views 
+	 * in client.gui erzeugt wird. Diese Methode wird i.d.R. bei einem 
+	 * SearchResult Objekt aufgerufen und per Polymorphie an die betreffende 
+	 * Subklasse weiterdelegiert.
+	 * Der Rückgabetyp ist das Interface SearchResultView
+	 */
 	public SearchResultView getView();
 }
