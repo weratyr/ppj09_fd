@@ -1,3 +1,10 @@
+/*
+ * @(#)Userrate.java      			 19.05.09
+ *
+ * Copyright (c) 2008-2009 Project Team 4711
+ * All rights reserved.
+ */
+
 package ppj09.gwt.swapweb.client.gui;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -11,7 +18,8 @@ import com.google.gwt.user.client.ui.Hyperlink;
  * Diese Klasse zeigt eine Bewertung eines Nutzers an.
  * 
  * @author Florian Liersch
- *
+ * @author Projekt Team 4711
+ * @version 0.1, 19.05.09
  */
 public class UserRate extends Composite{
 	
@@ -102,6 +110,7 @@ public class UserRate extends Composite{
 	 */
 	public void setUser(Hyperlink user) {
 		this.user = user;
+		
 		//sollte gelöscht werden, nur zur demo bei paul
 		this.user.setText(user.getText());
 	}

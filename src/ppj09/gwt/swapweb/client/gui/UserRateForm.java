@@ -1,6 +1,19 @@
+/*
+ * @(#)UserRateForm.java      			 20.04.09
+ *
+ * Copyright (c) 2008-2009 Project Team 4711
+ * All rights reserved.
+ */
+
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.Validation;
+import ppj09.gwt.swapweb.client.datatype.Rate;
+import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
+
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -10,6 +23,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
@@ -18,7 +32,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
  * Die Bewertung erfolgt über Sterne (1-5) und über einen Kommentar erfolgen.
  * 
  * @author Florian Liersch
- *
+ * @author Projektgruppe 4711
+ * @version 0.1, 19.05.09
  */
 public class UserRateForm extends Composite implements Form{
 	
@@ -29,6 +44,7 @@ public class UserRateForm extends Composite implements Form{
 	private Label lblKommentar;
 	private TextBox rateComment;
 	private Button submitButton;
+	private final UserManagerAsync userManager = GWT.create(UserManager.class);
 	
 	public UserRateForm() {
 		{
@@ -99,8 +115,41 @@ public class UserRateForm extends Composite implements Form{
 	 * Schickt die eingetragenen Daten ab
 	 */
 	public boolean submit() {
-		Window.alert("Nutzer bewertet");
-		return false;
+		Rate rate = generateRate();
+		
+		// Methode auf dem Server muss noch erzeugt werden
+		// User RateImpl wird benötigt !!!!!! KLasse erzeugen??!!! 
+		//Oder auf SwapManagerImpl Methode erzeugen??
+		
+		//müsste wohl in SwapManagerImpl.java gesteckt werden
+
+		userManager.rateUser(rate, new AsyncCallback<Integer>() {
+			public void onFailure(Throwable caught) {
+				// :(
+			}
+
+			public void onSuccess(Integer serverMsg) {
+				// :)
+			}
+		});
+		return true;
+	}
+	
+	/**
+	 * Liest alle Datenfelder aus und speichert sie in ein Rate-Objekt
+	 * @return Das erzeugte Rate-Objekt
+	 */
+	private Rate generateRate() {
+		Rate rate = new Rate();
+		
+		rate.setComment(rateComment.getText() );
+		rate.setStars( rateStars.getSelectedIndex() + 1 );
+		
+		//hier muss noch irgendwie die nutzer id rein wo bekomme ich sie her?
+		rate.setRatingUser(ratingUser);
+		rate.setRatedUser(ratedUser);
+		
+		return rate;		
 	}
 	
 	/**

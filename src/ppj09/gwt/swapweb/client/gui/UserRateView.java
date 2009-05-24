@@ -1,3 +1,10 @@
+/*
+ * @(#)UserRateView.java      			 20.04.09
+ *
+ * Copyright (c) 2008-2009 Project Team 4711
+ * All rights reserved.
+ */
+
 package ppj09.gwt.swapweb.client.gui;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -13,7 +20,8 @@ import com.google.gwt.user.client.ui.Hyperlink;
  * zur Anzeige gebracht.
  * 
  * @author Florian Liersch
- *
+ * @author Projekt Team 4711
+ * @version 0.1, 19.05.09
  */
 public class UserRateView extends Composite implements View{
 	
