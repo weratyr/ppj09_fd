@@ -119,10 +119,9 @@ public class UserRateForm extends Composite implements Form{
 		
 		// Methode auf dem Server muss noch erzeugt werden
 		// User RateImpl wird benötigt !!!!!! KLasse erzeugen??!!! 
-		//Oder auf SwapManagerImpl Methode erzeugen??
 		
 		//müsste wohl in SwapManagerImpl.java gesteckt werden
-
+/*
 		userManager.rateUser(rate, new AsyncCallback<Integer>() {
 			public void onFailure(Throwable caught) {
 				// :(
@@ -132,6 +131,7 @@ public class UserRateForm extends Composite implements Form{
 				// :)
 			}
 		});
+*/
 		return true;
 	}
 	
@@ -142,12 +142,12 @@ public class UserRateForm extends Composite implements Form{
 	private Rate generateRate() {
 		Rate rate = new Rate();
 		
-		rate.setComment(rateComment.getText() );
+		rate.setComment( rateComment.getText() );
 		rate.setStars( rateStars.getSelectedIndex() + 1 );
 		
 		//hier muss noch irgendwie die nutzer id rein wo bekomme ich sie her?
-		rate.setRatingUser(ratingUser);
-		rate.setRatedUser(ratedUser);
+		//rate.setRatingUser(ratingUser);
+		//rate.setRatedUser(ratedUser);
 		
 		return rate;		
 	}
