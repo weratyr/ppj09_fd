@@ -3,6 +3,7 @@ package ppj09.gwt.swapweb.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.Offer;
+import ppj09.gwt.swapweb.client.datatype.Rate;
 import ppj09.gwt.swapweb.client.serverInterface.SwapManager;
 
 public class SwapManagerImpl extends RemoteServiceServlet implements SwapManager {
@@ -17,5 +18,13 @@ public class SwapManagerImpl extends RemoteServiceServlet implements SwapManager
 	}
 	public int declineOfer(Offer offer) {
 		return 1;
+	}
+	
+	/**
+	 * Bewertet einen Tausch (Swap)
+	 */
+	public void rateSwap(Rate rate) {
+		// TODO Auto-generated method stub
+		
 	}
 }

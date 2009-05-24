@@ -9,9 +9,10 @@ package ppj09.gwt.swapweb.client.gui;
 
 import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.Rate;
+import ppj09.gwt.swapweb.client.serverInterface.SwapManager;
+import ppj09.gwt.swapweb.client.serverInterface.SwapManagerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
-
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -28,8 +29,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
- * Diese Klasse gibt die Möglichkeit einen anderen Benutzer zu bewerten.
- * Die Bewertung erfolgt über Sterne (1-5) und über einen Kommentar erfolgen.
+ * Diese Klasse gibt die MÃ¶glichkeit einen anderen Benutzer zu bewerten.
+ * Die Bewertung erfolgt Ã¼ber Sterne (1-5) und ï¿½ber einen Kommentar erfolgen.
  * 
  * @author Florian Liersch
  * @author Projektgruppe 4711
@@ -44,7 +45,6 @@ public class UserRateForm extends Composite implements Form{
 	private Label lblKommentar;
 	private TextBox rateComment;
 	private Button submitButton;
-	private final UserManagerAsync userManager = GWT.create(UserManager.class);
 	
 	public UserRateForm() {
 		{
@@ -115,14 +115,13 @@ public class UserRateForm extends Composite implements Form{
 	 * Schickt die eingetragenen Daten ab
 	 */
 	public boolean submit() {
+		
+		//hier stimmt was nicht mit der signatur - beispiel !!
+		
+		/*
 		Rate rate = generateRate();
-		
-		// Methode auf dem Server muss noch erzeugt werden
-		// User RateImpl wird benötigt !!!!!! KLasse erzeugen??!!! 
-		
-		//müsste wohl in SwapManagerImpl.java gesteckt werden
-/*
-		userManager.rateUser(rate, new AsyncCallback<Integer>() {
+		SwapManagerAsync swapManager = GWT.create(SwapManager.class);
+		swapManager.rateSwap(rate, new AsyncCallback<Integer>() {
 			public void onFailure(Throwable caught) {
 				// :(
 			}
@@ -131,7 +130,7 @@ public class UserRateForm extends Composite implements Form{
 				// :)
 			}
 		});
-*/
+	*/
 		return true;
 	}
 	
@@ -146,8 +145,8 @@ public class UserRateForm extends Composite implements Form{
 		rate.setStars( rateStars.getSelectedIndex() + 1 );
 		
 		//hier muss noch irgendwie die nutzer id rein wo bekomme ich sie her?
-		//rate.setRatingUser(ratingUser);
-		//rate.setRatedUser(ratedUser);
+		//rate.setRatingUser( ... );
+		//rate.setRatedUser( ... );
 		
 		return rate;		
 	}

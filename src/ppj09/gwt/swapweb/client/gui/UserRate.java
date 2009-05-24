@@ -110,16 +110,5 @@ public class UserRate extends Composite{
 	 */
 	public void setUser(Hyperlink user) {
 		this.user = user;
-		
-		//sollte gelöscht werden, nur zur demo bei paul
-		this.user.setText(user.getText());
-	}
-	
-	/**
-	 * delete me
-	 * nur zur demo bei paul
-	 */
-	public void setUserName(String name){
-		this.user.setText(name);
 	}
 }
