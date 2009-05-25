@@ -11,7 +11,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class UserManagerImpl extends RemoteServiceServlet implements UserManager {
 	/**
-	 * Legt den neuen User über den DataBanker in der Datenbank ab
+	 * Legt den neuen User über den DataBanker in der Datenbank ab. 
 	 */
 	public int createUser(User newUser) {
 		// TODO Auto-generated method stub

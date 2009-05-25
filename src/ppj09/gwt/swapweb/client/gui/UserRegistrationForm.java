@@ -9,6 +9,7 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
@@ -20,15 +21,18 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.FieldListenerAdapter;
+import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 
 /**
  * Formularfelder und Submit des Benutzers zur Registrierung. Implementiert das
@@ -99,19 +103,20 @@ public class UserRegistrationForm extends Composite implements Form {
 			{
 				txtbxFirstName = new TextField();
 				txtbxFirstName.setAllowBlank(false);
-				txtbxFirstName.setRegex("[a-zA-Z]*$");
-				txtbxFirstName.setRegexText("Nur Buchstaben erlaubt");
-				
-				
+
 				absolutePanel.add(txtbxFirstName, 94, 0);
+				txtbxFirstName.addListener(new TextFieldListenerAdapter() {
+					public void onBlur(Field field) {
+						System.out.println("onChange: changed to ");
+					}
+				});
+
 			}
 			{
 				txtbLastName = new TextField();
 				txtbLastName.setAllowBlank(false);
-				txtbLastName.setRegex("[a-zA-Z]*$");
 				absolutePanel.add(txtbLastName, 94, 26);
-				txtbLastName.markInvalid("bla");
-				
+
 			}
 			{
 				txtbZip = new TextField();
@@ -209,7 +214,7 @@ public class UserRegistrationForm extends Composite implements Form {
 				registration.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 
-						validate();
+						submit();
 					}
 				});
 				registration.setSize("140", "25");
@@ -231,19 +236,23 @@ public class UserRegistrationForm extends Composite implements Form {
 	 * Rueckmeldung
 	 */
 	public boolean submit() {
+		if (Validation.validateRegisterForm(this)) {
 
-		// Sende Daten an Server
-		User newUser = null;
-		userManager.createUser(newUser, new AsyncCallback<Integer>() {
-			public void onFailure(Throwable caught) {
-				// :(
-			}
+			// Sende Daten an Server
+			User newUser = new User();
+			userManager.createUser(newUser, new AsyncCallback<Integer>() {
+				public void onFailure(Throwable caught) {
+					// :(
 
-			public void onSuccess(Integer serverMsg) {
-				// :)
-			}
-		});
+				}
+
+				public void onSuccess(Integer serverMsg) {
+					// :)
+				}
+			});
+		}
 		return true;
+
 	}
 
 	/*
@@ -254,9 +263,7 @@ public class UserRegistrationForm extends Composite implements Form {
 
 		ArrayList<String> errorList = new ArrayList<String>();
 		errorList.clear();
-		
 
-		
 		// Überprüfen ob die Felder leer sind.
 		if (txtbxFirstName.getText().equals("")) {
 			errorList.add("- Vorname eintragen");

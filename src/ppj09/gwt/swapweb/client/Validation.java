@@ -7,6 +7,7 @@
 
 package ppj09.gwt.swapweb.client;
 
+
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
@@ -28,6 +29,7 @@ public abstract class Validation {
 	 */
 	public boolean validateEmail(String email) {
 		return true;
+		
 	}
 
 	/**
