@@ -3,6 +3,7 @@ package ppj09.gwt.swapweb.client.gui;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.gwtext.client.widgets.form.TextField;
 
 public class HomeView extends Composite implements View {
 
@@ -25,6 +26,11 @@ public class HomeView extends Composite implements View {
 			{
 				Label lblHome = new Label("Home");
 				dockPanel.add(lblHome, DockPanel.CENTER);
+			}
+			{
+				TextField textField = new TextField("New text field", "text_field", 100);
+				dockPanel.add(textField, DockPanel.WEST);
+				textField.markInvalid("las");
 			}
 		}
 	}

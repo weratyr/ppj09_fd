@@ -9,15 +9,11 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
-import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.gwtext.client.widgets.Panel;
-import com.gwtext.client.widgets.Window;
-import com.gwtext.client.widgets.form.TextField;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -26,10 +22,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.gwtext.client.widgets.form.event.FieldListenerAdapter;
+import com.gwtext.client.widgets.MessageBox;
+import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.form.Field;
+import com.gwtext.client.widgets.form.TextField;
+import com.gwtext.client.widgets.form.event.FieldListenerAdapter;
 
 /**
  * Formularfelder und Submit des Benutzers zur Registrierung. Implementiert das
@@ -100,12 +99,19 @@ public class UserRegistrationForm extends Composite implements Form {
 			{
 				txtbxFirstName = new TextField();
 				txtbxFirstName.setAllowBlank(false);
+				txtbxFirstName.setRegex("[a-zA-Z]*$");
+				txtbxFirstName.setRegexText("Nur Buchstaben erlaubt");
+				
+				
 				absolutePanel.add(txtbxFirstName, 94, 0);
 			}
 			{
 				txtbLastName = new TextField();
 				txtbLastName.setAllowBlank(false);
+				txtbLastName.setRegex("[a-zA-Z]*$");
 				absolutePanel.add(txtbLastName, 94, 26);
+				txtbLastName.markInvalid("bla");
+				
 			}
 			{
 				txtbZip = new TextField();
@@ -139,11 +145,10 @@ public class UserRegistrationForm extends Composite implements Form {
 				lblUserName = new Label("Benutzername:");
 				absolutePanel.add(lblUserName, 331, 3);
 			}
-			
+
 			{
 				txtbUsername = new TextField();
 				txtbUsername.setAllowBlank(false);
-
 
 				// überprüfen ob der Benutzername noch frei ist. Wenn nein,
 				// setze "usernameFreeLabel".
@@ -203,6 +208,7 @@ public class UserRegistrationForm extends Composite implements Form {
 				registration.setText("Registrieren");
 				registration.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
+
 						validate();
 					}
 				});
@@ -240,16 +246,18 @@ public class UserRegistrationForm extends Composite implements Form {
 		return true;
 	}
 
-	
-	
 	/*
-	 * Überprüft die Eingegebenen Daten. Fehlt ein oder mehrere Einträge, wird dies in einem 
-	 * Popupfenster angezeigt.
+	 * Überprüft die Eingegebenen Daten. Fehlt ein oder mehrere Einträge, wird
+	 * dies in einem Popupfenster angezeigt.
 	 */
 	public void validate() {
 
 		ArrayList<String> errorList = new ArrayList<String>();
+		errorList.clear();
+		
 
+		
+		// Überprüfen ob die Felder leer sind.
 		if (txtbxFirstName.getText().equals("")) {
 			errorList.add("- Vorname eintragen");
 		}
@@ -277,10 +285,9 @@ public class UserRegistrationForm extends Composite implements Form {
 		if (txtbPasswordRepeat.getText().equals("")) {
 			errorList.add("- Passwort wiederholen");
 		}
-		
-		//Prüfen ob Passwörter gleich sind
-		if (!txtbPassword.getText().equals(txtbPasswordRepeat.getText()))
-		{
+
+		// Prüfen ob Passwörter gleich sind
+		if (!txtbPassword.getText().equals(txtbPasswordRepeat.getText())) {
 			errorList.add("- Passwörter stimmen nicht überein");
 		}
 		if (txtbEmail.getText().equals("")) {
@@ -289,14 +296,18 @@ public class UserRegistrationForm extends Composite implements Form {
 		if (txtbEmailRepeat.getText().equals("")) {
 			errorList.add("- eMail wiederholen");
 		}
-		
-		//Prüfen ob eMails gleich sind
-		if (!txtbEmail.getText().equals(txtbEmailRepeat.getText()))
-		{
+
+		// Prüfen ob eMails gleich sind
+		if (!txtbEmail.getText().equals(txtbEmailRepeat.getText())) {
 			errorList.add("- eMail Adressen stimmen nicht überein");
 		}
-		
+
+		// Erzeuge Popup wenn ein Fehler vorliegt
 		if (errorList.size() != 0) {
+			window.destroy();
+			if (window.isAttached()) {
+				errorList.clear();
+			}
 			window.clear();
 			window.setWidth(160);
 			window.setHeight(150);
@@ -307,12 +318,11 @@ public class UserRegistrationForm extends Composite implements Form {
 			for (int i = 0; i < errorList.size(); i++) {
 				Label error = new Label();
 				error.setText(errorList.get(i));
-				window.add(error);
+				errorPanel.add(error);
 			}
-
 			window.show();
 		}
-		
+
 	}
 
 	/*
