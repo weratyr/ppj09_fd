@@ -23,6 +23,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 public interface UserManagerAsync {
+	
 	public void loginRequest(String user, String pwHash, AsyncCallback<Integer> callback);
-	public void createUser(User newUser, AsyncCallback<Integer> asyncCallback);
+	public void createUser(User newUser, AsyncCallback<Integer> callback);
+	public void checkUsername(String username, AsyncCallback<Boolean> callback);
 }

@@ -25,20 +25,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 
 public interface UserManager extends RemoteService {
-	/**
-	 * Utility class for simplifying access to the instance of async service.
-	 */
-	public static class Util {
-		private static UserManagerAsync instance;
-		public static UserManagerAsync getInstance(){
-			if (instance == null) {
-				instance = GWT.create(UserManager.class);
-			}
-			return instance;
-		}
-	}
-	
 	
 	public int loginRequest(String user, String pwHash);
 	public int createUser(User newUser);
+	public boolean checkUsername(String username);
 }

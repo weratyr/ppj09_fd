@@ -7,6 +7,7 @@
 
 package ppj09.gwt.swapweb.client;
 
+import com.gwtext.client.widgets.MessageBox;
 
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
@@ -29,7 +30,7 @@ public abstract class Validation {
 	 */
 	public boolean validateEmail(String email) {
 		return true;
-		
+
 	}
 
 	/**
@@ -38,7 +39,8 @@ public abstract class Validation {
 	 * zurueckgegeben, bei Fehlern false und anhand eines Labels wird im
 	 * Formular der Fehler beschrieben.
 	 */
-	public static boolean validateRegisterForm(UserRegistrationForm registrationForm) {
+	public static boolean validateRegisterForm(
+			UserRegistrationForm registrationForm) {
 		return true;
 	}
 
