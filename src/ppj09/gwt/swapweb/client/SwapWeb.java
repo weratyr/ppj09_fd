@@ -297,7 +297,7 @@ public class SwapWeb implements EntryPoint {
 	
 	public void addTestProfileForm() {
 		if (!userForm.isAttached()) {
-			tabPanel.add(userForm, "Profil ï¿½ndern", false);
+			tabPanel.add(userForm, "Profil Šndern", false);
 
 		} else
 			tabPanel.remove(userForm);

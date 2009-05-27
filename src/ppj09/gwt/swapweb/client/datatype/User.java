@@ -18,163 +18,138 @@ import java.io.Serializable;
  * @version 0.1, 04.05.09
  */
 public class User implements Serializable {	
-	//eindeutige, unveränderliche user Identificationsnummer
-	private int userId;
-	//identification eines Users, Email und Passwort
-	private String email;
-	private String pwHash;
 
-	//persönliche informationen des Users
-	private String name;
+
 	private String firstName;
-	private int zipCode;
-	private String city;
+	private String lastName;
 	private String street;
-	private int houseNumber;
+	private String houseNumber;
+	private String zip;
+	private String city;
+	private String username;
+	private String email;
+
 
 	/**
-	 * Gib die userId zurück
-	 * @return userId
+	 * @param firstName
+	 *            the firstName to set
 	 */
-	public int getUserId() {
-		return userId;
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	/**
-	 * Setzt die userId
-	 * @param userId
+	 * @return the firstName textField
 	 */
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public String getFirstName() {
+		return firstName;
 	}
-
 	
 	/**
-	 * Gibt den email zurück
-	 * 
-	 * @return email
+	 * @param lastName
+	 *            the firstName to set
 	 */
-	public String getEmail() {
-		return email;
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	/**
-	 * Setzt den email
+	 * @return the lastName textField
 	 */
+	public String getLastName() {
+		return lastName;
+	}
+	
+	/**
+	 * @param street
+	 *            the street to set
+	 */
+	
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	/**
+	 * @return the firstName textField
+	 */
+	public String getStreet() {
+		return street;
+	}
+	
+	/**
+	 * @param houseNumber
+	 *            the houseNumber to set
+	 */
+	
+	public void setHouseNumber(String number) {
+		this.houseNumber = number;
+	}
+
+	/**
+	 * @return the houseNumber textField
+	 */
+	public String getHouseNumber() {
+		return houseNumber;
+	}
+	
+	/**
+	 * @param zipCode
+	 *            the zipCode to set
+	 */
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	/**
+	 * @return the zipCode textField
+	 */
+	public String getZip() {
+		return zip;
+	}
+	
+	/**
+	 * @param city
+	 *            the city to set
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	/**
+	 * @return the city textField
+	 */
+	public String getCity() {
+		return city;
+	}
+	
+	/**
+	 * @param eMail
+	 *            the eMail to set
+	 */
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	/**
-	 * Gibt den pw_hash zurück
-	 * 
-	 * @return pw_hash
+	 * @return the eMail textField
 	 */
-	public String getPwHash() {
-		return pwHash;
+	public String getEmail() {
+		return email;
 	}
-
 	/**
-	 * Setzt den pw_hash
+	 * @param username
+	 *            the username to set
 	 */
-	public void setPwHash(String pw_hash) {
-		this.pwHash = pw_hash;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-
 	/**
-	 * Gibt den name zurück
-	 * 
-	 * @return name
+	 * @return the username textField
 	 */
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
-
-	/**
-	 * Setzt den name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Gibt den firstName zurück
-	 * 
-	 * @return firstName
-	 */
-	public String getVorname() {
-		return firstName;
-	}
-
-	/**
-	 * Setzt den firstName
-	 */
-	public void setVorname(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * Gibt den zipCode zurück
-	 * 
-	 * @return zipCode
-	 */
-	public int getZipCode() {
-		return zipCode;
-	}
-
-	/**
-	 * Setzt den zipCode
-	 */
-	public void setZipCode(int zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	/**
-	 * Gibt den city zurück
-	 * 
-	 * @return city
-	 */
-	public String getWohnort() {
-		return city;
-	}
-
-	/**
-	 * Setzt den city
-	 */
-	public void setWohnort(String city) {
-		this.city = city;
-	}
-
-	/**
-	 * Gibt den street zurück
-	 * 
-	 * @return street
-	 */
-	public String getStrasse() {
-		return street;
-	}
-
-	/**
-	 * Setzt den street
-	 */
-	public void setStrasse(String strasse) {
-		this.street = strasse;
-	}
-
-	/**
-	 * Gibt den houseNumber zurück
-	 * 
-	 * @return houseNumber
-	 */
-	public int getHausNummer() {
-		return houseNumber;
-	}
-
-	/**
-	 * Setzt den houseNumber
-	 */
-	public void setHausNummer(int houseNumber) {
-		this.houseNumber = houseNumber;
-	}
-
 }
