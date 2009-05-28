@@ -378,7 +378,7 @@ public class UserRegistrationForm extends Composite implements Form {
 				// :)
 				// if (!serverMsg) {
 				Window.alert("test");
-
+				
 				txtbxUserFree.setVisible(true);
 				// }
 			}

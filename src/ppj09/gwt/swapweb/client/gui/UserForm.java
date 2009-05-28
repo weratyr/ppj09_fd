@@ -101,7 +101,7 @@ public class UserForm extends Composite implements View {
 
 	public UserForm(User user) {
 		this.user = user;
-		
+
 		this.setFirstName(user.getFirstName());
 		this.setLastName(user.getLastName());
 		this.setStreet(user.getStreet());
@@ -284,7 +284,6 @@ public class UserForm extends Composite implements View {
 						comboBoxGender = new ComboBox();
 						comboBoxGender.setFieldLabel("Geschlecht");
 						comboBoxGender.setStore(store);
-						comboBoxGender.setAllowBlank(false);
 						comboBoxGender.setDisplayField("geschlecht");
 						comboBoxGender.setMode(ComboBox.LOCAL);
 						comboBoxGender.setTriggerAction(ComboBox.ALL);
@@ -375,6 +374,7 @@ public class UserForm extends Composite implements View {
 						resetButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								// TODO
+								formPanelTop.clear();
 							}
 
 						});
@@ -405,6 +405,10 @@ public class UserForm extends Composite implements View {
 		}
 	}
 
+	public void validate() {
+		
+	}
+
 	public void fillUser() {
 		user.setFirstName(getFirstName());
 		user.setLastName(getLastName());
@@ -423,6 +427,14 @@ public class UserForm extends Composite implements View {
 		user.setMovie(getMovie());
 		user.setILike(getILike());
 		user.setIDontLike(getIDontLike());
+		user.setAboutMe(getAboutMe());
+		user.setIcq(getIcq());
+		user.setMsn(getMsn());
+		user.setYahoo(getYahoo());
+		user.setAim(getAim());
+		user.setJabber(getJabber());
+		user.setImage(getImage());
+
 	}
 
 	/**
@@ -809,18 +821,19 @@ public class UserForm extends Composite implements View {
 	}
 
 	/**
-	 * @param image
-	 *            the image to set
+	 * @param imageurl
+	 *            the imageurl to set
 	 */
-	public void setImage(Image image) {
+	public void setImage(String imageurl) {
 		// TODO
+		this.image.setUrl(imageurl);
 	}
 
 	/**
-	 * @return the homepage textArea
+	 * @return the imageurl textArea
 	 */
-	public Image getImage() {
-		return image;
+	public String getImage() {
+		return image.getUrl();
 		// TODO
 	}
 }

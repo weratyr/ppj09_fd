@@ -1,5 +1,6 @@
 package ppj09.gwt.swapweb.client;
 
+import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.gui.*;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -308,6 +309,13 @@ public class SwapWeb implements EntryPoint {
 	
 	
 	public void addTestProfileForm() {
+		if (!userForm.isAttached()) {
+			tabPanel.add(userForm, "Profil Šndern", false);
+
+		} else
+			tabPanel.remove(userForm);
+	}
+	public void addTestProfileForm(UserForm userForm) {
 		if (!userForm.isAttached()) {
 			tabPanel.add(userForm, "Profil Šndern", false);
 

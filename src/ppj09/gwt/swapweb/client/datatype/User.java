@@ -37,8 +37,6 @@ public class User implements Serializable {
 	private String hobbys;
 	private String music;
 	private String movie;
-	private String ilike;
-	private String IDontLike;
 	private String iLike;
 	private String iDontLike;
 	private String aboutMe;
@@ -48,7 +46,7 @@ public class User implements Serializable {
 	private String aim;
 	private String jabber;
 	private String homepage;
-	private Image image;
+	private String image;
 
 	/**
 	 * @param firstName
@@ -419,14 +417,14 @@ public class User implements Serializable {
 	 * @param image
 	 *            the image to set
 	 */
-	public void setImage(Image image) {
+	public void setImage(String image) {
 		this.image = image;;
 	}
 
 	/**
 	 * @return the homepage textArea
 	 */
-	public Image getImage() {
+	public String getImage() {
 		return image;
 	}
 }
