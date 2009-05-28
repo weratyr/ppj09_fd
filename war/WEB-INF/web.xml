@@ -17,11 +17,33 @@
      <servlet-class>ppj09.gwt.swapweb.server.SearchHandlerImpl</servlet-class> 
    </servlet> 
    
-  
-   
   <servlet-mapping>
     <servlet-name>gagagaServlet</servlet-name>
     <url-pattern>/swapweb/gagaga</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <servlet> 
+     <servlet-name>UserManager</servlet-name> 
+     <servlet-class>ppj09.gwt.swapweb.server.UserMangerImpl</servlet-class> 
+   </servlet> 
+   
+  <servlet-mapping>
+    <servlet-name>UserManager</servlet-name>
+    <url-pattern>/swapweb/UserManager</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <servlet> 
+     <servlet-name>SwapManager</servlet-name> 
+     <servlet-class>ppj09.gwt.swapweb.server.SwapMangerImpl</servlet-class> 
+   </servlet> 
+   
+  <servlet-mapping>
+    <servlet-name>SwapManager</servlet-name>
+    <url-pattern>/swapweb/SwapManager</url-pattern>
   </servlet-mapping>
   
 

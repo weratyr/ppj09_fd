@@ -329,7 +329,7 @@ public class UserRegistrationForm extends Composite implements Form {
 
 			public void onSuccess(Integer serverMsg) {
 				// :)
-				System.out.println("test");
+				System.out.println("OK: " + serverMsg.toString());
 			}
 		});
 		// }
@@ -370,17 +370,19 @@ public class UserRegistrationForm extends Composite implements Form {
 		userManager.checkUsername(username, new AsyncCallback<Boolean>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				Window.alert("fehler");
+				//Window.alert("fehler");
 
 			}
 
 			public void onSuccess(Boolean serverMsg) {
 				// :)
-				// if (!serverMsg) {
-				Window.alert("test");
-				
+				if (serverMsg) {
+				//Window.alert("test");
+
 				txtbxUserFree.setVisible(true);
-				// }
+				} else {
+					txtbxUserFree.setVisible(false);
+				}
 			}
 		});
 	}

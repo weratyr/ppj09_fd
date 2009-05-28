@@ -8,7 +8,6 @@
 package ppj09.gwt.swapweb.client.serverInterface;
 
 import ppj09.gwt.swapweb.client.datatype.User;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -20,10 +19,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
-
-
 public interface UserManagerAsync {
-	
 	public void loginRequest(String user, String pwHash, AsyncCallback<Integer> callback);
 	public void createUser(User newUser, AsyncCallback<Integer> callback);
 	public void checkUsername(String username, AsyncCallback<Boolean> callback);

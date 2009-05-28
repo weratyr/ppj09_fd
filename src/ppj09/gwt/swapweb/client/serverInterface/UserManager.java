@@ -8,8 +8,6 @@
 package ppj09.gwt.swapweb.client.serverInterface;
 
 import ppj09.gwt.swapweb.client.datatype.User;
-
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -22,10 +20,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
-
-
+@RemoteServiceRelativePath("UserManager")
 public interface UserManager extends RemoteService {
-	
 	public int loginRequest(String user, String pwHash);
 	public int createUser(User newUser);
 	public boolean checkUsername(String username);

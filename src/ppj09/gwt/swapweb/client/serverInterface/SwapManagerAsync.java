@@ -21,5 +21,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface SwapManagerAsync {
 
-	public void rateSwap(Rate rate, AsyncCallback<Void> callback);
+	public void rateSwap(Rate rate, AsyncCallback<String> callback);
 }

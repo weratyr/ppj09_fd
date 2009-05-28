@@ -9,6 +9,7 @@ package ppj09.gwt.swapweb.client.serverInterface;
 
 import ppj09.gwt.swapweb.client.datatype.Rate;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * SwapManager Interface ist fuer den RPC des SwapManagerImpl. Das Interface
@@ -19,7 +20,8 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
+@RemoteServiceRelativePath("SwapManager")
 public interface SwapManager extends RemoteService {
 
-	public void rateSwap(Rate rate);
+	public String rateSwap(Rate rate);
 }

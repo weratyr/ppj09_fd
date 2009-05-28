@@ -115,22 +115,18 @@ public class UserRateForm extends Composite implements Form{
 	 * Schickt die eingetragenen Daten ab
 	 */
 	public boolean submit() {
-		
-		//hier stimmt was nicht mit der signatur - beispiel !!
-		
-		/*
 		Rate rate = generateRate();
+		
 		SwapManagerAsync swapManager = GWT.create(SwapManager.class);
-		swapManager.rateSwap(rate, new AsyncCallback<Integer>() {
+		swapManager.rateSwap(rate, new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
-				// :(
+				System.out.println("Och nööö: " + caught.getMessage());
 			}
 
-			public void onSuccess(Integer serverMsg) {
-				// :)
+			public void onSuccess(String result) {
+				System.out.println("Juppiii: " + result);
 			}
 		});
-	*/
 		return true;
 	}
 	

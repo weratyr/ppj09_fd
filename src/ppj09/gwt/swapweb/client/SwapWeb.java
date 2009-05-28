@@ -99,11 +99,11 @@ public class SwapWeb implements EntryPoint {
 		absolutePanel = new AbsolutePanel();
 		dockPanel.add(absolutePanel, DockPanel.NORTH);
 		absolutePanel.setHeight("100");
-
-		image = new Image();
-		absolutePanel.add(image);
-		image.setUrl("swapweb.tif");
-		image.setWidth("500,30");
+//
+//		image = new Image();
+//		absolutePanel.add(image);
+//		image.setUrl("swapweb.tif");
+//		image.setWidth("500,30");
 
 		/**
 		 * Suche
@@ -315,13 +315,7 @@ public class SwapWeb implements EntryPoint {
 		} else
 			tabPanel.remove(userForm);
 	}
-	public void addTestProfileForm(UserForm userForm) {
-		if (!userForm.isAttached()) {
-			tabPanel.add(userForm, "Profil Šndern", false);
-
-		} else
-			tabPanel.remove(userForm);
-	}
+	
 	
 	public void addTestArticleForm() {
 		if (!articleForm.isAttached()) {

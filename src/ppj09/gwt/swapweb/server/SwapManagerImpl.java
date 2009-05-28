@@ -23,8 +23,9 @@ public class SwapManagerImpl extends RemoteServiceServlet implements SwapManager
 	/**
 	 * Bewertet einen Tausch (Swap)
 	 */
-	public void rateSwap(Rate rate) {
-		// TODO Auto-generated method stub
+	public String rateSwap(Rate rate) {
+		String bla = ("\nKommentar: \t" + rate.getComment() + "\nSterne: \t" + rate.getStars()  );
 		
+		return bla;
 	}
 }
