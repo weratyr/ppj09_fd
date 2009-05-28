@@ -75,6 +75,8 @@ public class SwapWeb implements EntryPoint {
 	private VerticalPanel verticalPanel_2;
 	private Hyperlink testProfileHyperlink;
 	private Hyperlink testProfileFormHyperlink;
+	private Hyperlink testArticleFormHyperlink;
+
 
 	/**
 	 * Die EntryPoin Methode
@@ -276,6 +278,15 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 		testProfileFormHyperlink.setText("Testprofil \u00E4ndern");
+		
+		testArticleFormHyperlink = new Hyperlink("Artikel einstellen", false, "newHistoryToken");
+		verticalPanel_2.add(testArticleFormHyperlink);
+		testArticleFormHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				addTestArticleForm();
+			}
+		});
+		testProfileFormHyperlink.setText("Testprofil \u00E4ndern");
 
 	}
 
@@ -295,11 +306,20 @@ public class SwapWeb implements EntryPoint {
 			tabPanel.remove(userView);
 	}
 	
+	
 	public void addTestProfileForm() {
 		if (!userForm.isAttached()) {
 			tabPanel.add(userForm, "Profil Šndern", false);
 
 		} else
 			tabPanel.remove(userForm);
+	}
+	
+	public void addTestArticleForm() {
+		if (!articleForm.isAttached()) {
+			tabPanel.add(articleForm, "Neuer Artikel", false);
+
+		} else
+			tabPanel.remove(articleForm);
 	}
 }

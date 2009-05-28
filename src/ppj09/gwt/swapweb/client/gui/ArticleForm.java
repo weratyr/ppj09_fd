@@ -1,275 +1,154 @@
-/**
- * Formularfelder und Submit
- * testkommentar
- */
 package ppj09.gwt.swapweb.client.gui;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-
-import ppj09.gwt.swapweb.client.Validation;
-import ppj09.gwt.swapweb.client.datatype.Article;
-import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
-import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.gwtext.client.widgets.form.FormPanel;
-import com.gwtext.client.widgets.form.TextField;
-import com.gwtext.client.widgets.Button;
-import com.gwtext.client.widgets.event.ButtonListenerAdapter;
-import com.gwtext.client.core.EventObject;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.gwtext.client.widgets.form.Label;
-import com.gwtext.client.widgets.form.TextArea;
-import com.gwtext.client.core.Position;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.gwtext.client.widgets.layout.AnchorLayoutData;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Hyperlink;
-
-
 /**
- * @author
- * 
+ * Autor Georg Ortwein
+ * Klasse User- Form ist zum ändern bzw. bearbeiten eines Profils 
  */
-public class ArticleForm extends Composite implements Form {
+
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtext.client.core.Position;
+import com.gwtext.client.data.SimpleStore;
+import com.gwtext.client.data.Store;
+import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Component;
+import com.gwtext.client.widgets.DatePicker;
+import com.gwtext.client.widgets.form.Checkbox;
+import com.gwtext.client.widgets.form.ComboBox;
+import com.gwtext.client.widgets.form.DateField;
+import com.gwtext.client.widgets.form.FormPanel;
+import com.gwtext.client.widgets.form.HtmlEditor;
+import com.gwtext.client.widgets.form.Label;
+import com.gwtext.client.widgets.form.MultiFieldPanel;
+import com.gwtext.client.widgets.form.NumberField;
+import com.gwtext.client.widgets.form.TextArea;
+import com.gwtext.client.widgets.form.TextField;
+import com.gwtext.client.widgets.layout.ColumnLayoutData;
+
+public class ArticleForm extends Composite implements View {
+
+	private FormPanel formPanel;
+	private TextField txtbxName;
+	private TextField txtbxZip;
+	private TextField txtbxCity;
+	private MultiFieldPanel panel1;
+	private ComboBox combobxCondition;
+	private Checkbox chkbxdelivery1;
+	private Checkbox chkbxdelivery2;
+	private Checkbox chkbxdelivery3;
+	private TextArea txtbxAmount;
+	private TextArea txtbxSwaps;
+	private TextArea txtbxSpecials;
+	private HtmlEditor description;
+	private FormPanel formPanel2;
+	private HorizontalPanel horizontalPanel;
 
 	/**
-	 * Create a remote service proxy to talk to the server-side ArticleManager service.
+	 * Constructor
+	 * 
+	 * 
 	 */
-	private final ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
-	private DockPanel dockPanel;
-	private FormPanel frmpnlArtikelAnlegen;
-	private TextField txtArtikleName;
-	private TextField txtStandort;
-	private TextField txtZustand;
-	private TextField txtVersand;
-	private TextField txtUmfang;
-	private TextField txtGegentauschvorst;
-	private TextField txtBesonderh;
-	private Button btnReset;
-	private Button btnSubmit;
-	private Label lblBilder;
-	private FileUpload upload;
-	private TextArea txtAreaBeschreibung;
-	private AbsolutePanel absolutePanel;
-	private com.google.gwt.user.client.ui.Label lblHochgeladeneBilder;
-	private Image image;
-	private Hyperlink hplDelUploadImage;
-	
-	/**
-	 * Initialisiert Formular Eingabefelder
-	 */
+
 	public ArticleForm() {
 		{
-			dockPanel = new DockPanel();
-			initWidget(dockPanel);
-			dockPanel.setWidth("650");
+			VerticalPanel verticalPanel = new VerticalPanel();
+			initWidget(verticalPanel);
 			{
-				frmpnlArtikelAnlegen = new FormPanel();
-				frmpnlArtikelAnlegen.setSize("650", "639px");
-				frmpnlArtikelAnlegen.setFooter(true);
-				
+				formPanel = new FormPanel();
+				formPanel.setLabelAlign(Position.RIGHT);
+				formPanel.setLabelWidth(250);
+				formPanel.setBorder(false);
+				formPanel.setFooter(true);
 				{
-					txtArtikleName = new TextField("Artikelname", "text_field", 100);
-					frmpnlArtikelAnlegen.add(txtArtikleName);
-					txtArtikleName.setWidth("300");
+					txtbxName = new TextField("Artikelname*", "text_field", 190);
+					formPanel.add(txtbxName);
+
+					txtbxZip = new TextField("Plz* / Artikelstandort*",
+							"text_field", 50);
+					txtbxZip.setAllowBlank(false);
+					txtbxZip.setSelectOnFocus(true);
+
+					txtbxCity = new TextField("Wohnort", "text_field", 135);
+					txtbxCity.setAllowBlank(false);
+					txtbxCity.setHideLabel(true);
+					txtbxCity.setSelectOnFocus(true);
+
+					panel1 = new MultiFieldPanel();
+					panel1.addToRow(txtbxZip, 310);
+					panel1.addToRow(txtbxCity, new ColumnLayoutData(1));
+					panel1.setBorder(false);
+					formPanel.add(panel1);
+
+					final Store conditionStore = new SimpleStore(new String[] {
+							"zustand", "nr" }, new String[][] {
+							new String[] { "neu", "1" },
+							new String[] { "gebraucht", "2" } });
+					conditionStore.load();
+
+					// TODO
+					combobxCondition = new ComboBox();
+					combobxCondition.setFieldLabel("Zustand*");
+					combobxCondition.setStore(conditionStore);
+					combobxCondition.setAllowBlank(false);
+					combobxCondition.setDisplayField("zustand");
+					combobxCondition.setMode(ComboBox.LOCAL);
+					combobxCondition.setTriggerAction(ComboBox.ALL);
+					combobxCondition.setTypeAhead(true);
+					combobxCondition.setEditable(false);
+					combobxCondition.setSelectOnFocus(true);
+					combobxCondition.setWidth(190);
+					combobxCondition.setHideTrigger(false);
+					formPanel.add(combobxCondition);
+
+					chkbxdelivery1 = new Checkbox("Postversand", "check_Box");
+					chkbxdelivery2 = new Checkbox("Selbstabholung", "check_Box");
+					chkbxdelivery3 = new Checkbox("Treffen", "check_Box");
+
+					chkbxdelivery1.setFieldLabel("Versandoptionen*:");
+
+					formPanel.add(chkbxdelivery1);
+					formPanel.add(chkbxdelivery2);
+					formPanel.add(chkbxdelivery3);
+
+					txtbxAmount = new TextArea("Angebotsumfang*", "text_Area");
+					txtbxAmount.setPixelSize(190, 70);
+					formPanel.add(txtbxAmount);
+
+					txtbxSwaps = new TextArea("Gegentauschvorstellungen*",
+							"text_Area");
+					txtbxSwaps.setPixelSize(190, 70);
+					formPanel.add(txtbxSwaps);
+
+					txtbxSpecials = new TextArea("Besonderheiten*", "text_Area");
+					txtbxSpecials.setPixelSize(190, 70);
+					formPanel.add(txtbxSpecials);
+
 				}
+
+				verticalPanel.add(formPanel);
+
+				formPanel2 = new FormPanel();
+				formPanel2.setLabelAlign(Position.TOP);
+				formPanel2.setLabelWidth(250);
+				formPanel2.setBorder(false);
+				formPanel2.setFooter(true);
+
 				{
-					txtStandort = new TextField("Standort", "text_field", 100);
-					frmpnlArtikelAnlegen.add(txtStandort);
-					txtStandort.setWidth("300");
+					description = new HtmlEditor("Beschreibung");
+
+					// description.setWidth(700);
+					// description.setHeight(300);
+					formPanel2.add(description);
 				}
-				{
-					txtZustand = new TextField("Zustand", "text_field", 100);
-					frmpnlArtikelAnlegen.add(txtZustand);
-					txtZustand.setWidth("300");
-				}
-				{
-					txtVersand = new TextField("Versand", "text_field", 100);
-					frmpnlArtikelAnlegen.add(txtVersand);
-					txtVersand.setWidth("300");
-				}
-				{
-					txtUmfang = new TextField("Angebotsumfang", "text_field", 100);
-					frmpnlArtikelAnlegen.add(txtUmfang);
-					txtUmfang.setWidth("300");
-				}
-				{
-					txtGegentauschvorst = new TextField("Gegentauschvorstellung", "text_field", 100);
-					frmpnlArtikelAnlegen.add(txtGegentauschvorst);
-					txtGegentauschvorst.setWidth("300");
-				}
-				{
-					txtBesonderh = new TextField("Besonderheiten", "text_field", 100);
-					frmpnlArtikelAnlegen.add(txtBesonderh);
-					txtBesonderh.setWidth("300");
-				}
-				{
-					txtAreaBeschreibung = new TextArea("Beschreibung", "text_area");
-					frmpnlArtikelAnlegen.add(txtAreaBeschreibung);
-					txtAreaBeschreibung.setWidth("300");
-				}
-				{
-					lblBilder = new Label("Bild hochladen:  ");
-					lblBilder.setHeight("18");
-					frmpnlArtikelAnlegen.add(lblBilder);
-				}
-				{
-					upload = new FileUpload();
-				    upload.setName("pictureFile");
-				    frmpnlArtikelAnlegen.add(upload);
-				}
-				{
-					btnReset = new Button("zur\u00FCcksetzen");
-					btnReset.addListener(new ButtonListenerAdapter() {
-						public void onClick(Button button, EventObject e) {
-							txtArtikleName.reset();
-							txtStandort.reset();
-							txtZustand.reset();
-							txtVersand.reset();
-							txtUmfang.reset();
-							txtGegentauschvorst.reset();
-							txtBesonderh.reset();
-							txtAreaBeschreibung.reset();
-						}
-					});
-					{
-						absolutePanel = new AbsolutePanel();
-						frmpnlArtikelAnlegen.add(absolutePanel, new AnchorLayoutData(" 22%"));
-						{
-							lblHochgeladeneBilder = new com.google.gwt.user.client.ui.Label("Hochgeladenes Bild:");
-							absolutePanel.add(lblHochgeladeneBilder, 5, 5);
-						}
-						{
-							image = new Image(null);
-							absolutePanel.add(image, 156, 5);
-							image.setSize("113px", "116px");
-						}
-						{
-							hplDelUploadImage = new Hyperlink("New hyperlink", false, "newHistoryToken");
-							absolutePanel.add(hplDelUploadImage, 5, 31);
-							hplDelUploadImage.setHTML("l\u00F6schen");
-						}
-					}
-					frmpnlArtikelAnlegen.addButton(btnReset);
-				}
-				{
-					btnSubmit = new Button("absenden");
-					btnSubmit.addListener(new ButtonListenerAdapter() {
-						public void onClick(Button button, EventObject e) {
-							submit();
-						}
-					});
-					frmpnlArtikelAnlegen.addButton(btnSubmit);
-				}
-				frmpnlArtikelAnlegen.setBorder(false);
-				frmpnlArtikelAnlegen.setTitle("Artikel anlegen");
-				frmpnlArtikelAnlegen.setLabelAlign(Position.TOP);
-				dockPanel.add(frmpnlArtikelAnlegen, DockPanel.SOUTH);
+
+				verticalPanel.add(formPanel2);
+
 			}
 		}
 
-	}
-	
-    /**
-	 * Schickt die validierten Formulardaten an den Artikelmanager, und wartet
-	 * auf RŸckmeldung
-	 */
-	/**
-	 * Schickt die validierten Formulardaten an den Artikelmanager, und wartet
-	 * auf RŸckmeldung
-	 */
-	public boolean submit() {
-		if (Validation.validateArticleForm(this)) {
-			// Sende Daten an Server
-			Article newArticle = null;
-			articleManager.createArticle(newArticle,
-					new AsyncCallback<Integer>() {
-						public void onFailure(Throwable caught) {
-							// :(
-						}
-
-						public void onSuccess(Integer serverMsg) {
-							// :)
-						}
-					});
-			return true;
-		} else {
-			// Hinweis auf Fehler
-			return false;
-		}
-	}
-
-	public String getTxtArtikleName() {
-		return txtArtikleName.getText();
-	}
-
-	public void setTxtArtikleName(String txtArtikleName) {
-		this.txtArtikleName.setEmptyText(txtArtikleName);
-	}
-
-	public String getTxtStandort() {
-		return txtStandort.getText();
-	}
-
-	public void setTxtStandort(String txtStandort) {
-		this.txtStandort.setEmptyText(txtStandort);
-	}
-
-	public String getTxtZustand() {
-		return txtZustand.getText();
-	}
-
-	public void setTxtZustand(String txtZustand) {
-		this.txtZustand.setEmptyText(txtZustand);
-	}
-
-	public String getTxtVersand() {
-		return txtVersand.getText();
-	}
-
-	public void setTxtVersand(String txtVersand) {
-		this.txtVersand.setEmptyText(txtVersand);
-	}
-
-	public String getTxtUmfang() {
-		return txtUmfang.getText();
-	}
-
-	public void setTxtUmfang(String txtUmfang) {
-		this.txtUmfang.setEmptyText(txtUmfang);
-	}
-
-	public String getTxtGegentauschvorst() {
-		return txtGegentauschvorst.getText();
-	}
-
-	public void setTxtGegentauschvorst(String txtGegentauschvorst) {
-		this.txtGegentauschvorst.setEmptyText(txtGegentauschvorst);
-	}
-
-	public String getTxtBesonderh() {
-		return txtBesonderh.getText();
-	}
-
-	public void setTxtBesonderh(String txtBesonderh) {
-		this.txtBesonderh.setEmptyText(txtBesonderh);
-	}
-
-	public FileUpload getUpload() {
-		return upload;
-	}
-
-	public String getTxtAreaBeschreibung() {
-		return txtAreaBeschreibung.getText();
-	}
-
-	public void setTxtAreaBeschreibung(String txtAreaBeschreibung) {
-		this.txtAreaBeschreibung.setEmptyText(txtAreaBeschreibung);
-	}
-
-	public Image getHplDelUploadImage() {
-		return this.image;
 	}
 }

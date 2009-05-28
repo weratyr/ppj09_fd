@@ -94,6 +94,9 @@ public class UserRegistrationForm extends Composite implements Form {
 					txtbxUsername = new TextField("Benutzername", "text_field",
 							190);
 					txtbxUsername.setAllowBlank(false);
+					txtbxUsername.setMinLength(5);
+					txtbxUsername
+							.setMinLengthText("Der Benutzername muss mindestens 5 Zeichen lang sein");
 					txtbxUsername.setTabIndex(7);
 					txtbxUsername
 							.setBlankText("Bitte geben Sie ihren gew&uuml;nschten Benutzernamen ein");
@@ -115,7 +118,7 @@ public class UserRegistrationForm extends Composite implements Form {
 					panel1.setBorder(false);
 
 					userFreePanel = new MultiFieldPanel();
-					userFreePanel.addToRow(panel1, 450);
+					userFreePanel.addToRow(panel1, 460);
 					userFreePanel.addToRow(txtbxUserFree, new ColumnLayoutData(
 							1));
 					userFreePanel.setBorder(false);
@@ -133,15 +136,15 @@ public class UserRegistrationForm extends Composite implements Form {
 					txtbxPassword
 							.setBlankText("Bitte geben Sie ihr gew&uuml;nschtes Passwort ein <br>(mindestens acht Zeichen)");
 					txtbxPassword.setMinLength(8);
-					
+
 					panel2 = new MultiFieldPanel();
 					panel2.addToRow(txtbxLastName, 250);
 					panel2.addToRow(txtbxPassword, new ColumnLayoutData(1));
 					panel2.setBorder(false);
 					formPanel.add(panel2);
 
-					txtbxStreet = new TextField("Stra\u00DFe",
-							"text_field", 165);
+					txtbxStreet = new TextField("Stra\u00DFe", "text_field",
+							165);
 					txtbxStreet.setSize("145px", "20px");
 					txtbxStreet.setAllowBlank(false);
 					txtbxStreet.setTabIndex(3);
@@ -149,7 +152,7 @@ public class UserRegistrationForm extends Composite implements Form {
 							.setBlankText("Bitte geben Sie ihre Stra\u00DFe und Hausnummer ein");
 
 					txtbxNumber = new NumberField("Nr.", "number_field", 40);
-					//txtbxNumber.setHideLabel(true);
+					// txtbxNumber.setHideLabel(true);
 					txtbxNumber.setAllowDecimals(false);
 					txtbxNumber.setAllowBlank(false);
 					txtbxNumber.setTabIndex(4);
@@ -174,8 +177,7 @@ public class UserRegistrationForm extends Composite implements Form {
 					panel3.setBorder(false);
 					formPanel.add(panel3);
 
-					txtbxZip = new NumberField("Plz", "number_field",
-							50);
+					txtbxZip = new NumberField("Plz", "number_field", 50);
 					txtbxZip.setAllowBlank(false);
 					txtbxZip.setAllowDecimals(false);
 					txtbxZip.setTabIndex(5);
@@ -183,13 +185,14 @@ public class UserRegistrationForm extends Composite implements Form {
 							.setBlankText("Bitte geben Sie ihre Postleitzahl ein");
 					txtbxZip.setMinLength(5);
 					txtbxZip.setMaxLength(5);
-					txtbxZip.setMinLengthText("Die Postleitzahl muss aus 5 Ziffern bestehen");
-					txtbxZip.setMaxLengthText("Die Postleitzahl muss aus 5 Ziffern bestehen");
+					txtbxZip
+							.setMinLengthText("Die Postleitzahl muss aus 5 Ziffern bestehen");
+					txtbxZip
+							.setMaxLengthText("Die Postleitzahl muss aus 5 Ziffern bestehen");
 
-					
 					txtbxCity = new TextField("Wohnort", "text_field", 135);
 					txtbxCity.setAllowBlank(false);
-					//txtbxCity.setHideLabel(true);
+					// txtbxCity.setHideLabel(true);
 					txtbxCity.setTabIndex(6);
 					txtbxNumber
 							.setBlankText("Bitte geben Sie ihren Wohnort ein");
@@ -225,7 +228,6 @@ public class UserRegistrationForm extends Composite implements Form {
 					txtbxEmail2.setVtype(VType.EMAIL);
 					txtbxEmail2.isValidateOnBlur();
 
-
 					panel5 = new MultiFieldPanel();
 					panel5.addToRow(dummy, 250);
 					panel5.addToRow(txtbxEmail2, new ColumnLayoutData(1));
@@ -235,7 +237,7 @@ public class UserRegistrationForm extends Composite implements Form {
 					regButton = new Button("Registrieren");
 					regButton.setTabIndex(12);
 					regButton.setFormBind(true);
-					
+
 					formPanel.addButton(regButton);
 					regButton.addListener(new ButtonListenerAdapter() {
 						public void onClick(Button button, EventObject e) {
@@ -310,24 +312,43 @@ public class UserRegistrationForm extends Composite implements Form {
 	 * Rueckmeldung
 	 */
 	public boolean submit() {
-		if (Validation.validateRegisterForm(this)) {
-			// TODO
-			// Sende Daten an Server
-			UserManagerAsync userManager = GWT.create(UserManager.class);
+		// if (Validation.validateRegisterForm(this)) {
+		// TODO
+		// Sende Daten an Server
+		User user = new User();
+		user = fillUser(user);
+		System.out.println("test1");
 
-			userManager.createUser(new User(), new AsyncCallback<Integer>() {
-				public void onFailure(Throwable caught) {
-					// :(
-					System.out.println("neeee: " + caught.getMessage());
-				}
+		UserManagerAsync userManager = GWT.create(UserManager.class);
 
-				public void onSuccess(Integer serverMsg) {
-					// :)
-					System.out.println("test");
-				}
-			});
-		}
+		userManager.createUser(user, new AsyncCallback<Integer>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				System.out.println("neeee: " + caught.getMessage());
+			}
+
+			public void onSuccess(Integer serverMsg) {
+				// :)
+				System.out.println("test");
+			}
+		});
+		// }
 		return true;
+
+	}
+
+	private User fillUser(User user) {
+		user.setFirstName(txtbxFirstName.getText());
+		user.setLastName(txtbxLastName.getText());
+		user.setStreet(txtbxStreet.getText());
+		user.setHouseNumber(txtbxNumber.getText());
+		user.setZip(txtbxZip.getText());
+		user.setCity(txtbxCity.getText());
+		user.setUsername(txtbxUsername.getText());
+		user.setPassword(txtbxPassword.getText());
+		user.setEmail(txtbxEmail.getText());
+
+		return user;
 
 	}
 
@@ -341,6 +362,9 @@ public class UserRegistrationForm extends Composite implements Form {
 	public void checkUsername(String username) {
 		// TODO rpc zum überprüfen ob der Benutzername noch frei ist
 		// Sende Daten an Server
+
+		System.out.println("test2");
+
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.checkUsername(username, new AsyncCallback<Boolean>() {

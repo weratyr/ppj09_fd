@@ -8,6 +8,9 @@
 package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * Der Datentyp welcher zwischen Client und Server ausgetauscht wird, und ueber
@@ -17,8 +20,7 @@ import java.io.Serializable;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
-public class User implements Serializable {	
-
+public class User implements Serializable {
 
 	private String firstName;
 	private String lastName;
@@ -28,13 +30,31 @@ public class User implements Serializable {
 	private String city;
 	private String username;
 	private String email;
-
+	private String password;
+	private String gender;
+	private Date birthdate;
+	private String job;
+	private String hobbys;
+	private String music;
+	private String movie;
+	private String ilike;
+	private String IDontLike;
+	private String iLike;
+	private String iDontLike;
+	private String aboutMe;
+	private String icq;
+	private String msn;
+	private String yahoo;
+	private String aim;
+	private String jabber;
+	private String homepage;
+	private Image image;
 
 	/**
 	 * @param firstName
 	 *            the firstName to set
 	 */
-	
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -45,12 +65,12 @@ public class User implements Serializable {
 	public String getFirstName() {
 		return firstName;
 	}
-	
+
 	/**
 	 * @param lastName
 	 *            the firstName to set
 	 */
-	
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
@@ -61,12 +81,12 @@ public class User implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
-	
+
 	/**
 	 * @param street
 	 *            the street to set
 	 */
-	
+
 	public void setStreet(String street) {
 		this.street = street;
 	}
@@ -77,12 +97,12 @@ public class User implements Serializable {
 	public String getStreet() {
 		return street;
 	}
-	
+
 	/**
 	 * @param houseNumber
 	 *            the houseNumber to set
 	 */
-	
+
 	public void setHouseNumber(String number) {
 		this.houseNumber = number;
 	}
@@ -93,7 +113,7 @@ public class User implements Serializable {
 	public String getHouseNumber() {
 		return houseNumber;
 	}
-	
+
 	/**
 	 * @param zipCode
 	 *            the zipCode to set
@@ -108,7 +128,7 @@ public class User implements Serializable {
 	public String getZip() {
 		return zip;
 	}
-	
+
 	/**
 	 * @param city
 	 *            the city to set
@@ -123,12 +143,12 @@ public class User implements Serializable {
 	public String getCity() {
 		return city;
 	}
-	
+
 	/**
 	 * @param eMail
 	 *            the eMail to set
 	 */
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -139,6 +159,22 @@ public class User implements Serializable {
 	public String getEmail() {
 		return email;
 	}
+
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @return the password textField
+	 */
+	public String getPassword() {
+		return password;
+	}
+
 	/**
 	 * @param username
 	 *            the username to set
@@ -146,10 +182,251 @@ public class User implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	/**
 	 * @return the username textField
 	 */
 	public String getUsername() {
 		return username;
+	}
+
+	/**
+	 * @param gender
+	 *            the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the gender textField
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param birthdate
+	 *            the birthdate to set
+	 */
+	public void setBirthdate(Date date) {
+		this.birthdate = date;
+	}
+
+	/**
+	 * @return the birthdate textField
+	 */
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	/**
+	 * @param job
+	 *            the job to set
+	 */
+	public void setJob(String job) {
+		this.job = job;
+	}
+
+	/**
+	 * @return the job textField
+	 */
+	public String getJob() {
+		return job;
+	}
+
+	/**
+	 * @param hobbys
+	 *            the hobbys to set
+	 */
+	public void setHobbys(String hobbys) {
+		this.hobbys = hobbys;
+	}
+
+	/**
+	 * @return the hobby textArea
+	 */
+	public String getHobbys() {
+		return hobbys;
+	}
+
+	/**
+	 * @param music
+	 *            the music to set
+	 */
+	public void setMusic(String music) {
+		this.music = music;
+	}
+
+	/**
+	 * @return the music textArea
+	 */
+	public String getMusic() {
+		return music;
+	}
+
+	/**
+	 * @param movie
+	 *            the movie to set
+	 */
+	public void setMovie(String movie) {
+		this.movie = movie;
+	}
+
+	/**
+	 * @return the movie textArea
+	 */
+	public String getMovie() {
+		return movie;
+	}
+
+	/**
+	 * @param ilike
+	 *            the ilike to set
+	 */
+	public void setILike(String ilike) {
+		this.iLike = ilike;
+	}
+
+	/**
+	 * @return the ilike textArea
+	 */
+	public String getILike() {
+		return iLike;
+	}
+
+	/**
+	 * @param idontlike
+	 *            the idontlike to set
+	 */
+	public void setIDontLike(String idontlike) {
+		this.iDontLike = idontlike;
+	}
+
+	/**
+	 * @return the idontlike textArea
+	 */
+	public String getIDontLike() {
+		return iDontLike;
+	}
+
+	/**
+	 * @param aboutme
+	 *            the aboutme to set
+	 */
+	public void setAboutMe(String aboutme) {
+		this.aboutMe = aboutme;
+	}
+
+	/**
+	 * @return the aboutme textArea
+	 */
+	public String getAboutMe() {
+		return aboutMe;
+	}
+
+	/**
+	 * @param icq
+	 *            the icq to set
+	 */
+	public void setIcq(String icq) {
+		this.icq = icq;
+	}
+
+	/**
+	 * @return the icq textArea
+	 */
+	public String getIcq() {
+		return icq;
+	}
+
+	/**
+	 * @param msn
+	 *            the msn to set
+	 */
+	public void setMsn(String msn) {
+		this.msn = msn;
+	}
+
+	/**
+	 * @return the msn textArea
+	 */
+	public String getMsn() {
+		return msn;
+	}
+
+	/**
+	 * @param yahoo
+	 *            the yahoo to set
+	 */
+	public void setYahoo(String yahoo) {
+		this.yahoo = yahoo;
+	}
+
+	/**
+	 * @return the yahoo textArea
+	 */
+	public String getYahoo() {
+		return yahoo;
+	}
+
+	/**
+	 * @param aim
+	 *            the aim to set
+	 */
+	public void setAim(String aim) {
+		this.aim = aim;
+	}
+
+	/**
+	 * @return the aim textArea
+	 */
+	public String getAim() {
+		return aim;
+	}
+
+	/**
+	 * @param jabber
+	 *            the jabber to set
+	 */
+	public void setJabber(String jabber) {
+		this.jabber = jabber;;
+	}
+
+	/**
+	 * @return the jabber textArea
+	 */
+	public String getJabber() {
+		return jabber;
+	}
+	
+	/**
+	 * @param url
+	 *            the homepage to set
+	 */
+	public void setHomepage(String url) {
+		this.homepage = url;;
+	}
+
+	/**
+	 * @return the homepage textArea
+	 */
+	public String getHomepage() {
+		return homepage;
+	}
+	
+	/**
+	 * @param image
+	 *            the image to set
+	 */
+	public void setImage(Image image) {
+		this.image = image;;
+	}
+
+	/**
+	 * @return the homepage textArea
+	 */
+	public Image getImage() {
+		return image;
 	}
 }

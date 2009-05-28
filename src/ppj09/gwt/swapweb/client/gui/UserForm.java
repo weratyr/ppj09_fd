@@ -5,6 +5,8 @@ package ppj09.gwt.swapweb.client.gui;
  * Klasse User- Form ist zum ändern bzw. bearbeiten eines Profils 
  */
 
+import java.util.Date;
+
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
@@ -13,15 +15,23 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
+import com.gwtext.client.data.SimpleStore;
+import com.gwtext.client.data.Store;
+import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Component;
+import com.gwtext.client.widgets.CycleButton;
 import com.gwtext.client.widgets.DatePicker;
+import com.gwtext.client.widgets.SplitButton;
+import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.DateField;
 import com.gwtext.client.widgets.form.Field;
@@ -29,7 +39,6 @@ import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.NumberField;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.VType;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,8 +48,8 @@ import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 import com.gwtext.client.widgets.layout.ColumnLayoutData;
 import com.gwtext.client.widgets.form.TextArea;
 
-
 public class UserForm extends Composite implements View {
+	private User user;
 	private TextField txtbxFirstName;
 	private TextField txtbxLastName;
 	private TextField txtbxZip;
@@ -68,6 +77,20 @@ public class UserForm extends Composite implements View {
 	private TextField txtbxJob;
 	private TextArea txtbxHobbys;
 	private TextArea txtbxMusic;
+	private TextArea txtbxMovie;
+	private TextArea txtbxILike;
+	private TextArea txtbxIDontLike;
+	private TextArea txtbxAboutMe;
+	private TextField txtbxIcq;
+	private TextField txtbxYahoo;
+	private TextField txtbxMsn;
+	private TextField txtbxJabber;
+	private TextField txtbxHomepage;
+	private TextField txtbxAim;
+	private Button resetButton;
+	private Button submitButton;
+	private MultiFieldPanel panelButton;
+	private TextField imageUploader;
 
 	/**
 	 * Constructor
@@ -77,6 +100,8 @@ public class UserForm extends Composite implements View {
 	 */
 
 	public UserForm(User user) {
+		this.user = user;
+		
 		this.setFirstName(user.getFirstName());
 		this.setLastName(user.getLastName());
 		this.setStreet(user.getStreet());
@@ -85,10 +110,29 @@ public class UserForm extends Composite implements View {
 		this.setCity(user.getCity());
 		this.setUsername(user.getUsername());
 		this.setEmail(user.getEmail());
+		this.setGender(user.getGender());
+		this.setBirthdate(user.getBirthdate());
+		this.setJob(user.getJob());
+		this.setHomepage(user.getHomepage());
+		this.setHobbys(user.getHobbys());
+		this.setMusic(user.getMusic());
+		this.setMovie(user.getMovie());
+		this.setILike(user.getILike());
+		this.setIDontLike(user.getIDontLike());
+		this.setAboutMe(user.getAboutMe());
+		this.setIcq(user.getIcq());
+		this.setMsn(user.getMsn());
+		this.setYahoo(user.getYahoo());
+		this.setAim(user.getAim());
+		this.setJabber(user.getJabber());
+		this.setImage(user.getImage());
+
 	}
 
 	/**
 	 * testconstructor
+	 * 
+	 * @wbp.parser.constructor
 	 */
 	public UserForm() {
 		createForm();
@@ -119,11 +163,18 @@ public class UserForm extends Composite implements View {
 					absolutePanel.setSize("200", "200");
 
 					image = new Image();
-					absolutePanel.add(image, 100, 100);
+					image.setPixelSize(150, 150);
+					absolutePanel.add(image, 0, 0);
+
+					imageUploader = new TextField("File", "file");
+					imageUploader.setInputType("file");
+					absolutePanel.add(imageUploader, 0, 160);
+
 				}
 				{
 					formPanelTop = new FormPanel();
 					formPanelTop.setLabelAlign(Position.RIGHT);
+					formPanelTop.setFooter(true);
 					// formPanelTop.setBorder(false);
 					{
 						txtbxFirstName = new TextField("Vorname*",
@@ -222,31 +273,122 @@ public class UserForm extends Composite implements View {
 						txtbxEmail2.isValidateOnBlur();
 						formPanelTop.add(txtbxEmail2);
 
-						comboBoxGender = new ComboBox("Geschlecht ",
-								"combo_Box", 190);
+						final Store store = new SimpleStore(new String[] {
+								"geschlecht", "nr" }, new String[][] {
+								new String[] { "-", "0" },
+								new String[] { "M\u00E4nnlich", "1" },
+								new String[] { "Weiblich", "2" } });
+						store.load();
+
+						// TODO
+						comboBoxGender = new ComboBox();
+						comboBoxGender.setFieldLabel("Geschlecht");
+						comboBoxGender.setStore(store);
+						comboBoxGender.setAllowBlank(false);
+						comboBoxGender.setDisplayField("geschlecht");
+						comboBoxGender.setMode(ComboBox.LOCAL);
+						comboBoxGender.setTriggerAction(ComboBox.ALL);
+						comboBoxGender.setTypeAhead(true);
+						comboBoxGender.setEditable(false);
+						comboBoxGender.setSelectOnFocus(true);
+						comboBoxGender.setWidth(190);
+						comboBoxGender.setHideTrigger(false);
 						formPanelTop.add(comboBoxGender);
 
 						dateField = new DateField("Geburtstag ", "date_Field",
 								190);
 						formPanelTop.add(dateField);
 
-						txtbxJob = new TextField("Beruf ", "text_field",
-								190);
+						txtbxJob = new TextField("Beruf ", "text_field", 190);
 						txtbxJob.setSelectOnFocus(true);
-						txtbxJob.isValidateOnBlur(); 
+						txtbxJob.isValidateOnBlur();
 						formPanelTop.add(txtbxJob);
-						
+
+						txtbxHomepage = new TextField("Homepage ",
+								"text_field", 190);
+						txtbxHomepage.setSelectOnFocus(true);
+						formPanelTop.add(txtbxHomepage);
+
 						txtbxHobbys = new TextArea("Hobbys ", "text_field");
 						txtbxHobbys.setSize(190, 80);
 						txtbxHobbys.setSelectOnFocus(true);
-						txtbxHobbys.isValidateOnBlur(); 
+						txtbxHobbys.isValidateOnBlur();
 						formPanelTop.add(txtbxHobbys);
-						
-						txtbxMusic = new TextArea("Musikgeschmack ", "text_field");
+
+						txtbxMusic = new TextArea("Musikgeschmack ",
+								"text_field");
 						txtbxMusic.setSize(190, 80);
 						txtbxMusic.setSelectOnFocus(true);
-						txtbxMusic.isValidateOnBlur(); 
+						txtbxMusic.isValidateOnBlur();
 						formPanelTop.add(txtbxMusic);
+
+						txtbxMovie = new TextArea("Filmgeschmack ",
+								"text_field");
+						txtbxMovie.setSize(190, 80);
+						txtbxMovie.setSelectOnFocus(true);
+						txtbxMovie.isValidateOnBlur();
+						formPanelTop.add(txtbxMovie);
+
+						txtbxILike = new TextArea("Ich mag ", "text_field");
+						txtbxILike.setSize(190, 80);
+						txtbxILike.setSelectOnFocus(true);
+						txtbxILike.isValidateOnBlur();
+						formPanelTop.add(txtbxILike);
+
+						txtbxIDontLike = new TextArea("Ich mag nicht ",
+								"text_field");
+						txtbxIDontLike.setSize(190, 80);
+						txtbxIDontLike.setSelectOnFocus(true);
+						txtbxIDontLike.isValidateOnBlur();
+						formPanelTop.add(txtbxIDontLike);
+
+						txtbxAboutMe = new TextArea("&uuml;ber mich ",
+								"text_field");
+						txtbxAboutMe.setSize(190, 80);
+						txtbxAboutMe.setSelectOnFocus(true);
+						txtbxAboutMe.isValidateOnBlur();
+						formPanelTop.add(txtbxAboutMe);
+
+						txtbxIcq = new TextField("ICQ ", "text_field", 190);
+						txtbxIcq.setSelectOnFocus(true);
+						formPanelTop.add(txtbxIcq);
+
+						txtbxMsn = new TextField("MSN ", "text_field", 190);
+						txtbxMsn.setSelectOnFocus(true);
+						formPanelTop.add(txtbxMsn);
+
+						txtbxYahoo = new TextField("Yahoo ", "text_field", 190);
+						txtbxYahoo.setSelectOnFocus(true);
+						formPanelTop.add(txtbxYahoo);
+
+						txtbxAim = new TextField("AIM ", "text_field", 190);
+						txtbxAim.setSelectOnFocus(true);
+						formPanelTop.add(txtbxAim);
+
+						txtbxJabber = new TextField("Jabber ", "text_field",
+								190);
+						txtbxJabber.setSelectOnFocus(true);
+						formPanelTop.add(txtbxJabber);
+
+						resetButton = new Button("Abbrechen");
+						resetButton.setFormBind(true);
+						resetButton.addListener(new ButtonListenerAdapter() {
+							public void onClick(Button button, EventObject e) {
+								// TODO
+							}
+
+						});
+
+						submitButton = new Button("Speichern");
+						submitButton.setFormBind(true);
+
+						panelButton = new MultiFieldPanel();
+						panelButton.addToRow(resetButton, 160);
+						panelButton.addToRow(submitButton,
+								new ColumnLayoutData(1));
+						panelButton.setBorder(false);
+						formPanelTop.add(panelButton);
+
 					}
 					horizontalPanel.add(formPanelTop);
 				}
@@ -261,6 +403,23 @@ public class UserForm extends Composite implements View {
 				verticalPanel.add(formPanelBottom);
 			}
 		}
+	}
+
+	public void fillUser() {
+		user.setFirstName(getFirstName());
+		user.setLastName(getLastName());
+		user.setStreet(getStreet());
+		user.setHouseNumber(getHouseNumber());
+		user.setZip(getZip());
+		user.setCity(getCity());
+		user.setUsername(getUsername());
+		user.setEmail(getEmail());
+		user.setGender(getGender());
+		user.setBirthdate(getBirthday());
+		user.setJob(getJob());
+		user.setHomepage(getHomepage());
+		user.setHobbys(getHobbys());
+		user.setMusic(getMusic());
 	}
 
 	/**
@@ -418,5 +577,247 @@ public class UserForm extends Composite implements View {
 	 */
 	public String getUsername() {
 		return this.txtbxUsername.getText();
+	}
+
+	/**
+	 * @param username
+	 *            the username to set
+	 */
+	public void setGender(String gender) {
+		// TODO
+	}
+
+	/**
+	 * @return the username textField
+	 */
+	public String getGender() {
+		// TODO
+		return "";
+	}
+
+	/**
+	 * @param birthdate
+	 *            the birthdate to set
+	 */
+	public void setBirthdate(Date date) {
+		dateField.setValue(date);
+	}
+
+	/**
+	 * @return the birthdate textField
+	 */
+	public Date getBirthday() {
+		return dateField.getValue();
+	}
+
+	/**
+	 * @param job
+	 *            the job to set
+	 */
+	public void setJob(String job) {
+		this.txtbxJob.setRawValue(job);
+	}
+
+	/**
+	 * @return the job textField
+	 */
+	public String getJob() {
+		return txtbxJob.getText();
+	}
+
+	/**
+	 * @param hobbys
+	 *            the hobbys to set
+	 */
+	public void setHobbys(String hobbys) {
+		this.txtbxHobbys.setRawValue(hobbys);
+	}
+
+	/**
+	 * @return the hobby textArea
+	 */
+	public String getHobbys() {
+		return txtbxHobbys.getText();
+	}
+
+	/**
+	 * @param music
+	 *            the music to set
+	 */
+	public void setMusic(String music) {
+		this.txtbxMusic.setRawValue(music);
+	}
+
+	/**
+	 * @return the music textArea
+	 */
+	public String getMusic() {
+		return txtbxMusic.getText();
+	}
+
+	/**
+	 * @param movie
+	 *            the movie to set
+	 */
+	public void setMovie(String movie) {
+		this.txtbxMovie.setRawValue(movie);
+	}
+
+	/**
+	 * @return the movie textArea
+	 */
+	public String getMovie() {
+		return txtbxMovie.getText();
+	}
+
+	/**
+	 * @param ilike
+	 *            the ilike to set
+	 */
+	public void setILike(String ilike) {
+		this.txtbxILike.setRawValue(ilike);
+	}
+
+	/**
+	 * @return the ilike textArea
+	 */
+	public String getILike() {
+		return txtbxILike.getText();
+	}
+
+	/**
+	 * @param idontlike
+	 *            the idontlike to set
+	 */
+	public void setIDontLike(String idontlike) {
+		this.txtbxIDontLike.setRawValue(idontlike);
+	}
+
+	/**
+	 * @return the idontlike textArea
+	 */
+	public String getIDontLike() {
+		return txtbxIDontLike.getText();
+	}
+
+	/**
+	 * @param aboutme
+	 *            the aboutme to set
+	 */
+	public void setAboutMe(String aboutme) {
+		this.txtbxAboutMe.setRawValue(aboutme);
+	}
+
+	/**
+	 * @return the aboutme textArea
+	 */
+	public String getAboutMe() {
+		return txtbxAboutMe.getText();
+	}
+
+	/**
+	 * @param icq
+	 *            the icq to set
+	 */
+	public void setIcq(String icq) {
+		this.txtbxIcq.setRawValue(icq);
+	}
+
+	/**
+	 * @return the icq textArea
+	 */
+	public String getIcq() {
+		return txtbxIcq.getText();
+	}
+
+	/**
+	 * @param msn
+	 *            the msn to set
+	 */
+	public void setMsn(String msn) {
+		this.txtbxMsn.setRawValue(msn);
+	}
+
+	/**
+	 * @return the msn textArea
+	 */
+	public String getMsn() {
+		return txtbxMsn.getText();
+	}
+
+	/**
+	 * @param yahoo
+	 *            the yahoo to set
+	 */
+	public void setYahoo(String yahoo) {
+		this.txtbxYahoo.setRawValue(yahoo);
+	}
+
+	/**
+	 * @return the yahoo textArea
+	 */
+	public String getYahoo() {
+		return txtbxYahoo.getText();
+	}
+
+	/**
+	 * @param aim
+	 *            the aim to set
+	 */
+	public void setAim(String aim) {
+		this.txtbxAim.setRawValue(aim);
+	}
+
+	/**
+	 * @return the aim textArea
+	 */
+	public String getAim() {
+		return txtbxAim.getText();
+	}
+
+	/**
+	 * @param jabber
+	 *            the jabber to set
+	 */
+	public void setJabber(String jabber) {
+		this.txtbxJabber.setRawValue(jabber);
+	}
+
+	/**
+	 * @return the jabber textArea
+	 */
+	public String getJabber() {
+		return txtbxJabber.getText();
+	}
+
+	/**
+	 * @param url
+	 *            the homepage to set
+	 */
+	public void setHomepage(String url) {
+		this.txtbxHomepage.setRawValue(url);
+	}
+
+	/**
+	 * @return the homepage textArea
+	 */
+	public String getHomepage() {
+		return txtbxHomepage.getText();
+	}
+
+	/**
+	 * @param image
+	 *            the image to set
+	 */
+	public void setImage(Image image) {
+		// TODO
+	}
+
+	/**
+	 * @return the homepage textArea
+	 */
+	public Image getImage() {
+		return image;
+		// TODO
 	}
 }
