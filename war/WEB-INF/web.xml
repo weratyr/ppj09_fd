@@ -24,14 +24,5 @@
     <url-pattern>/swapweb/gagaga</url-pattern>
   </servlet-mapping>
   
-  <servlet> 
-     <servlet-name>userRegistrationServlet</servlet-name> 
-     <servlet-class>ppj09.gwt.swapweb.server.UserManagerImpl</servlet-class> 
-   </servlet> 
-   
-   <servlet-mapping>
-    <servlet-name>userRegistrationServlet</servlet-name>
-    <url-pattern>/swapweb/userRegistration</url-pattern>
-  </servlet-mapping>
 
 </web-app>

@@ -420,6 +420,9 @@ public class UserForm extends Composite implements View {
 		user.setHomepage(getHomepage());
 		user.setHobbys(getHobbys());
 		user.setMusic(getMusic());
+		user.setMovie(getMovie());
+		user.setILike(getILike());
+		user.setIDontLike(getIDontLike());
 	}
 
 	/**
