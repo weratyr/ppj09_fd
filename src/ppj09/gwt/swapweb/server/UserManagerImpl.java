@@ -37,7 +37,7 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 	 * return = 0 -> KOMBINATION user, pwHash nicht vorhanden - nicht angemeldet
 	 * return = 1 -> OK - user erfolgreich angemeldet
 	 */
-	public int loginRequest(String user, String pwHash) {
+	public boolean loginRequest(String user, String pwHash) {
 		// TODO Auto-generated method stub
 	    
 		return db.loginRequest(user, pwHash);
@@ -55,5 +55,10 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 	public boolean checkUsername(String username) {
 		// TODO Auto-generated method stub
 		return db.checkUsername(username);
+	}
+
+	public User getUser(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

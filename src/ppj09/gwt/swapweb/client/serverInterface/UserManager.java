@@ -22,7 +22,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("UserManager")
 public interface UserManager extends RemoteService {
-	public int loginRequest(String user, String pwHash);
+	public boolean loginRequest(String user, String pwHash);
 	public int createUser(User newUser);
 	public boolean checkUsername(String username);
+	public User getUser(String username);
 }

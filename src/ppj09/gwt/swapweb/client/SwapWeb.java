@@ -145,7 +145,7 @@ public class SwapWeb implements EntryPoint {
 			articleSearchResultView = new ArticleSearchResultListView();
 			articleView = new ArticleView();
 			userView = new UserView();
-			userForm = new UserForm();
+			userForm = new UserForm("hallo");
 		}
 
 		/**

@@ -93,18 +93,18 @@ public class DataBankerQueries {
 	 * return = 0 -> KOMBINATION user, pwHash nicht vorhanden - nicht angemeldet
 	 * return = 1 -> OK - user erfolgreich angemeldet
 	 */
-	public int loginRequest(String user, String pwHash) {
-       int exist = 0;
+	public boolean loginRequest(String user, String pwHash) {
+       boolean exist = false;
        ResultSet rs = null;
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT * FROM user WHERE userid='"+user+"' AND password='"+pwHash+"'";
+	    String query = "SELECT * FROM user WHERE userid='"+user+"' AND pwd='"+pwHash+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
 	    	while (rs.next()) {
-				exist = 1;
+				exist = true;
 			}
 			
 			rs.close();
@@ -113,7 +113,7 @@ public class DataBankerQueries {
 			dbc.closeStatement();
 	    	
 	    } catch (SQLException e) {
-	    	return 0;
+	    	return false;
 	    	//e.printStackTrace();
 	    }
 		return exist;

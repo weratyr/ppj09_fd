@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.BlurEvent;
+import com.gwtext.client.widgets.MessageBox;
 
 /**
  * Formularfelder und Submit des Login. Der Benutzer hat die Mšglichkeit, seine
@@ -64,8 +65,7 @@ public class LoginForm extends Composite implements Form {
 	 */
 	public LoginForm() {
 		{
-			
-			
+
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
 			verticalPanel.setSize("550", "80");
@@ -78,16 +78,15 @@ public class LoginForm extends Composite implements Form {
 					absolutePanel_1.add(usernameTextBox, 5, 0);
 					usernameTextBox.addBlurHandler(new BlurHandler() {
 						public void onBlur(BlurEvent event) {
-							if (usernameTextBox.getText().equals(
-									"")) {
+							if (usernameTextBox.getText().equals("")) {
 								usernameTextBox.setText("Benutzername");
 							}
 						}
 					});
 					usernameTextBox.addFocusHandler(new FocusHandler() {
 						public void onFocus(FocusEvent event) {
-							if (usernameTextBox.getText().equals(
-									"Benutzername")) {
+							if (usernameTextBox.getText()
+									.equals("Benutzername")) {
 								usernameTextBox.setText("");
 							}
 						}
@@ -96,16 +95,22 @@ public class LoginForm extends Composite implements Form {
 				}
 				{
 					loginButton = new Button("New button");
+					loginButton.addClickHandler(new ClickHandler() {
+						public void onClick(ClickEvent event) {
+							submit();
+						}
+					});
 					absolutePanel_1.add(loginButton, 333, 0);
 					loginButton.setText("Login");
 				}
 				{
-					passwordLostHyperlink = new Hyperlink("New hyperlink", false,
-							"newHistoryToken");
+					passwordLostHyperlink = new Hyperlink("New hyperlink",
+							false, "newHistoryToken");
 					absolutePanel_1.add(passwordLostHyperlink, 390, 3);
 					passwordLostHyperlink.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
-							absolutePanel.setVisible(!absolutePanel.isVisible());
+							absolutePanel
+									.setVisible(!absolutePanel.isVisible());
 						}
 					});
 					passwordLostHyperlink.setText("Passwort vergessen");
@@ -114,13 +119,12 @@ public class LoginForm extends Composite implements Form {
 					pswrdtxtbxPasswort = new PasswordTextBox();
 					pswrdtxtbxPasswort.addBlurHandler(new BlurHandler() {
 						public void onBlur(BlurEvent event) {
-							if (pswrdtxtbxPasswort.getText().equals(
-									"")) {
+							if (pswrdtxtbxPasswort.getText().equals("")) {
 								passwordTextBox.setVisible(true);
 							}
 						}
 					});
-					
+
 					usernameTextBox.setText("Benutzername");
 					absolutePanel_1.add(pswrdtxtbxPasswort, 170, 0);
 				}
@@ -147,8 +151,7 @@ public class LoginForm extends Composite implements Form {
 					pwLostUsernameTextBox.setText("Benutzername");
 					pwLostUsernameTextBox.addBlurHandler(new BlurHandler() {
 						public void onBlur(BlurEvent event) {
-							if (pwLostUsernameTextBox.getText().equals(
-									"")) {
+							if (pwLostUsernameTextBox.getText().equals("")) {
 								pwLostUsernameTextBox.setText("Benutzername");
 							}
 						}
@@ -168,16 +171,14 @@ public class LoginForm extends Composite implements Form {
 					pwLostEmailTextBox.setText("eMail");
 					pwLostEmailTextBox.addBlurHandler(new BlurHandler() {
 						public void onBlur(BlurEvent event) {
-							if (pwLostEmailTextBox.getText().equals(
-									"")) {
+							if (pwLostEmailTextBox.getText().equals("")) {
 								pwLostEmailTextBox.setText("eMail");
 							}
 						}
 					});
 					pwLostEmailTextBox.addFocusHandler(new FocusHandler() {
 						public void onFocus(FocusEvent event) {
-							if (pwLostEmailTextBox.getText().equals(
-									"eMail")) {
+							if (pwLostEmailTextBox.getText().equals("eMail")) {
 								pwLostEmailTextBox.setText("");
 							}
 						}
@@ -186,6 +187,7 @@ public class LoginForm extends Composite implements Form {
 				{
 					pwLostButton = new Button();
 					absolutePanel.add(pwLostButton, 333, 0);
+					
 					pwLostButton.setText("Passwort an mich senden");
 				}
 			}
@@ -198,22 +200,28 @@ public class LoginForm extends Composite implements Form {
 	 * Rueckmeldung
 	 */
 	public boolean submit() {
-		if (Validation.validateLoginForm(this)) {
 			// Sende Daten an Server
-			userManager.loginRequest("Test", "123",
-					new AsyncCallback<Integer>() {
+		System.out.println("test");
+
+			String username = usernameTextBox.getText();
+			String password = pswrdtxtbxPasswort.getText();
+			userManager.loginRequest(username, password,
+					new AsyncCallback<Boolean>() {
 						public void onFailure(Throwable caught) {
 							// :(
 						}
 
-						public void onSuccess(Integer serverMsg) {
+						public void onSuccess(Boolean serverMsg) {
 							// :)
+							if (serverMsg)
+								System.out.println("Eingeloggt");
+							else
+								System.out.println("Benutzername oder Passwort falsch");
+
 						}
+						
 					});
 			return true;
-		} else {
-			// Hinweis auf Fehler im Formular
-			return false;
-		}
+	
 	}
 }

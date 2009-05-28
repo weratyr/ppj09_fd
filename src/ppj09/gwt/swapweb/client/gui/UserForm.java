@@ -95,50 +95,18 @@ public class UserForm extends Composite implements View {
 	/**
 	 * Constructor
 	 * 
-	 * @param user
-	 *            object
-	 */
-
-	public UserForm(User user) {
-		this.user = user;
-
-		this.setFirstName(user.getFirstName());
-		this.setLastName(user.getLastName());
-		this.setStreet(user.getStreet());
-		this.setHouseNumber(user.getHouseNumber());
-		this.setZip(user.getZip());
-		this.setCity(user.getCity());
-		this.setUsername(user.getUsername());
-		this.setEmail(user.getEmail());
-		this.setGender(user.getGender());
-		this.setBirthdate(user.getBirthdate());
-		this.setJob(user.getJob());
-		this.setHomepage(user.getHomepage());
-		this.setHobbys(user.getHobbys());
-		this.setMusic(user.getMusic());
-		this.setMovie(user.getMovie());
-		this.setILike(user.getILike());
-		this.setIDontLike(user.getIDontLike());
-		this.setAboutMe(user.getAboutMe());
-		this.setIcq(user.getIcq());
-		this.setMsn(user.getMsn());
-		this.setYahoo(user.getYahoo());
-		this.setAim(user.getAim());
-		this.setJabber(user.getJabber());
-		this.setImage(user.getImage());
-
-	}
-
-	/**
-	 * testconstructor
+	 * @param username
 	 * 
-	 * @wbp.parser.constructor
 	 */
-	public UserForm() {
+
+	public UserForm(String username) {
+
+		getuser(username);
 		createForm();
-		setFirstName("test");
-		setUsername("blabla");
+
 	}
+
+
 
 	public void createForm() {
 		{
@@ -405,8 +373,62 @@ public class UserForm extends Composite implements View {
 		}
 	}
 
-	public void validate() {
+	private void getuser(String username) {
+		UserManagerAsync userManager = GWT.create(UserManager.class);
+		System.out.println("test1");
+
+		userManager.getUser(username, new AsyncCallback<User>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				Window.alert("fehler");
+
+			}
+
+			public void onSuccess(User user) {
+				// :)
+				System.out.println("test2");
+
+				fillForm(user);
+			}
+		});
+	}
+
+	public void fillForm(User user) {
+		System.out.println("test332423");
+
 		
+		
+		
+		this.setFirstName(user.getFirstName());
+		this.setLastName(user.getLastName());
+		this.setStreet(user.getStreet());
+		this.setHouseNumber(user.getHouseNumber());
+		this.setZip(user.getZip());
+		this.setCity(user.getCity());
+		this.setUsername(user.getUsername());
+		this.setEmail(user.getEmail());
+		this.setGender(user.getGender());
+		this.setBirthdate(user.getBirthdate());
+		this.setJob(user.getJob());
+		this.setHomepage(user.getHomepage());
+		this.setHobbys(user.getHobbys());
+		this.setMusic(user.getMusic());
+		this.setMovie(user.getMovie());
+		this.setILike(user.getILike());
+		this.setIDontLike(user.getIDontLike());
+		this.setAboutMe(user.getAboutMe());
+		this.setIcq(user.getIcq());
+		this.setMsn(user.getMsn());
+		this.setYahoo(user.getYahoo());
+		this.setAim(user.getAim());
+		this.setJabber(user.getJabber());
+		this.setImage(user.getImage());
+		System.out.println("test3");
+
+	}
+
+	public void validate() {
+
 	}
 
 	public void fillUser() {
