@@ -8,8 +8,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * The server side implementation of the RPC service.
  */
-@SuppressWarnings("serial")
 public class UserManagerImpl extends RemoteServiceServlet implements UserManager {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	DataBankerQueries db = new DataBankerQueries(); 
 	/**

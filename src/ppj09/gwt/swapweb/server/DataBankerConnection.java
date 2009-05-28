@@ -11,9 +11,12 @@ import java.sql.Statement;
 
 public class DataBankerConnection {
 	
-	private String dbUrl = "jdbc:mysql://localhost:3306/onlineswapdb";
-	private String username = "root";
-	private String pwd = "";
+//	private String dbUrl = "jdbc:mysql://localhost:3306/onlineswapdb";
+//	private String username = "root";
+//	private String pwd = "";
+	private String dbUrl = "jdbc:mysql://db4free.net:3306/onlineswapdb";
+	private String username = "fuldaprojekt";
+	private String pwd = "fuldaprojekt";
 	
 	private Connection con = null;
 	Statement stmt = null;
