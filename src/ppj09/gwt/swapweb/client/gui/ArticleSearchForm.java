@@ -21,6 +21,7 @@ import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -64,16 +65,52 @@ public class ArticleSearchForm extends Composite implements Form {
 	private Label resultLabel;
 	private UserSearchForm userSearchForm;
 	private VerticalPanel searchResultPanel;
+	private TextBox SearchtextBox;
+	private Button SearchButton;
+	private ListBox categoryComboBoxQuckSearch;
+	private Hyperlink advancedSearchHyperlink;
 
 	public ArticleSearchForm() {
 
+		VerticalPanel container = new VerticalPanel();
+		initWidget(container);
+
+		HorizontalPanel searchPanel = new HorizontalPanel();
+		searchPanel.setSpacing(8);
+		SearchtextBox = new TextBox();
+		searchPanel.add(SearchtextBox);
+		
+		categoryComboBoxQuckSearch = new ListBox();
+		searchPanel.add(categoryComboBoxQuckSearch);
+		categoryComboBoxQuckSearch.addItem("Kategorie");
+		categoryComboBoxQuckSearch.setSize("120", "");
+		container.add(searchPanel);
+		
+		SearchButton = new Button("Suche");
+		searchPanel.add(SearchButton);
+		SearchButton.setHeight("22");
+
+		advancedSearchHyperlink = new Hyperlink("New hyperlink",
+				false, "newHistoryToken");
+		searchPanel.add(advancedSearchHyperlink);
+		advancedSearchHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				tabPanel.setVisible(!tabPanel.isVisible());
+				
+			}
+		});
+		advancedSearchHyperlink.setText("erweiterte Suche");
+		
+		
 		tabPanel = new TabPanel();
-		initWidget(tabPanel);
+		tabPanel.setVisible(false);
+		container.add(tabPanel);
 		{
 			absolutePanel = new AbsolutePanel();
 			tabPanel.add(absolutePanel, "Artikelsuche", false);
 			tabPanel.selectTab(0);
 			absolutePanel.setSize("600px", "450");
+
 			{
 				searchqueryLabel = new Label("Suchbegriff oder Tauschnummer:");
 				absolutePanel.add(searchqueryLabel, 5, 5);
@@ -151,21 +188,27 @@ public class ArticleSearchForm extends Composite implements Form {
 					public void onClick(ClickEvent event) {
 						System.out.println("gedrückt");
 						/**
-						 * TODO erstellt aus den Formulardaten ein ArticleSearch 
-						 * Objekt und übergibt es per RPC an SearchHandler.search()
+						 * TODO erstellt aus den Formulardaten ein ArticleSearch
+						 * Objekt und übergibt es per RPC an
+						 * SearchHandler.search()
 						 */
-						SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-						searchHandler.search(new ArticleSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
-							public void onFailure(Throwable caught) {
-								System.out.println("neeee: ");
-							}
-							public void onSuccess(ArrayList<SearchResult> results) {
-								System.out.println("neeee: ");
-								for (SearchResult r : results) {
-									searchResultPanel.add((Widget) r.getView());
-								}
-							}
-						});
+						SearchHandlerAsync searchHandler = GWT
+								.create(SearchHandler.class);
+						searchHandler.search(new ArticleSearchQuery(),
+								new AsyncCallback<ArrayList<SearchResult>>() {
+									public void onFailure(Throwable caught) {
+										System.out.println("neeee: ");
+									}
+
+									public void onSuccess(
+											ArrayList<SearchResult> results) {
+										System.out.println("neeee: ");
+										for (SearchResult r : results) {
+											searchResultPanel.add((Widget) r
+													.getView());
+										}
+									}
+								});
 					}
 				});
 

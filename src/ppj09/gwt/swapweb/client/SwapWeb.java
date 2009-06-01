@@ -49,8 +49,6 @@ public class SwapWeb implements EntryPoint {
 	private DisclosurePanel disclosurePanelMy;
 	private DisclosurePanel disclosurePanelKate;
 	private Tree categoryTree;
-	private TextBox SearchtextBox;
-	private Button SearchButton;
 	private HorizontalPanel HeaderPanel;
 	private HorizontalPanel contentPanel;
 	private TreeItem autoTreeItem;
@@ -106,15 +104,17 @@ public class SwapWeb implements EntryPoint {
 
 		VerticalPanel nordTabPanel = new VerticalPanel();
 		nordTabPanel.setWidth("100%");
-
 		dockPanel.add(nordTabPanel, DockPanel.NORTH);
 
+		
+		
 		tabPanel = new TabPanel();
 		tabPanel.setWidth("100%");
 		nordTabPanel.add(tabPanel);
-
+		
 		articleSearchForm = new ArticleSearchForm();
 		tabPanel.add(articleSearchForm, "Ich suche", false);
+	
 
 		tabPanel.selectTab(0);
 
