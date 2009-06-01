@@ -7,6 +7,8 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -30,27 +32,27 @@ public class ArticleSearchResultListView extends Composite {
 	private Label searchResultsForLabel_2;
 	public ArticleSearchResultListView() {
 		{
-			verticalPanel = new VerticalPanel();
-			initWidget(verticalPanel);
-			verticalPanel.setWidth("650");
+//			verticalPanel = new VerticalPanel();
+//			initWidget(verticalPanel);
+//			verticalPanel.setWidth("650");
 			{
-				horizontalPanel = new HorizontalPanel();
-				verticalPanel.add(horizontalPanel);
-				horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-				horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+//				horizontalPanel = new HorizontalPanel();
+//				verticalPanel.add(horizontalPanel);
+//				horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+//				horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 				{
 					searchResultsForLabel = new Label("Suchergebnisse f\u00FCr \"");
-					horizontalPanel.add(searchResultsForLabel);
+					SwapWeb.getContenPanel().add(searchResultsForLabel);
 					searchResultsForLabel.setHeight("25");
 				}
 				{
 					searchQueryLabel = new Label("New label");
-					horizontalPanel.add(searchQueryLabel);
+					SwapWeb.getContenPanel().add(searchQueryLabel);
 					searchQueryLabel.setHeight("25");
 				}
 				{
 					searchResultsForLabel_2 = new Label(" \"");
-					horizontalPanel.add(searchResultsForLabel_2);
+					SwapWeb.getContenPanel().add(searchResultsForLabel_2);
 					searchResultsForLabel_2.setHeight("25");
 				}
 			}

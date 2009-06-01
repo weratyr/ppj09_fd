@@ -63,6 +63,7 @@ public class ArticleForm extends Composite implements View {
 				formPanel.setLabelWidth(250);
 				formPanel.setBorder(false);
 				formPanel.setFooter(true);
+				formPanel.setWidth(480);
 				{
 					txtbxName = new TextField("Artikelname*", "text_field", 190);
 					formPanel.add(txtbxName);

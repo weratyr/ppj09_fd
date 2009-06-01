@@ -212,7 +212,7 @@ public class ArticleSearchForm extends Composite implements Form {
 					}
 				});
 
-				resultButton.setText("gagaga");
+				resultButton.setText("Ergebnisse anzeigen");
 			}
 			{
 				resultLabel = new Label("5 Artikel gefunden");

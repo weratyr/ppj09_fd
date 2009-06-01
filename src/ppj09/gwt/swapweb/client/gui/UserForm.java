@@ -143,6 +143,8 @@ public class UserForm extends Composite implements View {
 					formPanelTop = new FormPanel();
 					formPanelTop.setLabelAlign(Position.RIGHT);
 					formPanelTop.setFooter(true);
+					formPanelTop.setWidth(470);
+					formPanelTop.setBorder(false);
 					// formPanelTop.setBorder(false);
 					{
 						txtbxFirstName = new TextField("Vorname*",
@@ -361,15 +363,7 @@ public class UserForm extends Composite implements View {
 					horizontalPanel.add(formPanelTop);
 				}
 			}
-			{
-				FormPanel formPanelBottom = new FormPanel();
-				{
-					TextField textField = new TextField("New text field",
-							"text_field", 100);
-					formPanelBottom.add(textField);
-				}
-				verticalPanel.add(formPanelBottom);
-			}
+
 		}
 	}
 

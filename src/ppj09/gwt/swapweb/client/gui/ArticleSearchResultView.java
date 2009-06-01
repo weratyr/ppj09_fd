@@ -1,5 +1,6 @@
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 
@@ -24,7 +25,6 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 	private AbsolutePanel absolutePanel;
 	private Image articleImage;
 	private Label userLabel;
-	private Label articleTitle;
 	private Hyperlink articlenameHyperlink;
 	private Label shippingLabel;
 	private Hyperlink userHyperlink;
@@ -44,31 +44,31 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 				absolutePanel.setSize("650", "90");
 				{
 					articleImage = new Image(null);
-					absolutePanel.add(articleImage, 5, 5);
+					SwapWeb.getContenPanel().add(articleImage);
 					articleImage.setSize("80", "80");
 				}
 				{
 					userLabel = new Label("Benutzer:");
-					absolutePanel.add(userLabel, 105, 40);
+					SwapWeb.getContenPanel().add(userLabel);
 				}
 				{
 					articlenameHyperlink = new Hyperlink(this.searchResult.getTitle(), false, "newHistoryToken");
-					absolutePanel.add(articlenameHyperlink, 100, 5);
+					SwapWeb.getContenPanel().add(articlenameHyperlink);
 					articlenameHyperlink.setWidth("400");
 				}
 				{
 					shippingLabel = new Label("Versand:");
-					absolutePanel.add(shippingLabel, 105, 60);
+					SwapWeb.getContenPanel().add(shippingLabel);
 				}
 				{
 					userHyperlink = new Hyperlink(this.searchResult.getUserName(), false,
 							"newHistoryToken");
-					absolutePanel.add(userHyperlink, 180, 40);
+					SwapWeb.getContenPanel().add(userHyperlink);
 					userHyperlink.setWidth("300");
 				}
 				{
 					shippingLabel_1 = new Label("New label");
-					absolutePanel.add(shippingLabel_1, 180, 60);
+					SwapWeb.getContenPanel().add(shippingLabel_1);
 					shippingLabel_1.setWidth("300");
 				}
 			}

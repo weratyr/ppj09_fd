@@ -92,7 +92,7 @@ public class ArticleView extends Composite implements View {
 
 			initWidget(dockPanel);
 
-			dockPanel.setSize("650px", "700px");
+			dockPanel.setSize("650px", "400px");
 
 			{
 
