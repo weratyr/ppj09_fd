@@ -7,7 +7,18 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
-import com.google.gwt.user.client.ui.Composite;
+import java.util.ArrayList;
+
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.SearchResult;
+import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
+import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -16,6 +27,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
@@ -51,6 +65,7 @@ public class UserSearchForm extends Composite implements Form {
 	private Label filmLabel;
 	private CheckBox activeUsersChckbx;
 	private CheckBox pictureUsersChckbx;
+	private VerticalPanel searchResultPanel;
 
 	public UserSearchForm() {
 		{
@@ -60,13 +75,35 @@ public class UserSearchForm extends Composite implements Form {
 			{
 				resultsButton = new Button("New button");
 				absolutePanel.add(resultsButton, 333, 213);
+				searchResultPanel = new VerticalPanel();
+				absolutePanel.add(searchResultPanel, 5, 160);
 				resultsButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						// TODO
-					}
-				});
-				resultsButton.setSize("150px", "25");
-				resultsButton.setText("Ergebnisse Anzeigen");
+							System.out.println("gedrückt");
+							/**
+							 * TODO erstellt aus den Formulardaten ein ArticleSearch 
+							 * Objekt und übergibt es per RPC an SearchHandler.search()
+							 */
+							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+							searchHandler.search(new ArticleSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
+								public void onFailure(Throwable caught) {
+									System.out.println("neeee: ");
+								}
+								public void onSuccess(ArrayList<SearchResult> results) {
+									System.out.println("neeee: ");
+									for (SearchResult r : results) {
+										searchResultPanel.add((Widget) r.getView());
+										
+									}
+
+								}
+							});
+						}
+					});
+
+					resultsButton.setText("gagaga");
+					resultsButton.setSize("150px", "25");
+					resultsButton.setText("Ergebnisse Anzeigen");
 			}
 			{
 				usernameLabel = new Label("Benutzer:");
@@ -182,6 +219,10 @@ public class UserSearchForm extends Composite implements Form {
 				absolutePanel.add(resultLabel, 333, 190);
 				resultLabel.setWidth("150");
 			}
+			{
+				searchResultPanel = new VerticalPanel();
+				absolutePanel.add(searchResultPanel, 5, 160);
+			}
 		}
 	}
 
@@ -190,7 +231,9 @@ public class UserSearchForm extends Composite implements Form {
 	 * wartet auf Rueckmeldung
 	 */
 	public boolean submit() {
-		// TODO Auto-generated method stub
-		return false;
+
+	return true;
 	}
+
 }
+

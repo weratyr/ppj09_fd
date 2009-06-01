@@ -157,9 +157,10 @@ public class ArticleSearchForm extends Composite implements Form {
 						SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 						searchHandler.search(new ArticleSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
 							public void onFailure(Throwable caught) {
-								System.out.println("neeee: " + caught.getMessage());
+								System.out.println("neeee: ");
 							}
 							public void onSuccess(ArrayList<SearchResult> results) {
+								System.out.println("neeee: ");
 								for (SearchResult r : results) {
 									searchResultPanel.add((Widget) r.getView());
 								}

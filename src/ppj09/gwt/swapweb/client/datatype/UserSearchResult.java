@@ -19,8 +19,11 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  */
 public class UserSearchResult implements SearchResult,Serializable {
 	private String userName;
+	private String userPicture;
+	
 	public UserSearchResult(User user) {
-		
+		this.userName = user.getUsername();
+		this.userPicture = user.getImage();
 	}
 	
 	public UserSearchResult(String string, String string2) {
