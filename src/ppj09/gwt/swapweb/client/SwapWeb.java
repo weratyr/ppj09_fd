@@ -1,15 +1,15 @@
 package ppj09.gwt.swapweb.client;
 
-import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.gui.*;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
+
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -51,8 +51,8 @@ public class SwapWeb implements EntryPoint {
 	private Tree categoryTree;
 	private TextBox SearchtextBox;
 	private Button SearchButton;
-	private AbsolutePanel absolutePanel;
-	private AbsolutePanel absolutePanel_1;
+	private HorizontalPanel HeaderPanel;
+	private HorizontalPanel contentPanel;
 	private TreeItem autoTreeItem;
 	private TreeItem computerTreeItem;
 	private TreeItem gardenTreeItem;
@@ -62,7 +62,7 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink insertArticleHyperlink;
 	private Hyperlink myRatingsHyperlink;
 	private Hyperlink myMessagesHyperlink;
-	private HomeView homeView;
+	
 	private HelpView helpView;
 	private VerticalPanel verticalPanel;
 	private TabPanel tabPanel;
@@ -78,7 +78,6 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink testProfileFormHyperlink;
 	private Hyperlink testArticleFormHyperlink;
 
-
 	/**
 	 * Die EntryPoin Methode
 	 */
@@ -86,82 +85,77 @@ public class SwapWeb implements EntryPoint {
 
 		rootPanel = RootPanel.get();
 
-		/**
+		/*
 		 * Hauptfenster mit DockPanel, Image, TabPanel
 		 */
 
 		dockPanel = new DockPanel();
+		dockPanel.setSize("100%", "100%");
+		// dockPanel.setBorderWidth(2);
 		rootPanel.add(dockPanel);
 
-		/**
+		/*
 		 * NORTH
 		 */
-		absolutePanel = new AbsolutePanel();
-		dockPanel.add(absolutePanel, DockPanel.NORTH);
-		absolutePanel.setHeight("100");
-//
-//		image = new Image();
-//		absolutePanel.add(image);
-//		image.setUrl("swapweb.tif");
-//		image.setWidth("500,30");
+		HeaderPanel = new HorizontalPanel();
+		dockPanel.add(HeaderPanel, DockPanel.NORTH);
+		dockPanel.setCellHeight(HeaderPanel, "85");
+		image = new Image();
+		HeaderPanel.add(image);
+		image.setUrl("http://www.renegade-station.de/swhead.jpg");
 
-		/**
-		 * Suche
+		VerticalPanel nordTabPanel = new VerticalPanel();
+		nordTabPanel.setWidth("100%");
+
+		dockPanel.add(nordTabPanel, DockPanel.NORTH);
+
+		tabPanel = new TabPanel();
+		tabPanel.setWidth("100%");
+		nordTabPanel.add(tabPanel);
+
+		articleSearchForm = new ArticleSearchForm();
+		tabPanel.add(articleSearchForm, "Ich suche", false);
+
+		tabPanel.selectTab(0);
+
+		loginForm = new LoginForm();
+		tabPanel.add(loginForm, "Login", false);
+
+		registrationForm = new UserRegistrationForm();
+		tabPanel.add(registrationForm, "Registrieren", false);
+
+		helpView = new HelpView();
+		tabPanel.add(helpView, "Hilfe", false);
+
+		articleForm = new ArticleForm();
+		articleSearchResultView = new ArticleSearchResultListView();
+		articleView = new ArticleView();
+		userView = new UserView();
+		userForm = new UserForm("hallo");
+
+		/*
+		 * CENTER contentPanel
 		 */
+		contentPanel = new HorizontalPanel();
+		dockPanel.add(contentPanel, DockPanel.CENTER);
+		dockPanel.setCellHeight(contentPanel, "100%");
 
-		SearchtextBox = new TextBox();
-		absolutePanel.add(SearchtextBox, 538, 5);
-		SearchButton = new Button("Suche");
-		absolutePanel.add(SearchButton, 700, 5);
-		SearchButton.setHeight("24");
-
-		/**
-		 * CENTER TabPanel
-		 */
-
-		{
-			tabPanel = new TabPanel();
-			dockPanel.add(tabPanel, DockPanel.CENTER);
-			tabPanel.setSize("650px", "500px");
-
-			homeView = new HomeView();
-			tabPanel.add(homeView, "Home", false);
-
-			articleSearchForm = new ArticleSearchForm();
-			tabPanel.add(articleSearchForm, "Ich suche", false);
-
-			tabPanel.selectTab(0);
-
-			loginForm = new LoginForm();
-			tabPanel.add(loginForm, "Login", false);
-
-			registrationForm = new UserRegistrationForm();
-			tabPanel.add(registrationForm, "Registrieren", false);
-
-			helpView = new HelpView();
-			tabPanel.add(helpView, "Hilfe", false);
-
-			articleForm = new ArticleForm();
-			articleSearchResultView = new ArticleSearchResultListView();
-			articleView = new ArticleView();
-			userView = new UserView();
-			userForm = new UserForm("hallo");
-		}
-
-		/**
+		/*
 		 * WEST
 		 */
 
-		absolutePanel_1 = new AbsolutePanel();
-		dockPanel.add(absolutePanel_1, DockPanel.WEST);
+		HorizontalPanel navigationPanel = new HorizontalPanel();
+
+		dockPanel.add(navigationPanel, DockPanel.WEST);
+		dockPanel.setCellWidth(navigationPanel, "180");
+		navigationPanel.setSpacing(10);
 
 		verticalPanel = new VerticalPanel();
-		absolutePanel_1.add(verticalPanel);
+		navigationPanel.add(verticalPanel);
 		verticalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		verticalPanel.setSpacing(1);
-		verticalPanel.setSize("150", "50");
 
-		/**
+		/*
 		 * Mein SwapWeb
 		 */
 
@@ -210,7 +204,7 @@ public class SwapWeb implements EntryPoint {
 			myMessagesHyperlink.setText("Nachrichten");
 		}
 
-		/**
+		/*
 		 * Kategoriebaum
 		 */
 
@@ -247,7 +241,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(SuchenTestHyperlink);
 		SuchenTestHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				//addTestSearchResult();
+				// addTestSearchResult();
 			}
 		});
 		SuchenTestHyperlink.setText("Testsuche");
@@ -270,8 +264,9 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 		testProfileHyperlink.setText("Testprofil");
-		
-		testProfileFormHyperlink = new Hyperlink("New hyperlink", false, "newHistoryToken");
+
+		testProfileFormHyperlink = new Hyperlink("New hyperlink", false,
+				"newHistoryToken");
 		verticalPanel_2.add(testProfileFormHyperlink);
 		testProfileFormHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -279,8 +274,9 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 		testProfileFormHyperlink.setText("Testprofil \u00E4ndern");
-		
-		testArticleFormHyperlink = new Hyperlink("Artikel einstellen", false, "newHistoryToken");
+
+		testArticleFormHyperlink = new Hyperlink("Artikel einstellen", false,
+				"newHistoryToken");
 		verticalPanel_2.add(testArticleFormHyperlink);
 		testArticleFormHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -301,22 +297,21 @@ public class SwapWeb implements EntryPoint {
 
 	public void addTestProfile() {
 		if (!userView.isAttached()) {
-			tabPanel.add(userView, "Test Profil", false);
+			contentPanel.clear();
+			contentPanel.add(userView);
 
 		} else
 			tabPanel.remove(userView);
 	}
-	
-	
+
 	public void addTestProfileForm() {
 		if (!userForm.isAttached()) {
-			tabPanel.add(userForm, "Profil Šndern", false);
+			tabPanel.add(userForm, "Profil ï¿½ndern", false);
 
 		} else
 			tabPanel.remove(userForm);
 	}
-	
-	
+
 	public void addTestArticleForm() {
 		if (!articleForm.isAttached()) {
 			tabPanel.add(articleForm, "Neuer Artikel", false);
