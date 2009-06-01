@@ -2,6 +2,8 @@
 .DS_Store
 *.jar
 *.js
+.classpath
+.project
 war/swapweb/*
 war/js/*
 war/WEB-INF/classes/*

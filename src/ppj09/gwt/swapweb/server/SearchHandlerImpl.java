@@ -21,10 +21,10 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 		return dummyResults;
 	}
 	
-	public ArrayList<SearchResult> search(UserSearchQuery articleSearch) {
+	public ArrayList<SearchResult> search(UserSearchQuery userSearch) {
 		ArrayList<SearchResult> dummyResults = new ArrayList<SearchResult>();
 		dummyResults.add(new UserSearchResult("Hans", "Fulda"));
-		dummyResults.add(new UserSearchResult("Walroß", "Fels"));
+		dummyResults.add(new UserSearchResult("Walroßss", "Fels"));
 		return dummyResults;
 	}
 
