@@ -108,7 +108,6 @@ public class UserView extends Composite implements View {
 	private Label verticalSeperatorAim;
 	private Label verticalSeperatorJabber;
 
-	
 	/**
 	 * Constructor
 	 * 
@@ -116,45 +115,43 @@ public class UserView extends Composite implements View {
 	 * 
 	 */
 
+
+	
+
 	public UserView(String username) {
-
-	}
-
-	public UserView() {
 
 		user = new User();
 
-		user.setUsername("geo");
-		user.setFirstName("Georg");
-		user.setLastName("Ortwein");
-		// testuser.setGender("Männlich");
-		// testuser.setBirthdate("11.04.1987");
-		user.setZip("36358");
-		user.setCity("Stockhausen");
-		user.setHomepage("www.bla.de");
-		user.setJob("Student");
-		user
-				.setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		user
-				.setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		user
-				.setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		user
-				.setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		user
-				.setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		user
-				.setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		user.setIcq("1234567");
-		user.setMsn("1234567");
-		user.setYahoo("1234567");
-		user.setAim("1234567");
-		user.setJabber("geo@jabber.org");
+//		user.setUsername("geo");
+//		user.setFirstName("Georg");
+//		user.setLastName("Ortwein");
+//		// testuser.setGender("Männlich");
+//		// testuser.setBirthdate("11.04.1987");
+//		user.setZip("36358");
+//		user.setCity("Stockhausen");
+//		user.setHomepage("www.bla.de");
+//		user.setJob("Student");
+//		user
+//				.setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+//		user
+//				.setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+//		user
+//				.setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+//		user
+//				.setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+//		user
+//				.setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+//		user
+//				.setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+//		user.setIcq("1234567");
+//		user.setMsn("1234567");
+//		user.setYahoo("1234567");
+//		user.setAim("1234567");
+//		user.setJabber("geo@jabber.org");
 
 		createForm();
-		getuser("hallo");
+		getuser(username);
 
-		
 	}
 
 	public void createForm() {
