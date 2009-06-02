@@ -4,6 +4,9 @@ package ppj09.gwt.swapweb.server;
  * Stefan Elm
  */
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,7 +47,7 @@ public class DataBankerQueries {
 			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user(userid, pwd, userob) VALUES(?,?,?)");
 			   stmt.setString(1, userID);
 			   stmt.setString(2, pwd);
-			   stmt.setObject(3, newUser);
+			   stmt.setObject(3, (Object)newUser);
 			   
 			   stmt.executeUpdate();
 		       
@@ -124,7 +127,7 @@ public class DataBankerQueries {
 	 * return User -> erfolgreich ausgelesen 
 	 */
 	public User getUserProfile(String userId) {
-		User user = null;
+		User user = new User();
 		ResultSet rs = null;
 		
 		DataBankerConnection dbc = new DataBankerConnection();
@@ -133,9 +136,16 @@ public class DataBankerQueries {
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
-	    	//while (rs.next()) {
-			user = (User) rs.getObject("userob");
-			//}
+	    	while (rs.next()) {
+	    		System.out.println("ist da");
+			
+	    		InputStream is = rs.getBlob("userob").getBinaryStream();
+	    		ObjectInputStream ois = new ObjectInputStream(is);
+	    		Object x = ois.readObject(); 
+	    		user = (User)x;
+	    		System.out.println("UN: " + user.getUsername() + " UNE");
+			}
+	    	System.out.println("nach der while");
 			
 			rs.close();
 			dbc.close();
@@ -143,10 +153,61 @@ public class DataBankerQueries {
 			dbc.closeStatement();
 	    	
 	    } catch (SQLException e) {
+	    	e.printStackTrace();
 	    	return null;
 	    	//e.printStackTrace();
+	    } catch (IOException ioe) {
+	    	ioe.printStackTrace();
+	    } catch (ClassNotFoundException cnfe) {
+	    	cnfe.printStackTrace();
 	    }
 		
 		return user;
+	}
+	
+	/*
+	 * return = 0 -> FEHLER - User nicht angelegt
+	 * return = 1 -> OK - User wurde angelegt
+	 * return = 2 -> USER existiert schon
+	 */
+	public int updateUser(String oldUserName, User newUser) {
+		int saved = 0;
+		
+		String userID = newUser.getUsername();
+		String pwd = newUser.getPassword();
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+	    
+		
+		
+		
+		
+		//if( !(userID.equals(oldUserName)) && !checkUsername(userID)) {
+		
+			try {
+			   //PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user(userid, pwd, userob) VALUES(?,?,?)");
+			   System.out.println("Mache Update");
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET userid=?,pwd=?,userob=? WHERE userid = ?");
+			   stmt.setString(1, userID);
+			   stmt.setString(2, pwd);
+			   stmt.setObject(3, (Object)newUser);
+			   stmt.setString(4, oldUserName);
+			   
+			   stmt.executeUpdate();
+		       
+			   dbc.close();
+			   stmt.close();
+			   
+			   saved = 1;
+			} catch (SQLException e) {
+			   e.printStackTrace();
+			   return 0;	
+			}
+		//}
+		//else {
+		//	saved = 2; 
+		//}
+		
+		return saved;
 	}
 }
