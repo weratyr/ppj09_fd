@@ -38,4 +38,9 @@ public class UserSearchResult implements SearchResult,Serializable {
 		return null;
 	}
 
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return userName;
+	}
+
 }

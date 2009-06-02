@@ -32,14 +32,14 @@ public class ArticleSearchResultListView extends Composite {
 	private Label searchResultsForLabel_2;
 	public ArticleSearchResultListView() {
 		{
-//			verticalPanel = new VerticalPanel();
-//			initWidget(verticalPanel);
-//			verticalPanel.setWidth("650");
+			verticalPanel = new VerticalPanel();
+			initWidget(verticalPanel);
+			verticalPanel.setWidth("650");
 			{
-//				horizontalPanel = new HorizontalPanel();
-//				verticalPanel.add(horizontalPanel);
-//				horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//				horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				horizontalPanel = new HorizontalPanel();
+				verticalPanel.add(horizontalPanel);
+				horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+				horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 				{
 					searchResultsForLabel = new Label("Suchergebnisse f\u00FCr \"");
 					SwapWeb.getContenPanel().add(searchResultsForLabel);

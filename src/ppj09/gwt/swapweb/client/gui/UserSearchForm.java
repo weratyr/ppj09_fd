@@ -85,7 +85,7 @@ public class UserSearchForm extends Composite implements Form {
 							 * Objekt und übergibt es per RPC an SearchHandler.search()
 							 */
 							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-							searchHandler.search(new ArticleSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
+							searchHandler.search(new UserSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
 								public void onFailure(Throwable caught) {
 									System.out.println("neeee: ");
 								}

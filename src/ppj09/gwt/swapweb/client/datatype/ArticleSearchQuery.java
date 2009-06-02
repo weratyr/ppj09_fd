@@ -11,7 +11,7 @@ package ppj09.gwt.swapweb.client.datatype;
  * Enthält alle Daten einer Artikel Suche. Ein Großteil der Datenfelder werden 
  * direkt von Article geerbt. 
  * 
- * @author Christian, André und NICHT Michael (dafür hat er Nudeln gekocht)
+ * @author Christian, André, Michael
  * @version 0.1, 17.05.09
  */
 public class ArticleSearchQuery extends Article implements SearchQuery {
