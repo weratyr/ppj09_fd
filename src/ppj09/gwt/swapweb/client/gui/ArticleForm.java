@@ -2,21 +2,35 @@ package ppj09.gwt.swapweb.client.gui;
 
 /**
  * Autor Georg Ortwein
- * Klasse User- Form ist zum ändern bzw. bearbeiten eines Profils 
+ * Klasse User- Form ist zum ï¿½ndern bzw. bearbeiten eines Profils 
  */
 
+import java.util.ArrayList;
+
+import ppj09.gwt.swapweb.client.datatype.Article;
+import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
+import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
+import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.DatePicker;
+import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.DateField;
@@ -40,9 +54,10 @@ public class ArticleForm extends Composite implements View {
 	private Checkbox chkbxdelivery1;
 	private Checkbox chkbxdelivery2;
 	private Checkbox chkbxdelivery3;
+	private Button submitButton;
 	private TextArea txtbxAmount;
 	private TextArea txtbxSwaps;
-	private TextArea txtbxSpecials;
+	private TextArea txtbxDescription;
 	private HtmlEditor description;
 	private FormPanel formPanel2;
 	private HorizontalPanel horizontalPanel;
@@ -83,28 +98,28 @@ public class ArticleForm extends Composite implements View {
 					panel1.addToRow(txtbxCity, new ColumnLayoutData(1));
 					panel1.setBorder(false);
 					formPanel.add(panel1);
-
-					final Store conditionStore = new SimpleStore(new String[] {
-							"zustand", "nr" }, new String[][] {
-							new String[] { "neu", "1" },
-							new String[] { "gebraucht", "2" } });
-					conditionStore.load();
-
-					// TODO
-					combobxCondition = new ComboBox();
-					combobxCondition.setFieldLabel("Zustand*");
-					combobxCondition.setStore(conditionStore);
-					combobxCondition.setAllowBlank(false);
-					combobxCondition.setDisplayField("zustand");
-					combobxCondition.setMode(ComboBox.LOCAL);
-					combobxCondition.setTriggerAction(ComboBox.ALL);
-					combobxCondition.setTypeAhead(true);
-					combobxCondition.setEditable(false);
-					combobxCondition.setSelectOnFocus(true);
-					combobxCondition.setWidth(190);
-					combobxCondition.setHideTrigger(false);
-					formPanel.add(combobxCondition);
-
+					
+			          final Store conditionStore = new SimpleStore(new String[] {
+			                  "zustand", "nr" }, new String[][] {
+			                  new String[] { "neu", "1" },
+			                  new String[] { "gebraucht", "2" } });
+			              conditionStore.load();
+			     
+			              // TODO
+			        combobxCondition = new ComboBox();
+			        combobxCondition.setFieldLabel("Zustand*");
+			        combobxCondition.setStore(conditionStore);
+			        combobxCondition.setAllowBlank(false);
+			        combobxCondition.setDisplayField("zustand");
+			        combobxCondition.setMode(ComboBox.LOCAL);
+			        combobxCondition.setTriggerAction(ComboBox.ALL);
+			        combobxCondition.setTypeAhead(true);
+			        combobxCondition.setEditable(false);
+			        combobxCondition.setSelectOnFocus(true);
+			        combobxCondition.setWidth(190);
+			        combobxCondition.setHideTrigger(false);
+			        formPanel.add(combobxCondition);					
+					
 					chkbxdelivery1 = new Checkbox("Postversand", "check_Box");
 					chkbxdelivery2 = new Checkbox("Selbstabholung", "check_Box");
 					chkbxdelivery3 = new Checkbox("Treffen", "check_Box");
@@ -124,32 +139,78 @@ public class ArticleForm extends Composite implements View {
 					txtbxSwaps.setPixelSize(190, 70);
 					formPanel.add(txtbxSwaps);
 
-					txtbxSpecials = new TextArea("Besonderheiten*", "text_Area");
-					txtbxSpecials.setPixelSize(190, 70);
-					formPanel.add(txtbxSpecials);
+					txtbxDescription = new TextArea("Beschreibung*", "text_Area");
+					txtbxDescription.setPixelSize(190, 70);
+					formPanel.add(txtbxDescription);
+					
+					submitButton = new Button("Artikel Erstellen");
+					submitButton.setTabIndex(12);
+					submitButton.setFormBind(true);
 
+					formPanel.addButton(submitButton);
+					submitButton.addListener(new ButtonListenerAdapter() {
+						public void onClick(Button button, EventObject e) {
+							submit();
+						}
+					});
 				}
 
 				verticalPanel.add(formPanel);
-
-				formPanel2 = new FormPanel();
-				formPanel2.setLabelAlign(Position.TOP);
-				formPanel2.setLabelWidth(250);
-				formPanel2.setBorder(false);
-				formPanel2.setFooter(true);
-
-				{
-					description = new HtmlEditor("Beschreibung");
-
-					// description.setWidth(700);
-					// description.setHeight(300);
-					formPanel2.add(description);
-				}
-
-				verticalPanel.add(formPanel2);
-
 			}
 		}
 
 	}
+	
+	public boolean submit() {
+		// if (Validation.validateRegisterForm(this)) {
+		// TODO
+		// Sende Daten an Server
+		Article article = new Article();
+		article = fillArticle(article);
+		System.out.println("test1");
+
+		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
+
+		articleManager.createArticle(article, new AsyncCallback<Integer>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				System.out.println("neeee: " + caught.getMessage());
+			}
+
+			public void onSuccess(Integer serverMsg) {
+				// :)
+				System.out.println("OK: " + serverMsg.toString());
+			}
+		});
+		// }
+		return true;
+
+	}
+	
+	private Article fillArticle(Article article) {
+		article.setTitle(txtbxName.getText());
+		article.setZipCode(txtbxZip.getText());
+		article.setLocation(txtbxCity.getText());
+		article.setCondition(combobxCondition.getText());
+		article.setShippingMethodId(getShippingMethods());
+		article.setOfferScope(txtbxAmount.getText());
+		article.setDesiredItemsComment(txtbxSwaps.getText());
+//		article.setDescription(description.get);
+
+		return article;
+	}
+	private ArrayList<Integer> getShippingMethods(){
+		ArrayList<Integer> shippingMethods = new ArrayList<Integer>();
+			if(chkbxdelivery1.getValue() == true){
+				shippingMethods.add(1);
+			}
+			if(chkbxdelivery2.getValue() == true){
+				shippingMethods.add(2);
+			}
+			if(chkbxdelivery3.getValue() == true){
+				shippingMethods.add(3);
+			}
+		return shippingMethods;
+	}
+	
 }

@@ -73,7 +73,6 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 		}
 	}
 
-	@Override
 	public int updateUser(User newUser) {
 		// TODO Auto-generated method stub
 		String user = sh.getSession(this.getThreadLocalRequest());

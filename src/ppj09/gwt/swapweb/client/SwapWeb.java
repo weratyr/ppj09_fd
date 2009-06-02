@@ -1,6 +1,5 @@
 package ppj09.gwt.swapweb.client;
 
-import org.apache.catalina.User;
 
 import ppj09.gwt.swapweb.client.gui.*;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
