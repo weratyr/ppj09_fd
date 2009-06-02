@@ -593,14 +593,14 @@ public class UserView extends Composite implements View {
 
 		} catch (NullPointerException e) {
 		}
-		// try {
-		// if (!testuser.getBirthdate().equals("")){
-		// setBirthdate(user.getBirthdate());
-		// hpBirthday.setVisible(true);
-		// verticalSeperatorBirthday.setVisible(true);
-		// }
-		// } catch (NullPointerException e) {
-		// }
+//		try {
+//			if (!user.getBirthdate().equals("")) {
+//				setBirthdate(user.getBirthdate());
+//				hpBirthday.setVisible(true);
+//				verticalSeperatorBirthday.setVisible(true);
+//			}
+//		} catch (NullPointerException e) {
+//		}
 		try {
 
 			if (!user.getJob().equals("")) {
