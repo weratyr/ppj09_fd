@@ -115,42 +115,40 @@ public class UserView extends Composite implements View {
 	 * 
 	 */
 
-
-	
-
 	public UserView(String username) {
 
 		user = new User();
 
-//		user.setUsername("geo");
-//		user.setFirstName("Georg");
-//		user.setLastName("Ortwein");
-//		// testuser.setGender("Männlich");
-//		// testuser.setBirthdate("11.04.1987");
-//		user.setZip("36358");
-//		user.setCity("Stockhausen");
-//		user.setHomepage("www.bla.de");
-//		user.setJob("Student");
-//		user
-//				.setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user.setIcq("1234567");
-//		user.setMsn("1234567");
-//		user.setYahoo("1234567");
-//		user.setAim("1234567");
-//		user.setJabber("geo@jabber.org");
+		// user.setUsername("geo");
+		// user.setFirstName("Georg");
+		// user.setLastName("Ortwein");
+		// // testuser.setGender("Männlich");
+		// // testuser.setBirthdate("11.04.1987");
+		// user.setZip("36358");
+		// user.setCity("Stockhausen");
+		// user.setHomepage("www.bla.de");
+		// user.setJob("Student");
+		// user
+		// .setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user.setIcq("1234567");
+		// user.setMsn("1234567");
+		// user.setYahoo("1234567");
+		// user.setAim("1234567");
+		// user.setJabber("geo@jabber.org");
 
 		createForm();
 		getuser(username);
+		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 
 	}
 
@@ -228,21 +226,21 @@ public class UserView extends Composite implements View {
 					}
 
 					// Geschlecht
+					{
+						hpGender = new HorizontalPanel();
+						lblGender = new Label("Geschlecht:");
+						lblGender.setWidth("140");
+						hpGender.add(lblGender);
+						lblGender2 = new Label();
+						hpGender.add(lblGender2);
 
-					hpGender = new HorizontalPanel();
-					lblGender = new Label("Geschlecht:");
-					lblGender.setWidth("140");
-					hpGender.add(lblGender);
-					lblGender2 = new Label();
-					hpGender.add(lblGender2);
-
-					verticalPanel_2.add(hpGender);
-					hpGender.setVisible(false);
-					verticalSeperatorGender = new Label();
-					verticalSeperatorGender.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorGender);
-					verticalSeperatorGender.setVisible(false);
-
+						verticalPanel_2.add(hpGender);
+						hpGender.setVisible(false);
+						verticalSeperatorGender = new Label();
+						verticalSeperatorGender.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorGender);
+						verticalSeperatorGender.setVisible(false);
+					}
 					// Geburtstag
 
 					{
@@ -263,34 +261,29 @@ public class UserView extends Composite implements View {
 					}
 
 					// Wohnort
+					{
+						hpCity = new HorizontalPanel();
+						lblCity = new Label("Wohnort:");
+						lblCity.setWidth("140");
+						hpCity.add(lblCity);
 
-					try {
-						if (!user.getCity().equals("")) {
-							hpCity = new HorizontalPanel();
-							lblCity = new Label("Wohnort:");
-							lblCity.setWidth("140");
-							hpCity.add(lblCity);
+						lblZip = new Label();
+						hpCity.add(lblZip);
 
-							lblZip = new Label();
-							hpCity.add(lblZip);
+						lblHorizontalSeperator2 = new Label();
+						lblHorizontalSeperator2.setWidth("5");
+						hpCity.add(lblHorizontalSeperator2);
+						lblHorizontalSeperator2.setVisible(false);
 
-							lblHorizontalSeperator2 = new Label();
-							lblHorizontalSeperator2.setWidth("5");
-							hpCity.add(lblHorizontalSeperator2);
-							lblHorizontalSeperator2.setVisible(false);
+						lblCity2 = new Label();
+						hpCity.add(lblCity2);
 
-							lblCity2 = new Label();
-							hpCity.add(lblCity2);
+						verticalPanel_2.add(hpCity);
 
-							verticalPanel_2.add(hpCity);
-
-							verticalSeperator1 = new Label();
-							verticalSeperator1.setHeight("5");
-							verticalPanel_2.add(verticalSeperator1);
-						}
-					} catch (NullPointerException e) {
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
 					}
-
 					// Homepage
 
 					{
@@ -389,162 +382,163 @@ public class UserView extends Composite implements View {
 					}
 
 					// Ich mag
+					{
+						hpILike = new HorizontalPanel();
+						lblILike = new Label("Ich mag:");
+						lblILike.setWidth("140");
+						hpILike.add(lblILike);
+						lblILike2 = new Label();
+						lblILike2.setWidth("250");
+						hpILike.add(lblILike2);
 
-					hpILike = new HorizontalPanel();
-					lblILike = new Label("Ich mag:");
-					lblILike.setWidth("140");
-					hpILike.add(lblILike);
-					lblILike2 = new Label();
-					lblILike2.setWidth("250");
-					hpILike.add(lblILike2);
+						verticalPanel_2.add(hpILike);
+						hpILike.setVisible(false);
 
-					verticalPanel_2.add(hpILike);
-					hpILike.setVisible(false);
+						verticalSeperatorILike = new Label();
+						verticalSeperatorILike.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorILike);
+						verticalSeperatorILike.setVisible(false);
+					}
 
-					verticalSeperatorILike = new Label();
-					verticalSeperatorILike.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorILike);
-					verticalSeperatorILike.setVisible(false);
+					// Ich mag nicht
+					{
+						hpIDontLike = new HorizontalPanel();
+						lblIDontLike = new Label("Ich mag nicht:");
+						lblIDontLike.setWidth("140");
+						hpIDontLike.add(lblIDontLike);
+						lblIDontLike2 = new Label();
+						lblIDontLike2.setWidth("250");
+						hpIDontLike.add(lblIDontLike2);
+
+						verticalPanel_2.add(hpIDontLike);
+						hpIDontLike.setVisible(false);
+
+						verticalSeperatorIDontLike = new Label();
+						verticalSeperatorIDontLike.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorIDontLike);
+						verticalSeperatorIDontLike.setVisible(false);
+					}
+
+					// Über mich
+					{
+						hpAboutMe = new HorizontalPanel();
+						lblAboutMe = new Label("\u00dcber mich:");
+						lblAboutMe.setWidth("140");
+						hpAboutMe.add(lblAboutMe);
+						lblAboutMe2 = new Label();
+						lblAboutMe2.setWidth("250");
+						hpAboutMe.add(lblAboutMe2);
+
+						verticalPanel_2.add(hpAboutMe);
+						hpAboutMe.setVisible(false);
+
+						verticalSeperatorAboutMe = new Label();
+						verticalSeperatorAboutMe.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorAboutMe);
+						verticalSeperatorAboutMe.setVisible(false);
+					}
+
+					// Icq
+					{
+						hpIcq = new HorizontalPanel();
+						lblIcq = new Label("ICQ:");
+						lblIcq.setWidth("140");
+						hpIcq.add(lblIcq);
+						lblIcq2 = new Label();
+						lblIcq2.setWidth("250");
+						hpIcq.add(lblIcq2);
+
+						verticalPanel_2.add(hpIcq);
+						hpIcq.setVisible(false);
+
+						verticalSeperatorIcq = new Label();
+						verticalSeperatorIcq.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorIcq);
+						verticalSeperatorIcq.setVisible(false);
+					}
+
+					// Msn
+					{
+						hpMsn = new HorizontalPanel();
+						lblMsn = new Label("MSN:");
+						lblMsn.setWidth("140");
+						hpMsn.add(lblMsn);
+						lblMsn2 = new Label();
+						lblMsn2.setWidth("250");
+						hpMsn.add(lblMsn2);
+
+						verticalPanel_2.add(hpMsn);
+						hpMsn.setVisible(false);
+
+						verticalSeperatorMsn = new Label();
+						verticalSeperatorMsn.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorMsn);
+						verticalSeperatorMsn.setVisible(false);
+					}
+
+					// Yahoo
+					{
+						hpYahoo = new HorizontalPanel();
+						lblYahoo = new Label("Yahoo:");
+						lblYahoo.setWidth("140");
+						hpYahoo.add(lblYahoo);
+						lblYahoo2 = new Label();
+						lblYahoo2.setWidth("250");
+						hpYahoo.add(lblYahoo2);
+
+						verticalPanel_2.add(hpYahoo);
+						hpYahoo.setVisible(false);
+
+						verticalSeperatorYahoo = new Label();
+						verticalSeperatorYahoo.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorYahoo);
+						verticalSeperatorYahoo.setVisible(false);
+					}
+
+					// AIM
+
+					{
+						hpAim = new HorizontalPanel();
+						lblAim = new Label("AIM:");
+						lblAim.setWidth("140");
+						hpAim.add(lblAim);
+						lblAim2 = new Label();
+						lblAim2.setWidth("250");
+						hpAim.add(lblAim2);
+
+						verticalPanel_2.add(hpAim);
+						hpAim.setVisible(false);
+
+						verticalSeperatorAim = new Label();
+						verticalSeperatorAim.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorAim);
+						verticalSeperatorAim.setVisible(false);
+					}
+
+					// Jabber
+
+					{
+						hpJabber = new HorizontalPanel();
+						lblJabber = new Label("Jabber:");
+						lblJabber.setWidth("140");
+						hpJabber.add(lblJabber);
+						lblJabber2 = new Label();
+						lblJabber2.setWidth("250");
+						hpJabber.add(lblJabber2);
+
+						verticalPanel_2.add(hpJabber);
+						hpJabber.setVisible(false);
+
+						verticalSeperatorJabber = new Label();
+						verticalSeperatorJabber.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorJabber);
+						verticalSeperatorJabber.setVisible(false);
+					}
+
+					horizontalPanel.add(verticalPanel_2);
 				}
 
-				// Ich mag nicht
-				{
-					hpIDontLike = new HorizontalPanel();
-					lblIDontLike = new Label("Ich mag nicht:");
-					lblIDontLike.setWidth("140");
-					hpIDontLike.add(lblIDontLike);
-					lblIDontLike2 = new Label();
-					lblIDontLike2.setWidth("250");
-					hpIDontLike.add(lblIDontLike2);
-
-					verticalPanel_2.add(hpIDontLike);
-					hpIDontLike.setVisible(false);
-
-					verticalSeperatorIDontLike = new Label();
-					verticalSeperatorIDontLike.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorIDontLike);
-					verticalSeperatorIDontLike.setVisible(false);
-				}
-
-				// Über mich
-				{
-					hpAboutMe = new HorizontalPanel();
-					lblAboutMe = new Label("\u00dcber mich:");
-					lblAboutMe.setWidth("140");
-					hpAboutMe.add(lblAboutMe);
-					lblAboutMe2 = new Label();
-					lblAboutMe2.setWidth("250");
-					hpAboutMe.add(lblAboutMe2);
-
-					verticalPanel_2.add(hpAboutMe);
-					hpAboutMe.setVisible(false);
-
-					verticalSeperatorAboutMe = new Label();
-					verticalSeperatorAboutMe.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorAboutMe);
-					verticalSeperatorAboutMe.setVisible(false);
-				}
-
-				// Icq
-				{
-					hpIcq = new HorizontalPanel();
-					lblIcq = new Label("ICQ:");
-					lblIcq.setWidth("140");
-					hpIcq.add(lblIcq);
-					lblIcq2 = new Label();
-					lblIcq2.setWidth("250");
-					hpIcq.add(lblIcq2);
-
-					verticalPanel_2.add(hpIcq);
-					hpIcq.setVisible(false);
-
-					verticalSeperatorIcq = new Label();
-					verticalSeperatorIcq.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorIcq);
-					verticalSeperatorIcq.setVisible(false);
-				}
-
-				// Msn
-				{
-					hpMsn = new HorizontalPanel();
-					lblMsn = new Label("MSN:");
-					lblMsn.setWidth("140");
-					hpMsn.add(lblMsn);
-					lblMsn2 = new Label();
-					lblMsn2.setWidth("250");
-					hpMsn.add(lblMsn2);
-
-					verticalPanel_2.add(hpMsn);
-					hpMsn.setVisible(false);
-
-					verticalSeperatorMsn = new Label();
-					verticalSeperatorMsn.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorMsn);
-					verticalSeperatorMsn.setVisible(false);
-				}
-
-				// Yahoo
-				{
-					hpYahoo = new HorizontalPanel();
-					lblYahoo = new Label("Yahoo:");
-					lblYahoo.setWidth("140");
-					hpYahoo.add(lblYahoo);
-					lblYahoo2 = new Label();
-					lblYahoo2.setWidth("250");
-					hpYahoo.add(lblYahoo2);
-
-					verticalPanel_2.add(hpYahoo);
-					hpYahoo.setVisible(false);
-
-					verticalSeperatorYahoo = new Label();
-					verticalSeperatorYahoo.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorYahoo);
-					verticalSeperatorYahoo.setVisible(false);
-				}
-
-				// AIM
-
-				{
-					hpAim = new HorizontalPanel();
-					lblAim = new Label("AIM:");
-					lblAim.setWidth("140");
-					hpAim.add(lblAim);
-					lblAim2 = new Label();
-					lblAim2.setWidth("250");
-					hpAim.add(lblAim2);
-
-					verticalPanel_2.add(hpAim);
-					hpAim.setVisible(false);
-
-					verticalSeperatorAim = new Label();
-					verticalSeperatorAim.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorAim);
-					verticalSeperatorAim.setVisible(false);
-				}
-
-				// Jabber
-
-				{
-					hpJabber = new HorizontalPanel();
-					lblJabber = new Label("Jabber:");
-					lblJabber.setWidth("140");
-					hpJabber.add(lblJabber);
-					lblJabber2 = new Label();
-					lblJabber2.setWidth("250");
-					hpJabber.add(lblJabber2);
-
-					verticalPanel_2.add(hpJabber);
-					hpJabber.setVisible(false);
-
-					verticalSeperatorJabber = new Label();
-					verticalSeperatorJabber.setHeight("5");
-					verticalPanel_2.add(verticalSeperatorJabber);
-					verticalSeperatorJabber.setVisible(false);
-				}
-
-				horizontalPanel.add(verticalPanel_2);
 			}
-
 		}
 
 	}
