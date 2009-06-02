@@ -7,8 +7,6 @@
 
 package ppj09.gwt.swapweb.client.serverInterface;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
  * SessionManager Interface ist fuer den RPC des SessionManagerImpl. Es erzeugt
  * eine Instance einer Session. Diese Instance ist eine eindeutige Session
