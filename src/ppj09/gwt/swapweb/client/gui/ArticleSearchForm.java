@@ -62,11 +62,11 @@ public class ArticleSearchForm extends Composite implements Form {
 
 	public ArticleSearchForm() {
 
-		VerticalPanel container = new VerticalPanel();
+		Panel container = new Panel();
 		initWidget(container);
 
-		HorizontalPanel searchPanel = new HorizontalPanel();
-		searchPanel.setSpacing(8);
+		Panel searchPanel = new Panel();
+		
 		searchPanel.add(new TextField("", "phrase", 120));
 
 		Object[][] quickOptionsCategory = new Object[][] { new Object[] {
@@ -135,9 +135,10 @@ public class ArticleSearchForm extends Composite implements Form {
 		container.add(searchPanel);
 
 		tabPanel = new TabPanel();
-		tabPanel.setWidth(900);
+		tabPanel.setWidth(1000);
 		tabPanel.setVisible(false);
 		tabPanel.setActiveTab(0);
+		tabPanel.setPaddings(20);
 
 		formPanel = new FormPanel();
 		formPanel.setBorder(false);
@@ -146,7 +147,6 @@ public class ArticleSearchForm extends Composite implements Form {
 
 		Panel firstColumn = new Panel();
 		firstColumn.setLayout(new FormLayout());
-		firstColumn.setBorder(false);
 		firstColumn.setPaddings(10);
 
 		firstColumn.add(new TextField("Suche", "searchPhrase", 110));
@@ -155,7 +155,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		Panel secondColumn = new Panel();
 		secondColumn.setLayout(new FormLayout());
 		secondColumn.setBorder(false);
-		secondColumn.setPaddings(10);
+		//secondColumn.setPaddings(10);
 
 		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
 				"nix drin" }, };
@@ -171,9 +171,9 @@ public class ArticleSearchForm extends Composite implements Form {
 		articleCategoryCB.setMode(ComboBox.LOCAL);
 		articleCategoryCB.setTriggerAction(ComboBox.ALL);
 		articleCategoryCB.setForceSelection(true);
-
 		articleCategoryCB.setReadOnly(true);
 		articleCategoryCB.setWidth(110);
+
 		secondColumn.add(articleCategoryCB);
 
 		Object[][] optionsCondition = new Object[][] {
@@ -199,7 +199,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		Panel thirdColumn = new Panel();
 		thirdColumn.setLayout(new FormLayout());
 		thirdColumn.setBorder(false);
-		thirdColumn.setPaddings(10);
+		//thirdColumn.setPaddings(10);
 
 		Object[][] optionsDelivery = new Object[][] {
 				new Object[] { "b", "Beliebig" },
@@ -225,7 +225,7 @@ public class ArticleSearchForm extends Composite implements Form {
 
 		Panel fourthColumn = new Panel();
 		fourthColumn.setBorder(false);
-		fourthColumn.setPaddings(23);
+		//fourthColumn.setPaddings(23);
 
 		activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
 		fourthColumn.add(activeArticleCheckBox);
@@ -267,13 +267,16 @@ public class ArticleSearchForm extends Composite implements Form {
 		fourthColumn.add(buttonPanel);
 
 		MultiFieldPanel multiPanel = new MultiFieldPanel();
-		multiPanel.setBorder(false);
-		multiPanel.addToRow(firstColumn, 150);
-		multiPanel.addToRow(secondColumn, 150);
-		multiPanel.addToRow(thirdColumn, 150);
-		multiPanel.addToRow(fourthColumn, 300);
+		multiPanel.setBorder(true);
+		multiPanel.setPaddings(10);
+		
+	
+		//multiPanel.addToRow(firstColumn, 140);
+		multiPanel.addToRow(secondColumn, 140);
+		//multiPanel.addToRow(thirdColumn, 140);
+		//multiPanel.addToRow(fourthColumn, 300);
 
-		formPanel.add(multiPanel);
+		formPanel.add(articleCategoryCB);
 		tabPanel.add(formPanel);
 
 		tabPanel.add(new UserSearchForm());
