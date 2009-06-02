@@ -1,16 +1,8 @@
 package ppj09.gwt.swapweb.client;
 
-import org.apache.catalina.User;
-
 import ppj09.gwt.swapweb.client.gui.*;
-import ppj09.gwt.swapweb.client.serverInterface.UserManager;
-import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -20,12 +12,13 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+
 import com.gwtext.client.widgets.Panel;
 
 /**
@@ -248,6 +241,7 @@ public class SwapWeb implements EntryPoint {
 				articleSearchResultView = new ArticleSearchResultListView();
 				contentPanel.clear();
 				contentPanel.add(articleSearchResultView);
+				contentPanel.doLayout();
 			}
 		});
 		SuchenTestHyperlink.setText("Testsuche");
@@ -258,7 +252,8 @@ public class SwapWeb implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				articleView = new ArticleView();
 				contentPanel.clear();
-				contentPanel.add(articleView);	
+				contentPanel.add(articleView);
+				contentPanel.doLayout();
 			}
 		});
 		testartikelHyperlink.setText("Testartikel");
@@ -283,7 +278,9 @@ public class SwapWeb implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				userForm = new UserForm();			
 				contentPanel.clear();
-				contentPanel.add(userForm);			}
+				contentPanel.add(userForm);
+				contentPanel.doLayout();
+				}
 		});
 		testProfileFormHyperlink.setText("Testprofil \u00E4ndern");
 
