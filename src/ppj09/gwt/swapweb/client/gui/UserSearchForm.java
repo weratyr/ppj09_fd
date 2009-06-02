@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.gwtext.client.widgets.Panel;
 
 /**
  * Formularfelder und Submit der Benutzersuche. Implementiert das Interface Form
@@ -41,7 +42,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
  * @version 0.1, 04.05.09
  */
 public class UserSearchForm extends Composite implements Form {
-	private AbsolutePanel absolutePanel;
+	private Panel containerPanel;
 	private Button resultsButton;
 	private Label usernameLabel;
 	private Label firstNameLabel;
@@ -68,22 +69,23 @@ public class UserSearchForm extends Composite implements Form {
 	private VerticalPanel searchResultPanel;
 
 	public UserSearchForm() {
-		{
-			absolutePanel = new AbsolutePanel();
-			initWidget(absolutePanel);
-			absolutePanel.setSize("700", "500");
-			{
+		
+			containerPanel = new Panel();
+			
+			initWidget(containerPanel);
+			containerPanel.setTitle("Benutzersuche");
+			/*{
 				resultsButton = new Button("New button");
-				absolutePanel.add(resultsButton, 333, 213);
+				containerPanel.add(resultsButton);
 				searchResultPanel = new VerticalPanel();
-				absolutePanel.add(searchResultPanel, 5, 160);
+				containerPanel.add(searchResultPanel);
 				resultsButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 							System.out.println("gedrückt");
-							/**
+							*//**
 							 * TODO erstellt aus den Formulardaten ein ArticleSearch 
 							 * Objekt und übergibt es per RPC an SearchHandler.search()
-							 */
+							 *//*
 							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 							searchHandler.search(new UserSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
 								public void onFailure(Throwable caught) {
@@ -107,47 +109,47 @@ public class UserSearchForm extends Composite implements Form {
 			}
 			{
 				usernameLabel = new Label("Benutzer:");
-				absolutePanel.add(usernameLabel, 19, 7);
+				containerPanel.add(usernameLabel);
 			}
 			{
 				firstNameLabel = new Label("Vorname:");
-				absolutePanel.add(firstNameLabel, 19, 35);
+				containerPanel.add(firstNameLabel);
 			}
 			{
 				lastNameLabel = new Label("Nachname:");
-				absolutePanel.add(lastNameLabel, 9, 60);
+				containerPanel.add(lastNameLabel);
 			}
 			{
 				usernameTextBox = new TextBox();
-				absolutePanel.add(usernameTextBox, 80, 5);
+				containerPanel.add(usernameTextBox);
 				usernameTextBox.setWidth("170");
 			}
 			{
 				firstNameTextBox = new TextBox();
-				absolutePanel.add(firstNameTextBox, 80, 31);
+				containerPanel.add(firstNameTextBox);
 				firstNameTextBox.setWidth("170");
 			}
 			{
 				lastNameTextBox = new TextBox();
-				absolutePanel.add(lastNameTextBox, 80, 57);
+				containerPanel.add(lastNameTextBox);
 				lastNameTextBox.setWidth("170");
 			}
 			{
 				cityLabel = new Label("Wohnort:");
-				absolutePanel.add(cityLabel, 23, 87);
+				containerPanel.add(cityLabel);
 			}
 			{
 				cityTextBox = new TextBox();
-				absolutePanel.add(cityTextBox, 80, 84);
+				containerPanel.add(cityTextBox);
 				cityTextBox.setWidth("170");
 			}
 			{
 				ageLabel = new Label("Alter:");
-				absolutePanel.add(ageLabel, 80, 114);
+				containerPanel.add(ageLabel);
 			}
 			{
 				ageComboBox_1 = new ListBox();
-				absolutePanel.add(ageComboBox_1, 115, 112);
+				containerPanel.add(ageComboBox_1);
 				for (int i=18;i<100;i++)
 				{
 					ageComboBox_1.addItem(""+i);
@@ -156,11 +158,11 @@ public class UserSearchForm extends Composite implements Form {
 			}
 			{
 				tillLabel = new Label("bis");
-				absolutePanel.add(tillLabel, 175, 114);
+				containerPanel.add(tillLabel);
 			}
 			{
 				ageComboBox_2 = new ListBox();
-				absolutePanel.add(ageComboBox_2, 200, 112);
+				containerPanel.add(ageComboBox_2);
 				for (int i=99;i>0;i--)
 				{
 					ageComboBox_2.addItem(""+i);
@@ -169,61 +171,61 @@ public class UserSearchForm extends Composite implements Form {
 			}
 			{
 				jobTextBox = new TextBox();
-				absolutePanel.add(jobTextBox, 80, 136);
+				containerPanel.add(jobTextBox);
 				jobTextBox.setWidth("170");
 			}
 			{
 				jobLabel = new Label("Beruf:");
-				absolutePanel.add(jobLabel, 40, 139);
+				containerPanel.add(jobLabel);
 			}
 			{
 				hobbysTextBox = new TextBox();
-				absolutePanel.add(hobbysTextBox, 80, 163);
+				containerPanel.add(hobbysTextBox);
 				hobbysTextBox.setWidth("170");
 			}
 			{
 				hobbysLabel = new Label("Hobbys:");
-				absolutePanel.add(hobbysLabel, 27, 166);
+				containerPanel.add(hobbysLabel);
 			}
 			{
 				musicTextBox = new TextBox();
-				absolutePanel.add(musicTextBox, 80, 190);
+				containerPanel.add(musicTextBox);
 				musicTextBox.setWidth("170");
 			}
 			{
 				musicLabel = new Label("Musik:");
-				absolutePanel.add(musicLabel, 36, 194);
+				containerPanel.add(musicLabel);
 			}
 			{
 				filmTextBox = new TextBox();
-				absolutePanel.add(filmTextBox, 80, 217);
+				containerPanel.add(filmTextBox);
 				filmTextBox.setWidth("170");
 			}
 			{
 				filmLabel = new Label("Film:");
-				absolutePanel.add(filmLabel, 46, 221);
+				containerPanel.add(filmLabel);
 			}
 			{
 				activeUsersChckbx = new CheckBox("Nur aktive beenutzer zeigen");
-				absolutePanel.add(activeUsersChckbx, 333, 7);
+				containerPanel.add(activeUsersChckbx);
 				activeUsersChckbx.setSize("197px", "18");
 			}
 			{
 				pictureUsersChckbx = new CheckBox(
 						"Nur Benutzer mit Bildern anzeigen");
-				absolutePanel.add(pictureUsersChckbx, 333, 29);
+				containerPanel.add(pictureUsersChckbx);
 				pictureUsersChckbx.setSize("226px", "18");
 			}
 			{
 				Label resultLabel = new Label("5 Ergebnisse gefunden");
-				absolutePanel.add(resultLabel, 333, 190);
+				containerPanel.add(resultLabel);
 				resultLabel.setWidth("150");
 			}
 			{
 				searchResultPanel = new VerticalPanel();
-				absolutePanel.add(searchResultPanel, 5, 160);
+				containerPanel.add(searchResultPanel);
 			}
-		}
+			*/	
 	}
 
 	/**
@@ -232,8 +234,7 @@ public class UserSearchForm extends Composite implements Form {
 	 */
 	public boolean submit() {
 
-	return true;
+		return true;
 	}
 
 }
-
