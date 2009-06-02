@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 * Dieser View rendert ein einzelnes Suchergebnis vom Typ ArticleSearchResult.
 * Er wird zusammen mit anderen SearchResults innerhalb einer *SearchResultListView aufgerufen.
 *
-* @author Georg, AndrŽ
+* @author Georg, Andrï¿½
 * @version 0.1, 15.05.09
 */
  
@@ -43,6 +43,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
         absolutePanel = new AbsolutePanel();
         SwapWeb.getContenPanel().clear();
         SwapWeb.getContenPanel().add(absolutePanel);
+        SwapWeb.getContenPanel().doLayout();
         absolutePanel.setSize("650", "90");
         {
           articleImage = new Image(null);

@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.gwtext.client.widgets.Panel;
 
 /**
  * SwapWeb implementiert das EntryPoint Interface. Die erst zu ladene Methode
@@ -50,7 +51,7 @@ public class SwapWeb implements EntryPoint {
 	private DisclosurePanel disclosurePanelKate;
 	private Tree categoryTree;
 	private HorizontalPanel HeaderPanel;
-	private static VerticalPanel contentPanel;
+	private static Panel contentPanel;
 	private TreeItem autoTreeItem;
 	private TreeItem computerTreeItem;
 	private TreeItem gardenTreeItem;
@@ -89,6 +90,7 @@ public class SwapWeb implements EntryPoint {
 
 		dockPanel = new DockPanel();
 		dockPanel.setSize("100%", "100%");
+		dockPanel.setSpacing(5);
 		// dockPanel.setBorderWidth(2);
 		rootPanel.add(dockPanel);
 
@@ -130,8 +132,10 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * CENTER contentPanel
 		 */
-		contentPanel = new VerticalPanel();
-		contentPanel.setSpacing(10);
+		contentPanel = new Panel();
+		contentPanel.setPaddings(10);
+		contentPanel.setTitle("Inhaltspanel");
+		contentPanel.setCollapsible(true);
 		dockPanel.add(contentPanel, DockPanel.CENTER);
 		dockPanel.setCellHeight(contentPanel, "100%");
 
@@ -139,17 +143,18 @@ public class SwapWeb implements EntryPoint {
 		 * WEST
 		 */
 
-		HorizontalPanel navigationPanel = new HorizontalPanel();
-
+		Panel navigationPanel = new Panel();
+		navigationPanel.setTitle("My Swapweb");
+		navigationPanel.setPaddings(10);
+		
 		dockPanel.add(navigationPanel, DockPanel.WEST);
 		dockPanel.setCellWidth(navigationPanel, "180");
-		navigationPanel.setSpacing(10);
 
 		verticalPanel = new VerticalPanel();
 		navigationPanel.add(verticalPanel);
 		verticalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		verticalPanel.setSpacing(1);
-
+		navigationPanel.doLayout();
 		/*
 		 * Mein SwapWeb
 		 */
@@ -259,7 +264,9 @@ public class SwapWeb implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				userView = new UserView();
 				contentPanel.clear();
-				contentPanel.add(userView);			}
+				contentPanel.add(userView);
+				contentPanel.doLayout();
+				}
 		});
 		testProfileHyperlink.setText("Testprofil");
 
@@ -319,7 +326,7 @@ public class SwapWeb implements EntryPoint {
 			tabPanel.remove(articleForm);
 	}
 
-	public static VerticalPanel getContenPanel() {
+	public static Panel getContenPanel() {
 		// TODO Auto-generated method stub
 		return contentPanel;
 	}

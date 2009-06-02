@@ -19,67 +19,36 @@ import com.google.gwt.user.client.ui.DockPanel;
 public class ArticleView extends Composite implements View {
 
 	private DockPanel dockPanel;
-
 	private AbsolutePanel absolutePanelNorth;
-
 	private AbsolutePanel absolutePanelSouth;
-
 	private Label lblArtName;
-
 	private Label lblArtikelNrBez;
-
 	private Label lblArtNr;
-
 	private Label lblBeschreibungBez;
-
 	private Label lblBeschreibung;
-
 	private AbsolutePanel absolutePanelWest;
-
 	private Image imgArtikle;
-
 	private AbsolutePanel absolutePanelCenter;
-
 	private Label lblOfferer;
-
 	private Hyperlink hblOfferer;
-
 	private Image imgStars;
-
 	private Label lblRateBez;
-
 	private Label lblProzPos;
-
 	private Label lblProzPosBez;
-
 	private Label lblPozNeg;
-
 	private Label lblPozNegBez;
-
 	private Hyperlink hplMail;
-
 	private Label lblStandortBez;
-
 	private Label lblStandort;
-
 	private Label lblZustandBez;
-
 	private Label lblZustand;
-
 	private Label lblVersandBez;
-
 	private Label lblVersand;
-
 	private Label lblUmfangBez;
-
 	private Label lblUmfang;
-
 	private Label lblGegentauschBez;
-
 	private Label lblGegentausch;
-
 	private Label lblBesonderhBez;
-
 	private Label lblBesonderh;
 
 	
