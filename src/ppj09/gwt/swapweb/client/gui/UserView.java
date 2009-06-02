@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.form.TextField;
 
 public class UserView extends Composite implements View {
@@ -108,6 +109,14 @@ public class UserView extends Composite implements View {
 	private Label verticalSeperatorAim;
 	private Label verticalSeperatorJabber;
 
+	private Panel articlePanel;
+
+	private VerticalPanel verticalPanel;
+
+	private Widget usernameLabel3;
+
+	private Label usernameLabel4;
+
 	/**
 	 * Constructor
 	 * 
@@ -154,16 +163,26 @@ public class UserView extends Composite implements View {
 
 	public void createForm() {
 		{
-			VerticalPanel verticalPanel = new VerticalPanel();
+			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
 
-			horizontalPanel2 = new HorizontalPanel();
-			usernameLabel1 = new Label();
-			horizontalPanel2.add(usernameLabel1);
-			usernameLabel2 = new Label("'s Profil");
-			horizontalPanel2.add(usernameLabel2);
+			// Überschrift
+			{
+				horizontalPanel2 = new HorizontalPanel();
+				usernameLabel1 = new Label();
+				horizontalPanel2.add(usernameLabel1);
+				lblHorizontalSeperator = new Label();
+				lblHorizontalSeperator.setWidth("5");
+				horizontalPanel2.add(lblHorizontalSeperator);
+				usernameLabel2 = new Label();
+				horizontalPanel2.add(usernameLabel2);
+				usernameLabel3 = new Label("'s Profil (");
+				horizontalPanel2.add(usernameLabel3);
+				usernameLabel4 = new Label();
+				horizontalPanel2.add(usernameLabel4);
 
-			verticalPanel.add(horizontalPanel2);
+				verticalPanel.add(horizontalPanel2);
+			}
 
 			{
 				horizontalPanel = new HorizontalPanel();
@@ -541,6 +560,12 @@ public class UserView extends Composite implements View {
 			}
 		}
 
+		articlePanel = new Panel();
+		articlePanel.setPaddings(10);
+		articlePanel.setTitle("");
+		articlePanel.setCollapsible(true);
+		verticalPanel.add(articlePanel);
+
 	}
 
 	private void getuser(String username) {
@@ -593,14 +618,14 @@ public class UserView extends Composite implements View {
 
 		} catch (NullPointerException e) {
 		}
-//		try {
-//			if (!user.getBirthdate().equals("")) {
-//				setBirthdate(user.getBirthdate());
-//				hpBirthday.setVisible(true);
-//				verticalSeperatorBirthday.setVisible(true);
-//			}
-//		} catch (NullPointerException e) {
-//		}
+		// try {
+		// if (!user.getBirthdate().equals("")) {
+		// setBirthdate(user.getBirthdate());
+		// hpBirthday.setVisible(true);
+		// verticalSeperatorBirthday.setVisible(true);
+		// }
+		// } catch (NullPointerException e) {
+		// }
 		try {
 
 			if (!user.getJob().equals("")) {
@@ -724,6 +749,11 @@ public class UserView extends Composite implements View {
 
 	public void setFirstName(String firstName) {
 		this.lblFirstName2.setText(firstName);
+		usernameLabel1.setText(firstName);
+		articlePanel.setTitle(firstName + "'s Artikel");
+		this.messageUser.setText("Nachricht an " + firstName);
+		this.userRatings.setText(firstName + "'s Bewertungen");
+		this.reportUser.setText(firstName + " melden");
 	}
 
 	/**
@@ -740,6 +770,7 @@ public class UserView extends Composite implements View {
 
 	public void setLastName(String lastName) {
 		this.lblLastName.setText(lastName);
+		usernameLabel2.setText(lastName);
 
 	}
 
@@ -1012,11 +1043,8 @@ public class UserView extends Composite implements View {
 	 *            the username to set
 	 */
 	public void setUsername(String username) {
-		// this.txtbxUsername.setRawValue(username);
-		this.usernameLabel1.setText(username);
-		this.messageUser.setText("Nachricht an " + username);
-		this.userRatings.setText(username + "'s Bewertungen");
-		this.reportUser.setText(username + " melden");
+		this.usernameLabel4.setText(username + ")");
+		
 	}
 
 	/**
