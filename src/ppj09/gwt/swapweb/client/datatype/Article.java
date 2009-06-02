@@ -25,9 +25,11 @@ public class Article implements Serializable {
 	private int userId;
 	private String title;
 	private String location;
+	private String zipCode;
 	private ArrayList<String> pictureUrls;
-	protected ArrayList<Integer> conditionCodes;
+	protected String condition;
 	private String description;
+	private String offerScope;
 	// Auswahl der Kategorien zu dem der Artikel passen koennte
 	protected ArrayList<Integer> categoryIds;
 	// Versandtartsnummer und ein Kommentar
@@ -143,15 +145,15 @@ public class Article implements Serializable {
 	 * 
 	 * @return conditionCode
 	 */
-	public ArrayList<Integer> getConditionCode() {
-		return conditionCodes;
+	public String getCondition() {
+		return condition;
 	}
 
 	/**
 	 * Setzt den condition
 	 */
-	public void setConditionCode(int conditionCode) {
-		this.conditionCodes = conditionCodes;
+	public void setCondition(String conditionCode) {
+		this.condition = condition;
 	}
 
 	/**
@@ -249,6 +251,22 @@ public class Article implements Serializable {
 	 */
 	public void setDesiredItemsComment(String desiredItemsComment) {
 		this.desiredItemsComment = desiredItemsComment;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setOfferScope(String offerScope) {
+		this.offerScope = offerScope;
+	}
+
+	public String getOfferScope() {
+		return offerScope;
 	}
 
 }

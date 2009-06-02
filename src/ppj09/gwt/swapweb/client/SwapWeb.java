@@ -241,6 +241,7 @@ public class SwapWeb implements EntryPoint {
 				articleSearchResultView = new ArticleSearchResultListView();
 				contentPanel.clear();
 				contentPanel.add(articleSearchResultView);
+				contentPanel.doLayout();
 			}
 		});
 		SuchenTestHyperlink.setText("Testsuche");
@@ -251,7 +252,8 @@ public class SwapWeb implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				articleView = new ArticleView();
 				contentPanel.clear();
-				contentPanel.add(articleView);	
+				contentPanel.add(articleView);
+				contentPanel.doLayout();
 			}
 		});
 		testartikelHyperlink.setText("Testartikel");
@@ -276,7 +278,9 @@ public class SwapWeb implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				userForm = new UserForm();			
 				contentPanel.clear();
-				contentPanel.add(userForm);			}
+				contentPanel.add(userForm);
+				contentPanel.doLayout();
+				}
 		});
 		testProfileFormHyperlink.setText("Testprofil \u00E4ndern");
 

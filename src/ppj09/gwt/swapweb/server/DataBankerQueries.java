@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -64,6 +65,12 @@ public class DataBankerQueries {
 		}
 		
 		return saved;
+	}
+	
+	public int createArticle(String userID, Article newArticle) {
+		String user = userID;
+		System.out.println(user);
+		return 0;
 	}
 	
 	public boolean checkUsername(String UserId) {
