@@ -24,5 +24,6 @@ public interface UserManagerAsync {
 	public void createUser(User newUser, AsyncCallback<Integer> callback);
 	public void checkUsername(String username, AsyncCallback<Boolean> callback);
 	public void getUser(AsyncCallback<User> callback);
+	public void getUser(String username, AsyncCallback<User> callback);
 	public void updateUser(User newUser, AsyncCallback<Integer> callback);
 }
