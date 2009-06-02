@@ -115,8 +115,6 @@ public class SwapWeb implements EntryPoint {
 		
 		articleSearchForm = new ArticleSearchForm();
 		tabPanel.add(articleSearchForm, "Ich suche", false);
-	
-
 		tabPanel.selectTab(0);
 
 		loginForm = new LoginForm();
@@ -127,6 +125,7 @@ public class SwapWeb implements EntryPoint {
 
 		helpView = new HelpView();
 		tabPanel.add(helpView, "Hilfe", false);
+		
 
 		/*
 		 * CENTER contentPanel

@@ -27,6 +27,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.gwtext.client.core.Position;
+import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
@@ -38,6 +39,13 @@ import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.TextField;
+import com.gwtext.client.widgets.grid.GridPanel;
+import com.gwtext.client.widgets.layout.AccordionLayout;
+import com.gwtext.client.widgets.layout.BorderLayout;
+import com.gwtext.client.widgets.layout.BorderLayoutData;
+import com.gwtext.client.widgets.layout.ColumnLayout;
+import com.gwtext.client.widgets.layout.ContainerLayout;
+import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.layout.FormLayout;
 import com.gwtext.client.core.EventObject;
 
@@ -49,24 +57,19 @@ import com.gwtext.client.core.EventObject;
  * @version 0.1, 04.05.09
  */
 public class ArticleSearchForm extends Composite implements Form {
-	private FormPanel formPanel;
+	private Panel firstTab;
 	private Checkbox activeArticleCheckBox;
 	private Checkbox pictureArticlesCheckBox;
-	private Button resultButton;
-	private Label resultLabel;
-	private UserSearchForm userSearchForm;
 	private VerticalPanel searchResultPanel;
-	private Button SearchButton;
 	private Hyperlink advancedSearchHyperlink;
 	private TabPanel tabPanel;
 
 	public ArticleSearchForm() {
 
-		Panel container = new Panel();
-		initWidget(container);
-
-		Panel searchPanel = new Panel();
-		
+		FormPanel containerFormPanel = new FormPanel();
+		containerFormPanel.setLabelAlign(Position.TOP);
+		HorizontalPanel searchPanel = new HorizontalPanel();
+		searchPanel.setSpacing(10);
 		searchPanel.add(new TextField("", "phrase", 120));
 
 		Object[][] quickOptionsCategory = new Object[][] { new Object[] {
@@ -77,16 +80,16 @@ public class ArticleSearchForm extends Composite implements Form {
 		quickCategoryStore.load();
 
 		final ComboBox quickArticleCategoryCB = new ComboBox();
-		quickArticleCategoryCB.setFieldLabel("Kategorie");
+		
 		quickArticleCategoryCB.setStore(quickCategoryStore);
 		quickArticleCategoryCB.setDisplayField("options");
 		quickArticleCategoryCB.setMode(ComboBox.LOCAL);
 		quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
 		quickArticleCategoryCB.setForceSelection(true);
-
 		quickArticleCategoryCB.setReadOnly(true);
 		quickArticleCategoryCB.setWidth(110);
 		searchPanel.add(quickArticleCategoryCB);
+		
 
 		Button quickSearchButton = new Button("Suchen",
 				new ButtonListenerAdapter() {
@@ -132,20 +135,23 @@ public class ArticleSearchForm extends Composite implements Form {
 		});
 		advancedSearchHyperlink.setText("Erweiterte Suche");
 
-		container.add(searchPanel);
-
+		containerFormPanel.add(searchPanel);
+		
 		tabPanel = new TabPanel();
+		tabPanel.setPlain(true);
 		tabPanel.setWidth(1000);
 		tabPanel.setVisible(false);
 		tabPanel.setActiveTab(0);
 		tabPanel.setPaddings(20);
 
-		formPanel = new FormPanel();
-		formPanel.setBorder(false);
-		formPanel.setTitle("Artikelsuche");
-		formPanel.setLabelAlign(Position.TOP);
-
+		containerFormPanel.add(tabPanel);
+		
+		firstTab = new Panel();
+		firstTab.setBorder(false);
+		firstTab.setTitle("Artikelsuche");
+		
 		Panel firstColumn = new Panel();
+		firstColumn.setBorder(false);
 		firstColumn.setLayout(new FormLayout());
 		firstColumn.setPaddings(10);
 
@@ -155,7 +161,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		Panel secondColumn = new Panel();
 		secondColumn.setLayout(new FormLayout());
 		secondColumn.setBorder(false);
-		//secondColumn.setPaddings(10);
+		secondColumn.setPaddings(10,20,0,0);
 
 		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
 				"nix drin" }, };
@@ -164,8 +170,8 @@ public class ArticleSearchForm extends Composite implements Form {
 				optionsCategory);
 		categoryStore.load();
 
-		final ComboBox articleCategoryCB = new ComboBox();
-		articleCategoryCB.setFieldLabel("Kategorie");
+		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
+		
 		articleCategoryCB.setStore(categoryStore);
 		articleCategoryCB.setDisplayField("options");
 		articleCategoryCB.setMode(ComboBox.LOCAL);
@@ -194,12 +200,13 @@ public class ArticleSearchForm extends Composite implements Form {
 		articleConditionCB.setValueField("b");
 		articleConditionCB.setReadOnly(true);
 		articleConditionCB.setWidth(110);
+		articleConditionCB.setLazyRender(true);
 		secondColumn.add(articleConditionCB);
 
 		Panel thirdColumn = new Panel();
 		thirdColumn.setLayout(new FormLayout());
 		thirdColumn.setBorder(false);
-		//thirdColumn.setPaddings(10);
+		thirdColumn.setPaddings(10,20,0,0);
 
 		Object[][] optionsDelivery = new Object[][] {
 				new Object[] { "b", "Beliebig" },
@@ -224,8 +231,9 @@ public class ArticleSearchForm extends Composite implements Form {
 		thirdColumn.add(articleDeliveryCB);
 
 		Panel fourthColumn = new Panel();
+		fourthColumn.setLayout(new FormLayout());
 		fourthColumn.setBorder(false);
-		//fourthColumn.setPaddings(23);
+		fourthColumn.setPaddings(0);
 
 		activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
 		fourthColumn.add(activeArticleCheckBox);
@@ -234,7 +242,7 @@ public class ArticleSearchForm extends Composite implements Form {
 
 		Panel buttonPanel = new Panel();
 		buttonPanel.setBorder(false);
-		buttonPanel.setPaddings(15, 0, 0, 0);
+		buttonPanel.setPaddings(10, 0, 0, 0);
 		Button searchButton = new Button("Suchen", new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
 
@@ -270,17 +278,16 @@ public class ArticleSearchForm extends Composite implements Form {
 		multiPanel.setBorder(true);
 		multiPanel.setPaddings(10);
 		
-	
-		//multiPanel.addToRow(firstColumn, 140);
+		multiPanel.addToRow(firstColumn, 140);
 		multiPanel.addToRow(secondColumn, 140);
-		//multiPanel.addToRow(thirdColumn, 140);
-		//multiPanel.addToRow(fourthColumn, 300);
-
-		formPanel.add(articleCategoryCB);
-		tabPanel.add(formPanel);
-
+		multiPanel.addToRow(thirdColumn, 140);
+		multiPanel.addToRow(fourthColumn, 300);
+		
+		firstTab.add(multiPanel);
+		tabPanel.add(firstTab);
 		tabPanel.add(new UserSearchForm());
-		container.add(tabPanel);
+		
+		initWidget(containerFormPanel);
 	}
 
 	/**
