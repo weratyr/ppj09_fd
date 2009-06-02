@@ -1,8 +1,14 @@
 package ppj09.gwt.swapweb.client;
 
+import org.apache.catalina.User;
+
 import ppj09.gwt.swapweb.client.gui.*;
+import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 
@@ -268,7 +274,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testProfileFormHyperlink);
 		testProfileFormHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				userForm = new UserForm("hallo");
+				userForm = new UserForm();			
 				contentPanel.clear();
 				contentPanel.add(userForm);			}
 		});
@@ -305,7 +311,7 @@ public class SwapWeb implements EntryPoint {
 
 	public void addTestProfileForm() {
 		if (!userForm.isAttached()) {
-			tabPanel.add(userForm, "Profil �ndern", false);
+			tabPanel.add(userForm, "Profil ï¿½ndern", false);
 
 		} else
 			tabPanel.remove(userForm);

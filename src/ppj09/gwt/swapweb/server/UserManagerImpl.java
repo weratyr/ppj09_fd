@@ -15,7 +15,8 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	DataBankerQueries db = new DataBankerQueries(); 
+	DataBankerQueries db = new DataBankerQueries();
+	SessionHandler sh = new SessionHandler();
 	/**
 	 * Stefan Elm
 	 * Legt den neuen User über den DataBanker in der Datenbank ab
@@ -24,8 +25,7 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 	 * return = 1 -> OK
 	 */
 	public int createUser(User newUser) {
-		// TODO Auto-generated method stub
-				
+		// TODO Auto-generated method stub		
 		return db.createUser(newUser);
 	}
 
@@ -39,8 +39,13 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 	 */
 	public boolean loginRequest(String user, String pwHash) {
 		// TODO Auto-generated method stub
-	    
-		return db.loginRequest(user, pwHash);
+		boolean ex = db.loginRequest(user, pwHash);
+		
+		if(ex) {
+			sh.setSession(user, this.getThreadLocalRequest());
+		}
+		
+	    return ex;
 	}
 	
 	/*
@@ -57,8 +62,22 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 		return db.checkUsername(username);
 	}
 
-	public User getUser(String username) {
+	public User getUser() {
+		
+		String user = sh.getSession(this.getThreadLocalRequest());
+		
+		if (user == null) {
+			return null;
+		} else {
+			return db.getUserProfile(user);
+		}
+	}
+
+	@Override
+	public int updateUser(User newUser) {
 		// TODO Auto-generated method stub
-		return null;
+		String user = sh.getSession(this.getThreadLocalRequest());
+		
+		return db.updateUser(user, newUser);
 	}
 }
