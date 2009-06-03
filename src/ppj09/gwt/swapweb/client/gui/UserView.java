@@ -1037,7 +1037,6 @@ public class UserView extends Composite implements View {
 	 */
 	public void setUsername(String username) {
 		this.usernameLabel4.setText(username + ")");
-
 	}
 
 	/**
