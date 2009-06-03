@@ -93,7 +93,6 @@ public class UserForm extends Composite implements View {
 		createForm();
 		getuser();
 
-
 	}
 
 	public void createForm() {
@@ -212,12 +211,13 @@ public class UserForm extends Composite implements View {
 						userFreePanel.setBorder(false);
 						formPanelTop.add(userFreePanel);
 
-//						txtbxPwd = new TextField("Benutzername*", "text_field",
-//								190);
-//						txtbxPwd.setAllowBlank(false);
-//						txtbxPwd.setSelectOnFocus(true);
-//						txtbxPwd.setPassword(true);
-//						formPanelTop.add(txtbxPwd);
+						// txtbxPwd = new TextField("Benutzername*",
+						// "text_field",
+						// 190);
+						// txtbxPwd.setAllowBlank(false);
+						// txtbxPwd.setSelectOnFocus(true);
+						// txtbxPwd.setPassword(true);
+						// formPanelTop.add(txtbxPwd);
 
 						txtbxEmail = new TextField("eMail*", "text_field", 190);
 						txtbxEmail.setAllowBlank(false);
@@ -368,10 +368,13 @@ public class UserForm extends Composite implements View {
 	}
 
 	private boolean submit() {
+		
+
 		User user = new User();
 		user = fillUser(user);
-		System.out.println("test1");
+		System.out.println("test submit");
 
+		
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.updateUser(user, new AsyncCallback<Integer>() {
@@ -411,31 +414,130 @@ public class UserForm extends Composite implements View {
 	public void fillForm(User user) {
 		System.out.println("test332423");
 
-		this.setFirstName(user.getFirstName());
-		this.setLastName(user.getLastName());
-		this.setStreet(user.getStreet());
-		this.setHouseNumber(user.getHouseNumber());
-		this.setZip(user.getZip());
-		this.setCity(user.getCity());
-		this.setUsername(user.getUsername());
-		this.setPwd(user.getPassword());
-		this.setEmail(user.getEmail());
-		this.setGender(user.getGender());
-		this.setBirthdate(user.getBirthdate());
-		this.setJob(user.getJob());
-		this.setHomepage(user.getHomepage());
-		this.setHobbys(user.getHobbys());
-		this.setMusic(user.getMusic());
-		this.setMovie(user.getMovie());
-		this.setILike(user.getILike());
-		this.setIDontLike(user.getIDontLike());
-		this.setAboutMe(user.getAboutMe());
-		this.setIcq(user.getIcq());
-		this.setMsn(user.getMsn());
-		this.setYahoo(user.getYahoo());
-		this.setAim(user.getAim());
-		this.setJabber(user.getJabber());
-		this.setImage(user.getImage());
+		try {
+			this.setFirstName(user.getFirstName());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setLastName(user.getLastName());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setStreet(user.getStreet());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setHouseNumber(user.getHouseNumber());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setZip(user.getZip());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setCity(user.getCity());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setUsername(user.getUsername());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setPwd(user.getPassword());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setEmail(user.getEmail());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setGender(user.getGender());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setBirthdate(user.getBirthdate());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setJob(user.getJob());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setHomepage(user.getHomepage());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setHobbys(user.getHobbys());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setMusic(user.getMusic());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setMovie(user.getMovie());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setILike(user.getILike());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setIDontLike(user.getIDontLike());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setAboutMe(user.getAboutMe());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setIcq(user.getIcq());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setMsn(user.getMsn());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setYahoo(user.getYahoo());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setAim(user.getAim());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setJabber(user.getJabber());
+		} catch (NullPointerException e) {
+		}
+		try {
+
+			this.setImage(user.getImage());
+		} catch (NullPointerException e) {
+		}
 		System.out.println("test3");
 
 	}

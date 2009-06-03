@@ -196,7 +196,7 @@ public class UserView extends Composite implements View {
 					// Name
 					{
 						hpName = new HorizontalPanel();
-						lblFirstName = new Label("Vorname:");
+						lblFirstName = new Label("Name:");
 						lblFirstName.setWidth("140");
 						hpName.add(lblFirstName);
 						lblFirstName2 = new Label();

@@ -7,34 +7,28 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
-import ppj09.gwt.swapweb.client.Validation;
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
+
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
+
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.user.client.ui.FocusListenerAdapter;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.gwtext.client.widgets.MessageBox;
+import com.gwtext.client.core.EventCallback;
+import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Position;
+import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.event.KeyListener;
+import com.gwtext.client.widgets.form.FormPanel;
+import com.gwtext.client.widgets.form.MultiFieldPanel;
+import com.gwtext.client.widgets.form.TextField;
+import com.gwtext.client.widgets.layout.ColumnLayoutData;
 
 /**
- * Formularfelder und Submit des Login. Der Benutzer hat die Mšglichkeit, seine
+ * Formularfelder und Submit des Login. Der Benutzer hat die Mï¿½glichkeit, seine
  * Logindaten einzugeben. Diese Klasse implementiert das Interface Form.
  * 
  * @author Christian Happ
@@ -48,149 +42,82 @@ public class LoginForm extends Composite implements Form {
 	 * zu kommunizieren.
 	 */
 	private final UserManagerAsync userManager = GWT.create(UserManager.class);
-	private VerticalPanel verticalPanel;
-	private AbsolutePanel absolutePanel_1;
-	private TextBox usernameTextBox;
+	private TextField txtbxUsername;
+	private FormPanel formPanel;
+	private TextField txtbxPassword;
+	private MultiFieldPanel multiPanel1;
+	private MultiFieldPanel multiPanel2;
 	private Button loginButton;
-	private Hyperlink passwordLostHyperlink;
-	private PasswordTextBox pswrdtxtbxPasswort;
-	private TextBox passwordTextBox;
-	private AbsolutePanel absolutePanel;
-	private TextBox pwLostEmailTextBox;
-	private Button pwLostButton;
-	private TextBox pwLostUsernameTextBox;
+	private Hyperlink lostPwHyperlink;
 
 	/**
 	 * Initialisiert Formular Eingabefelder
 	 */
 	public LoginForm() {
 		{
+			formPanel = new FormPanel();
+			formPanel.setLabelAlign(Position.TOP);
+			formPanel.setFooter(true);
+			formPanel.setMonitorValid(true);
 
-			verticalPanel = new VerticalPanel();
-			initWidget(verticalPanel);
-			verticalPanel.setSize("550", "80");
 			{
-				absolutePanel_1 = new AbsolutePanel();
-				verticalPanel.add(absolutePanel_1);
-				absolutePanel_1.setSize("550", "30");
-				{
-					usernameTextBox = new TextBox();
-					absolutePanel_1.add(usernameTextBox, 5, 0);
-					usernameTextBox.addBlurHandler(new BlurHandler() {
-						public void onBlur(BlurEvent event) {
-							if (usernameTextBox.getText().equals("")) {
-								usernameTextBox.setText("Benutzername");
-							}
-						}
-					});
-					usernameTextBox.addFocusHandler(new FocusHandler() {
-						public void onFocus(FocusEvent event) {
-							if (usernameTextBox.getText()
-									.equals("Benutzername")) {
-								usernameTextBox.setText("");
-							}
-						}
-					});
-					usernameTextBox.setText("Benutzername");
-				}
-				{
-					loginButton = new Button("New button");
-					loginButton.addClickHandler(new ClickHandler() {
-						public void onClick(ClickEvent event) {
+				txtbxUsername = new TextField("Benutzername", "text_field", 190);
+				txtbxUsername.setAllowBlank(false);
+				txtbxUsername
+						.setBlankText("Bitte geben Sie ihren Benutzernamen ein");
+				txtbxUsername.setTabIndex(1);
+				txtbxUsername.addKeyListener(13, new KeyListener() {
+					public void onKey(int key, EventObject e) {
+						if (txtbxUsername.isValid() && txtbxPassword.isValid()) {
 							submit();
 						}
-					});
-					absolutePanel_1.add(loginButton, 333, 0);
-					loginButton.setText("Login");
-				}
-				{
-					passwordLostHyperlink = new Hyperlink("New hyperlink",
-							false, "newHistoryToken");
-					absolutePanel_1.add(passwordLostHyperlink, 390, 3);
-					passwordLostHyperlink.addClickHandler(new ClickHandler() {
-						public void onClick(ClickEvent event) {
-							absolutePanel
-									.setVisible(!absolutePanel.isVisible());
-						}
-					});
-					passwordLostHyperlink.setText("Passwort vergessen");
-				}
-				{
-					pswrdtxtbxPasswort = new PasswordTextBox();
-					pswrdtxtbxPasswort.addBlurHandler(new BlurHandler() {
-						public void onBlur(BlurEvent event) {
-							if (pswrdtxtbxPasswort.getText().equals("")) {
-								passwordTextBox.setVisible(true);
-							}
-						}
-					});
+					}
+				});
 
-					usernameTextBox.setText("Benutzername");
-					absolutePanel_1.add(pswrdtxtbxPasswort, 170, 0);
-				}
-				{
-					passwordTextBox = new TextBox();
-					absolutePanel_1.add(passwordTextBox, 170, 0);
-					passwordTextBox.addFocusHandler(new FocusHandler() {
-						public void onFocus(FocusEvent event) {
-							passwordTextBox.setVisible(false);
-							pswrdtxtbxPasswort.setFocus(true);
+				txtbxPassword = new TextField("Passwort", "text_field", 190);
+				txtbxPassword.setAllowBlank(false);
+				txtbxPassword.setPassword(true);
+				txtbxPassword.setBlankText("Bitte geben Sie ihr Passwort ein");
+				txtbxPassword.setMinLength(8);
+				txtbxPassword
+						.setMinLengthText("Das Passwort muss mindestens acht Zeichen lang sein");
+				txtbxPassword.setTabIndex(2);
+				txtbxPassword.addKeyListener(13, new KeyListener() {
+					public void onKey(int key, EventObject e) {
+						if (txtbxUsername.isValid() && txtbxPassword.isValid()) {
+							submit();
 						}
-					});
-					passwordTextBox.setText("Passwort");
-				}
+					}
+				});
+
+				multiPanel1 = new MultiFieldPanel();
+				multiPanel1.addToRow(txtbxUsername, 210);
+				multiPanel1.addToRow(txtbxPassword, new ColumnLayoutData(1));
+				multiPanel1.setBorder(false);
+				formPanel.add(multiPanel1);
+
+				loginButton = new Button("Login");
+				loginButton.setFormBind(true);
+				loginButton.setTabIndex(3);
+				loginButton.addListener(new ButtonListenerAdapter() {
+					public void onClick(Button button, EventObject e) {
+						if (txtbxUsername.isValid() && txtbxPassword.isValid()) {
+							submit();
+						}
+					}
+				});
+
+				lostPwHyperlink = new Hyperlink("Passwort vergessen", false,
+						"newHistoryToken");
+
+				multiPanel1 = new MultiFieldPanel();
+				multiPanel1.addToRow(loginButton, 60);
+				multiPanel1.addToRow(lostPwHyperlink, new ColumnLayoutData(1));
+				multiPanel1.setBorder(false);
+				formPanel.add(multiPanel1);
+
 			}
-			{
-				absolutePanel = new AbsolutePanel();
-				verticalPanel.add(absolutePanel);
-				absolutePanel.setVisible(false);
-				absolutePanel.setSize("550", "30");
-				{
-					pwLostUsernameTextBox = new TextBox();
-					absolutePanel.add(pwLostUsernameTextBox, 5, 0);
-					pwLostUsernameTextBox.setText("Benutzername");
-					pwLostUsernameTextBox.addBlurHandler(new BlurHandler() {
-						public void onBlur(BlurEvent event) {
-							if (pwLostUsernameTextBox.getText().equals("")) {
-								pwLostUsernameTextBox.setText("Benutzername");
-							}
-						}
-					});
-					pwLostUsernameTextBox.addFocusHandler(new FocusHandler() {
-						public void onFocus(FocusEvent event) {
-							if (pwLostUsernameTextBox.getText().equals(
-									"Benutzername")) {
-								pwLostUsernameTextBox.setText("");
-							}
-						}
-					});
-				}
-				{
-					pwLostEmailTextBox = new TextBox();
-					absolutePanel.add(pwLostEmailTextBox, 170, 0);
-					pwLostEmailTextBox.setText("eMail");
-					pwLostEmailTextBox.addBlurHandler(new BlurHandler() {
-						public void onBlur(BlurEvent event) {
-							if (pwLostEmailTextBox.getText().equals("")) {
-								pwLostEmailTextBox.setText("eMail");
-							}
-						}
-					});
-					pwLostEmailTextBox.addFocusHandler(new FocusHandler() {
-						public void onFocus(FocusEvent event) {
-							if (pwLostEmailTextBox.getText().equals("eMail")) {
-								pwLostEmailTextBox.setText("");
-							}
-						}
-					});
-				}
-				{
-					pwLostButton = new Button();
-					absolutePanel.add(pwLostButton, 333, 0);
-					
-					pwLostButton.setText("Passwort an mich senden");
-				}
-			}
+			initWidget(formPanel);
 		}
 
 	}
@@ -200,28 +127,29 @@ public class LoginForm extends Composite implements Form {
 	 * Rueckmeldung
 	 */
 	public boolean submit() {
-			// Sende Daten an Server
-		System.out.println("test");
+		// Sende Daten an Server
 
-			String username = usernameTextBox.getText();
-			String password = pswrdtxtbxPasswort.getText();
-			userManager.loginRequest(username, password,
-					new AsyncCallback<Boolean>() {
-						public void onFailure(Throwable caught) {
-							// :(
-						}
+		String username = txtbxUsername.getText();
+		String password = txtbxPassword.getText();
+		userManager.loginRequest(username, password,
+				new AsyncCallback<Boolean>() {
+					public void onFailure(Throwable caught) {
+						// :(
+						System.out.println("Benutzername oder Passwort falsch");
+					}
 
-						public void onSuccess(Boolean serverMsg) {
-							// :)
-							if (serverMsg)
-								System.out.println("Eingeloggt");
-							else
-								System.out.println("Benutzername oder Passwort falsch");
+					public void onSuccess(Boolean serverMsg) {
+						// :)
+						if (serverMsg)
+							System.out.println("Eingeloggt");
+						else
+							System.out
+									.println("Benutzername oder Passwort falsch");
 
-						}
-						
-					});
-			return true;
-	
+					}
+
+				});
+		return true;
+
 	}
 }
