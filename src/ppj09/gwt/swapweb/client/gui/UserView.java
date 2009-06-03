@@ -117,37 +117,15 @@ public class UserView extends Composite implements View {
 	 * 
 	 */
 
+	public UserView() {
+		user = new User();
+		createForm();
+		getuser();
+		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
+	}
 	public UserView(String username) {
 
 		user = new User();
-
-		// user.setUsername("geo");
-		// user.setFirstName("Georg");
-		// user.setLastName("Ortwein");
-		// // testuser.setGender("Männlich");
-		// // testuser.setBirthdate("11.04.1987");
-		// user.setZip("36358");
-		// user.setCity("Stockhausen");
-		// user.setHomepage("www.bla.de");
-		// user.setJob("Student");
-		// user
-		// .setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user.setIcq("1234567");
-		// user.setMsn("1234567");
-		// user.setYahoo("1234567");
-		// user.setAim("1234567");
-		// user.setJabber("geo@jabber.org");
-
 		createForm();
 		getuser(username);
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
@@ -565,6 +543,23 @@ public class UserView extends Composite implements View {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.getUser(username, new AsyncCallback<User>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				System.out.println("fehler");
+
+			}
+
+			public void onSuccess(User userProfile) {
+				// :)
+				user = userProfile;
+				fillForm(userProfile);
+			}
+		});
+	}
+	private void getuser() {
+		UserManagerAsync userManager = GWT.create(UserManager.class);
+
+		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
 				System.out.println("fehler");
