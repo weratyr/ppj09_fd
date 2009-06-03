@@ -59,6 +59,8 @@ public class LoginForm extends Composite implements Form {
 			formPanel.setLabelAlign(Position.TOP);
 			formPanel.setFooter(true);
 			formPanel.setMonitorValid(true);
+			formPanel.setBorder(false);
+
 
 			{
 				txtbxUsername = new TextField("Benutzername", "text_field", 190);
