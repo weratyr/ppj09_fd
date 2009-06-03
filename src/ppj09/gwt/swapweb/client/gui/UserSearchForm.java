@@ -79,15 +79,18 @@ public class UserSearchForm extends Composite implements Form {
 			thirdFormPanel.add(new TextField("Hobbies","", 110));
 			
 			
-			FormPanel fourthFormPanel = new FormPanel();
+			Panel fourthFormPanel = new Panel();
 			fourthFormPanel.setBorder(false);
-			fourthFormPanel.setPaddings(10,10,0,0);
-			fourthFormPanel.setLabelAlign(Position.TOP);
-			Checkbox activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
-			fourthFormPanel.add(activeArticleCheckBox);
-			Checkbox pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
-			fourthFormPanel.add(pictureArticlesCheckBox);
+			fourthFormPanel.setPaddings(23,10,0,0);
 			
+			
+			Panel checkBoxPanel = new Panel();
+			checkBoxPanel.setBorder(false);
+			Checkbox activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
+			checkBoxPanel.add(activeArticleCheckBox);
+			Checkbox pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
+			checkBoxPanel.add(pictureArticlesCheckBox);
+			fourthFormPanel.add(checkBoxPanel);
 			
 			Panel buttonPanel = new Panel();
 			buttonPanel.setPaddings(10,0,0,0);
