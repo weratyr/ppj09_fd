@@ -10,7 +10,6 @@ import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -19,9 +18,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.widgets.Panel;
-import com.gwtext.client.widgets.form.TextField;
 
 public class UserView extends Composite implements View {
 	private User user;
@@ -103,18 +100,14 @@ public class UserView extends Composite implements View {
 	private Label verticalSeperatorILike;
 	private Label verticalSeperatorIDontLike;
 	private Label verticalSeperatorAboutMe;
-	private Widget verticalSeperatorIcq;
-	private Widget verticalSeperatorMsn;
+	private Label verticalSeperatorIcq;
+	private Label verticalSeperatorMsn;
 	private Label verticalSeperatorYahoo;
 	private Label verticalSeperatorAim;
 	private Label verticalSeperatorJabber;
-
 	private Panel articlePanel;
-
 	private VerticalPanel verticalPanel;
-
-	private Widget usernameLabel3;
-
+	private Label usernameLabel3;
 	private Label usernameLabel4;
 
 	/**
@@ -128,32 +121,32 @@ public class UserView extends Composite implements View {
 
 		user = new User();
 
-//		user.setUsername("geo");
-//		user.setFirstName("Georg");
-//		user.setLastName("Ortwein");
-//		// testuser.setGender("Männlich");
-//		// testuser.setBirthdate("11.04.1987");
-//		user.setZip("36358");
-//		user.setCity("Stockhausen");
-//		user.setHomepage("www.bla.de");
-//		user.setJob("Student");
-//		user
-//				.setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user
-//				.setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-//		user.setIcq("1234567");
-//		user.setMsn("1234567");
-//		user.setYahoo("1234567");
-//		user.setAim("1234567");
-//		user.setJabber("geo@jabber.org");
+		// user.setUsername("geo");
+		// user.setFirstName("Georg");
+		// user.setLastName("Ortwein");
+		// // testuser.setGender("Männlich");
+		// // testuser.setBirthdate("11.04.1987");
+		// user.setZip("36358");
+		// user.setCity("Stockhausen");
+		// user.setHomepage("www.bla.de");
+		// user.setJob("Student");
+		// user
+		// .setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user.setIcq("1234567");
+		// user.setMsn("1234567");
+		// user.setYahoo("1234567");
+		// user.setAim("1234567");
+		// user.setJabber("geo@jabber.org");
 
 		createForm();
 		getuser(username);
@@ -303,8 +296,8 @@ public class UserView extends Composite implements View {
 						verticalSeperator1.setHeight("5");
 						verticalPanel_2.add(verticalSeperator1);
 					}
-					// Homepage
 
+					// Homepage
 					{
 						hpHomepage = new HorizontalPanel();
 						lblHomepage = new Label("Homepage:");
@@ -515,7 +508,6 @@ public class UserView extends Composite implements View {
 					}
 
 					// AIM
-
 					{
 						hpAim = new HorizontalPanel();
 						lblAim = new Label("AIM:");
@@ -535,7 +527,6 @@ public class UserView extends Composite implements View {
 					}
 
 					// Jabber
-
 					{
 						hpJabber = new HorizontalPanel();
 						lblJabber = new Label("Jabber:");
@@ -560,12 +551,14 @@ public class UserView extends Composite implements View {
 			}
 		}
 
-		articlePanel = new Panel();
-		articlePanel.setPaddings(10);
-		articlePanel.setTitle("");
-		articlePanel.setCollapsible(true);
-		verticalPanel.add(articlePanel);
-
+		// Artikel Panel
+		{
+			articlePanel = new Panel();
+			articlePanel.setPaddings(10);
+			articlePanel.setTitle("");
+			articlePanel.setCollapsible(true);
+			verticalPanel.add(articlePanel);
+		}
 	}
 
 	private void getuser(String username) {
@@ -574,7 +567,7 @@ public class UserView extends Composite implements View {
 		userManager.getUser(username, new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				Window.alert("fehler");
+				System.out.println("fehler");
 
 			}
 
