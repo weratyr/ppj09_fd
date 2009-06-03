@@ -20,32 +20,24 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.gwtext.client.core.Position;
-import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.TextField;
-import com.gwtext.client.widgets.grid.GridPanel;
-import com.gwtext.client.widgets.layout.AccordionLayout;
-import com.gwtext.client.widgets.layout.BorderLayout;
-import com.gwtext.client.widgets.layout.BorderLayoutData;
-import com.gwtext.client.widgets.layout.ColumnLayout;
-import com.gwtext.client.widgets.layout.ContainerLayout;
-import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.layout.FormLayout;
 import com.gwtext.client.core.EventObject;
 
@@ -274,20 +266,20 @@ public class ArticleSearchForm extends Composite implements Form {
 		MultiFieldPanel multiPanel = new MultiFieldPanel();
 		multiPanel.setPaddings(5);
 		
-		multiPanel.addToRow(firstColumn, 120);
-		multiPanel.addToRow(secondColumn, 120);
-		multiPanel.addToRow(thirdColumn, 120);
+		multiPanel.addToRow(firstColumn, 130);
+		multiPanel.addToRow(secondColumn, 130);
+		multiPanel.addToRow(thirdColumn, 130);
 		multiPanel.addToRow(fourthColumn, 300);
 		
 		Panel test = new Panel ();
 		test.setTitle("test");
 		test.add(new TextField("hallo"));
-		tabPanel.add(test);
+		//tabPanel.add(test);
 		
 		firstTab.add(multiPanel);
-		//tabPanel.add(firstTab);
+		tabPanel.add(firstTab);
 		tabPanel.add(new UserSearchForm());
-		containerFormPanel.add(multiPanel);
+		//containerFormPanel.add(multiPanel);
 		initWidget(containerFormPanel);
 	}
 
