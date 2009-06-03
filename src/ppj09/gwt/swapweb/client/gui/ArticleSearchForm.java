@@ -130,20 +130,17 @@ public class ArticleSearchForm extends Composite implements Form {
 		advancedSearchHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				tabPanel.setVisible(!tabPanel.isVisible());
-
 			}
 		});
 		advancedSearchHyperlink.setText("Erweiterte Suche");
 
 		containerFormPanel.add(searchPanel);
 		
-		tabPanel = new TabPanel();
-		tabPanel.setPlain(true);
+		tabPanel = new TabPanel();;
 		tabPanel.setWidth(1000);
 		tabPanel.setVisible(false);
 		tabPanel.setActiveTab(0);
-		tabPanel.setPaddings(20);
-
+		tabPanel.setPaddings(5);
 		containerFormPanel.add(tabPanel);
 		
 		firstTab = new Panel();
@@ -161,7 +158,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		Panel secondColumn = new Panel();
 		secondColumn.setLayout(new FormLayout());
 		secondColumn.setBorder(false);
-		secondColumn.setPaddings(10,20,0,0);
+		secondColumn.setPaddings(10,10,0,0);
 
 		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
 				"nix drin" }, };
@@ -206,7 +203,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		Panel thirdColumn = new Panel();
 		thirdColumn.setLayout(new FormLayout());
 		thirdColumn.setBorder(false);
-		thirdColumn.setPaddings(10,20,0,0);
+		thirdColumn.setPaddings(10,10,0,0);
 
 		Object[][] optionsDelivery = new Object[][] {
 				new Object[] { "b", "Beliebig" },
@@ -233,7 +230,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		Panel fourthColumn = new Panel();
 		fourthColumn.setLayout(new FormLayout());
 		fourthColumn.setBorder(false);
-		fourthColumn.setPaddings(0);
+		fourthColumn.setPaddings(10,10,0,0);
 
 		activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
 		fourthColumn.add(activeArticleCheckBox);
@@ -275,18 +272,22 @@ public class ArticleSearchForm extends Composite implements Form {
 		fourthColumn.add(buttonPanel);
 
 		MultiFieldPanel multiPanel = new MultiFieldPanel();
-		multiPanel.setBorder(true);
-		multiPanel.setPaddings(10);
+		multiPanel.setPaddings(5);
 		
-		multiPanel.addToRow(firstColumn, 140);
-		multiPanel.addToRow(secondColumn, 140);
-		multiPanel.addToRow(thirdColumn, 140);
+		multiPanel.addToRow(firstColumn, 120);
+		multiPanel.addToRow(secondColumn, 120);
+		multiPanel.addToRow(thirdColumn, 120);
 		multiPanel.addToRow(fourthColumn, 300);
 		
-		firstTab.add(multiPanel);
-		tabPanel.add(firstTab);
-		tabPanel.add(new UserSearchForm());
+		Panel test = new Panel ();
+		test.setTitle("test");
+		test.add(new TextField("hallo"));
+		tabPanel.add(test);
 		
+		firstTab.add(multiPanel);
+		//tabPanel.add(firstTab);
+		tabPanel.add(new UserSearchForm());
+		containerFormPanel.add(multiPanel);
 		initWidget(containerFormPanel);
 	}
 
