@@ -1,273 +1,1034 @@
 package ppj09.gwt.swapweb.client.gui;
 
-import com.google.gwt.user.client.ui.Composite;
+/**
+ * Autor Georg Ortwein
+ * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils 
+ */
+
+import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.i18n.client.HasDirection;
+import com.gwtext.client.widgets.Panel;
 
 public class UserView extends Composite implements View {
-	private AbsolutePanel absolutePanel;
-	private Image userPicture;
-	private Hyperlink messageHyperlink;
-	private Hyperlink ratingHyperlink;
-	private Hyperlink reportHyperlink;
-	private Hyperlink Bewertung_Ansicht;
-	private Label posRatingLabel;
-	private Label filmLabel;
-	private Label usernameLabel;
-	private Label genderLabel;
-	private Label birthdayLabel;
-	private Label cityLabel;
-	private Label jobLabel;
-	private Label hobby2Label;
-	private Label musicLabel;
-	private Label iLikeLabel;
-	private Label iDontLikeLabel;
-	private Label contactLabel;
-	private Label aboutMeLabel;
-	private Label username2Label;
-	private Label gender2Label;
-	private Label birthday2Label;
-	private Label city2Label;
-	private Label job2Label;
-	private Label music2Label;
-	private Label film2Label;
-	private Label iLike2Label;
-	private Label iDontLike2Label;
-	private Label contact2Label;
-	private Label aboutMe2Label;
-	private AbsolutePanel absolutePanel_1;
-	private Image ratingStarsImage;
-	private Label posRating2Label;
-	private Label neutralRatingLabel;
-	private Label neutralRating2Label;
-	private Label label;
-	private Label negRatingLabel;
-	private VerticalPanel verticalPanel;
-	private Label profileNameLabel;
+	private User user;
 
+	private Label usernameLabel1;
+	private Label usernameLabel2;
+	private HorizontalPanel horizontalPanel2;
+	private AbsolutePanel absolutePanel;
+	private HorizontalPanel horizontalPanel;
+	private Image image;
+
+	private VerticalPanel verticalPanel_2;
+	private HorizontalPanel hpName;
+	private Label lblFirstName;
+	private Label lblFirstName2;
+	private Label lblLastName;
+	private HorizontalPanel hpGender;
+	private Label lblGender;
+	private Label lblGender2;
+	private Label lblBirthday2;
+	private HorizontalPanel hpBirthday;
+	private Label lblBirthday;
+	private Label lblCity2;
+	private Label lblCity;
+	private HorizontalPanel hpCity;
+	private Label lblZip;
+	private Label lblHorizontalSeperator2;
+	private Label lblHorizontalSeperator;
+	private HorizontalPanel hpJob;
+	private Label lblJob;
+	private Label lblJob2;
+	private Label lblHobbys2;
+	private HorizontalPanel hpHobbys;
+	private Label lblHobbys;
+	private HorizontalPanel hpMusic;
+	private Label lblMusic;
+	private Label lblMusic2;
+	private HorizontalPanel hpMovie;
+	private Label lblMovie2;
+	private Label lblMovie;
+	private Label lblILike2;
+	private HorizontalPanel hpILike;
+	private Label lblILike;
+	private HorizontalPanel hpIDontLike;
+	private Label lblIDontLike;
+	private Label lblIDontLike2;
+	private HorizontalPanel hpAboutMe;
+	private Label lblAboutMe;
+	private Label lblAboutMe2;
+	private HorizontalPanel hpIcq;
+	private Label lblIcq2;
+	private Label lblIcq;
+	private HorizontalPanel hpMsn;
+	private Label lblMsn2;
+	private Label lblMsn;
+	private HorizontalPanel hpYahoo;
+	private Label lblYahoo2;
+	private Label lblYahoo;
+	private HorizontalPanel hpAim;
+	private Label lblAim2;
+	private Label lblAim;
+	private HorizontalPanel hpJabber;
+	private Label lblJabber;
+	private Label lblJabber2;
+	private HorizontalPanel hpHomepage;
+	private Label lblHomepage2;
+	private Label lblHomepage;
+	private Label verticalSeperator1;
+	private Hyperlink userRatings;
+	private Hyperlink messageUser;
+	private Hyperlink reportUser;
+	private Label verticalSeperatorGender;
+	private Label verticalSeperatorBirthday;
+	private Label verticalSeperatorHomepage;
+	private Label verticalSeperatorJob;
+	private Label verticalSeperatorHobbys;
+	private Label verticalSeperatorMusic;
+	private Label verticalSeperatorMovie;
+	private Label verticalSeperatorILike;
+	private Label verticalSeperatorIDontLike;
+	private Label verticalSeperatorAboutMe;
+	private Label verticalSeperatorIcq;
+	private Label verticalSeperatorMsn;
+	private Label verticalSeperatorYahoo;
+	private Label verticalSeperatorAim;
+	private Label verticalSeperatorJabber;
+	private Panel articlePanel;
+	private VerticalPanel verticalPanel;
+	private Label usernameLabel3;
+	private Label usernameLabel4;
 
 	/**
-	 * Die Profilansicht eines Benutzers
+	 * Constructor
 	 * 
-	 * @author Georg Ortwein, Daniel Abeska
-	 * @author Projekt Team 4711
-	 * @version 0.1, 06.05.09
+	 * @param username
+	 * 
 	 */
-	
-	
-	public UserView() {
+
+	public UserView(String username) {
+
+		user = new User();
+
+		// user.setUsername("geo");
+		// user.setFirstName("Georg");
+		// user.setLastName("Ortwein");
+		// // testuser.setGender("Männlich");
+		// // testuser.setBirthdate("11.04.1987");
+		// user.setZip("36358");
+		// user.setCity("Stockhausen");
+		// user.setHomepage("www.bla.de");
+		// user.setJob("Student");
+		// user
+		// .setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user
+		// .setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
+		// user.setIcq("1234567");
+		// user.setMsn("1234567");
+		// user.setYahoo("1234567");
+		// user.setAim("1234567");
+		// user.setJabber("geo@jabber.org");
+
+		createForm();
+		getuser(username);
+		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
+
+	}
+
+	public void createForm() {
 		{
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
-			absolutePanel = new AbsolutePanel();
-			verticalPanel.add(absolutePanel);
-			absolutePanel.setSize("650px", "700px");
+
+			// Überschrift
 			{
-				userPicture = new Image(null);
-				absolutePanel.add(userPicture, 5, 32);
-				userPicture.setSize("175px", "175px");
-			}
-			{
-				messageHyperlink = new Hyperlink("New hyperlink", false,
-						"newHistoryToken");
-				absolutePanel.add(messageHyperlink, 5, 212);
-				messageHyperlink.setText("Nachricht schicken");
-			}
-			{
-				ratingHyperlink = new Hyperlink("New hyperlink", false,
-						"newHistoryToken");
-				absolutePanel.add(ratingHyperlink, 5, 235);
-				ratingHyperlink.setText("Bewertungen");
-			}
-			{
-				reportHyperlink = new Hyperlink("New hyperlink", false,
-						"newHistoryToken");
-				absolutePanel.add(reportHyperlink, 5, 258);
-				reportHyperlink.setText("Melden");
-			}
-			{
-				Bewertung_Ansicht = new Hyperlink("New hyperlink", false,
-						"newHistoryToken");
-				absolutePanel.add(Bewertung_Ansicht, 220, 32);
-				Bewertung_Ansicht.setText("6 Bewertungen");
-			}
-			{
-				posRatingLabel = new Label("100");
-				absolutePanel.add(posRatingLabel, 220, 55);
-				posRatingLabel.setDirection(HasDirection.Direction.RTL);
-			}
-			{
-				usernameLabel = new Label("Name:");
-				absolutePanel.add(usernameLabel, 220, 95);
-				usernameLabel.setWidth("100");
-			}
-			{
-				username2Label = new Label("Hans Baembel");
-				absolutePanel.add(username2Label, 350, 95);
-				username2Label.setSize("300", "18");
-			}
-			{
-				genderLabel = new Label("Geschlecht:");
-				absolutePanel.add(genderLabel, 220, 118);
-				genderLabel.setWidth("100");
-			}
-			{
-				gender2Label = new Label("m\u00E4nnlich");
-				absolutePanel.add(gender2Label, 350, 118);
-				gender2Label.setSize("300", "18");
-			}
-			{
-				birthdayLabel = new Label("Geburtstag:");
-				absolutePanel.add(birthdayLabel, 220, 141);
-				birthdayLabel.setWidth("100");
-			}
-			{
-				birthday2Label = new Label("18.01.1965");
-				absolutePanel.add(birthday2Label, 350, 141);
-				birthday2Label.setSize("150", "18");
-			}
-			{
-				cityLabel = new Label("Wohnort");
-				absolutePanel.add(cityLabel, 220, 164);
-				cityLabel.setWidth("100");
-			}
-			{
-				city2Label = new Label("Fulda");
-				absolutePanel.add(city2Label, 350, 164);
-				city2Label.setSize("300", "18");
-			}
-			{
-				jobLabel = new Label("Beruf:");
-				absolutePanel.add(jobLabel, 220, 187);
-				jobLabel.setWidth("100");
-			}
-			{
-				job2Label = new Label("Trommelbauer");
-				absolutePanel.add(job2Label, 350, 187);
-				job2Label.setSize("300", "18");
+				horizontalPanel2 = new HorizontalPanel();
+				usernameLabel1 = new Label();
+				horizontalPanel2.add(usernameLabel1);
+				lblHorizontalSeperator = new Label();
+				lblHorizontalSeperator.setWidth("5");
+				horizontalPanel2.add(lblHorizontalSeperator);
+				usernameLabel2 = new Label();
+				horizontalPanel2.add(usernameLabel2);
+				usernameLabel3 = new Label("'s Profil (");
+				horizontalPanel2.add(usernameLabel3);
+				usernameLabel4 = new Label();
+				horizontalPanel2.add(usernameLabel4);
+
+				verticalPanel.add(horizontalPanel2);
 			}
 
 			{
-				hobby2Label = new Label("Sport,.....");
-				absolutePanel.add(hobby2Label, 350, 210);
-				hobby2Label.setSize("300", "18");
-			}
-			{
-				musicLabel = new Label("Musikgeschmack:");
-				absolutePanel.add(musicLabel, 220, 256);
-				musicLabel.setWidth("100");
-			}
-			{
-				music2Label = new Label("Heino, Wildecker Herzbuben,.....");
-				absolutePanel.add(music2Label, 350, 256);
-				music2Label.setSize("300", "18");
-			}
-			{
-				filmLabel = new Label("Filmgeschmack:");
-				absolutePanel.add(filmLabel, 220, 302);
-				filmLabel.setWidth("100");
-			}
-			{
-				film2Label = new Label(
-						"Braveheart, K\u00F6nigreich der Himmel,..");
-				absolutePanel.add(film2Label, 350, 302);
-				film2Label.setSize("300", "18");
-			}
-			{
-				iLikeLabel = new Label("Ich mag:");
-				absolutePanel.add(iLikeLabel, 220, 348);
-			}
-			{
-				iLike2Label = new Label("viel,...");
-				absolutePanel.add(iLike2Label, 350, 348);
-				iLike2Label.setSize("300", "18");
-			}
-			{
-				iDontLikeLabel = new Label("Ich mag nicht:");
-				absolutePanel.add(iDontLikeLabel, 220, 394);
-				iDontLikeLabel.setWidth("100");
-			}
-			{
-				iDontLike2Label = new Label("viel,..");
-				absolutePanel.add(iDontLike2Label, 350, 394);
-				iDontLike2Label.setSize("300", "18");
-			}
-			{
-				contactLabel = new Label("Kontakt:");
-				absolutePanel.add(contactLabel, 220, 440);
-				contactLabel.setWidth("100");
-			}
-			{
-				contact2Label = new Label("hans.baembel@bla.de");
-				absolutePanel.add(contact2Label, 350, 440);
-				contact2Label.setSize("300", "18");
-			}
-			{
-				aboutMeLabel = new Label("\u00DCber mich:");
-				absolutePanel.add(aboutMeLabel, 220, 486);
-				aboutMeLabel.setWidth("100");
-			}
-			{
-				aboutMe2Label = new Label("blabla,laber laber,...etc.");
-				absolutePanel.add(aboutMe2Label, 350, 486);
-				aboutMe2Label.setSize("300", "18");
-			}
-			{
-				absolutePanel_1 = new AbsolutePanel();
-				absolutePanel.add(absolutePanel_1, 5, 469);
-				absolutePanel_1.setSize("650px", "100px");
-			}
-			{
-				ratingStarsImage = new Image(null);
-				absolutePanel.add(ratingStarsImage, 350, 32);
-				ratingStarsImage.setSize("40", "18");
-			}
-			{
-				posRating2Label = new Label("% Positiv");
-				absolutePanel.add(posRating2Label, 244, 55);
-			}
-			{
-				neutralRatingLabel = new Label("100");
-				absolutePanel.add(neutralRatingLabel, 326, 55);
-				neutralRatingLabel.setDirection(HasDirection.Direction.RTL);
-				neutralRatingLabel.setWidth("25");
-			}
-			{
-				neutralRating2Label = new Label("% Neutral");
-				absolutePanel.add(neutralRating2Label, 349, 55);
-			}
-			{
-				label = new Label("100");
-				absolutePanel.add(label, 432, 55);
-				label.setSize("22", "18");
-			}
-			{
-				negRatingLabel = new Label("% Negativ");
-				absolutePanel.add(negRatingLabel, 457, 55);
-				negRatingLabel.setSize("100", "18");
-			}
+				horizontalPanel = new HorizontalPanel();
+				verticalPanel.add(horizontalPanel);
+				{
+					absolutePanel = new AbsolutePanel();
+					horizontalPanel.add(absolutePanel);
+					absolutePanel.setSize("200", "300");
 
-			profileNameLabel = new Label("Hans Baembel's Profil");
-			absolutePanel.add(profileNameLabel, 5, 5);
-			profileNameLabel.setSize("650", "22");
-			{
-				Label hobbyLabel = new Label("Hobbys:");
-				absolutePanel.add(hobbyLabel, 220, 210);
+					// Bild
+					{
+						image = new Image();
+						image.setPixelSize(150, 150);
+						absolutePanel.add(image, 0, 0);
+					}
+
+					// Links unter Bild
+					{
+						VerticalPanel verticalPanel_1 = new VerticalPanel();
+						absolutePanel.add(verticalPanel_1, 0, 160);
+						verticalPanel_1.setWidth("170");
+
+						messageUser = new Hyperlink();
+						verticalPanel_1.add(messageUser);
+
+						userRatings = new Hyperlink();
+						verticalPanel_1.add(userRatings);
+
+						reportUser = new Hyperlink();
+						verticalPanel_1.add(reportUser);
+
+					}
+
+				}
+
+				{
+
+					verticalPanel_2 = new VerticalPanel();
+
+					// Name
+					{
+						hpName = new HorizontalPanel();
+						lblFirstName = new Label("Vorname:");
+						lblFirstName.setWidth("140");
+						hpName.add(lblFirstName);
+						lblFirstName2 = new Label();
+						hpName.add(lblFirstName2);
+
+						lblHorizontalSeperator = new Label();
+						lblHorizontalSeperator.setWidth("5");
+						hpName.add(lblHorizontalSeperator);
+						lblLastName = new Label();
+						hpName.add(lblLastName);
+
+						verticalPanel_2.add(hpName);
+
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
+					}
+
+					// Geschlecht
+					{
+						hpGender = new HorizontalPanel();
+						lblGender = new Label("Geschlecht:");
+						lblGender.setWidth("140");
+						hpGender.add(lblGender);
+						lblGender2 = new Label();
+						hpGender.add(lblGender2);
+
+						verticalPanel_2.add(hpGender);
+						hpGender.setVisible(false);
+						verticalSeperatorGender = new Label();
+						verticalSeperatorGender.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorGender);
+						verticalSeperatorGender.setVisible(false);
+					}
+					// Geburtstag
+
+					{
+						hpBirthday = new HorizontalPanel();
+						lblBirthday = new Label("Geburtstag:");
+						lblBirthday.setWidth("140");
+						hpBirthday.add(lblBirthday);
+						lblBirthday2 = new Label();
+						hpBirthday.add(lblBirthday2);
+
+						verticalPanel_2.add(hpBirthday);
+						hpBirthday.setVisible(false);
+
+						verticalSeperatorBirthday = new Label();
+						verticalSeperatorBirthday.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorBirthday);
+						verticalSeperatorBirthday.setVisible(false);
+					}
+
+					// Wohnort
+					{
+						hpCity = new HorizontalPanel();
+						lblCity = new Label("Wohnort:");
+						lblCity.setWidth("140");
+						hpCity.add(lblCity);
+
+						lblZip = new Label();
+						hpCity.add(lblZip);
+
+						lblHorizontalSeperator2 = new Label();
+						lblHorizontalSeperator2.setWidth("5");
+						hpCity.add(lblHorizontalSeperator2);
+						lblHorizontalSeperator2.setVisible(false);
+
+						lblCity2 = new Label();
+						hpCity.add(lblCity2);
+
+						verticalPanel_2.add(hpCity);
+
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
+					}
+
+					// Homepage
+					{
+						hpHomepage = new HorizontalPanel();
+						lblHomepage = new Label("Homepage:");
+						lblHomepage.setWidth("140");
+						hpHomepage.add(lblHomepage);
+
+						lblHomepage2 = new Label();
+						hpHomepage.add(lblHomepage2);
+
+						verticalPanel_2.add(hpHomepage);
+						hpHomepage.setVisible(false);
+
+						verticalSeperatorHomepage = new Label();
+						verticalSeperatorHomepage.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorHomepage);
+						verticalSeperatorHomepage.setVisible(false);
+					}
+
+					// Beruf
+					{
+						hpJob = new HorizontalPanel();
+						lblJob = new Label("Beruf:");
+						lblJob.setWidth("140");
+						hpJob.add(lblJob);
+
+						lblJob2 = new Label();
+						hpJob.add(lblJob2);
+
+						verticalPanel_2.add(hpJob);
+						hpJob.setVisible(false);
+
+						verticalSeperatorJob = new Label();
+						verticalSeperatorJob.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorJob);
+						verticalSeperatorJob.setVisible(false);
+					}
+
+					// Hobbys
+					{
+						hpHobbys = new HorizontalPanel();
+						lblHobbys = new Label("Hobbys:");
+						lblHobbys.setWidth("140");
+						hpHobbys.add(lblHobbys);
+						lblHobbys2 = new Label();
+						lblHobbys2.setWidth("250");
+						hpHobbys.add(lblHobbys2);
+
+						verticalPanel_2.add(hpHobbys);
+						hpHobbys.setVisible(false);
+
+						verticalSeperatorHobbys = new Label();
+						verticalSeperatorHobbys.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorHobbys);
+						verticalSeperatorHobbys.setVisible(false);
+					}
+
+					// Musikgeschmack
+
+					{
+						hpMusic = new HorizontalPanel();
+						lblMusic = new Label("Musikgeschmack:");
+						lblMusic.setWidth("140");
+						hpMusic.add(lblMusic);
+						lblMusic2 = new Label();
+						lblMusic2.setWidth("250");
+						hpMusic.add(lblMusic2);
+
+						verticalPanel_2.add(hpMusic);
+						hpMusic.setVisible(false);
+
+						verticalSeperatorMusic = new Label();
+						verticalSeperatorMusic.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorMusic);
+						verticalSeperatorMusic.setVisible(false);
+					}
+
+					// Filmgeschmack
+					{
+						hpMovie = new HorizontalPanel();
+						lblMovie = new Label("Filmgeschmack:");
+						lblMovie.setWidth("140");
+						hpMovie.add(lblMovie);
+						lblMovie2 = new Label();
+						lblMovie2.setWidth("250");
+						hpMovie.add(lblMovie2);
+
+						verticalPanel_2.add(hpMovie);
+						hpMovie.setVisible(false);
+
+						verticalSeperatorMovie = new Label();
+						verticalSeperatorMovie.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorMovie);
+						verticalSeperatorMovie.setVisible(false);
+					}
+
+					// Ich mag
+					{
+						hpILike = new HorizontalPanel();
+						lblILike = new Label("Ich mag:");
+						lblILike.setWidth("140");
+						hpILike.add(lblILike);
+						lblILike2 = new Label();
+						lblILike2.setWidth("250");
+						hpILike.add(lblILike2);
+
+						verticalPanel_2.add(hpILike);
+						hpILike.setVisible(false);
+
+						verticalSeperatorILike = new Label();
+						verticalSeperatorILike.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorILike);
+						verticalSeperatorILike.setVisible(false);
+					}
+
+					// Ich mag nicht
+					{
+						hpIDontLike = new HorizontalPanel();
+						lblIDontLike = new Label("Ich mag nicht:");
+						lblIDontLike.setWidth("140");
+						hpIDontLike.add(lblIDontLike);
+						lblIDontLike2 = new Label();
+						lblIDontLike2.setWidth("250");
+						hpIDontLike.add(lblIDontLike2);
+
+						verticalPanel_2.add(hpIDontLike);
+						hpIDontLike.setVisible(false);
+
+						verticalSeperatorIDontLike = new Label();
+						verticalSeperatorIDontLike.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorIDontLike);
+						verticalSeperatorIDontLike.setVisible(false);
+					}
+
+					// Über mich
+					{
+						hpAboutMe = new HorizontalPanel();
+						lblAboutMe = new Label("\u00dcber mich:");
+						lblAboutMe.setWidth("140");
+						hpAboutMe.add(lblAboutMe);
+						lblAboutMe2 = new Label();
+						lblAboutMe2.setWidth("250");
+						hpAboutMe.add(lblAboutMe2);
+
+						verticalPanel_2.add(hpAboutMe);
+						hpAboutMe.setVisible(false);
+
+						verticalSeperatorAboutMe = new Label();
+						verticalSeperatorAboutMe.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorAboutMe);
+						verticalSeperatorAboutMe.setVisible(false);
+					}
+
+					// Icq
+					{
+						hpIcq = new HorizontalPanel();
+						lblIcq = new Label("ICQ:");
+						lblIcq.setWidth("140");
+						hpIcq.add(lblIcq);
+						lblIcq2 = new Label();
+						lblIcq2.setWidth("250");
+						hpIcq.add(lblIcq2);
+
+						verticalPanel_2.add(hpIcq);
+						hpIcq.setVisible(false);
+
+						verticalSeperatorIcq = new Label();
+						verticalSeperatorIcq.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorIcq);
+						verticalSeperatorIcq.setVisible(false);
+					}
+
+					// Msn
+					{
+						hpMsn = new HorizontalPanel();
+						lblMsn = new Label("MSN:");
+						lblMsn.setWidth("140");
+						hpMsn.add(lblMsn);
+						lblMsn2 = new Label();
+						lblMsn2.setWidth("250");
+						hpMsn.add(lblMsn2);
+
+						verticalPanel_2.add(hpMsn);
+						hpMsn.setVisible(false);
+
+						verticalSeperatorMsn = new Label();
+						verticalSeperatorMsn.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorMsn);
+						verticalSeperatorMsn.setVisible(false);
+					}
+
+					// Yahoo
+					{
+						hpYahoo = new HorizontalPanel();
+						lblYahoo = new Label("Yahoo:");
+						lblYahoo.setWidth("140");
+						hpYahoo.add(lblYahoo);
+						lblYahoo2 = new Label();
+						lblYahoo2.setWidth("250");
+						hpYahoo.add(lblYahoo2);
+
+						verticalPanel_2.add(hpYahoo);
+						hpYahoo.setVisible(false);
+
+						verticalSeperatorYahoo = new Label();
+						verticalSeperatorYahoo.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorYahoo);
+						verticalSeperatorYahoo.setVisible(false);
+					}
+
+					// AIM
+					{
+						hpAim = new HorizontalPanel();
+						lblAim = new Label("AIM:");
+						lblAim.setWidth("140");
+						hpAim.add(lblAim);
+						lblAim2 = new Label();
+						lblAim2.setWidth("250");
+						hpAim.add(lblAim2);
+
+						verticalPanel_2.add(hpAim);
+						hpAim.setVisible(false);
+
+						verticalSeperatorAim = new Label();
+						verticalSeperatorAim.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorAim);
+						verticalSeperatorAim.setVisible(false);
+					}
+
+					// Jabber
+					{
+						hpJabber = new HorizontalPanel();
+						lblJabber = new Label("Jabber:");
+						lblJabber.setWidth("140");
+						hpJabber.add(lblJabber);
+						lblJabber2 = new Label();
+						lblJabber2.setWidth("250");
+						hpJabber.add(lblJabber2);
+
+						verticalPanel_2.add(hpJabber);
+						hpJabber.setVisible(false);
+
+						verticalSeperatorJabber = new Label();
+						verticalSeperatorJabber.setHeight("5");
+						verticalPanel_2.add(verticalSeperatorJabber);
+						verticalSeperatorJabber.setVisible(false);
+					}
+
+					horizontalPanel.add(verticalPanel_2);
+				}
+
 			}
+		}
+
+		// Artikel Panel
+		{
+			articlePanel = new Panel();
+			articlePanel.setPaddings(10);
+			articlePanel.setTitle("");
+			articlePanel.setCollapsible(true);
+			verticalPanel.add(articlePanel);
 		}
 	}
 
+	private void getuser(String username) {
+		UserManagerAsync userManager = GWT.create(UserManager.class);
+
+		userManager.getUser(username, new AsyncCallback<User>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				System.out.println("fehler");
+
+			}
+
+			public void onSuccess(User userProfile) {
+				// :)
+				user = userProfile;
+				fillForm(userProfile);
+			}
+		});
+	}
+
+	public void fillForm(User user) {
+
+		try {
+			setFirstName(user.getFirstName());
+		} catch (NullPointerException e) {
+		}
+		try {
+			setLastName(user.getLastName());
+		} catch (NullPointerException e) {
+		}
+		try {
+			setZip(user.getZip());
+		} catch (NullPointerException e) {
+		}
+
+		try {
+			setCity(user.getCity());
+		} catch (NullPointerException e) {
+		}
+		try {
+			setUsername(user.getUsername());
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getGender().equals(null)) {
+				setGender(user.getGender());
+				hpGender.setVisible(true);
+				verticalSeperatorGender.setVisible(true);
+			}
+
+		} catch (NullPointerException e) {
+		}
+		// try {
+		// if (user.getBirthdate().equals("")) {
+		// setBirthdate(user.getBirthdate());
+		// hpBirthday.setVisible(true);
+		// verticalSeperatorBirthday.setVisible(true);
+		// }
+		// } catch (NullPointerException e) {
+		// }
+		try {
+
+			if (user.getJob().equals("")) {
+				setJob(user.getJob());
+				hpJob.setVisible(true);
+				verticalSeperatorJob.setVisible(true);
+
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getHomepage().equals("")) {
+				setHomepage(user.getHomepage());
+				hpHomepage.setVisible(true);
+				verticalSeperatorHomepage.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getHobbys().equals("")) {
+				setHobbys(user.getHobbys());
+				hpHobbys.setVisible(true);
+				verticalSeperatorHobbys.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getMusic().equals("")) {
+				setMusic(user.getMusic());
+				hpMusic.setVisible(true);
+				verticalSeperatorMusic.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getMovie().equals("")) {
+				setMovie(user.getMovie());
+				hpMusic.setVisible(true);
+				verticalSeperatorMovie.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getILike().equals("")) {
+				setILike(user.getILike());
+				hpILike.setVisible(true);
+				verticalSeperatorILike.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getIDontLike().equals("")) {
+				setIDontLike(user.getIDontLike());
+				hpIDontLike.setVisible(true);
+				verticalSeperatorIDontLike.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getAboutMe().equals("")) {
+				setAboutMe(user.getAboutMe());
+				hpAboutMe.setVisible(true);
+				verticalSeperatorAboutMe.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getIcq().equals("")) {
+				setIcq(user.getIcq());
+				hpIcq.setVisible(true);
+				verticalSeperatorIcq.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getMsn().equals("")) {
+				setMsn(user.getMsn());
+				hpMsn.setVisible(true);
+				verticalSeperatorMsn.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getYahoo().equals("")) {
+				setYahoo(user.getYahoo());
+				hpYahoo.setVisible(true);
+				verticalSeperatorYahoo.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getAim().equals("")) {
+				setAim(user.getAim());
+				hpAim.setVisible(true);
+				verticalSeperatorAim.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getJabber().equals("")) {
+				setJabber(user.getJabber());
+				hpJabber.setVisible(true);
+				verticalSeperatorJabber.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (user.getImage().equals("")) {
+				setImage(user.getImage());
+
+			}
+		} catch (NullPointerException e) {
+		}
+
+	}
+
 	/**
-	 * @return the username text
+	 * @param firstName
+	 *            the firstName to set
 	 */
-	public String getUsername() {
-		return this.username2Label.getText();
+
+	public void setFirstName(String firstName) {
+		this.lblFirstName2.setText(firstName);
+		usernameLabel1.setText(firstName);
+		articlePanel.setTitle(firstName + "'s Artikel");
+		this.messageUser.setText("Nachricht an " + firstName);
+		this.userRatings.setText(firstName + "'s Bewertungen");
+		this.reportUser.setText(firstName + " melden");
+	}
+
+	/**
+	 * @return the firstName textField
+	 */
+	public String getFirstName() {
+		return this.lblFirstName2.getText();
+	}
+
+	/**
+	 * @param lastName
+	 *            the firstName to set
+	 */
+
+	public void setLastName(String lastName) {
+		this.lblLastName.setText(lastName);
+		usernameLabel2.setText(lastName);
+
+	}
+
+	/**
+	 * @return the lastName textField
+	 */
+	public String getLastName() {
+		return this.lblLastName.getText();
+	}
+
+	/**
+	 * @param zipCode
+	 *            the zipCode to set
+	 */
+	public void setZip(String zip) {
+		lblHorizontalSeperator2.setVisible(true);
+		this.lblZip.setText(zip);
+	}
+
+	/**
+	 * @return the zipCode textField
+	 */
+	public String getZip() {
+		return this.lblZip.getText();
+	}
+
+	/**
+	 * @param city
+	 *            the city to set
+	 */
+	public void setCity(String city) {
+		this.lblCity2.setText(city);
+	}
+
+	/**
+	 * @return the city textField
+	 */
+	public String getCity() {
+		return this.lblCity2.getText();
+	}
+
+	/**
+	 * @param username
+	 *            the username to set
+	 */
+	public void setGender(String gender) {
+		lblGender2.setText(gender);
+	}
+
+	/**
+	 * @return the username textField
+	 */
+	public String getGender() {
+		return lblGender2.getText();
+
+	}
+
+	/**
+	 * @param birthdate
+	 *            the birthdate to set
+	 */
+	public void setBirthdate(String date) {
+		lblBirthday2.setText(date);
+	}
+
+	/**
+	 * @return the birthdate textField
+	 */
+	public String getBirthday() {
+		return lblBirthday2.getText();
+	}
+
+	/**
+	 * @param job
+	 *            the job to set
+	 */
+	public void setJob(String job) {
+		this.lblJob2.setText(job);
+	}
+
+	/**
+	 * @return the job textField
+	 */
+	public String getJob() {
+		return lblJob2.getText();
+	}
+
+	/**
+	 * @param hobbys
+	 *            the hobbys to set
+	 */
+	public void setHobbys(String hobbys) {
+		this.lblHobbys2.setText(hobbys);
+	}
+
+	/**
+	 * @return the hobby textArea
+	 */
+	public String getHobbys() {
+		return lblHobbys2.getText();
+	}
+
+	/**
+	 * @param music
+	 *            the music to set
+	 */
+	public void setMusic(String music) {
+		this.lblMusic2.setText(music);
+	}
+
+	/**
+	 * @return the music textArea
+	 */
+	public String getMusic() {
+		return lblMusic2.getText();
+	}
+
+	/**
+	 * @param movie
+	 *            the movie to set
+	 */
+	public void setMovie(String movie) {
+		this.lblMovie2.setText(movie);
+	}
+
+	/**
+	 * @return the movie textArea
+	 */
+	public String getMovie() {
+		return lblMovie2.getText();
+	}
+
+	/**
+	 * @param ilike
+	 *            the ilike to set
+	 */
+	public void setILike(String ilike) {
+		this.lblILike2.setText(ilike);
+	}
+
+	/**
+	 * @return the ilike textArea
+	 */
+	public String getILike() {
+		return lblILike2.getText();
+	}
+
+	/**
+	 * @param idontlike
+	 *            the idontlike to set
+	 */
+	public void setIDontLike(String idontlike) {
+		this.lblIDontLike2.setText(idontlike);
+	}
+
+	/**
+	 * @return the idontlike textArea
+	 */
+	public String getIDontLike() {
+		return lblIDontLike2.getText();
+	}
+
+	/**
+	 * @param aboutme
+	 *            the aboutme to set
+	 */
+	public void setAboutMe(String aboutme) {
+		this.lblAboutMe2.setText(aboutme);
+	}
+
+	/**
+	 * @return the aboutme textArea
+	 */
+	public String getAboutMe() {
+		return lblAboutMe2.getText();
+	}
+
+	/**
+	 * @param icq
+	 *            the icq to set
+	 */
+	public void setIcq(String icq) {
+		this.lblIcq2.setText(icq);
+	}
+
+	/**
+	 * @return the icq textArea
+	 */
+	public String getIcq() {
+		return lblIcq2.getText();
+	}
+
+	/**
+	 * @param msn
+	 *            the msn to set
+	 */
+	public void setMsn(String msn) {
+		this.lblMsn2.setText(msn);
+	}
+
+	/**
+	 * @return the msn textArea
+	 */
+	public String getMsn() {
+		return lblMsn2.getText();
+	}
+
+	/**
+	 * @param yahoo
+	 *            the yahoo to set
+	 */
+	public void setYahoo(String yahoo) {
+		this.lblYahoo2.setText(yahoo);
+	}
+
+	/**
+	 * @return the yahoo textArea
+	 */
+	public String getYahoo() {
+		return lblYahoo2.getText();
+	}
+
+	/**
+	 * @param aim
+	 *            the aim to set
+	 */
+	public void setAim(String aim) {
+		this.lblAim2.setText(aim);
+	}
+
+	/**
+	 * @return the aim textArea
+	 */
+	public String getAim() {
+		return lblAim2.getText();
+	}
+
+	/**
+	 * @param jabber
+	 *            the jabber to set
+	 */
+	public void setJabber(String jabber) {
+		this.lblJabber2.setText(jabber);
+	}
+
+	/**
+	 * @return the jabber textArea
+	 */
+	public String getJabber() {
+		return lblJabber2.getText();
+	}
+
+	/**
+	 * @param url
+	 *            the homepage to set
+	 */
+	public void setHomepage(String url) {
+		this.lblHomepage2.setText(url);
+	}
+
+	/**
+	 * @return the homepage textArea
+	 */
+	public String getHomepage() {
+		return lblHomepage2.getText();
 	}
 
 	/**
@@ -275,186 +1036,31 @@ public class UserView extends Composite implements View {
 	 *            the username to set
 	 */
 	public void setUsername(String username) {
-		this.username2Label.setText(username);
+		this.usernameLabel4.setText(username + ")");
+
 	}
 
 	/**
-	 * @return the gender text
+	 * @return the username textField
 	 */
-	public String getGender() {
-		return this.gender2Label.getText();
+	public String getUsername() {
+		return this.usernameLabel1.getText();
 	}
 
 	/**
-	 * @param gender
-	 *            the gender to set
+	 * @param imageurl
+	 *            the imageurl to set
 	 */
-	public void setGender(String gender) {
-		this.gender2Label.setText(gender);
+	public void setImage(String imageurl) {
+		// TODO
+		this.image.setUrl(imageurl);
 	}
 
 	/**
-	 * @return the job text
+	 * @return the imageurl textArea
 	 */
-	public String getJob() {
-		return this.job2Label.getText();
-	}
-
-	/**
-	 * @param job
-	 *            the job to set
-	 */
-	public void setLblBeruf_Ansicht(String job) {
-		this.job2Label.setText(job);
-	}
-
-	/**
-	 * @return the hobby
-	 */
-	public String getHobby() {
-		return this.hobby2Label.getText();
-	}
-
-	/**
-	 * @param hobby
-	 *            the hobby to set
-	 */
-	public void setHobby(String hobby) {
-		this.hobby2Label.setText(hobby);
-	}
-
-	/**
-	 * @return the music text
-	 */
-	public String getMusic() {
-		return this.music2Label.getText();
-	}
-
-	/**
-	 * @param music
-	 *            the music to set
-	 */
-	public void setLblMusik_Ansicht(String music) {
-		this.music2Label.setText(music);
-	}
-
-	/**
-	 * @return the film text
-	 */
-	public String getFilm() {
-		return film2Label.getText();
-	}
-
-	/**
-	 * @param film
-	 *            the film to set
-	 */
-	public void setLblFilm_Ansicht(String film) {
-		this.film2Label.setText(film);
-	}
-
-	/**
-	 * @return the iLike
-	 */
-	public String getILike() {
-		return iLike2Label.getText();
-	}
-
-	/**
-	 * @param iLike
-	 *            the iLike to set
-	 */
-	public void setILike(String iLike) {
-		this.iLike2Label.setText(iLike);
-	}
-
-	/**
-	 * @return the iDontLike text
-	 */
-	public String getIDontLike() {
-		return iDontLike2Label.getText();
-	}
-
-	/**
-	 * @param iDontLike
-	 *            the iDontLike to set
-	 */
-	public void setIDontLike(String iDontLike) {
-		this.iDontLike2Label.setText(iDontLike);
-	}
-
-	/**
-	 * @return the contact text
-	 */
-	public String getContact() {
-		return contact2Label.getText();
-	}
-
-	/**
-	 * @param contact
-	 *            the contact to set
-	 */
-	public void setContact(String contact) {
-		this.contact2Label.setText(contact);
-	}
-
-	/**
-	 * @return the aboutMe text
-	 */
-	public String getAboutMe() {
-		return aboutMe2Label.getText();
-	}
-
-	/**
-	 * @param aboutMe
-	 *            the aboutMe to set
-	 */
-	public void setLblUeberMich_Ansicht(String aboutMe) {
-		this.aboutMe2Label.setText(aboutMe);
-	}
-
-	/**
-	 * @param posRating
-	 *            the posRating to set
-	 */
-	public void setPosRating(String posRating) {
-		this.posRating2Label.setText(posRating);
-	}
-
-	/**
-	 * @return the posRating text
-	 */
-	public String getPosRating() {
-		return posRating2Label.getText();
-	}
-
-	/**
-	 * @param neutralRating
-	 *            the neutralRating to set
-	 */
-	public void setLblPrzent_Neutral_Bez(String neutralRating) {
-		this.neutralRating2Label.setText(neutralRating);
-	}
-
-	/**
-	 * @return the neutralRating text
-	 */
-	public String getNeutralRating() {
-		return neutralRating2Label.getText();
-	}
-
-	/**
-	 * @param negRating
-	 *            the negRating to set
-	 */
-	public void setNegRating(String negRating) {
-		this.negRatingLabel.setText(negRating);
-	}
-
-	/**
-	 * @return the neutralRating text
-	 */
-	public String getNegRating() {
-		return negRatingLabel.getText();
+	public String getImage() {
+		return image.getUrl();
+		// TODO
 	}
 }

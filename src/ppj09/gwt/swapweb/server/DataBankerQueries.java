@@ -144,15 +144,12 @@ public class DataBankerQueries {
 	    	rs = stmt.executeQuery(query);
 	    	
 	    	while (rs.next()) {
-	    		System.out.println("ist da");
 			
 	    		InputStream is = rs.getBlob("userob").getBinaryStream();
 	    		ObjectInputStream ois = new ObjectInputStream(is);
 	    		Object x = ois.readObject(); 
 	    		user = (User)x;
-	    		System.out.println("UN: " + user.getUsername() + " UNE");
 			}
-	    	System.out.println("nach der while");
 			
 			rs.close();
 			dbc.close();

@@ -26,5 +26,6 @@ public interface UserManager extends RemoteService {
 	public int createUser(User newUser);
 	public boolean checkUsername(String username);
 	public User getUser();
+	public User getUser(String username);
 	public int updateUser(User newUser);
 }
