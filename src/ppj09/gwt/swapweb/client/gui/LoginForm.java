@@ -7,8 +7,6 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
-import org.apache.tools.ant.types.CommandlineJava.SysProperties;
-
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
@@ -16,7 +14,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.gwtext.client.core.EventCallback;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
@@ -46,7 +43,6 @@ public class LoginForm extends Composite implements Form {
 	private FormPanel formPanel;
 	private TextField txtbxPassword;
 	private MultiFieldPanel multiPanel1;
-	private MultiFieldPanel multiPanel2;
 	private Button loginButton;
 	private Hyperlink lostPwHyperlink;
 
