@@ -11,28 +11,26 @@ import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
-import ppj09.gwt.swapweb.client.datatype.User;
-import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
-import ppj09.gwt.swapweb.client.serverInterface.UserManager;
-import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBoxBase;
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Position;
+import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.form.Checkbox;
+import com.gwtext.client.widgets.form.FormPanel;
+import com.gwtext.client.widgets.form.TextField;
+import com.gwtext.client.widgets.layout.FitLayout;
+
 
 /**
  * Formularfelder und Submit der Benutzersuche. Implementiert das Interface Form
@@ -43,37 +41,93 @@ import com.gwtext.client.widgets.Panel;
  */
 public class UserSearchForm extends Composite implements Form {
 	private Panel containerPanel;
-	private Button resultsButton;
-	private Label usernameLabel;
-	private Label firstNameLabel;
-	private Label lastNameLabel;
-	private TextBox usernameTextBox;
-	private TextBox firstNameTextBox;
-	private TextBox lastNameTextBox;
-	private Label cityLabel;
-	private TextBox cityTextBox;
-	private Label ageLabel;
-	private ListBox ageComboBox_1;
-	private Label tillLabel;
-	private ListBox ageComboBox_2;
-	private TextBox jobTextBox;
-	private Label jobLabel;
-	private TextBox hobbysTextBox;
-	private Label hobbysLabel;
-	private TextBox musicTextBox;
-	private Label musicLabel;
-	private TextBox filmTextBox;
-	private Label filmLabel;
-	private CheckBox activeUsersChckbx;
-	private CheckBox pictureUsersChckbx;
 	private VerticalPanel searchResultPanel;
+	
 
 	public UserSearchForm() {
 		
 			containerPanel = new Panel();
-			
+			containerPanel.setLayout(new FitLayout());
+			containerPanel.setBorder(false);
 			initWidget(containerPanel);
+			
+		
+			HorizontalPanel borderPanel = new HorizontalPanel();
+			
 			containerPanel.setTitle("Benutzersuche");
+			
+			FormPanel firstFormPanel = new FormPanel();
+			firstFormPanel.setBorder(false);
+			firstFormPanel.setLabelAlign(Position.TOP);
+			firstFormPanel.setPaddings(10,10,0,0);
+			firstFormPanel.add(new TextField("Benutzername", "", 110));
+			firstFormPanel.add(new TextField("Vorname", "", 110));
+			
+			FormPanel secondFormPanel = new FormPanel();
+			secondFormPanel.setBorder(false);
+			secondFormPanel.setLabelAlign(Position.TOP);
+			secondFormPanel.setPaddings(10,10,0,0);
+			secondFormPanel.add(new TextField("Nachname", "", 110));
+			secondFormPanel.add(new TextField("Wohnort", "", 110));
+			
+			FormPanel thirdFormPanel = new FormPanel();
+			thirdFormPanel.setBorder(false);
+			thirdFormPanel.setLabelAlign(Position.TOP);
+			thirdFormPanel.setPaddings(10,10,0,0);
+			thirdFormPanel.add(new TextField("Job","", 110));
+			thirdFormPanel.add(new TextField("Hobbies","", 110));
+			
+			
+			FormPanel fourthFormPanel = new FormPanel();
+			fourthFormPanel.setBorder(false);
+			fourthFormPanel.setPaddings(10,10,0,0);
+			fourthFormPanel.setLabelAlign(Position.TOP);
+			Checkbox activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
+			fourthFormPanel.add(activeArticleCheckBox);
+			Checkbox pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
+			fourthFormPanel.add(pictureArticlesCheckBox);
+			
+			
+			Panel buttonPanel = new Panel();
+			buttonPanel.setPaddings(10,0,0,0);
+			buttonPanel.setBorder(false);
+			Button searchButton = new Button("Suchen", new ButtonListenerAdapter() {
+				public void onClick(Button button, EventObject e) {
+
+					System.out.println("gedrückt");
+					/**
+					 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt
+					 * und übergibt es per RPC an SearchHandler.search()
+					 */
+					SearchHandlerAsync searchHandler = GWT
+							.create(SearchHandler.class);
+					searchHandler.search(new ArticleSearchQuery(),
+							new AsyncCallback<ArrayList<SearchResult>>() {
+								public void onFailure(Throwable caught) {
+									System.out.println("neeee: ");
+								}
+
+								public void onSuccess(
+										ArrayList<SearchResult> results) {
+									System.out.println("neeee: ");
+									for (SearchResult r : results) {
+										searchResultPanel.add((Widget) r.getView());
+									}
+								}
+							});
+				}
+
+			});
+			searchButton.setIconCls("icon-search");
+			buttonPanel.add(searchButton);
+			fourthFormPanel.add(buttonPanel);
+			
+			borderPanel.add(firstFormPanel);
+			borderPanel.add(secondFormPanel);
+			borderPanel.add(thirdFormPanel);
+			borderPanel.add(fourthFormPanel);
+			
+			containerPanel.add(borderPanel);
 			/*{
 				resultsButton = new Button("New button");
 				containerPanel.add(resultsButton);
@@ -108,42 +162,6 @@ public class UserSearchForm extends Composite implements Form {
 					resultsButton.setText("Ergebnisse Anzeigen");
 			}
 			{
-				usernameLabel = new Label("Benutzer:");
-				containerPanel.add(usernameLabel);
-			}
-			{
-				firstNameLabel = new Label("Vorname:");
-				containerPanel.add(firstNameLabel);
-			}
-			{
-				lastNameLabel = new Label("Nachname:");
-				containerPanel.add(lastNameLabel);
-			}
-			{
-				usernameTextBox = new TextBox();
-				containerPanel.add(usernameTextBox);
-				usernameTextBox.setWidth("170");
-			}
-			{
-				firstNameTextBox = new TextBox();
-				containerPanel.add(firstNameTextBox);
-				firstNameTextBox.setWidth("170");
-			}
-			{
-				lastNameTextBox = new TextBox();
-				containerPanel.add(lastNameTextBox);
-				lastNameTextBox.setWidth("170");
-			}
-			{
-				cityLabel = new Label("Wohnort:");
-				containerPanel.add(cityLabel);
-			}
-			{
-				cityTextBox = new TextBox();
-				containerPanel.add(cityTextBox);
-				cityTextBox.setWidth("170");
-			}
-			{
 				ageLabel = new Label("Alter:");
 				containerPanel.add(ageLabel);
 			}
@@ -168,24 +186,6 @@ public class UserSearchForm extends Composite implements Form {
 					ageComboBox_2.addItem(""+i);
 				}
 				ageComboBox_2.setWidth("50");
-			}
-			{
-				jobTextBox = new TextBox();
-				containerPanel.add(jobTextBox);
-				jobTextBox.setWidth("170");
-			}
-			{
-				jobLabel = new Label("Beruf:");
-				containerPanel.add(jobLabel);
-			}
-			{
-				hobbysTextBox = new TextBox();
-				containerPanel.add(hobbysTextBox);
-				hobbysTextBox.setWidth("170");
-			}
-			{
-				hobbysLabel = new Label("Hobbys:");
-				containerPanel.add(hobbysLabel);
 			}
 			{
 				musicTextBox = new TextBox();
