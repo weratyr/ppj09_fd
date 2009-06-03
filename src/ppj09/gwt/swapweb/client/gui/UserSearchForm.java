@@ -28,6 +28,8 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.FormPanel;
+import com.gwtext.client.widgets.form.Label;
+import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.FitLayout;
 
@@ -37,13 +39,12 @@ import com.gwtext.client.widgets.layout.FitLayout;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @version 0.1, 03.06.09
  */
 public class UserSearchForm extends Composite implements Form {
 	private Panel containerPanel;
 	private VerticalPanel searchResultPanel;
 	
-
 	public UserSearchForm() {
 		
 			containerPanel = new Panel();
@@ -51,8 +52,8 @@ public class UserSearchForm extends Composite implements Form {
 			containerPanel.setBorder(false);
 			initWidget(containerPanel);
 			
-		
-			HorizontalPanel borderPanel = new HorizontalPanel();
+			FormPanel borderPanel = new FormPanel();
+			borderPanel.setBorder(false);
 			
 			containerPanel.setTitle("Benutzersuche");
 			
@@ -78,15 +79,18 @@ public class UserSearchForm extends Composite implements Form {
 			thirdFormPanel.add(new TextField("Hobbies","", 110));
 			
 			
-			FormPanel fourthFormPanel = new FormPanel();
+			Panel fourthFormPanel = new Panel();
 			fourthFormPanel.setBorder(false);
-			fourthFormPanel.setPaddings(10,10,0,0);
-			fourthFormPanel.setLabelAlign(Position.TOP);
-			Checkbox activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
-			fourthFormPanel.add(activeArticleCheckBox);
-			Checkbox pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
-			fourthFormPanel.add(pictureArticlesCheckBox);
+			fourthFormPanel.setPaddings(23,10,0,0);
 			
+			
+			Panel checkBoxPanel = new Panel();
+			checkBoxPanel.setBorder(false);
+			Checkbox activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
+			checkBoxPanel.add(activeArticleCheckBox);
+			Checkbox pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
+			checkBoxPanel.add(pictureArticlesCheckBox);
+			fourthFormPanel.add(checkBoxPanel);
 			
 			Panel buttonPanel = new Panel();
 			buttonPanel.setPaddings(10,0,0,0);
@@ -121,46 +125,19 @@ public class UserSearchForm extends Composite implements Form {
 			searchButton.setIconCls("icon-search");
 			buttonPanel.add(searchButton);
 			fourthFormPanel.add(buttonPanel);
+
+			MultiFieldPanel multiPanel = new MultiFieldPanel();
+			multiPanel.setPaddings(5);
+			multiPanel.setBorder(false);
+			multiPanel.addToRow(firstFormPanel, 130);
+			multiPanel.addToRow(secondFormPanel, 130);
+			multiPanel.addToRow(thirdFormPanel, 130);
+			multiPanel.addToRow(fourthFormPanel, 300);
 			
-			borderPanel.add(firstFormPanel);
-			borderPanel.add(secondFormPanel);
-			borderPanel.add(thirdFormPanel);
-			borderPanel.add(fourthFormPanel);
-			
+			borderPanel.add(multiPanel);
 			containerPanel.add(borderPanel);
 			/*{
-				resultsButton = new Button("New button");
-				containerPanel.add(resultsButton);
-				searchResultPanel = new VerticalPanel();
-				containerPanel.add(searchResultPanel);
-				resultsButton.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
-							System.out.println("gedrückt");
-							*//**
-							 * TODO erstellt aus den Formulardaten ein ArticleSearch 
-							 * Objekt und übergibt es per RPC an SearchHandler.search()
-							 *//*
-							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-							searchHandler.search(new UserSearchQuery(), new AsyncCallback<ArrayList<SearchResult>>() {
-								public void onFailure(Throwable caught) {
-									System.out.println("neeee: ");
-								}
-								public void onSuccess(ArrayList<SearchResult> results) {
-									System.out.println("neeee: ");
-									for (SearchResult r : results) {
-										searchResultPanel.add((Widget) r.getView());
-										
-									}
-
-								}
-							});
-						}
-					});
-
-					resultsButton.setText("gagaga");
-					resultsButton.setSize("150px", "25");
-					resultsButton.setText("Ergebnisse Anzeigen");
-			}
+				
 			{
 				ageLabel = new Label("Alter:");
 				containerPanel.add(ageLabel);
@@ -215,15 +192,6 @@ public class UserSearchForm extends Composite implements Form {
 						"Nur Benutzer mit Bildern anzeigen");
 				containerPanel.add(pictureUsersChckbx);
 				pictureUsersChckbx.setSize("226px", "18");
-			}
-			{
-				Label resultLabel = new Label("5 Ergebnisse gefunden");
-				containerPanel.add(resultLabel);
-				resultLabel.setWidth("150");
-			}
-			{
-				searchResultPanel = new VerticalPanel();
-				containerPanel.add(searchResultPanel);
 			}
 			*/	
 	}

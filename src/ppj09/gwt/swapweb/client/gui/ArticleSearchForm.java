@@ -20,32 +20,24 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.gwtext.client.core.Position;
-import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.TextField;
-import com.gwtext.client.widgets.grid.GridPanel;
-import com.gwtext.client.widgets.layout.AccordionLayout;
-import com.gwtext.client.widgets.layout.BorderLayout;
-import com.gwtext.client.widgets.layout.BorderLayoutData;
-import com.gwtext.client.widgets.layout.ColumnLayout;
-import com.gwtext.client.widgets.layout.ContainerLayout;
-import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.layout.FormLayout;
 import com.gwtext.client.core.EventObject;
 
@@ -54,7 +46,7 @@ import com.gwtext.client.core.EventObject;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @version 0.1, 03.06.09
  */
 public class ArticleSearchForm extends Composite implements Form {
 	private Panel firstTab;
@@ -87,7 +79,8 @@ public class ArticleSearchForm extends Composite implements Form {
 		quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
 		quickArticleCategoryCB.setForceSelection(true);
 		quickArticleCategoryCB.setReadOnly(true);
-		quickArticleCategoryCB.setWidth(110);
+		quickArticleCategoryCB.setWidth(120);
+		quickArticleCategoryCB.setEmptyText("Kategorie wählen");
 		searchPanel.add(quickArticleCategoryCB);
 		
 
@@ -152,8 +145,8 @@ public class ArticleSearchForm extends Composite implements Form {
 		firstColumn.setLayout(new FormLayout());
 		firstColumn.setPaddings(10);
 
-		firstColumn.add(new TextField("Suche", "searchPhrase", 110));
-		firstColumn.add(new TextField("Artikelstandort", "searchPhrase", 110));
+		firstColumn.add(new TextField("Suche", "searchPhrase", 120));
+		firstColumn.add(new TextField("Artikelstandort", "searchPhrase", 120));
 
 		Panel secondColumn = new Panel();
 		secondColumn.setLayout(new FormLayout());
@@ -174,16 +167,17 @@ public class ArticleSearchForm extends Composite implements Form {
 		articleCategoryCB.setMode(ComboBox.LOCAL);
 		articleCategoryCB.setTriggerAction(ComboBox.ALL);
 		articleCategoryCB.setForceSelection(true);
+		articleCategoryCB.setEmptyText("Kategorie wählen");
 		articleCategoryCB.setReadOnly(true);
-		articleCategoryCB.setWidth(110);
+		articleCategoryCB.setWidth(120);
 
 		secondColumn.add(articleCategoryCB);
 
 		Object[][] optionsCondition = new Object[][] {
 				new Object[] { "b", "Beliebig" }, new Object[] { "n", "Neu" },
-				new Object[] { "g", "Gebraucht" }, };
+				new Object[] { "g", "Gebraucht" } };
 
-		Store conditionStore = new SimpleStore(new String[] { "b", "options" },
+		Store conditionStore = new SimpleStore(new String[] { "d", "options" },
 				optionsCondition);
 		conditionStore.load();
 
@@ -194,9 +188,9 @@ public class ArticleSearchForm extends Composite implements Form {
 		articleConditionCB.setMode(ComboBox.LOCAL);
 		articleConditionCB.setTriggerAction(ComboBox.ALL);
 		articleConditionCB.setForceSelection(true);
-		articleConditionCB.setValueField("b");
+		articleConditionCB.setEmptyText(optionsCondition[0][1].toString());
 		articleConditionCB.setReadOnly(true);
-		articleConditionCB.setWidth(110);
+		articleConditionCB.setWidth(120);
 		articleConditionCB.setLazyRender(true);
 		secondColumn.add(articleConditionCB);
 
@@ -222,21 +216,24 @@ public class ArticleSearchForm extends Composite implements Form {
 		articleDeliveryCB.setMode(ComboBox.LOCAL);
 		articleDeliveryCB.setTriggerAction(ComboBox.ALL);
 		articleDeliveryCB.setForceSelection(true);
-		articleDeliveryCB.setValueField("b");
+		articleDeliveryCB.setEmptyText(optionsDelivery[0][1].toString());
 		articleDeliveryCB.setReadOnly(true);
-		articleDeliveryCB.setWidth(110);
+		articleDeliveryCB.setWidth(120);
 		thirdColumn.add(articleDeliveryCB);
 
 		Panel fourthColumn = new Panel();
 		fourthColumn.setLayout(new FormLayout());
 		fourthColumn.setBorder(false);
-		fourthColumn.setPaddings(10,10,0,0);
+		fourthColumn.setPaddings(23,10,0,0);
 
+		Panel checkBoxPanel = new Panel();
+		checkBoxPanel.setBorder(false);
 		activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
-		fourthColumn.add(activeArticleCheckBox);
+		checkBoxPanel.add(activeArticleCheckBox);
 		pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
-		fourthColumn.add(pictureArticlesCheckBox);
-
+		checkBoxPanel.add(pictureArticlesCheckBox);
+		fourthColumn.add(checkBoxPanel);
+		
 		Panel buttonPanel = new Panel();
 		buttonPanel.setBorder(false);
 		buttonPanel.setPaddings(10, 0, 0, 0);
@@ -273,21 +270,15 @@ public class ArticleSearchForm extends Composite implements Form {
 
 		MultiFieldPanel multiPanel = new MultiFieldPanel();
 		multiPanel.setPaddings(5);
-		
-		multiPanel.addToRow(firstColumn, 120);
-		multiPanel.addToRow(secondColumn, 120);
-		multiPanel.addToRow(thirdColumn, 120);
-		multiPanel.addToRow(fourthColumn, 300);
-		
-		Panel test = new Panel ();
-		test.setTitle("test");
-		test.add(new TextField("hallo"));
-		tabPanel.add(test);
+		multiPanel.setBorder(false);
+		multiPanel.addToRow(firstColumn, 140);
+		multiPanel.addToRow(secondColumn, 140);
+		multiPanel.addToRow(thirdColumn, 140);
+		multiPanel.addToRow(fourthColumn, 310);
 		
 		firstTab.add(multiPanel);
-		//tabPanel.add(firstTab);
+		tabPanel.add(firstTab);
 		tabPanel.add(new UserSearchForm());
-		containerFormPanel.add(multiPanel);
 		initWidget(containerFormPanel);
 	}
 
