@@ -90,8 +90,9 @@ public class UserForm extends Composite implements View {
 
 	public UserForm() {
 
-		getuser();
 		createForm();
+		getuser();
+
 
 	}
 
@@ -211,12 +212,12 @@ public class UserForm extends Composite implements View {
 						userFreePanel.setBorder(false);
 						formPanelTop.add(userFreePanel);
 
-						txtbxPwd = new TextField("Benutzername*", "text_field",
-								190);
-						txtbxPwd.setAllowBlank(false);
-						txtbxPwd.setSelectOnFocus(true);
-						txtbxPwd.setPassword(true);
-						formPanelTop.add(txtbxPwd);
+//						txtbxPwd = new TextField("Benutzername*", "text_field",
+//								190);
+//						txtbxPwd.setAllowBlank(false);
+//						txtbxPwd.setSelectOnFocus(true);
+//						txtbxPwd.setPassword(true);
+//						formPanelTop.add(txtbxPwd);
 
 						txtbxEmail = new TextField("eMail*", "text_field", 190);
 						txtbxEmail.setAllowBlank(false);
@@ -338,7 +339,6 @@ public class UserForm extends Composite implements View {
 						resetButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								// TODO
-								formPanelTop.clear();
 							}
 
 						});

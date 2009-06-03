@@ -621,7 +621,7 @@ public class UserView extends Composite implements View {
 		// }
 		try {
 
-			if (user.getJob().equals("")) {
+			if (user.getJob().equals(null)) {
 				setJob(user.getJob());
 				hpJob.setVisible(true);
 				verticalSeperatorJob.setVisible(true);
@@ -630,7 +630,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getHomepage().equals("")) {
+			if (user.getHomepage().equals(null)) {
 				setHomepage(user.getHomepage());
 				hpHomepage.setVisible(true);
 				verticalSeperatorHomepage.setVisible(true);
@@ -638,7 +638,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getHobbys().equals("")) {
+			if (user.getHobbys().equals(null)) {
 				setHobbys(user.getHobbys());
 				hpHobbys.setVisible(true);
 				verticalSeperatorHobbys.setVisible(true);
@@ -646,7 +646,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getMusic().equals("")) {
+			if (user.getMusic().equals(null)) {
 				setMusic(user.getMusic());
 				hpMusic.setVisible(true);
 				verticalSeperatorMusic.setVisible(true);
@@ -654,7 +654,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getMovie().equals("")) {
+			if (user.getMovie().equals(null)) {
 				setMovie(user.getMovie());
 				hpMusic.setVisible(true);
 				verticalSeperatorMovie.setVisible(true);
@@ -662,7 +662,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getILike().equals("")) {
+			if (user.getILike().equals(null)) {
 				setILike(user.getILike());
 				hpILike.setVisible(true);
 				verticalSeperatorILike.setVisible(true);
@@ -670,7 +670,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getIDontLike().equals("")) {
+			if (user.getIDontLike().equals(null)) {
 				setIDontLike(user.getIDontLike());
 				hpIDontLike.setVisible(true);
 				verticalSeperatorIDontLike.setVisible(true);
@@ -678,7 +678,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getAboutMe().equals("")) {
+			if (user.getAboutMe().equals(null)) {
 				setAboutMe(user.getAboutMe());
 				hpAboutMe.setVisible(true);
 				verticalSeperatorAboutMe.setVisible(true);
@@ -686,7 +686,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getIcq().equals("")) {
+			if (user.getIcq().equals(null)) {
 				setIcq(user.getIcq());
 				hpIcq.setVisible(true);
 				verticalSeperatorIcq.setVisible(true);
@@ -694,7 +694,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getMsn().equals("")) {
+			if (user.getMsn().equals(null)) {
 				setMsn(user.getMsn());
 				hpMsn.setVisible(true);
 				verticalSeperatorMsn.setVisible(true);
@@ -702,7 +702,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getYahoo().equals("")) {
+			if (user.getYahoo().equals(null)) {
 				setYahoo(user.getYahoo());
 				hpYahoo.setVisible(true);
 				verticalSeperatorYahoo.setVisible(true);
@@ -710,7 +710,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getAim().equals("")) {
+			if (user.getAim().equals(null)) {
 				setAim(user.getAim());
 				hpAim.setVisible(true);
 				verticalSeperatorAim.setVisible(true);
@@ -718,7 +718,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getJabber().equals("")) {
+			if (user.getJabber().equals(null)) {
 				setJabber(user.getJabber());
 				hpJabber.setVisible(true);
 				verticalSeperatorJabber.setVisible(true);
@@ -726,7 +726,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getImage().equals("")) {
+			if (user.getImage().equals(null)) {
 				setImage(user.getImage());
 
 			}
