@@ -13,12 +13,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
+
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 
 public class DataBankerQueries {
+	
+
 	public ArrayList<SearchResult> retriveArticles(ArrayList<Parameter> parameters) {
 		return null;
 	}
@@ -38,7 +42,7 @@ public class DataBankerQueries {
 		int saved = 0;
 		
 		String userID = newUser.getUsername();
-		String pwd = newUser.getPassword();
+		String pwd = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    
@@ -104,19 +108,22 @@ public class DataBankerQueries {
 	 * return = 1 -> OK - user erfolgreich angemeldet
 	 */
 	public boolean loginRequest(String user, String pwHash) {
-       boolean exist = false;
-       ResultSet rs = null;
+		String hashFromDB = null;
+		boolean exist = false;
+		ResultSet rs = null;
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT * FROM user WHERE userid='"+user+"' AND pwd='"+pwHash+"'";
+	    String query = "SELECT pwd FROM user WHERE userid='"+user+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
+
 	    	while (rs.next()) {
-				exist = true;
+	    		hashFromDB = rs.getString(1);
 			}
-			
+
+	    	exist =BCrypt.checkpw(pwHash, hashFromDB);
 			rs.close();
 			dbc.close();
 			stmt.close();

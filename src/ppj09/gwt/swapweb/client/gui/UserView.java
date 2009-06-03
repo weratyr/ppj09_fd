@@ -117,37 +117,15 @@ public class UserView extends Composite implements View {
 	 * 
 	 */
 
+	public UserView() {
+		user = new User();
+		createForm();
+		getuser();
+		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
+	}
 	public UserView(String username) {
 
 		user = new User();
-
-		// user.setUsername("geo");
-		// user.setFirstName("Georg");
-		// user.setLastName("Ortwein");
-		// // testuser.setGender("Männlich");
-		// // testuser.setBirthdate("11.04.1987");
-		// user.setZip("36358");
-		// user.setCity("Stockhausen");
-		// user.setHomepage("www.bla.de");
-		// user.setJob("Student");
-		// user
-		// .setHobbys("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setMusic("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setMovie("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setILike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setIDontLike("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user
-		// .setAboutMe("blablabla, blabla, blablalblalb, blalbalblalblabl, lbalb, lbalblalba, bla");
-		// user.setIcq("1234567");
-		// user.setMsn("1234567");
-		// user.setYahoo("1234567");
-		// user.setAim("1234567");
-		// user.setJabber("geo@jabber.org");
-
 		createForm();
 		getuser(username);
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
@@ -578,6 +556,23 @@ public class UserView extends Composite implements View {
 			}
 		});
 	}
+	private void getuser() {
+		UserManagerAsync userManager = GWT.create(UserManager.class);
+
+		userManager.getUser(new AsyncCallback<User>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				System.out.println("fehler");
+
+			}
+
+			public void onSuccess(User userProfile) {
+				// :)
+				user = userProfile;
+				fillForm(userProfile);
+			}
+		});
+	}
 
 	public void fillForm(User user) {
 
@@ -621,7 +616,7 @@ public class UserView extends Composite implements View {
 		// }
 		try {
 
-			if (user.getJob().equals("")) {
+			if (user.getJob().equals(null)) {
 				setJob(user.getJob());
 				hpJob.setVisible(true);
 				verticalSeperatorJob.setVisible(true);
@@ -630,7 +625,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getHomepage().equals("")) {
+			if (user.getHomepage().equals(null)) {
 				setHomepage(user.getHomepage());
 				hpHomepage.setVisible(true);
 				verticalSeperatorHomepage.setVisible(true);
@@ -638,7 +633,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getHobbys().equals("")) {
+			if (user.getHobbys().equals(null)) {
 				setHobbys(user.getHobbys());
 				hpHobbys.setVisible(true);
 				verticalSeperatorHobbys.setVisible(true);
@@ -646,7 +641,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getMusic().equals("")) {
+			if (user.getMusic().equals(null)) {
 				setMusic(user.getMusic());
 				hpMusic.setVisible(true);
 				verticalSeperatorMusic.setVisible(true);
@@ -654,7 +649,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getMovie().equals("")) {
+			if (user.getMovie().equals(null)) {
 				setMovie(user.getMovie());
 				hpMusic.setVisible(true);
 				verticalSeperatorMovie.setVisible(true);
@@ -662,7 +657,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getILike().equals("")) {
+			if (user.getILike().equals(null)) {
 				setILike(user.getILike());
 				hpILike.setVisible(true);
 				verticalSeperatorILike.setVisible(true);
@@ -670,7 +665,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getIDontLike().equals("")) {
+			if (user.getIDontLike().equals(null)) {
 				setIDontLike(user.getIDontLike());
 				hpIDontLike.setVisible(true);
 				verticalSeperatorIDontLike.setVisible(true);
@@ -678,7 +673,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getAboutMe().equals("")) {
+			if (user.getAboutMe().equals(null)) {
 				setAboutMe(user.getAboutMe());
 				hpAboutMe.setVisible(true);
 				verticalSeperatorAboutMe.setVisible(true);
@@ -686,7 +681,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getIcq().equals("")) {
+			if (user.getIcq().equals(null)) {
 				setIcq(user.getIcq());
 				hpIcq.setVisible(true);
 				verticalSeperatorIcq.setVisible(true);
@@ -694,7 +689,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getMsn().equals("")) {
+			if (user.getMsn().equals(null)) {
 				setMsn(user.getMsn());
 				hpMsn.setVisible(true);
 				verticalSeperatorMsn.setVisible(true);
@@ -702,7 +697,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getYahoo().equals("")) {
+			if (user.getYahoo().equals(null)) {
 				setYahoo(user.getYahoo());
 				hpYahoo.setVisible(true);
 				verticalSeperatorYahoo.setVisible(true);
@@ -710,7 +705,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getAim().equals("")) {
+			if (user.getAim().equals(null)) {
 				setAim(user.getAim());
 				hpAim.setVisible(true);
 				verticalSeperatorAim.setVisible(true);
@@ -718,7 +713,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getJabber().equals("")) {
+			if (user.getJabber().equals(null)) {
 				setJabber(user.getJabber());
 				hpJabber.setVisible(true);
 				verticalSeperatorJabber.setVisible(true);
@@ -726,7 +721,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (user.getImage().equals("")) {
+			if (user.getImage().equals(null)) {
 				setImage(user.getImage());
 
 			}
@@ -1037,7 +1032,6 @@ public class UserView extends Composite implements View {
 	 */
 	public void setUsername(String username) {
 		this.usernameLabel4.setText(username + ")");
-
 	}
 
 	/**

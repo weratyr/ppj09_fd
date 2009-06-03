@@ -75,6 +75,8 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink testProfileHyperlink;
 	private Hyperlink testProfileFormHyperlink;
 	private Hyperlink testArticleFormHyperlink;
+	private UserView myProfile;
+
 
 	/**
 	 * Die EntryPoin Methode
@@ -170,6 +172,16 @@ public class SwapWeb implements EntryPoint {
 					"newHistoryToken");
 			verticalPanel_1.add(myProfileHyperlink);
 			myProfileHyperlink.setText("Mein Profil");
+			myProfileHyperlink.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					myProfile = new UserView();			
+					contentPanel.clear();
+					contentPanel.add(myProfile);
+					contentPanel.doLayout();
+				}
+
+			});
 
 			myArticlesHyperlink = new Hyperlink("New hyperlink", false,
 					"newHistoryToken");
@@ -262,7 +274,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testProfileHyperlink);
 		testProfileHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				userView = new UserView("fulda");
+				userView = new UserView("georg");
 				contentPanel.clear();
 				contentPanel.add(userView);
 				contentPanel.doLayout();
