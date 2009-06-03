@@ -46,7 +46,7 @@ import com.gwtext.client.core.EventObject;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @version 0.1, 03.06.09
  */
 public class ArticleSearchForm extends Composite implements Form {
 	private Panel firstTab;
@@ -265,21 +265,15 @@ public class ArticleSearchForm extends Composite implements Form {
 
 		MultiFieldPanel multiPanel = new MultiFieldPanel();
 		multiPanel.setPaddings(5);
-		
+		multiPanel.setBorder(false);
 		multiPanel.addToRow(firstColumn, 130);
 		multiPanel.addToRow(secondColumn, 130);
 		multiPanel.addToRow(thirdColumn, 130);
 		multiPanel.addToRow(fourthColumn, 300);
 		
-		Panel test = new Panel ();
-		test.setTitle("test");
-		test.add(new TextField("hallo"));
-		//tabPanel.add(test);
-		
 		firstTab.add(multiPanel);
 		tabPanel.add(firstTab);
 		tabPanel.add(new UserSearchForm());
-		//containerFormPanel.add(multiPanel);
 		initWidget(containerFormPanel);
 	}
 
