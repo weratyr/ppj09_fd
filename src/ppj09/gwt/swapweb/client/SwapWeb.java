@@ -60,7 +60,7 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink insertArticleHyperlink;
 	private Hyperlink myRatingsHyperlink;
 	private Hyperlink myMessagesHyperlink;
-	
+
 	private HelpView helpView;
 	private VerticalPanel verticalPanel;
 	private TabPanel tabPanel;
@@ -76,7 +76,6 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink testProfileFormHyperlink;
 	private Hyperlink testArticleFormHyperlink;
 	private UserView myProfile;
-
 
 	/**
 	 * Die EntryPoin Methode
@@ -109,23 +108,19 @@ public class SwapWeb implements EntryPoint {
 		nordTabPanel.setWidth("100%");
 		dockPanel.add(nordTabPanel, DockPanel.NORTH);
 
-		
 		TabPanel outerTabPanel = new TabPanel();
 		outerTabPanel.setHeight("100%");
-		
+
 		articleSearchForm = new ArticleSearchForm(outerTabPanel);
-		
 
 		loginForm = new LoginForm(outerTabPanel);
-		
 
 		registrationForm = new UserRegistrationForm(outerTabPanel);
-		//tabPanel.add(registrationForm, "Registrieren", false);
+		// tabPanel.add(registrationForm, "Registrieren", false);
 		/*
-		helpView = new HelpView();
-		tabPanel.add(helpView, "Hilfe", false);*/
-		
-		
+		 * helpView = new HelpView(); tabPanel.add(helpView, "Hilfe", false);
+		 */
+
 		nordTabPanel.add(outerTabPanel);
 
 		/*
@@ -145,7 +140,7 @@ public class SwapWeb implements EntryPoint {
 		Panel navigationPanel = new Panel();
 		navigationPanel.setTitle("My Swapweb");
 		navigationPanel.setPaddings(10);
-		
+
 		dockPanel.add(navigationPanel, DockPanel.WEST);
 		dockPanel.setCellWidth(navigationPanel, "180");
 
@@ -174,13 +169,26 @@ public class SwapWeb implements EntryPoint {
 			myProfileHyperlink.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
-					myProfile = new UserView();			
+					myProfile = new UserView();
 					contentPanel.clear();
 					contentPanel.add(myProfile);
 					contentPanel.doLayout();
 				}
 
 			});
+
+			testProfileFormHyperlink = new Hyperlink("New hyperlink", false,
+					"newHistoryToken");
+			verticalPanel_1.add(testProfileFormHyperlink);
+			testProfileFormHyperlink.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					userForm = new UserForm();
+					contentPanel.clear();
+					contentPanel.add(userForm);
+					contentPanel.doLayout();
+				}
+			});
+			testProfileFormHyperlink.setText("Profil bearbeiten");
 
 			myArticlesHyperlink = new Hyperlink("New hyperlink", false,
 					"newHistoryToken");
@@ -192,8 +200,8 @@ public class SwapWeb implements EntryPoint {
 			verticalPanel_1.add(insertArticleHyperlink);
 			insertArticleHyperlink.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-						contentPanel.clear();
-						contentPanel.add(articleForm);
+					contentPanel.clear();
+					contentPanel.add(articleForm);
 				}
 
 			});
@@ -277,22 +285,11 @@ public class SwapWeb implements EntryPoint {
 				contentPanel.clear();
 				contentPanel.add(userView);
 				contentPanel.doLayout();
-				}
+			}
 		});
 		testProfileHyperlink.setText("Testprofil");
 
-		testProfileFormHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
-		verticalPanel_2.add(testProfileFormHyperlink);
-		testProfileFormHyperlink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				userForm = new UserForm();			
-				contentPanel.clear();
-				contentPanel.add(userForm);
-				contentPanel.doLayout();
-				}
-		});
-		testProfileFormHyperlink.setText("Testprofil \u00E4ndern");
+	
 
 		testArticleFormHyperlink = new Hyperlink("Artikel einstellen", false,
 				"newHistoryToken");
@@ -301,8 +298,8 @@ public class SwapWeb implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				articleForm = new ArticleForm();
 				contentPanel.clear();
-				contentPanel.add(articleForm);			
-				}
+				contentPanel.add(articleForm);
+			}
 		});
 	}
 

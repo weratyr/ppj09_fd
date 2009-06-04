@@ -40,6 +40,7 @@ import com.gwtext.client.widgets.layout.ColumnLayoutData;
 import com.gwtext.client.widgets.form.TextArea;
 
 public class UserForm extends Composite implements View {
+	private User user;
 	private boolean checkedPw;
 	private TextField txtbxFirstName;
 	private TextField txtbxLastName;
@@ -98,6 +99,9 @@ public class UserForm extends Composite implements View {
 		getuser();
 
 	}
+	public UserForm(User user) {
+		createForm();
+	}
 
 	public void createForm() {
 		{
@@ -136,6 +140,7 @@ public class UserForm extends Composite implements View {
 					formPanelTop.setFooter(true);
 					formPanelTop.setWidth(470);
 					formPanelTop.setBorder(false);
+		
 					// formPanelTop.setBorder(false);
 					{
 						txtbxFirstName = new TextField("Vorname*",
@@ -212,20 +217,32 @@ public class UserForm extends Composite implements View {
 								"text_field", 190);
 						txtbxPwd.setSelectOnFocus(true);
 						txtbxPwd.setPassword(true);
+						txtbxPwd.setMinLength(8);
+						txtbxPwd
+								.setMinLengthText("Das Passwort muss mindestens acht Zeichen lang sein");
+						txtbxPwd.setValidateOnBlur(true);
 						formPanelTop.add(txtbxPwd);
-						
+
 						// TODO
 						txtbxPwdNew = new TextField("Neues Passwort",
 								"text_field", 190);
 						txtbxPwdNew.setSelectOnFocus(true);
 						txtbxPwdNew.setPassword(true);
+						txtbxPwdNew.setMinLength(8);
+						txtbxPwdNew
+								.setMinLengthText("Das Passwort muss mindestens acht Zeichen lang sein");
+						txtbxPwdNew.setValidateOnBlur(true);
 						formPanelTop.add(txtbxPwdNew);
-						
+
 						// TODO
-						txtbxPwdNew2 = new TextField("Neues Passwort wiederholen",
-								"text_field", 190);
+						txtbxPwdNew2 = new TextField(
+								"Neues Passwort wiederholen", "text_field", 190);
 						txtbxPwdNew2.setSelectOnFocus(true);
 						txtbxPwdNew2.setPassword(true);
+						txtbxPwdNew2.setMinLength(8);
+						txtbxPwdNew2
+								.setMinLengthText("Das Passwort muss mindestens acht Zeichen lang sein");
+						txtbxPwdNew2.setValidateOnBlur(true);
 						formPanelTop.add(txtbxPwdNew2);
 
 						final Store store = new SimpleStore(new String[] {
@@ -338,8 +355,8 @@ public class UserForm extends Composite implements View {
 						submitButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								// TODO
-								//submit();
-								checkPassword(txtbxPwd.getText());
+								submit();
+								//checkPassword(txtbxPwd.getText());
 							}
 						});
 
@@ -360,8 +377,7 @@ public class UserForm extends Composite implements View {
 
 	private boolean submit() {
 
-		User user = new User();
-		user = fillUser(user);
+		fillUser(user);
 		System.out.println("test submit");
 
 		UserManagerAsync userManager = GWT.create(UserManager.class);
@@ -390,12 +406,86 @@ public class UserForm extends Composite implements View {
 
 			}
 
-			public void onSuccess(User user) {
+			public void onSuccess(User userProfile) {
 				// :)
-
-				fillForm(user);
+				
+				user = userProfile;
+				fillForm(userProfile);
+				
 			}
 		});
+	}
+
+	/**
+	 * sendet den eingegeben Benutzernamen an den Server, welcher �berpr�ft ob
+	 * dieser noch frei ist. Ist der Benutzername schon vergeben, wird das
+	 * textField txtbxUserFree sichtbar geschaltet,
+	 * 
+	 * @param username
+	 */
+	public void checkUsername(String username) {
+		// TODO rpc zum �berpr�fen ob der Benutzername noch frei ist
+		// Sende Daten an Server
+		UserManagerAsync userManager = GWT.create(UserManager.class);
+
+		userManager.checkUsername(username, new AsyncCallback<Boolean>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				Window.alert("fehler");
+
+			}
+
+			public void onSuccess(Boolean serverMsg) {
+				// :)
+				// if (!serverMsg) {
+				Window.alert("test");
+
+				txtbxUserFree.setVisible(true);
+				// }
+			}
+		});
+	}
+
+	public boolean checkPassword(String password) {
+		UserManagerAsync userManager = GWT.create(UserManager.class);
+
+		if (!txtbxPwd.getText().equals("")) {
+			if (txtbxPwdNew.getText().equals(txtbxPwdNew2.getText())
+					&& !txtbxPwdNew.getText().equals("")) {
+				if ((txtbxPwdNew.isValid() && txtbxPwdNew2.isValid())) {
+					userManager.checkPassword(password,
+							new AsyncCallback<Boolean>() {
+								public void onFailure(Throwable caught) {
+									// :(
+									Window.alert("fehler" + caught);
+
+								}
+
+								public void onSuccess(Boolean serverMsg) {
+									// :)
+									checkedPw = serverMsg;
+									if (serverMsg) {
+										System.out.println("pw okay");
+									} else {
+										System.out.println("pw falsch");
+									}
+
+								}
+							});
+				} else {
+					System.out.println("neue passwörter ");
+				}
+			} else {
+				System.out
+						.println("neue Passwörter leer/ stimmen nicht überein");
+				txtbxPwdNew.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
+				txtbxPwdNew2.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
+				}
+		} else {
+			System.out.println("passwort alt leer");
+		}
+		return checkedPw;
+
 	}
 
 	public void fillForm(User user) {
@@ -434,10 +524,10 @@ public class UserForm extends Composite implements View {
 			this.setUsername(user.getUsername());
 		} catch (NullPointerException e) {
 		}
-//		try {
-//			this.setPwd(user.getPassword());
-//		} catch (NullPointerException e) {
-//		}
+		// try {
+		// this.setPwd(user.getPassword());
+		// } catch (NullPointerException e) {
+		// }
 		try {
 
 			this.setEmail(user.getEmail());
@@ -538,11 +628,11 @@ public class UserForm extends Composite implements View {
 		user.setHouseNumber(getHouseNumber());
 		user.setZip(getZip());
 		user.setCity(getCity());
-		user.setUsername(getUsername());
-		user.setPassword(getPwd());
+		//user.setUsername(getUsername());
+		//user.setPassword(getPwd());
 		user.setEmail(getEmail());
-		user.setGender(getGender());
-		user.setBirthdate(getBirthday());
+		//user.setGender(getGender());
+		//user.setBirthdate(getBirthday());
 		user.setJob(getJob());
 		user.setHomepage(getHomepage());
 		user.setHobbys(getHobbys());
@@ -556,64 +646,9 @@ public class UserForm extends Composite implements View {
 		user.setYahoo(getYahoo());
 		user.setAim(getAim());
 		user.setJabber(getJabber());
-		user.setImage(getImage());
+		//user.setImage(getImage());
 
 		return user;
-	}
-
-	/**
-	 * sendet den eingegeben Benutzernamen an den Server, welcher �berpr�ft ob
-	 * dieser noch frei ist. Ist der Benutzername schon vergeben, wird das
-	 * textField txtbxUserFree sichtbar geschaltet,
-	 * 
-	 * @param username
-	 */
-	public void checkUsername(String username) {
-		// TODO rpc zum �berpr�fen ob der Benutzername noch frei ist
-		// Sende Daten an Server
-		UserManagerAsync userManager = GWT.create(UserManager.class);
-
-		userManager.checkUsername(username, new AsyncCallback<Boolean>() {
-			public void onFailure(Throwable caught) {
-				// :(
-				Window.alert("fehler");
-
-			}
-
-			public void onSuccess(Boolean serverMsg) {
-				// :)
-				// if (!serverMsg) {
-				Window.alert("test");
-
-				txtbxUserFree.setVisible(true);
-				// }
-			}
-		});
-	}
-
-	public boolean checkPassword(String password) {
-		UserManagerAsync userManager = GWT.create(UserManager.class);
-
-		userManager.checkPassword(password, new AsyncCallback<Boolean>() {
-			public void onFailure(Throwable caught) {
-				// :(
-				Window.alert("fehler" + caught);
-
-			}
-
-			public void onSuccess(Boolean serverMsg) {
-				// :)
-				checkedPw = serverMsg;
-				if (serverMsg) {
-					System.out.println("pw okay");
-				} else {
-					System.out.println("pw falsch");
-				}
-
-			}
-		});
-		return checkedPw;
-
 	}
 
 	/**
@@ -732,7 +767,7 @@ public class UserForm extends Composite implements View {
 	 *            the username to set
 	 */
 	public void setUsername(String username) {
-		this.txtbxUsername.setRawValue(username);
+		// this.txtbxUsername.setRawValue(username);
 		this.usernameLabel2.setText(username);
 	}
 

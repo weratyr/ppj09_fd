@@ -196,14 +196,30 @@ public class DataBankerQueries {
 		
 		//if( !(userID.equals(oldUserName)) && !checkUsername(userID)) {
 		
-			try {
+//			try {
+//			   //PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user(userid, pwd, userob) VALUES(?,?,?)");
+//			   System.out.println("Mache Update");
+//			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET userid=?,pwd=?,userob=? WHERE userid = ?");
+//			   stmt.setString(1, userID);
+//			   stmt.setString(2, pwd);
+//			   stmt.setObject(3, (Object)newUser);
+//			   stmt.setString(4, oldUserName);
+//			   
+//			   stmt.executeUpdate();
+//		       
+//			   dbc.close();
+//			   stmt.close();
+//			   
+//			   saved = 1;
+//			}
+		try {
 			   //PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user(userid, pwd, userob) VALUES(?,?,?)");
 			   System.out.println("Mache Update");
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET userid=?,pwd=?,userob=? WHERE userid = ?");
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET userid=?,userob=? WHERE userid = ?");
 			   stmt.setString(1, userID);
-			   stmt.setString(2, pwd);
-			   stmt.setObject(3, (Object)newUser);
-			   stmt.setString(4, oldUserName);
+			//   stmt.setString(2, pwd);
+			   stmt.setObject(2, (Object)newUser);
+			   stmt.setString(3, oldUserName);
 			   
 			   stmt.executeUpdate();
 		       
@@ -211,7 +227,7 @@ public class DataBankerQueries {
 			   stmt.close();
 			   
 			   saved = 1;
-			} catch (SQLException e) {
+			}catch (SQLException e) {
 			   e.printStackTrace();
 			   return 0;	
 			}
