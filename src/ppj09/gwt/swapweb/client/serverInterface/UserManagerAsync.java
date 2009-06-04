@@ -8,6 +8,7 @@
 package ppj09.gwt.swapweb.client.serverInterface;
 
 import ppj09.gwt.swapweb.client.datatype.User;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -26,4 +27,6 @@ public interface UserManagerAsync {
 	public void getUser(AsyncCallback<User> callback);
 	public void getUser(String username, AsyncCallback<User> callback);
 	public void updateUser(User newUser, AsyncCallback<Integer> callback);
+	public void checkPassword(String password, AsyncCallback<Boolean> callback);
+
 }

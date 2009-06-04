@@ -24,6 +24,7 @@ import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.DateField;
@@ -39,6 +40,7 @@ import com.gwtext.client.widgets.layout.ColumnLayoutData;
 import com.gwtext.client.widgets.form.TextArea;
 
 public class UserForm extends Composite implements View {
+	private boolean checkedPw;
 	private TextField txtbxFirstName;
 	private TextField txtbxLastName;
 	private TextField txtbxZip;
@@ -80,6 +82,8 @@ public class UserForm extends Composite implements View {
 	private Button submitButton;
 	private MultiFieldPanel panelButton;
 	private TextField imageUploader;
+	private TextField txtbxPwdNew2;
+	private TextField txtbxPwdNew;
 
 	/**
 	 * Constructor
@@ -103,7 +107,7 @@ public class UserForm extends Composite implements View {
 			horizontalPanel2 = new HorizontalPanel();
 			usernameLabel1 = new Label("Profil von:\" ");
 			horizontalPanel2.add(usernameLabel1);
-			usernameLabel2 = new Label("Test");
+			usernameLabel2 = new Label("");
 			horizontalPanel2.add(usernameLabel2);
 			usernameLabel3 = new Label("\"");
 			horizontalPanel2.add(usernameLabel3);
@@ -184,41 +188,6 @@ public class UserForm extends Composite implements View {
 						panel1.setBorder(false);
 						formPanelTop.add(panel1);
 
-						txtbxUsername = new TextField("Benutzername*",
-								"text_field", 190);
-						txtbxUsername.setAllowBlank(false);
-						txtbxUsername
-								.setBlankText("Bitte geben Sie ihren gew&uuml;nschten Benutzernamen ein");
-						txtbxUsername.setSelectOnFocus(true);
-						txtbxUsername
-								.addListener(new TextFieldListenerAdapter() {
-									public void onBlur(Field field) {
-										if (txtbxUsername.isValid()) {
-											checkUsername(txtbxUsername
-													.getText());
-										}
-									}
-								});
-
-						txtbxUserFree = new Label();
-						txtbxUserFree.setText("Benutzername schon vergeben!");
-						txtbxUserFree.setVisible(false);
-
-						userFreePanel = new MultiFieldPanel();
-						userFreePanel.addToRow(txtbxUsername, 315);
-						userFreePanel.addToRow(txtbxUserFree,
-								new ColumnLayoutData(1));
-						userFreePanel.setBorder(false);
-						formPanelTop.add(userFreePanel);
-
-						// txtbxPwd = new TextField("Benutzername*",
-						// "text_field",
-						// 190);
-						// txtbxPwd.setAllowBlank(false);
-						// txtbxPwd.setSelectOnFocus(true);
-						// txtbxPwd.setPassword(true);
-						// formPanelTop.add(txtbxPwd);
-
 						txtbxEmail = new TextField("eMail*", "text_field", 190);
 						txtbxEmail.setAllowBlank(false);
 						txtbxEmail
@@ -237,6 +206,27 @@ public class UserForm extends Composite implements View {
 						txtbxEmail2.setSelectOnFocus(true);
 						txtbxEmail2.isValidateOnBlur();
 						formPanelTop.add(txtbxEmail2);
+
+						// TODO
+						txtbxPwd = new TextField("Altes Passwort",
+								"text_field", 190);
+						txtbxPwd.setSelectOnFocus(true);
+						txtbxPwd.setPassword(true);
+						formPanelTop.add(txtbxPwd);
+						
+						// TODO
+						txtbxPwdNew = new TextField("Neues Passwort",
+								"text_field", 190);
+						txtbxPwdNew.setSelectOnFocus(true);
+						txtbxPwdNew.setPassword(true);
+						formPanelTop.add(txtbxPwdNew);
+						
+						// TODO
+						txtbxPwdNew2 = new TextField("Neues Passwort wiederholen",
+								"text_field", 190);
+						txtbxPwdNew2.setSelectOnFocus(true);
+						txtbxPwdNew2.setPassword(true);
+						formPanelTop.add(txtbxPwdNew2);
 
 						final Store store = new SimpleStore(new String[] {
 								"geschlecht", "nr" }, new String[][] {
@@ -348,7 +338,8 @@ public class UserForm extends Composite implements View {
 						submitButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								// TODO
-								submit();
+								//submit();
+								checkPassword(txtbxPwd.getText());
 							}
 						});
 
@@ -368,13 +359,11 @@ public class UserForm extends Composite implements View {
 	}
 
 	private boolean submit() {
-		
 
 		User user = new User();
 		user = fillUser(user);
 		System.out.println("test submit");
 
-		
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.updateUser(user, new AsyncCallback<Integer>() {
@@ -393,7 +382,6 @@ public class UserForm extends Composite implements View {
 
 	private void getuser() {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
-		System.out.println("test1");
 
 		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
@@ -404,7 +392,6 @@ public class UserForm extends Composite implements View {
 
 			public void onSuccess(User user) {
 				// :)
-				System.out.println("test2");
 
 				fillForm(user);
 			}
@@ -412,7 +399,6 @@ public class UserForm extends Composite implements View {
 	}
 
 	public void fillForm(User user) {
-		System.out.println("test332423");
 
 		try {
 			this.setFirstName(user.getFirstName());
@@ -448,11 +434,10 @@ public class UserForm extends Composite implements View {
 			this.setUsername(user.getUsername());
 		} catch (NullPointerException e) {
 		}
-		try {
-
-			this.setPwd(user.getPassword());
-		} catch (NullPointerException e) {
-		}
+//		try {
+//			this.setPwd(user.getPassword());
+//		} catch (NullPointerException e) {
+//		}
 		try {
 
 			this.setEmail(user.getEmail());
@@ -604,6 +589,31 @@ public class UserForm extends Composite implements View {
 				// }
 			}
 		});
+	}
+
+	public boolean checkPassword(String password) {
+		UserManagerAsync userManager = GWT.create(UserManager.class);
+
+		userManager.checkPassword(password, new AsyncCallback<Boolean>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				Window.alert("fehler" + caught);
+
+			}
+
+			public void onSuccess(Boolean serverMsg) {
+				// :)
+				checkedPw = serverMsg;
+				if (serverMsg) {
+					System.out.println("pw okay");
+				} else {
+					System.out.println("pw falsch");
+				}
+
+			}
+		});
+		return checkedPw;
+
 	}
 
 	/**

@@ -43,6 +43,7 @@ public class DataBankerQueries {
 		
 		String userID = newUser.getUsername();
 		String pwd = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
+		newUser.setPassword(pwd);
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    

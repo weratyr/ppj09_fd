@@ -25,7 +25,7 @@ import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.ColumnLayoutData;
 
 /**
- * Formularfelder und Submit des Login. Der Benutzer hat die M�glichkeit, seine
+ * Formularfelder und Submit des Login. Der Benutzer hat die Möglichkeit, seine
  * Logindaten einzugeben. Diese Klasse implementiert das Interface Form.
  * 
  * @author Christian Happ
@@ -56,7 +56,6 @@ public class LoginForm extends Composite implements Form {
 			formPanel.setFooter(true);
 			formPanel.setMonitorValid(true);
 			formPanel.setBorder(false);
-
 
 			{
 				txtbxUsername = new TextField("Benutzername", "text_field", 190);

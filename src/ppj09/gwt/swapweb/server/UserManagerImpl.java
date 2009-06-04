@@ -8,31 +8,30 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * The server side implementation of the RPC service.
  */
-public class UserManagerImpl extends RemoteServiceServlet implements UserManager {
-	
+public class UserManagerImpl extends RemoteServiceServlet implements
+		UserManager {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	DataBankerQueries db = new DataBankerQueries();
 	SessionHandler sh = new SessionHandler();
+
 	/**
-	 * Stefan Elm
-	 * Legt den neuen User über den DataBanker in der Datenbank ab
+	 * Stefan Elm Legt den neuen User über den DataBanker in der Datenbank ab
 	 * 
-	 * return = 0 -> FEHLER - User nicht angelegt
-	 * return = 1 -> OK
+	 * return = 0 -> FEHLER - User nicht angelegt return = 1 -> OK
 	 */
 	public int createUser(User newUser) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
 		return db.createUser(newUser);
 	}
 
 	/**
-	 * Stefan Elm
-	 * Holt sich im Authentication Modul einen hash vom pw,
-	 * und gleicht ihn dann mit dem (user,pw) Tupel in der DB ab.
+	 * Stefan Elm Holt sich im Authentication Modul einen hash vom pw, und
+	 * gleicht ihn dann mit dem (user,pw) Tupel in der DB ab.
 	 * 
 	 * return = 0 -> KOMBINATION user, pwHash nicht vorhanden - nicht angemeldet
 	 * return = 1 -> OK - user erfolgreich angemeldet
@@ -40,20 +39,20 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 	public boolean loginRequest(String user, String pwHash) {
 		// TODO Auto-generated method stub
 		boolean ex = db.loginRequest(user, pwHash);
-		
-		if(ex) {
+
+		if (ex) {
 			sh.setSession(user, this.getThreadLocalRequest());
 		}
-		
-	    return ex;
+
+		return ex;
 	}
-	
+
 	/*
-	 * return null -> Fehler beim Auslesen des Users
-	 * return User -> erfolgreich ausgelesen
+	 * return null -> Fehler beim Auslesen des Users return User -> erfolgreich
+	 * ausgelesen
 	 */
 	public User getUserProfile(String userId) {
-		
+
 		return db.getUserProfile(userId);
 	}
 
@@ -63,18 +62,18 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 	}
 
 	public User getUser() {
-		
+
 		String user = sh.getSession(this.getThreadLocalRequest());
-		
+
 		if (user == null) {
 			return null;
 		} else {
 			return db.getUserProfile(user);
 		}
 	}
-	
-public User getUser(String username) {
-		
+
+	public User getUser(String username) {
+
 		if (username == null) {
 			return null;
 		} else {
@@ -83,9 +82,18 @@ public User getUser(String username) {
 	}
 
 	public int updateUser(User newUser) {
-		// TODO Auto-generated method stub
 		String user = sh.getSession(this.getThreadLocalRequest());
-		
+
 		return db.updateUser(user, newUser);
+	}
+
+	public boolean checkPassword(String password) {
+		String user = sh.getSession(this.getThreadLocalRequest());
+
+		boolean ex = db.loginRequest(user, password);
+		return ex;
+
+		// TODO Auto-generated method stub
+
 	}
 }
