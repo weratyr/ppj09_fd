@@ -109,8 +109,9 @@ public class SwapWeb implements EntryPoint {
 		dockPanel.add(nordTabPanel, DockPanel.NORTH);
 
 		TabPanel outerTabPanel = new TabPanel();
-		outerTabPanel.setHeight("100%");
 
+		
+		
 		articleSearchForm = new ArticleSearchForm(outerTabPanel);
 
 		loginForm = new LoginForm(outerTabPanel);
