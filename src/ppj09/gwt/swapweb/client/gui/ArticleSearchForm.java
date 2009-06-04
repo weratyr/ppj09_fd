@@ -48,7 +48,7 @@ import com.gwtext.client.core.EventObject;
  * @author Projekt Team 4711
  * @version 0.1, 03.06.09
  */
-public class ArticleSearchForm extends Composite implements Form {
+public class ArticleSearchForm implements Form {
 	private Panel firstTab;
 	private Checkbox activeArticleCheckBox;
 	private Checkbox pictureArticlesCheckBox;
@@ -56,9 +56,10 @@ public class ArticleSearchForm extends Composite implements Form {
 	private Hyperlink advancedSearchHyperlink;
 	private TabPanel tabPanel;
 
-	public ArticleSearchForm() {
+	public ArticleSearchForm(TabPanel outerTabPanel) {
 
 		FormPanel containerFormPanel = new FormPanel();
+		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(10);
@@ -131,7 +132,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		
 		tabPanel = new TabPanel();;
 		tabPanel.setWidth(1000);
-		tabPanel.setVisible(false);
+		//tabPanel.setVisible(false);
 		tabPanel.setActiveTab(0);
 		tabPanel.setPaddings(5);
 		containerFormPanel.add(tabPanel);
@@ -279,7 +280,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		firstTab.add(multiPanel);
 		tabPanel.add(firstTab);
 		new UserSearchForm(tabPanel);
-		initWidget(containerFormPanel);
+		outerTabPanel.add(containerFormPanel);
 	}
 
 	/**

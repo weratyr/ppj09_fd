@@ -23,6 +23,8 @@ import com.gwtext.client.core.Position;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
+import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -42,7 +44,7 @@ import com.gwtext.client.widgets.layout.ColumnLayoutData;
  * @author Projekt Team 4711
  * @version 0.3, 26.05.09
  */
-public class UserRegistrationForm extends Composite implements Form {
+public class UserRegistrationForm implements Form {
 	private HorizontalPanel horizontalPanel;
 	private FormPanel formPanel;
 	private MultiFieldPanel cityPanel, streetPanel;
@@ -70,11 +72,12 @@ public class UserRegistrationForm extends Composite implements Form {
 	/**
 	 * Initialisiert Formular Eingabefelder
 	 */
-	public UserRegistrationForm() {
+	public UserRegistrationForm(TabPanel outerTabPanel) {
 		{
-
+			Panel panelContainer = new Panel();
+			panelContainer.setTitle("Registrieren");
 			horizontalPanel = new HorizontalPanel();
-			initWidget(horizontalPanel);
+			
 			{
 				formPanel = new FormPanel();
 				formPanel.setLabelAlign(Position.RIGHT);
@@ -248,13 +251,14 @@ public class UserRegistrationForm extends Composite implements Form {
 					});
 
 					horizontalPanel.add(formPanel);
-
+					panelContainer.add(horizontalPanel);
+					outerTabPanel.add(panelContainer);
 				}
 
 			}
 
 		}
-
+		
 	}
 
 	public boolean validate() {
@@ -266,19 +270,19 @@ public class UserRegistrationForm extends Composite implements Form {
 				txtbxPassword2.reset();
 				return false;
 			} else if (!validateEmail() && validatePassword()) {
-				MessageBox.alert("Fehler!", "eMails stimmen nicht Ÿberein.");
+				MessageBox.alert("Fehler!", "eMails stimmen nicht ï¿½berein.");
 				return false;
 			} else if (!validatePassword() && validateEmail()) {
 				txtbxPassword.reset();
 				txtbxPassword2.reset();
 				MessageBox.alert("Fehler!",
-						"Passw&ooml;rter stimmen nicht Ÿberein.");
+						"Passw&ooml;rter stimmen nicht ï¿½berein.");
 				return false;
 			} else if (!validateEmail() && !validatePassword()) {
 				txtbxPassword.reset();
 				txtbxPassword2.reset();
 				MessageBox.alert("Fehler!",
-						"Passw&ooml;rter und eMails stimmen nicht Ÿberein.");
+						"Passw&ooml;rter und eMails stimmen nicht ï¿½berein.");
 				return false;
 			} else if (txtbxUserFree.isVisible()) {
 				MessageBox.alert("Fehler!",
@@ -353,14 +357,14 @@ public class UserRegistrationForm extends Composite implements Form {
 	}
 
 	/**
-	 * sendet den eingegeben Benutzernamen an den Server, welcher ŸberprŸft ob
+	 * sendet den eingegeben Benutzernamen an den Server, welcher ï¿½berprï¿½ft ob
 	 * dieser noch frei ist. Ist der Benutzername schon vergeben, wird das
 	 * textField txtbxUserFree sichtbar geschaltet,
 	 * 
 	 * @param username
 	 */
 	public void checkUsername(String username) {
-		// TODO rpc zum ŸberprŸfen ob der Benutzername noch frei ist
+		// TODO rpc zum ï¿½berprï¿½fen ob der Benutzername noch frei ist
 		// Sende Daten an Server
 
 		System.out.println("test2");
