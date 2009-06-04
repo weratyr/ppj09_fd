@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -20,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.TabPanel;
 
 /**
  * SwapWeb implementiert das EntryPoint Interface. Die erst zu ladene Methode
@@ -110,24 +110,23 @@ public class SwapWeb implements EntryPoint {
 		dockPanel.add(nordTabPanel, DockPanel.NORTH);
 
 		
+		TabPanel outerTabPanel = new TabPanel();
+		outerTabPanel.setHeight("100%");
 		
-		tabPanel = new TabPanel();
-		tabPanel.setWidth("100%");
-		nordTabPanel.add(tabPanel);
+		articleSearchForm = new ArticleSearchForm(outerTabPanel);
 		
-		articleSearchForm = new ArticleSearchForm();
-		tabPanel.add(articleSearchForm, "Ich suche", false);
-		tabPanel.selectTab(0);
 
-		loginForm = new LoginForm();
-		tabPanel.add(loginForm, "Login", false);
+		loginForm = new LoginForm(outerTabPanel);
+		
 
-		registrationForm = new UserRegistrationForm();
-		tabPanel.add(registrationForm, "Registrieren", false);
-
+		registrationForm = new UserRegistrationForm(outerTabPanel);
+		//tabPanel.add(registrationForm, "Registrieren", false);
+		/*
 		helpView = new HelpView();
-		tabPanel.add(helpView, "Hilfe", false);
+		tabPanel.add(helpView, "Hilfe", false);*/
 		
+		
+		nordTabPanel.add(outerTabPanel);
 
 		/*
 		 * CENTER contentPanel
@@ -305,39 +304,6 @@ public class SwapWeb implements EntryPoint {
 				contentPanel.add(articleForm);			
 				}
 		});
-	}
-
-	public void addTestArticle() {
-		if (!articleView.isAttached()) {
-			tabPanel.add(articleView, "Test Artikel", false);
-
-		} else
-			tabPanel.remove(articleView);
-	}
-
-	public void addTestProfile() {
-		if (!userView.isAttached()) {
-			contentPanel.clear();
-			contentPanel.add(userView);
-
-		} else
-			tabPanel.remove(userView);
-	}
-
-	public void addTestProfileForm() {
-		if (!userForm.isAttached()) {
-			tabPanel.add(userForm, "Profil ï¿½ndern", false);
-
-		} else
-			tabPanel.remove(userForm);
-	}
-
-	public void addTestArticleForm() {
-		if (!articleForm.isAttached()) {
-			tabPanel.add(articleForm, "Neuer Artikel", false);
-
-		} else
-			tabPanel.remove(articleForm);
 	}
 
 	public static Panel getContenPanel() {

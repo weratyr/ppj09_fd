@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.event.KeyListener;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -32,7 +33,7 @@ import com.gwtext.client.widgets.layout.ColumnLayoutData;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
-public class LoginForm extends Composite implements Form {
+public class LoginForm implements Form {
 
 	/*
 	 * Erstellt ein remote service proxy, um mit dem UserManager der Serverseite
@@ -49,10 +50,11 @@ public class LoginForm extends Composite implements Form {
 	/**
 	 * Initialisiert Formular Eingabefelder
 	 */
-	public LoginForm() {
+	public LoginForm(TabPanel outerTabPanel) {
 		{
 			formPanel = new FormPanel();
 			formPanel.setLabelAlign(Position.TOP);
+			formPanel.setTitle("Login");
 			formPanel.setFooter(true);
 			formPanel.setMonitorValid(true);
 			formPanel.setBorder(false);
@@ -114,7 +116,7 @@ public class LoginForm extends Composite implements Form {
 				formPanel.add(multiPanel1);
 
 			}
-			initWidget(formPanel);
+			outerTabPanel.add(formPanel);
 		}
 
 	}
