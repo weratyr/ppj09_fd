@@ -1,493 +1,288 @@
 package ppj09.gwt.swapweb.client.gui;
 
+/**
+ * Autor Georg Ortwein
+ * Klasse ArticleView ist zum anzeigen eines Artikels
+ */
 
-
-import com.google.gwt.user.client.ui.Composite;
-
+import ppj09.gwt.swapweb.client.datatype.Article;
+import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
+import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-
 import com.google.gwt.user.client.ui.Label;
-
-import com.google.gwt.user.client.ui.Hyperlink;
-
-import com.google.gwt.user.client.ui.DockPanel;
-
-
+import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtext.client.core.Position;
+import com.gwtext.client.widgets.Component;
+import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.TabPanel;
+import com.gwtext.client.widgets.layout.FormLayout;
 
 public class ArticleView extends Composite implements View {
+	private Article article;
 
-	private DockPanel dockPanel;
-	private AbsolutePanel absolutePanelNorth;
-	private AbsolutePanel absolutePanelSouth;
-	private Label lblArtName;
-	private Label lblArtikelNrBez;
-	private Label lblArtNr;
-	private Label lblBeschreibungBez;
-	private Label lblBeschreibung;
-	private AbsolutePanel absolutePanelWest;
-	private Image imgArtikle;
-	private AbsolutePanel absolutePanelCenter;
-	private Label lblOfferer;
-	private Hyperlink hblOfferer;
-	private Image imgStars;
-	private Label lblRateBez;
-	private Label lblProzPos;
-	private Label lblProzPosBez;
-	private Label lblPozNeg;
-	private Label lblPozNegBez;
-	private Hyperlink hplMail;
-	private Label lblStandortBez;
-	private Label lblStandort;
-	private Label lblZustandBez;
-	private Label lblZustand;
-	private Label lblVersandBez;
-	private Label lblVersand;
-	private Label lblUmfangBez;
-	private Label lblUmfang;
-	private Label lblGegentauschBez;
-	private Label lblGegentausch;
-	private Label lblBesonderhBez;
-	private Label lblBesonderh;
+	private AbsolutePanel absolutePanel;
+	private HorizontalPanel horizontalPanel;
+	private VerticalPanel verticalPanel_2;
+	private HorizontalPanel hpName;
+	private Label lblFirstName;
+	private Label lblFirstName2;
+	private Label lblLastName;
+	private Label lblHorizontalSeperator;
+	private VerticalPanel verticalPanel;
+	private Label lblArticleName;
+	private TabPanel imagePanel;
+	private Image image1;
+	private Image image2;
+	private Image image3;
 
-	
+	private Panel ImagePanel2;
 
-	public ArticleView() {
+	private Panel imagePanel1;
 
+	private Panel ImagePanel3;
+
+	private HorizontalPanel hpLocation;
+
+	private Label lblLocation;
+
+	private Label lblLocation2;
+
+	private HorizontalPanel hpCondition;
+
+	private Label lblCondition2;
+
+	private Label lblCondition;
+
+	private Label verticalSeperator1;
+
+	private HorizontalPanel hpDelivery;
+
+	private Label lblDelivery2;
+
+	private Label lblDelivery;
+
+	private HorizontalPanel hpAmount;
+
+	private Label lblAmount;
+
+	private Label lblAmount2;
+
+	private HorizontalPanel hpSwapIdea;
+
+	private Label lblSwapIdea2;
+
+	private Label lblSwapIdea;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param username
+	 * 
+	 */
+
+	public ArticleView(int articleId) {
+
+		article = new Article();
+		createForm();
+		// getArticle(articleId);
+
+	}
+
+	public void createForm() {
 		{
+			verticalPanel = new VerticalPanel();
+			initWidget(verticalPanel);
 
-			dockPanel = new DockPanel();
-
-			initWidget(dockPanel);
-
-			dockPanel.setSize("650px", "400px");
-
+			// Überschrift
 			{
+				lblArticleName = new Label("Test");
 
-				absolutePanelNorth = new AbsolutePanel();
-
-				dockPanel.add(absolutePanelNorth, DockPanel.NORTH);
-
-				absolutePanelNorth.setHeight("32px");
-
-				{
-
-					lblArtName = new Label("Testartikelname");
-
-					absolutePanelNorth.add(lblArtName, 5, 5);
-
-					lblArtName.setSize("367px", "21px");
-
-				}
-
-				{
-
-					lblArtikelNrBez = new Label("Artikelnr.:");
-
-					absolutePanelNorth.add(lblArtikelNrBez, 377, 5);
-
-				}
-
-				{
-
-					lblArtNr = new Label("123456789");
-
-					absolutePanelNorth.add(lblArtNr, 447, 5);
-
-					lblArtNr.setSize("98px", "21px");
-
-				}
-
+				verticalPanel.add(lblArticleName);
 			}
 
 			{
-
-				absolutePanelSouth = new AbsolutePanel();
-
-				dockPanel.add(absolutePanelSouth, DockPanel.SOUTH);
-
-				absolutePanelSouth.setSize("548px", "233px");
-
+				horizontalPanel = new HorizontalPanel();
+				verticalPanel.add(horizontalPanel);
 				{
+					absolutePanel = new AbsolutePanel();
+					horizontalPanel.add(absolutePanel);
+					absolutePanel.setSize("200", "200");
 
-					lblBeschreibungBez = new Label("\u00DCber das Angebot:");
+					// Bild
+					{
+						imagePanel = new TabPanel();
+						imagePanel.setWidth(155);
+						imagePanel.setTabPosition(Position.BOTTOM);
 
-					absolutePanelSouth.add(lblBeschreibungBez, 5, 5);
+						image1 = new Image();
+						image1.setSize("150", "160");
+						image1
+								.setUrl("http://www.willgewinnen.at/wp-content/uploads/2008/09/wg_e-gitarre1.jpg");
 
-					lblBeschreibungBez.setHeight("18");
+						imagePanel1 = new Panel();
+						imagePanel1.setTitle("Bild 1");
+						imagePanel1.add(image1);
+						imagePanel.add(imagePanel1);
+
+						image2 = new Image();
+						image2.setPixelSize(150, 160);
+						image2
+								.setUrl("http://www.spiegel.de/img/0,1020,128453,00.jpg");
+
+						ImagePanel2 = new Panel();
+						ImagePanel2.setTitle("Bild 2");
+						ImagePanel2.add(image2);
+						imagePanel.add(ImagePanel2);
+
+						image3 = new Image();
+						image3.setPixelSize(150, 160);
+						image3
+								.setUrl("http://www.willgewinnen.at/wp-content/uploads/2008/09/wg_e-gitarre1.jpg");
+
+						ImagePanel3 = new Panel();
+						ImagePanel3.setTitle("Bild 3");
+						ImagePanel3.add(image3);
+						imagePanel.add(ImagePanel3);
+
+						absolutePanel.add(imagePanel, 0, 0);
+					}
 
 				}
 
 				{
 
-					lblBeschreibung = new Label("Hier steht eine lange Beschreibung, die meistens sowieso keinen interessiert und deshalb total \u00FCberfl\u00FCssig ist!!!!!");
+					verticalPanel_2 = new VerticalPanel();
 
-					absolutePanelSouth.add(lblBeschreibung, 5, 26);
+					// Standort
+					{
+						hpLocation = new HorizontalPanel();
+						lblLocation = new Label("Standort:");
+						lblLocation.setWidth("140");
+						hpLocation.add(lblLocation);
+						lblLocation2 = new Label();
+						hpLocation.add(lblLocation2);
 
-					lblBeschreibung.setSize("538px", "202px");
+						lblHorizontalSeperator = new Label();
+						lblHorizontalSeperator.setWidth("5");
+						hpLocation.add(lblHorizontalSeperator);
+						
+						verticalPanel_2.add(hpLocation);
+						
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
+
+					}
+					
+					// Zustand
+					{
+						hpCondition = new HorizontalPanel();
+						lblCondition = new Label("Zutand:");
+						lblCondition.setWidth("140");
+						hpCondition.add(lblCondition);
+						lblCondition2 = new Label();
+						hpCondition.add(lblCondition2);
+
+						verticalPanel_2.add(hpCondition);
+
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
+					}
+					
+					// Versandoptionen
+					{
+						hpDelivery = new HorizontalPanel();
+						lblDelivery = new Label("Versandoptionen:");
+						lblDelivery.setWidth("140");
+						hpDelivery.add(lblDelivery);
+						lblDelivery2 = new Label();
+						hpDelivery.add(lblDelivery2);
+
+						verticalPanel_2.add(hpDelivery);
+
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
+					}
+					
+					
+					// Angebotsumfang
+					{
+						hpAmount = new HorizontalPanel();
+						lblAmount = new Label("Angebotsumfang:");
+						lblAmount.setWidth("140");
+						hpAmount.add(lblAmount);
+						lblAmount2 = new Label();
+						hpAmount.add(lblAmount2);
+
+						verticalPanel_2.add(hpAmount);
+
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
+					}
+					
+					// Gegentauschvorstellungen
+					{
+						hpSwapIdea = new HorizontalPanel();
+						lblSwapIdea = new Label("Gegentauschvorstellungen:");
+						lblSwapIdea.setWidth("140");
+						hpSwapIdea.add(lblSwapIdea);
+						lblSwapIdea2 = new Label();
+						hpSwapIdea.add(lblSwapIdea2);
+
+						verticalPanel_2.add(hpSwapIdea);
+
+						verticalSeperator1 = new Label();
+						verticalSeperator1.setHeight("5");
+						verticalPanel_2.add(verticalSeperator1);
+					}
 
 				}
-
+				horizontalPanel.add(verticalPanel_2);
 			}
-
-			{
-
-				absolutePanelWest = new AbsolutePanel();
-
-				dockPanel.add(absolutePanelWest, DockPanel.WEST);
-
-				absolutePanelWest.setSize("150px", "272px");
-
-				{
-
-					imgArtikle = new Image(null);
-
-					absolutePanelWest.add(imgArtikle, 5, 5);
-
-					imgArtikle.setSize("131px", "112px");
-
-				}
-
-			}
-
-			{
-
-				absolutePanelCenter = new AbsolutePanel();
-
-				dockPanel.add(absolutePanelCenter, DockPanel.CENTER);
-
-				absolutePanelCenter.setSize("400px", "272px");
-
-				{
-
-					lblOfferer = new Label("Anbieter:");
-
-					absolutePanelCenter.add(lblOfferer, 5, 5);
-
-					lblOfferer.setHeight("18");
-
-				}
-
-				{
-
-					hblOfferer = new Hyperlink("New hyperlink", false, "newHistoryToken");
-
-					absolutePanelCenter.add(hblOfferer, 73, 5);
-
-					hblOfferer.setSize("158px", "18px");
-
-					hblOfferer.setHTML("Stefan Elm");
-
-				}
-
-				{
-
-					imgStars = new Image(null);
-
-					absolutePanelCenter.add(imgStars, 307, 27);
-
-					imgStars.setSize("88px", "21px");
-
-				}
-
-				{
-
-					lblRateBez = new Label("Bewertungen:");
-
-					absolutePanelCenter.add(lblRateBez, 5, 27);
-
-					lblRateBez.setHeight("18");
-
-				}
-
-				{
-
-					lblProzPos = new Label("100");
-
-					absolutePanelCenter.add(lblProzPos, 109, 27);
-
-					lblProzPos.setHeight("18");
-
-				}
-
-				{
-
-					lblProzPosBez = new Label("% positiv");
-
-					absolutePanelCenter.add(lblProzPosBez, 136, 27);
-
-					lblProzPosBez.setHeight("18");
-
-				}
-
-				{
-
-					lblPozNeg = new Label("100");
-
-					absolutePanelCenter.add(lblPozNeg, 201, 27);
-
-					lblPozNeg.setHeight("18");
-
-				}
-
-				{
-
-					lblPozNegBez = new Label("% negativ");
-
-					absolutePanelCenter.add(lblPozNegBez, 228, 27);
-
-					lblPozNegBez.setHeight("18");
-
-				}
-
-				{
-
-					hplMail = new Hyperlink("New hyperlink", false, "newHistoryToken");
-
-					absolutePanelCenter.add(hplMail, 5, 47);
-
-					hplMail.setHTML("Nachricht an den Anbieter");
-
-				}
-
-				{
-
-					lblStandortBez = new Label("Standort:");
-
-					absolutePanelCenter.add(lblStandortBez, 5, 80);
-
-					lblStandortBez.setHeight("18");
-
-				}
-
-				{
-
-					lblStandort = new Label("Frankfurt");
-
-					absolutePanelCenter.add(lblStandort, 73, 80);
-
-					lblStandort.setSize("300px", "18px");
-
-				}
-
-				{
-
-					lblZustandBez = new Label("Zustand:");
-
-					absolutePanelCenter.add(lblZustandBez, 5, 98);
-
-					lblZustandBez.setHeight("18");
-
-				}
-
-				{
-
-					lblZustand = new Label("gebraucht");
-
-					absolutePanelCenter.add(lblZustand, 73, 98);
-
-					lblZustand.setSize("300", "18");
-
-				}
-
-				{
-
-					lblVersandBez = new Label("Versand:");
-
-					absolutePanelCenter.add(lblVersandBez, 5, 116);
-
-					lblVersandBez.setHeight("18");
-
-				}
-
-				{
-
-					lblVersand = new Label("Nur per Post");
-
-					absolutePanelCenter.add(lblVersand, 73, 116);
-
-					lblVersand.setSize("300", "18");
-
-				}
-
-				{
-
-					lblUmfangBez = new Label("Angebotsumfang:");
-
-					absolutePanelCenter.add(lblUmfangBez, 5, 133);
-
-					lblUmfangBez.setHeight("18");
-
-				}
-
-				{
-
-					lblUmfang = new Label("Testartikel mit allen m\u00F6glichen Testzugaben");
-
-					absolutePanelCenter.add(lblUmfang, 5, 152);
-
-					lblUmfang.setSize("390px", "18px");
-
-				}
-
-				{
-
-					lblGegentauschBez = new Label("Gegentauschvorstellungen:");
-
-					absolutePanelCenter.add(lblGegentauschBez, 5, 170);
-
-					lblGegentauschBez.setHeight("18");
-
-				}
-
-				{
-
-					lblGegentausch = new Label("Alles, auser das was ich nicht haben will");
-
-					absolutePanelCenter.add(lblGegentausch, 5, 190);
-
-					lblGegentausch.setSize("390px", "18px");
-
-				}
-
-				{
-
-					lblBesonderhBez = new Label("Besonderheiten:");
-
-					absolutePanelCenter.add(lblBesonderhBez, 5, 208);
-
-					lblBesonderhBez.setHeight("18");
-
-				}
-
-				{
-
-					lblBesonderh = new Label("Das Ger\u00E4t ist kaputt");
-
-					absolutePanelCenter.add(lblBesonderh, 5, 227);
-
-					lblBesonderh.setSize("390px", "21px");
-
-				}
-
-			}
+			
+			Panel articleDescription = new Panel();
+			articleDescription.setTitle("Über das Angebot:");
+			Label label = new Label("bla");
+			articleDescription.add(label);
+			verticalPanel.add(articleDescription);
+			
 
 		}
 
 	}
 
+	private void getArticle(int articleId) {
+		ArticleManagerAsync articleManager = GWT.create(UserManager.class);
 
+		articleManager.getArticle(articleId, new AsyncCallback<Article>() {
+			public void onFailure(Throwable caught) {
+				// :(
+				System.out.println("fehler");
 
-	public void setHblOfferer(String hblOfferer) {
+			}
 
-		this.hblOfferer.setText(hblOfferer);
+			public void onSuccess(Article articleDatatype) {
+				// :)
+				article = articleDatatype;
+				fillForm(articleDatatype);
+			}
 
+		});
 	}
 
-
-
-	public void setLblArtName(String lblArtName) {
-
-		this.lblArtName.setText(lblArtName);
-
-	}
-
-
-
-	public void setLblArtNr(String lblArtNr) {
-
-		this.lblArtNr.setText(lblArtNr);
-
-	}
-
-
-
-	public void setLblBeschreibung(String lblBeschreibung) {
-
-		this.lblBeschreibung.setText(lblBeschreibung);
-
-	}
-
-
-
-	public void setImgArtikle(Image imgArtikle) {
-
-		this.imgArtikle = imgArtikle;
-
-	}
-
-
-
-	public void setImgStars(Image imgStars) {
-
-		this.imgStars = imgStars;
-
-	}
-
-
-
-	public void setLblProzPos(String lblProzPos) {
-
-		this.lblProzPos.setText(lblProzPos);
-
-	}
-
-
-
-	public void setLblPozNeg(String lblPozNeg) {
-
-		this.lblPozNeg.setText(lblPozNeg);
-
-	}
-
-
-
-	public void setLblStandort(String lblStandort) {
-
-		this.lblStandort.setText(lblStandort);
-
-	}
-
-
-
-	public void setLblZustand(String lblZustand) {
-
-		this.lblZustand.setText(lblZustand);
-
-	}
-
-
-
-	public void setLblVersand(String lblVersand) {
-
-		this.lblVersand.setText(lblVersand);
-
-	}
-
-
-
-	public void setLblUmfang(String lblUmfang) {
-
-		this.lblUmfang.setText(lblUmfang);
-
-	}
-
-
-
-	public void setLblGegentausch(String lblGegentausch) {
-
-		this.lblGegentausch.setText(lblGegentausch);
-
-	}
-
-
-
-	public void setLblBesonderh(String lblBesonderh) {
-
-		this.lblBesonderh.setText(lblBesonderh);
+	private void fillForm(Article article) {
+		// TODO Auto-generated method stub
 
 	}
 
 }
-

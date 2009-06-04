@@ -269,7 +269,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testartikelHyperlink);
 		testartikelHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				articleView = new ArticleView();
+				articleView = new ArticleView(1);
 				contentPanel.clear();
 				contentPanel.add(articleView);
 				contentPanel.doLayout();
