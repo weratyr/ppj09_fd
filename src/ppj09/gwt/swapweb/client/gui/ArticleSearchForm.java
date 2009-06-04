@@ -278,7 +278,7 @@ public class ArticleSearchForm extends Composite implements Form {
 		
 		firstTab.add(multiPanel);
 		tabPanel.add(firstTab);
-		tabPanel.add(new UserSearchForm());
+		new UserSearchForm(tabPanel);
 		initWidget(containerFormPanel);
 	}
 

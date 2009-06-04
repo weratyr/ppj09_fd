@@ -25,6 +25,7 @@ import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -41,16 +42,15 @@ import com.gwtext.client.widgets.layout.FitLayout;
  * @author Projekt Team 4711
  * @version 0.1, 03.06.09
  */
-public class UserSearchForm extends Composite implements Form {
+public class UserSearchForm  implements Form {
 	private Panel containerPanel;
 	private VerticalPanel searchResultPanel;
 	
-	public UserSearchForm() {
+	public UserSearchForm(TabPanel tabPanel) {
 		
 			containerPanel = new Panel();
 			containerPanel.setLayout(new FitLayout());
 			containerPanel.setBorder(false);
-			initWidget(containerPanel);
 			
 			FormPanel borderPanel = new FormPanel();
 			borderPanel.setBorder(false);
@@ -136,6 +136,7 @@ public class UserSearchForm extends Composite implements Form {
 			
 			borderPanel.add(multiPanel);
 			containerPanel.add(borderPanel);
+			tabPanel.add(containerPanel);
 			/*{
 				
 			{
