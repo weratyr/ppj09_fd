@@ -96,7 +96,7 @@ public class SwapWeb implements EntryPoint {
 		rootPanel.add(dockPanel);
 
 		/*
-		 * NORTH
+		 * NORTH  Header und äußeres TabPanel
 		 */
 		HeaderPanel = new HorizontalPanel();
 		dockPanel.add(HeaderPanel, DockPanel.NORTH);
@@ -106,26 +106,12 @@ public class SwapWeb implements EntryPoint {
 		image.setUrl("http://www.renegade-station.de/swhead.jpg");
 
 		VerticalPanel nordTabPanel = new VerticalPanel();
-		nordTabPanel.setWidth("100%");
 		dockPanel.add(nordTabPanel, DockPanel.NORTH);
 
-		
 		TabPanel outerTabPanel = new TabPanel();
-		
-		
 		articleSearchForm = new ArticleSearchForm(outerTabPanel);
-		
-
 		loginForm = new LoginForm(outerTabPanel);
-		
-
 		registrationForm = new UserRegistrationForm(outerTabPanel);
-		//tabPanel.add(registrationForm, "Registrieren", false);
-		/*
-		helpView = new HelpView();
-		tabPanel.add(helpView, "Hilfe", false);*/
-		
-		
 		nordTabPanel.add(outerTabPanel);
 
 		/*
