@@ -31,4 +31,10 @@ public class ArticleManagerImpl extends RemoteServiceServlet implements ArticleM
 	public Article readArticle(SearchResult searchResult) {
 		return null;
 	}
+
+	public Article getArticle(int articleId) {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
 }
