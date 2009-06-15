@@ -2,18 +2,23 @@ package ppj09.gwt.swapweb.server;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.MessageSearchQuery;
-import ppj09.gwt.swapweb.client.datatype.SearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.UserSearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHandler {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ArrayList<SearchResult> search(ArticleSearchQuery articleSearch) {
 		ArrayList<SearchResult> dummyResults = new ArrayList<SearchResult>();
 		dummyResults.add(new ArticleSearchResult("Swap Web", "Hans", "http://www.geocities.com/hollywood/cinema/2636/pic-coll1/it-clown.jpg"));
