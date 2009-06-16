@@ -33,7 +33,15 @@
     <url-pattern>/swapweb/UserManager</url-pattern>
  </servlet-mapping> 
   
-
+ <servlet> 
+     <servlet-name>ArticleManager</servlet-name> 
+     <servlet-class>ppj09.gwt.swapweb.server.ArticleManagerImpl</servlet-class> 
+   </servlet> 
+   
+  <servlet-mapping>
+    <servlet-name>ArticleManager</servlet-name>
+    <url-pattern>/swapweb/ArticleManager</url-pattern>
+ </servlet-mapping> 
   
   
 </web-app>

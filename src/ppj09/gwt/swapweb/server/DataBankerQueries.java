@@ -67,7 +67,6 @@ public class DataBankerQueries {
 		String jabber = newUser.getJabber();
 		String msn = newUser.getMsn();
 		String homepage = newUser.getHomepage();
-		   System.out.println(newUser.getHomepage());
 
 		DataBankerConnection dbc = new DataBankerConnection();
 	    
@@ -77,28 +76,28 @@ public class DataBankerQueries {
 			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user2(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email, gender, birthdate, job, hobbies, music, movies, iLike, iDontLike, aboutMe, icq, yahoo, aim, jabber, msn, homepage) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			   stmt.setString(1, username);
 			   stmt.setString(2, pwd);
-			   stmt.setObject(3, firstName);
+			   stmt.setString(3, firstName);
 			   stmt.setString(4, lastName);
 			   stmt.setString(5, street);
-			   stmt.setObject(6, houseNumber);
+			   stmt.setString(6, houseNumber);
 			   stmt.setString(7, zipCode);
 			   stmt.setString(8, city);
-			   stmt.setObject(9, email);
+			   stmt.setString(9, email);
 			   stmt.setString(10, gender);
 			   stmt.setDate(11, birthdate);
-			   stmt.setObject(12, job);
+			   stmt.setString(12, job);
 			   stmt.setString(13, hobbies);
 			   stmt.setString(14, music);
-			   stmt.setObject(15, movies);
+			   stmt.setString(15, movies);
 			   stmt.setString(16, iLike);
 			   stmt.setString(17, iDontLike);
-			   stmt.setObject(18, aboutMe);
+			   stmt.setString(18, aboutMe);
 			   stmt.setString(19, icq);
 			   stmt.setString(20, yahoo);
-			   stmt.setObject(21, aim);
+			   stmt.setString(21, aim);
 			   stmt.setString(22, jabber);
 			   stmt.setString(23, msn);
-			   stmt.setObject(24, homepage);
+			   stmt.setString(24, homepage);
 			   stmt.executeUpdate();
 		       
 			   dbc.close();
@@ -117,8 +116,40 @@ public class DataBankerQueries {
 	}
 	
 	public int createArticle(Article newArticle) {
-		System.out.println("test");
-		return 1;
+		int saved = 0;
+		
+		String title = newArticle.getTitle();
+		String zipcode = newArticle.getZipCode();
+		String city = newArticle.getLocation();
+		System.out.println(newArticle.getShippingMethods());
+
+		DataBankerConnection dbc = new DataBankerConnection();
+
+		try {
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(title, zipcode, city) VALUES(?,?,?)");
+			   stmt.setString(1, title);
+			   stmt.setString(2, zipcode);
+			   stmt.setString(3, city);
+//			   stmt.setString(4, lastName);
+//			   stmt.setString(5, street);
+//			   stmt.setObject(6, houseNumber);
+//			   stmt.setString(7, zipCode);
+//			   stmt.setString(8, city);
+//			   stmt.setObject(9, email);
+//			   stmt.setString(10, gender);
+
+			   stmt.executeUpdate();
+		       
+			   dbc.close();
+			   stmt.close();
+			   System.out.println("done!");
+			   saved = 1;
+			} catch (SQLException e) {
+				   System.out.println("net done!");
+				return 0;	
+			}
+		
+		return saved;
 	}
 	
 	public boolean checkUsername(String UserId) {
