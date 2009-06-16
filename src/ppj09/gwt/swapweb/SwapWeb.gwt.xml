@@ -25,4 +25,8 @@
   <script src="js/ext/ext-all.js"/>
 >>>>>>> 5599f8eb617d09db48518d6edefcb46b09e79229:src/ppj09/gwt/swapweb/SwapWeb.gwt.xml
   <inherits name="com.gwtext.GwtExt"/>
+  <inherits name="com.gwtext.GwtExt"/>
+  <stylesheet src="js/ext/resources/css/ext-all.css"/>
+  <script src="js/ext/adapter/ext/ext-base.js"/>
+  <script src="js/ext/ext-all.js"/>
 </module>

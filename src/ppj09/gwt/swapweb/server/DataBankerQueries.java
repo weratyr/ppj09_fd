@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 
 
+
+
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
@@ -115,40 +117,83 @@ public class DataBankerQueries {
 		return saved;
 	}
 	
-	public int createArticle(Article newArticle) {
+	public int getUserId(String user) {
+		ResultSet rs = null;
+		int id = 0;
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+	    Statement stmt = dbc.getStatement();
+	    String query = "SELECT id FROM user WHERE userid='"+user+"'";
+	    try {
+	    	rs = stmt.executeQuery(query);
+	    	
+	    	while (rs.next()) {
+	    		id = rs.getInt(1);
+			}
+	    	
+			rs.close();
+			dbc.close();
+			stmt.close();
+			dbc.closeStatement();
+	    	
+	    } catch (SQLException e) {
+	    	return id;
+	    	//e.printStackTrace();
+	    }
+	    
+	    return id;
+	}
+	
+	public int createArticle(Article newArticle, int user) {
 		int saved = 0;
 		
-		String title = newArticle.getTitle();
-		String zipcode = newArticle.getZipCode();
-		String city = newArticle.getLocation();
-		System.out.println(newArticle.getShippingMethods());
+		String title = newArticle.getTitle().replaceAll("\n", "");
+		String zipcode = newArticle.getZipCode().replaceAll("\n", "");
+		String city = newArticle.getLocation().replaceAll("\n", "");
+		String articlecondition = newArticle.getCondition().replaceAll("\n", "");
+		String shipping = newArticle.getShippingMethods().replaceAll("\n", "");
+		String amount = newArticle.getOfferScope().replaceAll("\n", "");
+		String swaps = newArticle.getDesiredItemsComment().replaceAll("\n", "");
+		String description = newArticle.getDescription().replaceAll("\n", "");
+		
+		System.out.println(title);
+		System.out.println(zipcode);
+		System.out.println(city);
+		System.out.println(articlecondition);
+		System.out.println(shipping);
+		System.out.println(amount);
+		System.out.println(swaps);
+		System.out.println(description);
+
 
 		DataBankerConnection dbc = new DataBankerConnection();
+        
+		if (user != 0) {
+			try {
+			    PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(userid, title, zipcode, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?)");
+			    stmt.setString(1, Integer.toString(user));
+			    stmt.setString(2, title);
+			    stmt.setString(3, zipcode);
+			    stmt.setString(4, city);
+			    stmt.setString(5, articlecondition);
+			    stmt.setString(6, shipping);
+			    stmt.setString(7, amount);
+			    stmt.setString(8, swaps);
+			    stmt.setString(9, description);
+			    System.out.println(stmt.toString());
 
-		try {
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(title, zipcode, city) VALUES(?,?,?)");
-			   stmt.setString(1, title);
-			   stmt.setString(2, zipcode);
-			   stmt.setString(3, city);
-//			   stmt.setString(4, lastName);
-//			   stmt.setString(5, street);
-//			   stmt.setObject(6, houseNumber);
-//			   stmt.setString(7, zipCode);
-//			   stmt.setString(8, city);
-//			   stmt.setObject(9, email);
-//			   stmt.setString(10, gender);
-
-			   stmt.executeUpdate();
+			    stmt.executeUpdate();
 		       
-			   dbc.close();
-			   stmt.close();
-			   System.out.println("done!");
-			   saved = 1;
+			    dbc.close();
+			    stmt.close();
+			    System.out.println("done!");
+			    saved = 1;
 			} catch (SQLException e) {
-				   System.out.println("net done!");
-				return 0;	
+			    e.printStackTrace();
+			    System.out.println("net done!");
+			    return 0;	
 			}
-		
+		}
 		return saved;
 	}
 	

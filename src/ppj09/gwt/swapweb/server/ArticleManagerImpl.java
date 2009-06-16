@@ -20,7 +20,7 @@ public class ArticleManagerImpl extends RemoteServiceServlet implements ArticleM
 	public int createArticle(Article newArticle) {
 //		String user = sh.getSession(this.getThreadLocalRequest());
 		System.out.println("lol");
-		return db.createArticle(newArticle);
+		return db.createArticle(newArticle, db.getUserId(sh.getSession(this.getThreadLocalRequest())));
 	}
 	 	
 	public int deleteArticle() {

@@ -27,7 +27,7 @@ public class Article implements Serializable {
 	private String location;
 	private String zipCode;
 	private ArrayList<String> pictureUrls;
-	protected String condition;
+	private String condition;
 	private String description;
 	private String offerScope;
 	// Auswahl der Kategorien zu dem der Artikel passen koennte
@@ -152,7 +152,7 @@ public class Article implements Serializable {
 	/**
 	 * Setzt den condition
 	 */
-	public void setCondition(String conditionCode) {
+	public void setCondition(String condition) {
 		this.condition = condition;
 	}
 
