@@ -140,7 +140,7 @@ public class ArticleForm extends Composite implements Form {
 	public boolean submit() {
 		Article newArticle = new Article();
 		newArticle = fillArticle(newArticle);
-		System.out.println(newArticle.getShippingMethods());
+		
 		
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 		articleManager.createArticle(newArticle, new AsyncCallback<Integer>() {
@@ -173,13 +173,13 @@ public class ArticleForm extends Composite implements Form {
 	private String getShippingMethods(){
 		String shippingMethods = "";
 			if(chkbxdelivery1.getValue() == true){
-				shippingMethods.concat("Postversand");
+				shippingMethods = shippingMethods.concat("Postversand\n");
 			}
 			if(chkbxdelivery2.getValue() == true){
-				shippingMethods.concat(", Selbstabholung");
+				shippingMethods = shippingMethods.concat("Selbstabholung\n");
 			}
 			if(chkbxdelivery3.getValue() == true){
-				shippingMethods.concat(", Treffen");
+				shippingMethods = shippingMethods.concat("Treffen");
 			}
 		return shippingMethods;
 	}

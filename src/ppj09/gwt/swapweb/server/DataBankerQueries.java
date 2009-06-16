@@ -121,22 +121,35 @@ public class DataBankerQueries {
 		String title = newArticle.getTitle();
 		String zipcode = newArticle.getZipCode();
 		String city = newArticle.getLocation();
-		System.out.println(newArticle.getShippingMethods());
+		String condition = newArticle.getCondition();
+		String shipping = newArticle.getShippingMethods();
+		String amount = newArticle.getOfferScope();
+		String swaps = newArticle.getDesiredItemsComment();
+		String description = newArticle.getDescription();
+		
+		System.out.println(title);
+		System.out.println(zipcode);
+		System.out.println(city);
+		System.out.println(condition);
+		System.out.println(shipping);
+		System.out.println(amount);
+		System.out.println(swaps);
+		System.out.println(description);
+
 
 		DataBankerConnection dbc = new DataBankerConnection();
 
 		try {
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(title, zipcode, city) VALUES(?,?,?)");
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(title, zipcode, city, condition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?)");
 			   stmt.setString(1, title);
 			   stmt.setString(2, zipcode);
 			   stmt.setString(3, city);
-//			   stmt.setString(4, lastName);
-//			   stmt.setString(5, street);
-//			   stmt.setObject(6, houseNumber);
-//			   stmt.setString(7, zipCode);
-//			   stmt.setString(8, city);
-//			   stmt.setObject(9, email);
-//			   stmt.setString(10, gender);
+			   stmt.setString(4, condition);
+			   stmt.setString(5, shipping);
+			   stmt.setString(6, amount);
+			   stmt.setString(7, swaps);
+			   stmt.setString(8, description);
+			   System.out.println(stmt.toString());
 
 			   stmt.executeUpdate();
 		       
