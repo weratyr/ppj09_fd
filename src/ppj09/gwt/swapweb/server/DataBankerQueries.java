@@ -52,28 +52,28 @@ public class DataBankerQueries {
 		String zipCode = newUser.getZip();
 		String city = newUser.getCity();
 		String email = newUser.getEmail();
-		String gender = newUser.getGender();
-		Date birthdate = (Date) newUser.getBirthdate();
-		String job = newUser.getJob();
-		String hobbies = newUser.getHobbys();
-		String music = newUser.getMusic();
-		String movies = newUser.getMovie();
-		String iLike = newUser.getILike();
-		String iDontLike = newUser.getIDontLike();
-		String aboutMe = newUser.getAboutMe();
-		String icq = newUser.getIcq();
-		String yahoo = newUser.getYahoo();
-		String aim = newUser.getAim();
-		String jabber = newUser.getJabber();
-		String msn = newUser.getMsn();
-		String homepage = newUser.getHomepage();
+//		String gender = newUser.getGender();
+//		Date birthdate = (Date) newUser.getBirthdate();
+//		String job = newUser.getJob();
+//		String hobbies = newUser.getHobbys();
+//		String music = newUser.getMusic();
+//		String movies = newUser.getMovie();
+//		String iLike = newUser.getILike();
+//		String iDontLike = newUser.getIDontLike();
+//		String aboutMe = newUser.getAboutMe();
+//		String icq = newUser.getIcq();
+//		String yahoo = newUser.getYahoo();
+//		String aim = newUser.getAim();
+//		String jabber = newUser.getJabber();
+//		String msn = newUser.getMsn();
+//		String homepage = newUser.getHomepage();
 
 		DataBankerConnection dbc = new DataBankerConnection();
 	    
 		if(!checkUsername(username)) {
 		
 			try {
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user2(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email, gender, birthdate, job, hobbies, music, movies, iLike, iDontLike, aboutMe, icq, yahoo, aim, jabber, msn, homepage) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email) VALUES(?,?,?,?,?,?,?,?,?)");
 			   stmt.setString(1, username);
 			   stmt.setString(2, pwd);
 			   stmt.setString(3, firstName);
@@ -83,21 +83,8 @@ public class DataBankerQueries {
 			   stmt.setString(7, zipCode);
 			   stmt.setString(8, city);
 			   stmt.setString(9, email);
-			   stmt.setString(10, gender);
-			   stmt.setDate(11, birthdate);
-			   stmt.setString(12, job);
-			   stmt.setString(13, hobbies);
-			   stmt.setString(14, music);
-			   stmt.setString(15, movies);
-			   stmt.setString(16, iLike);
-			   stmt.setString(17, iDontLike);
-			   stmt.setString(18, aboutMe);
-			   stmt.setString(19, icq);
-			   stmt.setString(20, yahoo);
-			   stmt.setString(21, aim);
-			   stmt.setString(22, jabber);
-			   stmt.setString(23, msn);
-			   stmt.setString(24, homepage);
+			   System.out.println(stmt.toString());
+
 			   stmt.executeUpdate();
 		       
 			   dbc.close();
@@ -115,7 +102,7 @@ public class DataBankerQueries {
 		return saved;
 	}
 	
-	public int createArticle(Article newArticle) {
+	public int createArticle(Article newArticle,int userid) {
 		int saved = 0;
 		
 		String title = newArticle.getTitle();
@@ -140,15 +127,16 @@ public class DataBankerQueries {
 		DataBankerConnection dbc = new DataBankerConnection();
 
 		try {
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(title, zipcode, city, condition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?)");
-			   stmt.setString(1, title);
-			   stmt.setString(2, zipcode);
-			   stmt.setString(3, city);
-			   stmt.setString(4, condition);
-			   stmt.setString(5, shipping);
-			   stmt.setString(6, amount);
-			   stmt.setString(7, swaps);
-			   stmt.setString(8, description);
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(userid,title, zipcode, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?)");
+			   stmt.setInt(1, userid);
+			   stmt.setString(2, title);
+			   stmt.setString(3, zipcode);
+			   stmt.setString(4, city);
+			   stmt.setString(5, condition);
+			   stmt.setString(6, shipping);
+			   stmt.setString(7, amount);
+			   stmt.setString(8, swaps);
+			   stmt.setString(9, description);
 			   System.out.println(stmt.toString());
 
 			   stmt.executeUpdate();
@@ -202,7 +190,7 @@ public class DataBankerQueries {
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT pwd FROM user WHERE userid='"+user+"'";
+	    String query = "SELECT pwd FROM user WHERE username='"+user+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
@@ -228,13 +216,40 @@ public class DataBankerQueries {
 	 * return null -> Fehler beim Auslesen des Users
 	 * return User -> erfolgreich ausgelesen 
 	 */
+	public int getUserId(String user) {
+		 ResultSet rs = null;
+		 int id = 0;
+		 
+		 DataBankerConnection dbc = new DataBankerConnection();
+		    Statement stmt = dbc.getStatement();
+		    String query = "SELECT id FROM user WHERE username='"+user+"'";
+		    try {
+		     rs = stmt.executeQuery(query);
+		     
+		     while (rs.next()) {
+		      id = rs.getInt(1);
+		  }
+		     
+		  rs.close();
+		  dbc.close();
+		  stmt.close();
+		  dbc.closeStatement();
+		     
+		    } catch (SQLException e) {
+		     return id;
+		     //e.printStackTrace();
+		    }
+		    
+		    return id;
+		}
+
 	public User getUserProfile(String userId) {
 		User user = new User();
 		ResultSet rs = null;
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT * FROM user WHERE userid='"+userId+"'";
+	    String query = "SELECT * FROM user WHERE username='"+userId+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
@@ -302,7 +317,7 @@ public class DataBankerQueries {
 		try {
 			   //PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user(userid, pwd, userob) VALUES(?,?,?)");
 			   System.out.println("Mache Update");
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET userid=?,userob=? WHERE userid = ?");
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET username=?,userob=? WHERE username = ?");
 			   stmt.setString(1, userID);
 			//   stmt.setString(2, pwd);
 			   stmt.setObject(2, (Object)newUser);

@@ -5,8 +5,6 @@ package ppj09.gwt.swapweb.client.gui;
  * Klasse User- Form ist zum Aendern bzw. bearbeiten eines Profils 
  */
 
-import java.util.ArrayList;
-
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
@@ -15,7 +13,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
@@ -26,6 +23,7 @@ import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
+import com.gwtext.client.widgets.form.NumberField;
 import com.gwtext.client.widgets.form.TextArea;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.ColumnLayoutData;
@@ -34,7 +32,7 @@ public class ArticleForm extends Composite implements Form {
 
 	private FormPanel formPanel;
 	private TextField txtbxName;
-	private TextField txtbxZip;
+	private NumberField txtbxZip;
 	private TextField txtbxCity;
 	private MultiFieldPanel panel1;
 	private ComboBox combobxCondition;
@@ -59,17 +57,24 @@ public class ArticleForm extends Composite implements Form {
 				formPanel.setWidth(480);
 				{
 					txtbxName = new TextField("Artikelname*", "text_field", 190);
+					txtbxName.setAllowBlank(false);
+					txtbxName.setBlankText("Bitte geben Sie den Artikelnamen ein");
 					formPanel.add(txtbxName);
 
-					txtbxZip = new TextField("Plz* / Artikelstandort*",
-							"text_field", 50);
+					txtbxZip = new NumberField("Plz* / Artikelstandort*",
+							"number_field", 50);
 					txtbxZip.setAllowBlank(false);
 					txtbxZip.setSelectOnFocus(true);
-
+					txtbxZip.setAllowBlank(false);
+					txtbxZip.setBlankText("Bitte geben sie die Postleitzahl des Artikelstandortes an");
+					txtbxZip.setAllowDecimals(false);
+					txtbxZip.setMinLength(5);
+					
 					txtbxCity = new TextField("Wohnort", "text_field", 135);
 					txtbxCity.setAllowBlank(false);
 					txtbxCity.setHideLabel(true);
 					txtbxCity.setSelectOnFocus(true);
+					txtbxCity.setBlankText("Bitte geben sie den Artikelstandort an");
 
 					panel1 = new MultiFieldPanel();
 					panel1.addToRow(txtbxZip, 310);
@@ -109,14 +114,20 @@ public class ArticleForm extends Composite implements Form {
 
 					txtbxAmount = new TextArea("Angebotsumfang*", "text_Area");
 					txtbxAmount.setPixelSize(190, 70);
+					txtbxAmount.setAllowBlank(false);
+					txtbxAmount.setBlankText("Bitte geben sie hier den Angebotsumfang an");
 					formPanel.add(txtbxAmount);
 
 					txtbxSwaps = new TextArea("Gegentauschvorstellungen*","text_Area");
 					txtbxSwaps.setPixelSize(190, 70);
+					txtbxSwaps.setAllowBlank(false);
+					txtbxSwaps.setBlankText("Bitte geben sie hier an, was sie gerne gegen ihren Artikel tauschen würden");
 					formPanel.add(txtbxSwaps);
 
 					txtbxDescription = new TextArea("Beschreibung*", "text_Area");
 					txtbxDescription.setPixelSize(190, 70);
+					txtbxDescription.setAllowBlank(false);
+					txtbxDescription.setBlankText("Bitte geben sie hier eine Beschreibung zum Artikel an");
 					formPanel.add(txtbxDescription);
 					
 					submitButton = new Button("Artikel Erstellen");
