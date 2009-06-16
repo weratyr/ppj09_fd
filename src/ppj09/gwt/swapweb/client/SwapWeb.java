@@ -290,6 +290,7 @@ public class SwapWeb implements EntryPoint {
 				articleForm = new ArticleForm();
 				contentPanel.clear();
 				contentPanel.add(articleForm);
+				contentPanel.doLayout();
 			}
 		});
 	}

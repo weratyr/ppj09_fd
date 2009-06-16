@@ -1,49 +1,36 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * Autor Georg Ortwein
- * Klasse User- Form ist zum �ndern bzw. bearbeiten eines Profils 
+ * Autor Georg Ortwein & Michael Lukaszczyk
+ * Klasse User- Form ist zum Aendern bzw. bearbeiten eines Profils 
  */
 
 import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
-import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
-import ppj09.gwt.swapweb.client.serverInterface.UserManager;
-import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
-import com.gwtext.client.widgets.Component;
-import com.gwtext.client.widgets.DatePicker;
-import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
-import com.gwtext.client.widgets.form.DateField;
 import com.gwtext.client.widgets.form.FormPanel;
-import com.gwtext.client.widgets.form.HtmlEditor;
-import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
-import com.gwtext.client.widgets.form.NumberField;
 import com.gwtext.client.widgets.form.TextArea;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.ColumnLayoutData;
 
-public class ArticleForm extends Composite implements View {
+public class ArticleForm extends Composite implements Form {
 
 	private FormPanel formPanel;
 	private TextField txtbxName;
@@ -58,15 +45,6 @@ public class ArticleForm extends Composite implements View {
 	private TextArea txtbxAmount;
 	private TextArea txtbxSwaps;
 	private TextArea txtbxDescription;
-	private HtmlEditor description;
-	private FormPanel formPanel2;
-	private HorizontalPanel horizontalPanel;
-
-	/**
-	 * Constructor
-	 * 
-	 * 
-	 */
 
 	public ArticleForm() {
 		{
@@ -105,7 +83,6 @@ public class ArticleForm extends Composite implements View {
 			                  new String[] { "gebraucht", "2" } });
 			              conditionStore.load();
 			     
-			              // TODO
 			        combobxCondition = new ComboBox();
 			        combobxCondition.setFieldLabel("Zustand*");
 			        combobxCondition.setStore(conditionStore);
@@ -134,8 +111,7 @@ public class ArticleForm extends Composite implements View {
 					txtbxAmount.setPixelSize(190, 70);
 					formPanel.add(txtbxAmount);
 
-					txtbxSwaps = new TextArea("Gegentauschvorstellungen*",
-							"text_Area");
+					txtbxSwaps = new TextArea("Gegentauschvorstellungen*","text_Area");
 					txtbxSwaps.setPixelSize(190, 70);
 					formPanel.add(txtbxSwaps);
 
@@ -162,29 +138,23 @@ public class ArticleForm extends Composite implements View {
 	}
 	
 	public boolean submit() {
-		// if (Validation.validateRegisterForm(this)) {
-		// TODO
-		// Sende Daten an Server
-		Article article = new Article();
-		article = fillArticle(article);
-		System.out.println("test1");
+		Article newArticle = new Article();
+		newArticle = fillArticle(newArticle);
 
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
-
-		articleManager.createArticle(article, new AsyncCallback<Integer>() {
+		articleManager.createArticle(newArticle, new AsyncCallback<Integer>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("neeee: " + caught.getMessage());
+				System.out.println("neeee: ");
 			}
 
 			public void onSuccess(Integer serverMsg) {
 				// :)
-				System.out.println("OK: " + serverMsg.toString());
+				System.out.println("OK: ");
 			}
 		});
 		// }
 		return true;
-
 	}
 	
 	private Article fillArticle(Article article) {
@@ -195,10 +165,10 @@ public class ArticleForm extends Composite implements View {
 		article.setShippingMethodId(getShippingMethods());
 		article.setOfferScope(txtbxAmount.getText());
 		article.setDesiredItemsComment(txtbxSwaps.getText());
-//		article.setDescription(description.get);
-
+		article.setDescription(txtbxDescription.getText());
 		return article;
 	}
+	
 	private ArrayList<Integer> getShippingMethods(){
 		ArrayList<Integer> shippingMethods = new ArrayList<Integer>();
 			if(chkbxdelivery1.getValue() == true){
@@ -212,5 +182,4 @@ public class ArticleForm extends Composite implements View {
 			}
 		return shippingMethods;
 	}
-	
 }

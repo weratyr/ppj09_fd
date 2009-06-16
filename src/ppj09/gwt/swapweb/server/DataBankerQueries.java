@@ -7,6 +7,7 @@ package ppj09.gwt.swapweb.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,20 +42,63 @@ public class DataBankerQueries {
 		//IN DATENBANK SPEICHERN
 		int saved = 0;
 		
-		String userID = newUser.getUsername();
+		String username = newUser.getUsername();
 		String pwd = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
 		newUser.setPassword(pwd);
-		
+		String firstName = newUser.getFirstName();
+		String lastName = newUser.getLastName();
+		String street = newUser.getStreet();
+		String houseNumber = newUser.getHouseNumber();
+		String zipCode = newUser.getZip();
+		String city = newUser.getCity();
+		String email = newUser.getEmail();
+		String gender = newUser.getGender();
+		Date birthdate = (Date) newUser.getBirthdate();
+		String job = newUser.getJob();
+		String hobbies = newUser.getHobbys();
+		String music = newUser.getMusic();
+		String movies = newUser.getMovie();
+		String iLike = newUser.getILike();
+		String iDontLike = newUser.getIDontLike();
+		String aboutMe = newUser.getAboutMe();
+		String icq = newUser.getIcq();
+		String yahoo = newUser.getYahoo();
+		String aim = newUser.getAim();
+		String jabber = newUser.getJabber();
+		String msn = newUser.getMsn();
+		String homepage = newUser.getHomepage();
+		   System.out.println(newUser.getHomepage());
+
 		DataBankerConnection dbc = new DataBankerConnection();
 	    
-		if(!checkUsername(userID)) {
+		if(!checkUsername(username)) {
 		
 			try {
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user(userid, pwd, userob) VALUES(?,?,?)");
-			   stmt.setString(1, userID);
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user2(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email, gender, birthdate, job, hobbies, music, movies, iLike, iDontLike, aboutMe, icq, yahoo, aim, jabber, msn, homepage) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			   stmt.setString(1, username);
 			   stmt.setString(2, pwd);
-			   stmt.setObject(3, (Object)newUser);
-			   
+			   stmt.setObject(3, firstName);
+			   stmt.setString(4, lastName);
+			   stmt.setString(5, street);
+			   stmt.setObject(6, houseNumber);
+			   stmt.setString(7, zipCode);
+			   stmt.setString(8, city);
+			   stmt.setObject(9, email);
+			   stmt.setString(10, gender);
+			   stmt.setDate(11, birthdate);
+			   stmt.setObject(12, job);
+			   stmt.setString(13, hobbies);
+			   stmt.setString(14, music);
+			   stmt.setObject(15, movies);
+			   stmt.setString(16, iLike);
+			   stmt.setString(17, iDontLike);
+			   stmt.setObject(18, aboutMe);
+			   stmt.setString(19, icq);
+			   stmt.setString(20, yahoo);
+			   stmt.setObject(21, aim);
+			   stmt.setString(22, jabber);
+			   stmt.setString(23, msn);
+			   stmt.setObject(24, homepage);
 			   stmt.executeUpdate();
 		       
 			   dbc.close();
@@ -72,10 +116,9 @@ public class DataBankerQueries {
 		return saved;
 	}
 	
-	public int createArticle(String userID, Article newArticle) {
-		String user = userID;
-		System.out.println(user);
-		return 0;
+	public int createArticle(Article newArticle) {
+		System.out.println("test");
+		return 1;
 	}
 	
 	public boolean checkUsername(String UserId) {

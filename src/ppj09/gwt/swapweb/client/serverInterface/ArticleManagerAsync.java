@@ -8,6 +8,7 @@
 package ppj09.gwt.swapweb.client.serverInterface;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
+import ppj09.gwt.swapweb.client.datatype.SearchResult;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -22,6 +23,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface ArticleManagerAsync {
 	public void createArticle(Article newArticle, AsyncCallback<Integer> callback);
+	public void deleteArticle(AsyncCallback<Integer> callback);
+	public void updateArticle(AsyncCallback<Integer> callback);
+	public void readArticle(SearchResult searchResult, AsyncCallback<Article> callback);
 	public void getArticle(int articleId, AsyncCallback<Article> callback);
-
 }
