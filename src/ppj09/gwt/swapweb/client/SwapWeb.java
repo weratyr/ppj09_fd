@@ -20,6 +20,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+import com.gwtext.client.widgets.Viewport;
+import com.gwtext.client.widgets.layout.BorderLayout;
+import com.gwtext.client.widgets.layout.FitLayout;
 
 /**
  * SwapWeb implementiert das EntryPoint Interface. Die erst zu ladene Methode
@@ -39,10 +42,12 @@ public class SwapWeb implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
-	RootPanel rootPanel;
-	LoginForm loginForm;
-	ArticleSearchForm articleSearchForm;
-	UserRegistrationForm registrationForm;
+	private Panel mainPanel;
+	private Panel borderPanel;
+	
+	private LoginForm loginForm;
+	private ArticleSearchForm articleSearchForm;
+	private UserRegistrationForm registrationForm;
 
 	private DockPanel dockPanel;
 	private Image image;
@@ -81,22 +86,23 @@ public class SwapWeb implements EntryPoint {
 	 * Die EntryPoin Methode
 	 */
 	public void onModuleLoad() {
-
-		rootPanel = RootPanel.get();
-
+		
 		/*
-		 * Hauptfenster mit DockPanel, Image, TabPanel
+		 * Hauptfenster 
 		 */
-		dockPanel = new DockPanel();
-		dockPanel.setSize("100%", "100%");
-		dockPanel.setSpacing(5);
-		// dockPanel.setBorderWidth(2);
-		rootPanel.add(dockPanel);
+		mainPanel = new Panel();
+		mainPanel.setBorder(true);
+		mainPanel.setPaddings(15);
+		mainPanel.setLayout(new FitLayout());
+		borderPanel.setLayout(new BorderLayout());
+		
+		
+		
 
 		/*
 		 * NORTH  Header und äußeres TabPanel
 		 */
-		HeaderPanel = new HorizontalPanel();
+		HeaderPanel = new Panel();
 		dockPanel.add(HeaderPanel, DockPanel.NORTH);
 		dockPanel.setCellHeight(HeaderPanel, "85");
 		image = new Image();
@@ -292,6 +298,7 @@ public class SwapWeb implements EntryPoint {
 				contentPanel.doLayout();
 			}
 		});
+		//new Viewport(rootPanel);
 	}
 
 	public static Panel getContenPanel() {
