@@ -33,7 +33,7 @@ public class Article implements Serializable {
 	// Auswahl der Kategorien zu dem der Artikel passen koennte
 	protected ArrayList<Integer> categoryIds;
 	// Versandtartsnummer und ein Kommentar
-	protected ArrayList<Integer> shippingMethodIds;
+	protected String shippingMethods;
 	private String shippingMethodComment;
 	// Wunschgegenstandsnummer und ein moeglicher Kommentar
 	private ArrayList<Integer> desiredItemsCategoryIds;
@@ -193,15 +193,15 @@ public class Article implements Serializable {
 	 * 
 	 * @return shippingMethodId
 	 */
-	public ArrayList<Integer> getShippingMethodId() {
-		return shippingMethodIds;
+	public String getShippingMethods() {
+		return shippingMethods;
 	}
 
 	/**
 	 * Setzt die shippingMethodId
 	 */
-	public void setShippingMethodId(ArrayList<Integer> shippingMethodId) {
-		this.shippingMethodIds = shippingMethodId;
+	public void setShippingMethods(String shippingMethods) {
+		this.shippingMethods = shippingMethods;
 	}
 
 	/**

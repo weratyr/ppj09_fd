@@ -9,7 +9,6 @@ package ppj09.gwt.swapweb.client.serverInterface;
 
 import ppj09.gwt.swapweb.client.datatype.User;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

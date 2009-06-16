@@ -140,17 +140,18 @@ public class ArticleForm extends Composite implements Form {
 	public boolean submit() {
 		Article newArticle = new Article();
 		newArticle = fillArticle(newArticle);
-
+		System.out.println(newArticle.getShippingMethods());
+		
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 		articleManager.createArticle(newArticle, new AsyncCallback<Integer>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("neeee: ");
+				System.out.println("neeee: "+ caught.getMessage());
 			}
 
 			public void onSuccess(Integer serverMsg) {
 				// :)
-				System.out.println("OK: ");
+				System.out.println("OK: "+ serverMsg.toString());
 			}
 		});
 		// }
@@ -162,23 +163,23 @@ public class ArticleForm extends Composite implements Form {
 		article.setZipCode(txtbxZip.getText());
 		article.setLocation(txtbxCity.getText());
 		article.setCondition(combobxCondition.getText());
-		article.setShippingMethodId(getShippingMethods());
+		article.setShippingMethods(getShippingMethods());
 		article.setOfferScope(txtbxAmount.getText());
 		article.setDesiredItemsComment(txtbxSwaps.getText());
 		article.setDescription(txtbxDescription.getText());
 		return article;
 	}
 	
-	private ArrayList<Integer> getShippingMethods(){
-		ArrayList<Integer> shippingMethods = new ArrayList<Integer>();
+	private String getShippingMethods(){
+		String shippingMethods = "";
 			if(chkbxdelivery1.getValue() == true){
-				shippingMethods.add(1);
+				shippingMethods.concat("Postversand");
 			}
 			if(chkbxdelivery2.getValue() == true){
-				shippingMethods.add(2);
+				shippingMethods.concat(", Selbstabholung");
 			}
 			if(chkbxdelivery3.getValue() == true){
-				shippingMethods.add(3);
+				shippingMethods.concat(", Treffen");
 			}
 		return shippingMethods;
 	}

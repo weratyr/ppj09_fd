@@ -19,27 +19,4 @@
   <script src="js/ext/adapter/ext/ext-base.js"/>
   <script src="js/ext/ext-all.js"/>
   <inherits name="com.gwtext.GwtExt"/>
-  <inherits name="com.gwtext.GwtExt"/>
-  <stylesheet src="js/ext/resources/css/ext-all.css"/>
-  <script src="js/ext/adapter/ext/ext-base.js"/>
-  <script src="js/ext/ext-all.js"/>
-  <stylesheet src="js/ext/resources/css/ext-all.css"/>
-  <script src="js/ext/adapter/ext/ext-base.js"/>
-  <script src="js/ext/ext-all.js"/>
-   <stylesheet src="../js/resources/css/ext-all.css"/>
-  <script src="../js/adapter/ext/ext-base.js"/>
-  <script src="../js/ext-all.js"/>
-  <inherits name="com.gwtext.GwtExt"/>
-  <stylesheet src="js/ext/resources/css/ext-all.css"/>
-  <script src="js/ext/adapter/ext/ext-base.js"/>
-  <script src="js/ext/ext-all.js"/>
-  <inherits name="com.gwtext.GwtExt"/>
-  <stylesheet src="js/ext/resources/css/ext-all.css"/>
-  <script src="js/ext/adapter/ext/ext-base.js"/>
-  <script src="js/ext/ext-all.js"/>
-  <inherits name="com.gwtext.GwtExt"/>
-  <stylesheet src="js/ext/resources/css/ext-all.css"/>
-  <script src="js/ext/adapter/ext/ext-base.js"/>
-  <script src="js/ext/ext-all.js"/>
-  <inherits name="com.gwtext.GwtExt"/>
 </module>
