@@ -87,7 +87,6 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * Hauptfenster mit DockPanel, Image, TabPanel
 		 */
-
 		dockPanel = new DockPanel();
 		dockPanel.setSize("100%", "100%");
 		dockPanel.setSpacing(5);
