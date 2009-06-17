@@ -139,7 +139,8 @@ public class UserRegistrationForm implements Form {
 					txtbxPassword
 							.setBlankText("Bitte geben Sie ihr gew&uuml;nschtes Passwort ein <br>(mindestens acht Zeichen)");
 					txtbxPassword.setMinLength(8);
-
+					txtbxPassword.setPassword(true);
+					
 					panel2 = new MultiFieldPanel();
 					panel2.addToRow(txtbxLastName, 250);
 					panel2.addToRow(txtbxPassword, new ColumnLayoutData(1));
@@ -173,7 +174,8 @@ public class UserRegistrationForm implements Form {
 					txtbxPassword2.setTabIndex(9);
 					txtbxPassword2
 							.setBlankText("Bitte wiederholen Sie ihr Passwort");
-
+					txtbxPassword2.setPassword(true);
+					
 					panel3 = new MultiFieldPanel();
 					panel3.addToRow(streetPanel, 250);
 					panel3.addToRow(txtbxPassword2, new ColumnLayoutData(1));

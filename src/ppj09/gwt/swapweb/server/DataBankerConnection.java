@@ -13,9 +13,9 @@ public class DataBankerConnection {
 
 
 	
-	private String dbUrl = "jdbc:mysql://db4free.net:3306/onlineswapdb";
-	private String username = "fuldaprojekt";
-	private String pwd = "fuldaprojekt";
+	private String dbUrl = "jdbc:mysql://88.198.34.99:3306/usr_web85_1";
+	private String username = "web85";
+	private String pwd = "QO6lhUMx";
 
 	
 	

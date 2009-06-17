@@ -54,28 +54,28 @@ public class DataBankerQueries {
 		String zipCode = newUser.getZip();
 		String city = newUser.getCity();
 		String email = newUser.getEmail();
-		String gender = newUser.getGender();
-		Date birthdate = (Date) newUser.getBirthdate();
-		String job = newUser.getJob();
-		String hobbies = newUser.getHobbys();
-		String music = newUser.getMusic();
-		String movies = newUser.getMovie();
-		String iLike = newUser.getILike();
-		String iDontLike = newUser.getIDontLike();
-		String aboutMe = newUser.getAboutMe();
-		String icq = newUser.getIcq();
-		String yahoo = newUser.getYahoo();
-		String aim = newUser.getAim();
-		String jabber = newUser.getJabber();
-		String msn = newUser.getMsn();
-		String homepage = newUser.getHomepage();
+//		String gender = newUser.getGender();
+//		Date birthdate = (Date) newUser.getBirthdate();
+//		String job = newUser.getJob();
+//		String hobbies = newUser.getHobbys();
+//		String music = newUser.getMusic();
+//		String movies = newUser.getMovie();
+//		String iLike = newUser.getILike();
+//		String iDontLike = newUser.getIDontLike();
+//		String aboutMe = newUser.getAboutMe();
+//		String icq = newUser.getIcq();
+//		String yahoo = newUser.getYahoo();
+//		String aim = newUser.getAim();
+//		String jabber = newUser.getJabber();
+//		String msn = newUser.getMsn();
+//		String homepage = newUser.getHomepage();
 
 		DataBankerConnection dbc = new DataBankerConnection();
 	    
 		if(!checkUsername(username)) {
 		
 			try {
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user2(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email, gender, birthdate, job, hobbies, music, movies, iLike, iDontLike, aboutMe, icq, yahoo, aim, jabber, msn, homepage) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email) VALUES(?,?,?,?,?,?,?,?,?)");
 			   stmt.setString(1, username);
 			   stmt.setString(2, pwd);
 			   stmt.setString(3, firstName);
@@ -85,21 +85,8 @@ public class DataBankerQueries {
 			   stmt.setString(7, zipCode);
 			   stmt.setString(8, city);
 			   stmt.setString(9, email);
-			   stmt.setString(10, gender);
-			   stmt.setDate(11, birthdate);
-			   stmt.setString(12, job);
-			   stmt.setString(13, hobbies);
-			   stmt.setString(14, music);
-			   stmt.setString(15, movies);
-			   stmt.setString(16, iLike);
-			   stmt.setString(17, iDontLike);
-			   stmt.setString(18, aboutMe);
-			   stmt.setString(19, icq);
-			   stmt.setString(20, yahoo);
-			   stmt.setString(21, aim);
-			   stmt.setString(22, jabber);
-			   stmt.setString(23, msn);
-			   stmt.setString(24, homepage);
+			   System.out.println(stmt.toString());
+
 			   stmt.executeUpdate();
 		       
 			   dbc.close();
@@ -117,44 +104,44 @@ public class DataBankerQueries {
 		return saved;
 	}
 	
-	public int getUserId(String user) {
-		ResultSet rs = null;
-		int id = 0;
-		
-		DataBankerConnection dbc = new DataBankerConnection();
-	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT id FROM user WHERE userid='"+user+"'";
-	    try {
-	    	rs = stmt.executeQuery(query);
-	    	
-	    	while (rs.next()) {
-	    		id = rs.getInt(1);
-			}
-	    	
-			rs.close();
-			dbc.close();
-			stmt.close();
-			dbc.closeStatement();
-	    	
-	    } catch (SQLException e) {
-	    	return id;
-	    	//e.printStackTrace();
-	    }
-	    
-	    return id;
-	}
+//	public int getUserId(String user) {
+//		ResultSet rs = null;
+//		int id = 0;
+//		
+//		DataBankerConnection dbc = new DataBankerConnection();
+//	    Statement stmt = dbc.getStatement();
+//	    String query = "SELECT id FROM user WHERE userid='"+user+"'";
+//	    try {
+//	    	rs = stmt.executeQuery(query);
+//	    	
+//	    	while (rs.next()) {
+//	    		id = rs.getInt(1);
+//			}
+//	    	
+//			rs.close();
+//			dbc.close();
+//			stmt.close();
+//			dbc.closeStatement();
+//	    	
+//	    } catch (SQLException e) {
+//	    	return id;
+//	    	//e.printStackTrace();
+//	    }
+//	    
+//	    return id;
+//	}
 	
 	public int createArticle(Article newArticle, int user) {
 		int saved = 0;
 		
-		String title = newArticle.getTitle().replaceAll("\n", "");
-		String zipcode = newArticle.getZipCode().replaceAll("\n", "");
-		String city = newArticle.getLocation().replaceAll("\n", "");
-		String articlecondition = newArticle.getCondition().replaceAll("\n", "");
-		String shipping = newArticle.getShippingMethods().replaceAll("\n", "");
-		String amount = newArticle.getOfferScope().replaceAll("\n", "");
-		String swaps = newArticle.getDesiredItemsComment().replaceAll("\n", "");
-		String description = newArticle.getDescription().replaceAll("\n", "");
+		String title = newArticle.getTitle();
+		String zipcode = newArticle.getZipCode();
+		String city = newArticle.getLocation();
+		String articlecondition = newArticle.getCondition();
+		String shipping = newArticle.getShippingMethods();
+		String amount = newArticle.getOfferScope();
+		String swaps = newArticle.getDesiredItemsComment();
+		String description = newArticle.getDescription();
 		
 		System.out.println(title);
 		System.out.println(zipcode);
@@ -182,7 +169,7 @@ public class DataBankerQueries {
 			    stmt.setString(9, description);
 			    System.out.println(stmt.toString());
 
-			    stmt.executeUpdate();
+			   stmt.executeUpdate();
 		       
 			    dbc.close();
 			    stmt.close();
@@ -193,7 +180,7 @@ public class DataBankerQueries {
 			    System.out.println("net done!");
 			    return 0;	
 			}
-		}
+			}
 		return saved;
 	}
 	
@@ -234,7 +221,7 @@ public class DataBankerQueries {
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT pwd FROM user WHERE userid='"+user+"'";
+	    String query = "SELECT pwd FROM user WHERE username='"+user+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
@@ -260,13 +247,40 @@ public class DataBankerQueries {
 	 * return null -> Fehler beim Auslesen des Users
 	 * return User -> erfolgreich ausgelesen 
 	 */
+	public int getUserId(String user) {
+		 ResultSet rs = null;
+		 int id = 0;
+		 
+		 DataBankerConnection dbc = new DataBankerConnection();
+		    Statement stmt = dbc.getStatement();
+		    String query = "SELECT id FROM user WHERE username='"+user+"'";
+		    try {
+		     rs = stmt.executeQuery(query);
+		     
+		     while (rs.next()) {
+		      id = rs.getInt(1);
+		  }
+		     
+		  rs.close();
+		  dbc.close();
+		  stmt.close();
+		  dbc.closeStatement();
+		     
+		    } catch (SQLException e) {
+		     return id;
+		     //e.printStackTrace();
+		    }
+		    
+		    return id;
+		}
+
 	public User getUserProfile(String userId) {
 		User user = new User();
 		ResultSet rs = null;
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT * FROM user WHERE userid='"+userId+"'";
+	    String query = "SELECT * FROM user WHERE username='"+userId+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
@@ -334,7 +348,7 @@ public class DataBankerQueries {
 		try {
 			   //PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user(userid, pwd, userob) VALUES(?,?,?)");
 			   System.out.println("Mache Update");
-			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET userid=?,userob=? WHERE userid = ?");
+			   PreparedStatement stmt = dbc.getConnection().prepareStatement("UPDATE user SET username=?,userob=? WHERE username = ?");
 			   stmt.setString(1, userID);
 			//   stmt.setString(2, pwd);
 			   stmt.setObject(2, (Object)newUser);
@@ -356,5 +370,41 @@ public class DataBankerQueries {
 		//}
 		
 		return saved;
+	}
+
+	public Article getArticle(int articleId) {
+		Article article = new Article();
+		ResultSet rs = null;
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+	    Statement stmt = dbc.getStatement();
+	    String query = "SELECT * FROM article WHERE id='"+articleId+"'";
+	    try {
+	    	rs = stmt.executeQuery(query);
+	    	
+	    	while (rs.next()) {
+	    		article.setUserId(rs.getInt("userid"));
+	    		article.setTitle(rs.getString("title"));
+	    		article.setZipCode(rs.getString("zipcode"));
+	    		article.setLocation(rs.getString("city"));
+	    		article.setCondition(rs.getString("articlecondition"));
+	    		article.setShippingMethods(rs.getString("shipping"));
+	    		article.setOfferScope(rs.getString("amount"));
+	    		article.setDesiredItemsComment(rs.getString("swaps"));
+	    		article.setDescription(rs.getString("description"));
+			}
+			
+			rs.close();
+			dbc.close();
+			stmt.close();
+			dbc.closeStatement();
+	    	
+	    } catch (SQLException e) {
+	    	e.printStackTrace();
+	    	return null;
+	    	//e.printStackTrace();
+	    }
+		
+		return article;
 	}
 }
