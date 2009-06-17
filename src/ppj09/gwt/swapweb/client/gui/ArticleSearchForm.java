@@ -58,10 +58,10 @@ public class ArticleSearchForm implements Form {
 
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 
-		FormPanel containerFormPanel = new FormPanel();
+		final FormPanel containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
-		HorizontalPanel searchPanel = new HorizontalPanel();
+		final HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(10);
 		searchPanel.add(new TextField("", "phrase", 120));
 
@@ -72,7 +72,7 @@ public class ArticleSearchForm implements Form {
 				"options" }, quickOptionsCategory);
 		quickCategoryStore.load();
 
-		final ComboBox quickArticleCategoryCB = new ComboBox();
+		ComboBox quickArticleCategoryCB = new ComboBox();
 		
 		quickArticleCategoryCB.setStore(quickCategoryStore);
 		quickArticleCategoryCB.setDisplayField("options");
@@ -124,17 +124,19 @@ public class ArticleSearchForm implements Form {
 		advancedSearchHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				tabPanel.setVisible(!tabPanel.isVisible());
+				searchPanel.setVisible(!searchPanel.isVisible());
+				containerFormPanel.setHeight(140);
 			}
 		});
+		
 		advancedSearchHyperlink.setText("Erweiterte Suche");
 
 		containerFormPanel.add(searchPanel);
 		
-		tabPanel = new TabPanel();;
-		tabPanel.setWidth(1000);
-		//tabPanel.setVisible(false);
+		
+		tabPanel = new TabPanel();
+		tabPanel.setVisible(false);
 		tabPanel.setActiveTab(0);
-		tabPanel.setPaddings(5);
 		containerFormPanel.add(tabPanel);
 		
 		firstTab = new Panel();
@@ -152,7 +154,7 @@ public class ArticleSearchForm implements Form {
 		Panel secondColumn = new Panel();
 		secondColumn.setLayout(new FormLayout());
 		secondColumn.setBorder(false);
-		secondColumn.setPaddings(10,10,0,0);
+		secondColumn.setPaddings(10,0,0,0);
 
 		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
 				"nix drin" }, };
@@ -198,7 +200,7 @@ public class ArticleSearchForm implements Form {
 		Panel thirdColumn = new Panel();
 		thirdColumn.setLayout(new FormLayout());
 		thirdColumn.setBorder(false);
-		thirdColumn.setPaddings(10,10,0,0);
+		thirdColumn.setPaddings(10,0,0,0);
 
 		Object[][] optionsDelivery = new Object[][] {
 				new Object[] { "b", "Beliebig" },
@@ -225,7 +227,7 @@ public class ArticleSearchForm implements Form {
 		Panel fourthColumn = new Panel();
 		fourthColumn.setLayout(new FormLayout());
 		fourthColumn.setBorder(false);
-		fourthColumn.setPaddings(23,10,0,0);
+		fourthColumn.setPaddings(23,0,0,0);
 
 		Panel checkBoxPanel = new Panel();
 		checkBoxPanel.setBorder(false);
@@ -270,7 +272,7 @@ public class ArticleSearchForm implements Form {
 		fourthColumn.add(buttonPanel);
 
 		MultiFieldPanel multiPanel = new MultiFieldPanel();
-		multiPanel.setPaddings(5);
+		
 		multiPanel.setBorder(false);
 		multiPanel.addToRow(firstColumn, 140);
 		multiPanel.addToRow(secondColumn, 140);
@@ -280,6 +282,7 @@ public class ArticleSearchForm implements Form {
 		firstTab.add(multiPanel);
 		tabPanel.add(firstTab);
 		new UserSearchForm(tabPanel);
+		containerFormPanel.doLayout(true);
 		outerTabPanel.add(containerFormPanel);
 	}
 
