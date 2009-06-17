@@ -5,8 +5,6 @@ package ppj09.gwt.swapweb.client.gui;
  * Klasse User- Form ist zum Aendern bzw. bearbeiten eines Profils 
  */
 
-import java.util.ArrayList;
-
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
