@@ -134,14 +134,14 @@ public class DataBankerQueries {
 	public int createArticle(Article newArticle, int user) {
 		int saved = 0;
 		
-		String title = newArticle.getTitle().replaceAll("\n", "");
-		String zipcode = newArticle.getZipCode().replaceAll("\n", "");
-		String city = newArticle.getLocation().replaceAll("\n", "");
-		String articlecondition = newArticle.getCondition().replaceAll("\n", "");
-		String shipping = newArticle.getShippingMethods().replaceAll("\n", "");
-		String amount = newArticle.getOfferScope().replaceAll("\n", "");
-		String swaps = newArticle.getDesiredItemsComment().replaceAll("\n", "");
-		String description = newArticle.getDescription().replaceAll("\n", "");
+		String title = newArticle.getTitle();
+		String zipcode = newArticle.getZipCode();
+		String city = newArticle.getLocation();
+		String articlecondition = newArticle.getCondition();
+		String shipping = newArticle.getShippingMethods();
+		String amount = newArticle.getOfferScope();
+		String swaps = newArticle.getDesiredItemsComment();
+		String description = newArticle.getDescription();
 		
 		System.out.println(title);
 		System.out.println(zipcode);
@@ -370,5 +370,41 @@ public class DataBankerQueries {
 		//}
 		
 		return saved;
+	}
+
+	public Article getArticle(int articleId) {
+		Article article = new Article();
+		ResultSet rs = null;
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+	    Statement stmt = dbc.getStatement();
+	    String query = "SELECT * FROM article WHERE id='"+articleId+"'";
+	    try {
+	    	rs = stmt.executeQuery(query);
+	    	
+	    	while (rs.next()) {
+	    		article.setUserId(rs.getInt("userid"));
+	    		article.setTitle(rs.getString("title"));
+	    		article.setZipCode(rs.getString("zipcode"));
+	    		article.setLocation(rs.getString("city"));
+	    		article.setCondition(rs.getString("articlecondition"));
+	    		article.setShippingMethods(rs.getString("shipping"));
+	    		article.setOfferScope(rs.getString("amount"));
+	    		article.setDesiredItemsComment(rs.getString("swaps"));
+	    		article.setDescription(rs.getString("description"));
+			}
+			
+			rs.close();
+			dbc.close();
+			stmt.close();
+			dbc.closeStatement();
+	    	
+	    } catch (SQLException e) {
+	    	e.printStackTrace();
+	    	return null;
+	    	//e.printStackTrace();
+	    }
+		
+		return article;
 	}
 }

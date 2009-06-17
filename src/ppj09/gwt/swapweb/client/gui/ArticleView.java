@@ -6,8 +6,9 @@ package ppj09.gwt.swapweb.client.gui;
  */
 
 import ppj09.gwt.swapweb.client.datatype.Article;
+import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
-import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -15,14 +16,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.Position;
-import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
-import com.gwtext.client.widgets.layout.FormLayout;
 
 public class ArticleView extends Composite implements View {
 	private Article article;
@@ -30,10 +27,6 @@ public class ArticleView extends Composite implements View {
 	private AbsolutePanel absolutePanel;
 	private HorizontalPanel horizontalPanel;
 	private VerticalPanel verticalPanel_2;
-	private HorizontalPanel hpName;
-	private Label lblFirstName;
-	private Label lblFirstName2;
-	private Label lblLastName;
 	private Label lblHorizontalSeperator;
 	private VerticalPanel verticalPanel;
 	private Label lblArticleName;
@@ -41,13 +34,9 @@ public class ArticleView extends Composite implements View {
 	private Image image1;
 	private Image image2;
 	private Image image3;
-
 	private Panel ImagePanel2;
-
 	private Panel imagePanel1;
-
 	private Panel ImagePanel3;
-
 	private HorizontalPanel hpLocation;
 
 	private Label lblLocation;
@@ -79,6 +68,9 @@ public class ArticleView extends Composite implements View {
 	private Label lblSwapIdea2;
 
 	private Label lblSwapIdea;
+	
+	private Label description;
+
 
 	/**
 	 * Constructor
@@ -86,12 +78,10 @@ public class ArticleView extends Composite implements View {
 	 * @param username
 	 * 
 	 */
-
 	public ArticleView(int articleId) {
-
 		article = new Article();
 		createForm();
-		// getArticle(articleId);
+		getArticle(articleId);
 
 	}
 
@@ -102,7 +92,7 @@ public class ArticleView extends Composite implements View {
 
 			// Überschrift
 			{
-				lblArticleName = new Label("Test");
+				lblArticleName = new Label();
 
 				verticalPanel.add(lblArticleName);
 			}
@@ -164,7 +154,7 @@ public class ArticleView extends Composite implements View {
 					{
 						hpLocation = new HorizontalPanel();
 						lblLocation = new Label("Standort:");
-						lblLocation.setWidth("140");
+						lblLocation.setWidth("160");
 						hpLocation.add(lblLocation);
 						lblLocation2 = new Label();
 						hpLocation.add(lblLocation2);
@@ -185,7 +175,7 @@ public class ArticleView extends Composite implements View {
 					{
 						hpCondition = new HorizontalPanel();
 						lblCondition = new Label("Zutand:");
-						lblCondition.setWidth("140");
+						lblCondition.setWidth("160");
 						hpCondition.add(lblCondition);
 						lblCondition2 = new Label();
 						hpCondition.add(lblCondition2);
@@ -201,7 +191,7 @@ public class ArticleView extends Composite implements View {
 					{
 						hpDelivery = new HorizontalPanel();
 						lblDelivery = new Label("Versandoptionen:");
-						lblDelivery.setWidth("140");
+						lblDelivery.setWidth("160");
 						hpDelivery.add(lblDelivery);
 						lblDelivery2 = new Label();
 						hpDelivery.add(lblDelivery2);
@@ -218,7 +208,7 @@ public class ArticleView extends Composite implements View {
 					{
 						hpAmount = new HorizontalPanel();
 						lblAmount = new Label("Angebotsumfang:");
-						lblAmount.setWidth("140");
+						lblAmount.setWidth("160");
 						hpAmount.add(lblAmount);
 						lblAmount2 = new Label();
 						hpAmount.add(lblAmount2);
@@ -234,7 +224,7 @@ public class ArticleView extends Composite implements View {
 					{
 						hpSwapIdea = new HorizontalPanel();
 						lblSwapIdea = new Label("Gegentauschvorstellungen:");
-						lblSwapIdea.setWidth("140");
+						lblSwapIdea.setWidth("160");
 						hpSwapIdea.add(lblSwapIdea);
 						lblSwapIdea2 = new Label();
 						hpSwapIdea.add(lblSwapIdea2);
@@ -252,8 +242,8 @@ public class ArticleView extends Composite implements View {
 			
 			Panel articleDescription = new Panel();
 			articleDescription.setTitle("Über das Angebot:");
-			Label label = new Label("bla");
-			articleDescription.add(label);
+			description = new Label();
+			articleDescription.add(description);
 			verticalPanel.add(articleDescription);
 			
 
@@ -262,7 +252,9 @@ public class ArticleView extends Composite implements View {
 	}
 
 	private void getArticle(int articleId) {
-		ArticleManagerAsync articleManager = GWT.create(UserManager.class);
+		System.out.println("test");
+
+		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 
 		articleManager.getArticle(articleId, new AsyncCallback<Article>() {
 			public void onFailure(Throwable caught) {
@@ -272,17 +264,19 @@ public class ArticleView extends Composite implements View {
 			}
 
 			public void onSuccess(Article articleDatatype) {
-				// :)
 				article = articleDatatype;
-				fillForm(articleDatatype);
+				
+				System.out.println(article.getTitle());
+				System.out.println(article.getUserId());
+				lblArticleName.setText(article.getTitle());
+				lblLocation2.setText(article.getZipCode() +" "+ article.getLocation());
+				lblCondition2.setText(article.getCondition());
+				lblDelivery2.setText(article.getShippingMethods());
+				lblAmount2.setText(article.getOfferScope());
+				lblSwapIdea2.setText(article.getDesiredItemsComment());
+				description.setText(article.getDescription());
 			}
 
 		});
 	}
-
-	private void fillForm(Article article) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -18,6 +18,7 @@ import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
@@ -50,6 +51,7 @@ public class ArticleForm extends Composite implements Form {
 			initWidget(verticalPanel);
 			{
 				formPanel = new FormPanel();
+				formPanel.setMonitorValid(true);
 				formPanel.setLabelAlign(Position.RIGHT);
 				formPanel.setLabelWidth(250);
 				formPanel.setBorder(false);
@@ -69,6 +71,9 @@ public class ArticleForm extends Composite implements Form {
 					txtbxZip.setBlankText("Bitte geben sie die Postleitzahl des Artikelstandortes an");
 					txtbxZip.setAllowDecimals(false);
 					txtbxZip.setMinLength(5);
+					txtbxZip.setMaxLength(5);
+					txtbxZip.setMinText("Postleitzahl zu kurz");
+					txtbxZip.setMaxText("Postleitzahl zu lang");
 					
 					txtbxCity = new TextField("Wohnort", "text_field", 135);
 					txtbxCity.setAllowBlank(false);
@@ -107,7 +112,7 @@ public class ArticleForm extends Composite implements Form {
 					chkbxdelivery3 = new Checkbox("Treffen", "check_Box");
 
 					chkbxdelivery1.setFieldLabel("Versandoptionen*:");
-
+				
 					formPanel.add(chkbxdelivery1);
 					formPanel.add(chkbxdelivery2);
 					formPanel.add(chkbxdelivery3);
@@ -131,13 +136,14 @@ public class ArticleForm extends Composite implements Form {
 					formPanel.add(txtbxDescription);
 					
 					submitButton = new Button("Artikel Erstellen");
-					submitButton.setTabIndex(12);
 					submitButton.setFormBind(true);
+					
 
 					formPanel.addButton(submitButton);
+					
 					submitButton.addListener(new ButtonListenerAdapter() {
 						public void onClick(Button button, EventObject e) {
-							submit();
+								submit();
 						}
 					});
 				}
@@ -163,6 +169,7 @@ public class ArticleForm extends Composite implements Form {
 			public void onSuccess(Integer serverMsg) {
 				// :)
 				System.out.println("OK: "+ serverMsg.toString());
+				formPanel.getForm().reset();
 			}
 		});
 		// }
@@ -193,5 +200,12 @@ public class ArticleForm extends Composite implements Form {
 				shippingMethods = shippingMethods.concat("Treffen");
 			}
 		return shippingMethods;
+	}
+	
+	private boolean checkboxValidate(){
+		if(chkbxdelivery1.getValue() == false && chkbxdelivery2.getValue() == false && chkbxdelivery3.getValue() == false){
+			return false;
+		}
+	return true;
 	}
 }

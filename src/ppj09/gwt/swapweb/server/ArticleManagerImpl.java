@@ -36,8 +36,9 @@ public class ArticleManagerImpl extends RemoteServiceServlet implements ArticleM
 	}
 
 	public Article getArticle(int articleId) {
-		return null;
-		// TODO Auto-generated method stub
+		 System.out.println("lol");
+
+		return db.getArticle(articleId);
 		
 	}
 }
