@@ -5,6 +5,7 @@ package ppj09.gwt.swapweb.client.gui;
  * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils 
  */
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
@@ -29,7 +30,7 @@ public class UserView extends Composite implements View {
 	private AbsolutePanel absolutePanel;
 	private HorizontalPanel horizontalPanel;
 	private Image image;
-
+	private VerticalPanel verticalPanel_1;
 	private VerticalPanel verticalPanel_2;
 	private HorizontalPanel hpName;
 	private Label lblFirstName;
@@ -124,7 +125,6 @@ public class UserView extends Composite implements View {
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 	}
 	public UserView(String username) {
-
 		user = new User();
 		createForm();
 		getuser(username);
@@ -147,7 +147,7 @@ public class UserView extends Composite implements View {
 				horizontalPanel2.add(lblHorizontalSeperator);
 				usernameLabel2 = new Label();
 				horizontalPanel2.add(usernameLabel2);
-				usernameLabel3 = new Label("'s Profil (");
+				usernameLabel3 = new Label("'s Profil");
 				horizontalPanel2.add(usernameLabel3);
 				usernameLabel4 = new Label();
 				horizontalPanel2.add(usernameLabel4);
@@ -160,7 +160,6 @@ public class UserView extends Composite implements View {
 				verticalPanel.add(horizontalPanel);
 				{
 					absolutePanel = new AbsolutePanel();
-					horizontalPanel.add(absolutePanel);
 					absolutePanel.setSize("200", "300");
 
 					// Bild
@@ -172,8 +171,7 @@ public class UserView extends Composite implements View {
 
 					// Links unter Bild
 					{
-						VerticalPanel verticalPanel_1 = new VerticalPanel();
-						absolutePanel.add(verticalPanel_1, 0, 160);
+						verticalPanel_1 = new VerticalPanel();
 						verticalPanel_1.setWidth("170");
 
 						messageUser = new Hyperlink();
@@ -184,6 +182,8 @@ public class UserView extends Composite implements View {
 
 						reportUser = new Hyperlink();
 						verticalPanel_1.add(reportUser);
+						absolutePanel.add(verticalPanel_1, 0, 460);
+						horizontalPanel.add(absolutePanel);
 
 					}
 
@@ -415,6 +415,7 @@ public class UserView extends Composite implements View {
 						lblAboutMe = new Label("\u00dcber mich:");
 						lblAboutMe.setWidth("140");
 						hpAboutMe.add(lblAboutMe);
+						hpAboutMe.setTitle("Über mich:");
 						lblAboutMe2 = new Label();
 						lblAboutMe2.setWidth("250");
 						hpAboutMe.add(lblAboutMe2);
@@ -522,7 +523,6 @@ public class UserView extends Composite implements View {
 						verticalPanel_2.add(verticalSeperatorJabber);
 						verticalSeperatorJabber.setVisible(false);
 					}
-
 					horizontalPanel.add(verticalPanel_2);
 				}
 
@@ -533,7 +533,7 @@ public class UserView extends Composite implements View {
 		{
 			articlePanel = new Panel();
 			articlePanel.setPaddings(10);
-			articlePanel.setTitle("");
+			articlePanel.setTitle("Meine Tauschartikel");
 			articlePanel.setCollapsible(true);
 			verticalPanel.add(articlePanel);
 		}
@@ -570,6 +570,7 @@ public class UserView extends Composite implements View {
 				// :)
 				user = userProfile;
 				fillForm(userProfile);
+				setFirstName(user.getUsername());
 			}
 		});
 	}
@@ -577,29 +578,29 @@ public class UserView extends Composite implements View {
 	public void fillForm(User user) {
 
 		try {
-			setFirstName(user.getFirstName());
+			lblFirstName2.setText(user.getFirstName());
 		} catch (NullPointerException e) {
 		}
 		try {
-			setLastName(user.getLastName());
+			lblLastName.setText(user.getLastName());
 		} catch (NullPointerException e) {
 		}
 		try {
-			setZip(user.getZip());
+			lblZip.setText(user.getZip());
 		} catch (NullPointerException e) {
 		}
 
 		try {
-			setCity(user.getCity());
+			lblCity2.setText(user.getCity());
 		} catch (NullPointerException e) {
 		}
 		try {
-			setUsername(user.getUsername());
+			usernameLabel2.setText(user.getUsername());
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getGender().equals("")) {
-				setGender(user.getGender());
+			if (!(user.getGender() == null)) {
+				lblGender2.setText(user.getGender());
 				hpGender.setVisible(true);
 				verticalSeperatorGender.setVisible(true);
 			}
@@ -616,8 +617,8 @@ public class UserView extends Composite implements View {
 		// }
 		try {
 
-			if (!user.getJob().equals("")) {
-				setJob(user.getJob());
+			if (!(user.getJob() == null)) {
+				lblJob2.setText(user.getJob());
 				hpJob.setVisible(true);
 				verticalSeperatorJob.setVisible(true);
 
@@ -625,103 +626,95 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getHomepage().equals("")) {
-				setHomepage(user.getHomepage());
+			if (!(user.getHomepage() == null)) {
+				lblHomepage2.setText(user.getHomepage());
 				hpHomepage.setVisible(true);
 				verticalSeperatorHomepage.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getHobbys().equals("")) {
-				setHobbys(user.getHobbys());
+			if (!(user.getHobbys() == null)) {
+				lblHobbys2.setText(user.getHobbys());
 				hpHobbys.setVisible(true);
 				verticalSeperatorHobbys.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getMusic().equals("")) {
-				setMusic(user.getMusic());
+			if (!(user.getMusic() == null)) {
+				lblMusic2.setText(user.getMusic());
 				hpMusic.setVisible(true);
 				verticalSeperatorMusic.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getMovie().equals("")) {
-				setMovie(user.getMovie());
+			if (!(user.getMovie() == null)) {
+				lblMovie2.setText(user.getMovie());
 				hpMusic.setVisible(true);
 				verticalSeperatorMovie.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getILike().equals("")) {
-				setILike(user.getILike());
+			if (!(user.getILike() == null)) {
+				lblILike2.setText(user.getILike());
 				hpILike.setVisible(true);
 				verticalSeperatorILike.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getIDontLike().equals("")) {
-				setIDontLike(user.getIDontLike());
+			if (!(user.getIDontLike() == null)) {
+				lblIDontLike2.setText(user.getIDontLike());
 				hpIDontLike.setVisible(true);
 				verticalSeperatorIDontLike.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getAboutMe().equals("")) {
-				setAboutMe(user.getAboutMe());
-				hpAboutMe.setVisible(true);
-				verticalSeperatorAboutMe.setVisible(true);
-			}
-		} catch (NullPointerException e) {
-		}
-		try {
-			if (!user.getIcq().equals("")) {
-				setIcq(user.getIcq());
+			if (!(user.getIcq() == null)) {
+				lblIcq2.setText(user.getIcq());
 				hpIcq.setVisible(true);
 				verticalSeperatorIcq.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getMsn().equals("")) {
-				setMsn(user.getMsn());
+			if (!(user.getMsn() == null)) {
+				lblMsn2.setText(user.getMsn());
 				hpMsn.setVisible(true);
 				verticalSeperatorMsn.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getYahoo().equals("")) {
-				setYahoo(user.getYahoo());
+			if (!(user.getYahoo() == null)) {
+				lblYahoo2.setText(user.getYahoo());
 				hpYahoo.setVisible(true);
 				verticalSeperatorYahoo.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getAim().equals("")) {
-				setAim(user.getAim());
+			if (!(user.getAim() == null)) {
+				lblAim2.setText(user.getAim());
 				hpAim.setVisible(true);
 				verticalSeperatorAim.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getJabber().equals("")) {
-				setJabber(user.getJabber());
+			if (!(user.getJabber() == null)) {
+				lblJabber2.setText(user.getJabber());
 				hpJabber.setVisible(true);
 				verticalSeperatorJabber.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!user.getImage().equals("")) {
+			if (!(user.getImage() == null)) {
 				setImage(user.getImage());
 
 			}
@@ -730,10 +723,6 @@ public class UserView extends Composite implements View {
 
 	}
 
-	/**
-	 * @param firstName
-	 *            the firstName to set
-	 */
 
 	public void setFirstName(String firstName) {
 		this.lblFirstName2.setText(firstName);
@@ -744,317 +733,7 @@ public class UserView extends Composite implements View {
 		this.reportUser.setText(firstName + " melden");
 	}
 
-	/**
-	 * @return the firstName textField
-	 */
-	public String getFirstName() {
-		return this.lblFirstName2.getText();
-	}
-
-	/**
-	 * @param lastName
-	 *            the firstName to set
-	 */
-
-	public void setLastName(String lastName) {
-		this.lblLastName.setText(lastName);
-		usernameLabel2.setText(lastName);
-
-	}
-
-	/**
-	 * @return the lastName textField
-	 */
-	public String getLastName() {
-		return this.lblLastName.getText();
-	}
-
-	/**
-	 * @param zipCode
-	 *            the zipCode to set
-	 */
-	public void setZip(String zip) {
-		lblHorizontalSeperator2.setVisible(true);
-		this.lblZip.setText(zip);
-	}
-
-	/**
-	 * @return the zipCode textField
-	 */
-	public String getZip() {
-		return this.lblZip.getText();
-	}
-
-	/**
-	 * @param city
-	 *            the city to set
-	 */
-	public void setCity(String city) {
-		this.lblCity2.setText(city);
-	}
-
-	/**
-	 * @return the city textField
-	 */
-	public String getCity() {
-		return this.lblCity2.getText();
-	}
-
-	/**
-	 * @param username
-	 *            the username to set
-	 */
-	public void setGender(String gender) {
-		lblGender2.setText(gender);
-	}
-
-	/**
-	 * @return the username textField
-	 */
-	public String getGender() {
-		return lblGender2.getText();
-
-	}
-
-	/**
-	 * @param birthdate
-	 *            the birthdate to set
-	 */
-	public void setBirthdate(String date) {
-		lblBirthday2.setText(date);
-	}
-
-	/**
-	 * @return the birthdate textField
-	 */
-	public String getBirthday() {
-		return lblBirthday2.getText();
-	}
-
-	/**
-	 * @param job
-	 *            the job to set
-	 */
-	public void setJob(String job) {
-		this.lblJob2.setText(job);
-	}
-
-	/**
-	 * @return the job textField
-	 */
-	public String getJob() {
-		return lblJob2.getText();
-	}
-
-	/**
-	 * @param hobbys
-	 *            the hobbys to set
-	 */
-	public void setHobbys(String hobbys) {
-		this.lblHobbys2.setText(hobbys);
-	}
-
-	/**
-	 * @return the hobby textArea
-	 */
-	public String getHobbys() {
-		return lblHobbys2.getText();
-	}
-
-	/**
-	 * @param music
-	 *            the music to set
-	 */
-	public void setMusic(String music) {
-		this.lblMusic2.setText(music);
-	}
-
-	/**
-	 * @return the music textArea
-	 */
-	public String getMusic() {
-		return lblMusic2.getText();
-	}
-
-	/**
-	 * @param movie
-	 *            the movie to set
-	 */
-	public void setMovie(String movie) {
-		this.lblMovie2.setText(movie);
-	}
-
-	/**
-	 * @return the movie textArea
-	 */
-	public String getMovie() {
-		return lblMovie2.getText();
-	}
-
-	/**
-	 * @param ilike
-	 *            the ilike to set
-	 */
-	public void setILike(String ilike) {
-		this.lblILike2.setText(ilike);
-	}
-
-	/**
-	 * @return the ilike textArea
-	 */
-	public String getILike() {
-		return lblILike2.getText();
-	}
-
-	/**
-	 * @param idontlike
-	 *            the idontlike to set
-	 */
-	public void setIDontLike(String idontlike) {
-		this.lblIDontLike2.setText(idontlike);
-	}
-
-	/**
-	 * @return the idontlike textArea
-	 */
-	public String getIDontLike() {
-		return lblIDontLike2.getText();
-	}
-
-	/**
-	 * @param aboutme
-	 *            the aboutme to set
-	 */
-	public void setAboutMe(String aboutme) {
-		this.lblAboutMe2.setText(aboutme);
-	}
-
-	/**
-	 * @return the aboutme textArea
-	 */
-	public String getAboutMe() {
-		return lblAboutMe2.getText();
-	}
-
-	/**
-	 * @param icq
-	 *            the icq to set
-	 */
-	public void setIcq(String icq) {
-		this.lblIcq2.setText(icq);
-	}
-
-	/**
-	 * @return the icq textArea
-	 */
-	public String getIcq() {
-		return lblIcq2.getText();
-	}
-
-	/**
-	 * @param msn
-	 *            the msn to set
-	 */
-	public void setMsn(String msn) {
-		this.lblMsn2.setText(msn);
-	}
-
-	/**
-	 * @return the msn textArea
-	 */
-	public String getMsn() {
-		return lblMsn2.getText();
-	}
-
-	/**
-	 * @param yahoo
-	 *            the yahoo to set
-	 */
-	public void setYahoo(String yahoo) {
-		this.lblYahoo2.setText(yahoo);
-	}
-
-	/**
-	 * @return the yahoo textArea
-	 */
-	public String getYahoo() {
-		return lblYahoo2.getText();
-	}
-
-	/**
-	 * @param aim
-	 *            the aim to set
-	 */
-	public void setAim(String aim) {
-		this.lblAim2.setText(aim);
-	}
-
-	/**
-	 * @return the aim textArea
-	 */
-	public String getAim() {
-		return lblAim2.getText();
-	}
-
-	/**
-	 * @param jabber
-	 *            the jabber to set
-	 */
-	public void setJabber(String jabber) {
-		this.lblJabber2.setText(jabber);
-	}
-
-	/**
-	 * @return the jabber textArea
-	 */
-	public String getJabber() {
-		return lblJabber2.getText();
-	}
-
-	/**
-	 * @param url
-	 *            the homepage to set
-	 */
-	public void setHomepage(String url) {
-		this.lblHomepage2.setText(url);
-	}
-
-	/**
-	 * @return the homepage textArea
-	 */
-	public String getHomepage() {
-		return lblHomepage2.getText();
-	}
-
-	/**
-	 * @param username
-	 *            the username to set
-	 */
-	public void setUsername(String username) {
-		this.usernameLabel4.setText(username + ")");
-	}
-
-	/**
-	 * @return the username textField
-	 */
-	public String getUsername() {
-		return this.usernameLabel1.getText();
-	}
-
-	/**
-	 * @param imageurl
-	 *            the imageurl to set
-	 */
 	public void setImage(String imageurl) {
-		// TODO
 		this.image.setUrl(imageurl);
-	}
-
-	/**
-	 * @return the imageurl textArea
-	 */
-	public String getImage() {
-		return image.getUrl();
-		// TODO
 	}
 }

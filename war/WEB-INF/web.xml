@@ -43,5 +43,14 @@
     <url-pattern>/swapweb/ArticleManager</url-pattern>
  </servlet-mapping> 
   
+  <servlet>
+  <servlet-name>imageUploadHandler</servlet-name> 
+  <servlet-class>ppj09.gwt.swapweb.server.ImageUploadHandler</servlet-class>  
+</servlet>
+
+<servlet-mapping>
+   <servlet-name>imageUploadHandler</servlet-name>
+   <url-pattern>/swapweb/ImageUploadHandler</url-pattern>
+</servlet-mapping>
   
 </web-app>

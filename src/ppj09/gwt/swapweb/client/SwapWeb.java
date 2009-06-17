@@ -1,5 +1,6 @@
 package ppj09.gwt.swapweb.client;
 
+import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultListView;
@@ -19,9 +20,11 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.RegionPosition;
+import com.gwtext.client.widgets.BoxComponent;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
+import com.gwtext.client.widgets.event.ContainerListenerAdapter;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
@@ -87,9 +90,8 @@ public class SwapWeb implements EntryPoint {
 		 */
 		mainPanel = new Panel();
 		mainPanel.setBorder(false);
-		mainPanel.setPaddings(15);
 		mainPanel.setLayout(new FitLayout());
-		
+
 		borderPanel = new Panel();
 		borderPanel.setBorder(false);
 		borderPanel.setPaddings(10);
@@ -106,8 +108,12 @@ public class SwapWeb implements EntryPoint {
 		northOuterPanel.setBorder(false);
 
 		outerTabPanel = new TabPanel();
-		outerTabPanel.setPaddings(10);
+		outerTabPanel.setPaddings(3);
+		outerTabPanel.setWidth(885);
+		
+
 		new ArticleSearchForm(outerTabPanel);
+		new AdvancedSearchForm(outerTabPanel);
 		new LoginForm(outerTabPanel);
 		new UserRegistrationForm(outerTabPanel);
 		northOuterPanel.add(outerTabPanel);
@@ -122,14 +128,14 @@ public class SwapWeb implements EntryPoint {
 		 */
 		contentPanel = new Panel();
 		contentPanel.setTitle("Inhaltspanel");
-		contentPanel.setWidth("75%");
-		
-		
+
+		contentPanel.setWidth(700);
+		contentPanel.setPaddings(10);
 
 		// WEST
 		Panel navigationPanel = new Panel();
 		navigationPanel.setTitle("My Swapweb");
-		navigationPanel.setWidth("98%");
+		navigationPanel.setWidth(181);
 
 		southContainer.addToRow(navigationPanel, 185);
 		southContainer.add(contentPanel);
@@ -246,7 +252,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testartikelHyperlink);
 		testartikelHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				articleView = new ArticleView(29);
+				articleView = new ArticleView(30);
 				contentPanel.clear();
 				contentPanel.add(articleView);
 				contentPanel.doLayout();
@@ -259,7 +265,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testProfileHyperlink);
 		testProfileHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				userView = new UserView("georg");
+				userView = new UserView("Theonlybender");
 				contentPanel.clear();
 				contentPanel.add(userView);
 				contentPanel.doLayout();
@@ -278,9 +284,9 @@ public class SwapWeb implements EntryPoint {
 				contentPanel.doLayout();
 			}
 		});
-
 		mainPanel.add(borderPanel);
 		new Viewport(mainPanel);
+
 	}
 
 	public static Panel getContenPanel() {
