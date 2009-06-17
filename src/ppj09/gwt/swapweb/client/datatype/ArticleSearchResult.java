@@ -9,8 +9,9 @@ package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.gwtext.client.widgets.Panel;
 
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResultListView;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
@@ -19,9 +20,9 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @version 0.1, 04.06.09
  */
-public class ArticleSearchResult implements SearchResult, IsSerializable {
+public class ArticleSearchResult implements SearchResult, Serializable {
 	public String title;
 	public String userName;
 	public String pictureUrl;
@@ -32,14 +33,18 @@ public class ArticleSearchResult implements SearchResult, IsSerializable {
 		this.userName = null;
 	}
 	
+	public SearchResultView getView() {
+		return new ArticleSearchResultView(this);
+	}
+	
+	public SearchResultView getView(Panel contentPanel) {
+		return new ArticleSearchResultListView(contentPanel);
+	}
+	
 	public ArticleSearchResult(String title, String userName, String pictureUrl) {
 		this.title = title;
 		this.pictureUrl = pictureUrl;
 		this.userName = userName;
-	}
-	
-	public SearchResultView getView() {
-		return new ArticleSearchResultView(this);
 	}
 
 	public String getTitle() {

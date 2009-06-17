@@ -9,6 +9,7 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
@@ -65,11 +66,9 @@ public class ArticleSearchForm implements Form {
 		searchPanel.setSpacing(10);
 		searchPanel.add(new TextField("", "phrase", 120));
 
-		Object[][] quickOptionsCategory = new Object[][] { new Object[] {
-				"index", "nix drin" }, };
+		Object[][] quickOptionsCategory = new Object[][] { new Object[] {"index", "nix drin" }, };
 
-		Store quickCategoryStore = new SimpleStore(new String[] { "b",
-				"options" }, quickOptionsCategory);
+		Store quickCategoryStore = new SimpleStore(new String[] { "b", "options" }, quickOptionsCategory);
 		quickCategoryStore.load();
 
 		ComboBox quickArticleCategoryCB = new ComboBox();
@@ -103,12 +102,10 @@ public class ArticleSearchForm implements Form {
 										System.out.println("neeee: ");
 									}
 
-									public void onSuccess(
-											ArrayList<SearchResult> results) {
-										System.out.println("neeee: ");
+									public void onSuccess(ArrayList<SearchResult> results) {
 										for (SearchResult r : results) {
-											searchResultPanel.add((Widget) r
-													.getView());
+												SwapWeb.getContenPanel().add((Widget) r.getView());
+												SwapWeb.getContenPanel().doLayout();
 										}
 									}
 								});
@@ -118,14 +115,13 @@ public class ArticleSearchForm implements Form {
 		quickSearchButton.setIconCls("icon-search");
 		searchPanel.add(quickSearchButton);
 
-		advancedSearchHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
+		advancedSearchHyperlink = new Hyperlink("New hyperlink", false, "newHistoryToken");
 		searchPanel.add(advancedSearchHyperlink);
 		advancedSearchHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				tabPanel.setVisible(!tabPanel.isVisible());
 				searchPanel.setVisible(!searchPanel.isVisible());
-				containerFormPanel.setHeight(140);
+				containerFormPanel.setHeight(180);
 			}
 		});
 		

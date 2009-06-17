@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 * Dieser View rendert ein einzelnes Suchergebnis vom Typ ArticleSearchResult.
 * Er wird zusammen mit anderen SearchResults innerhalb einer *SearchResultListView aufgerufen.
 *
-* @author Georg, Andr�, Michael
+* @author Georg, Andre, Michael
 * @version 0.1, 15.05.09
 */
  
@@ -63,8 +63,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
           absolutePanel.add(shippingLabel, 105, 60);
         }
         {
-          userHyperlink = new Hyperlink(this.searchResult.getUserName(), false,
-              "newHistoryToken");
+          userHyperlink = new Hyperlink(this.searchResult.getUserName(), false, "newHistoryToken");
           absolutePanel.add(userHyperlink, 180, 40);
           userHyperlink.setWidth("300");
         }

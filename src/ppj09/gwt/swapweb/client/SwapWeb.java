@@ -122,7 +122,9 @@ public class SwapWeb implements EntryPoint {
 		 */
 		contentPanel = new Panel();
 		contentPanel.setTitle("Inhaltspanel");
-		contentPanel.setWidth("80%");
+		contentPanel.setWidth("75%");
+		
+		
 
 		// WEST
 		Panel navigationPanel = new Panel();
@@ -235,15 +237,12 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(SuchenTestHyperlink);
 		SuchenTestHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				articleSearchResultView = new ArticleSearchResultListView();
 				contentPanel.clear();
-				contentPanel.add(articleSearchResultView);
-				contentPanel.doLayout();
+				contentPanel.add(new ArticleSearchResultListView(contentPanel));
 			}
 		});
 		SuchenTestHyperlink.setText("Testsuche");
-		testartikelHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
+		testartikelHyperlink = new Hyperlink("New hyperlink", false, "newHistoryToken");
 		verticalPanel_2.add(testartikelHyperlink);
 		testartikelHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
