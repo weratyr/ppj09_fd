@@ -15,17 +15,17 @@ public class SessionHandler {
 		
 	}
 	
-	public void setSession(String username, HttpServletRequest r){
+	public void setSession(String user, HttpServletRequest r){
 		HttpServletRequest request = r;
 		HttpSession session = request.getSession(true);
-		session.setAttribute("userid", username);
+		session.setAttribute("userid", user);
 	}
 	
-	public String getSession(HttpServletRequest r){
+	public Integer getSession(HttpServletRequest r){
 		HttpServletRequest request = r;
 		HttpSession session = request.getSession();
 		
-		return session.getAttribute("userid").toString();
+		return (Integer) session.getAttribute("userid");
 	}
 	
 	public void deleteSession(HttpServletRequest r) {

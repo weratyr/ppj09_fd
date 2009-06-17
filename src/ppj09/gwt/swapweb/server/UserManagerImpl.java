@@ -51,7 +51,7 @@ public class UserManagerImpl extends RemoteServiceServlet implements
 	 * return null -> Fehler beim Auslesen des Users return User -> erfolgreich
 	 * ausgelesen
 	 */
-	public User getUserProfile(String userId) {
+	public User getUserProfile(int userId) {
 
 		return db.getUserProfile(userId);
 	}
@@ -63,7 +63,7 @@ public class UserManagerImpl extends RemoteServiceServlet implements
 
 	public User getUser() {
 
-		String user = sh.getSession(this.getThreadLocalRequest());
+		Integer user = sh.getSession(this.getThreadLocalRequest());
 
 		if (user == null) {
 			return null;
@@ -72,28 +72,30 @@ public class UserManagerImpl extends RemoteServiceServlet implements
 		}
 	}
 
-	public User getUser(String username) {
+	public User getUser(Integer userid) {
 
-		if (username == null) {
+		if (userid == null) {
 			return null;
 		} else {
-			return db.getUserProfile(username);
+			return db.getUserProfile(userid);
 		}
 	}
 
 	public int updateUser(User newUser) {
-		String user = sh.getSession(this.getThreadLocalRequest());
+		Integer user = sh.getSession(this.getThreadLocalRequest());
 
 		return db.updateUser(user, newUser);
 	}
 
 	public boolean checkPassword(String password) {
-		String user = sh.getSession(this.getThreadLocalRequest());
+		Integer user = sh.getSession(this.getThreadLocalRequest());
 
-		boolean ex = db.loginRequest(user, password);
-		return ex;
+//		boolean ex = db.loginRequest(user, password);
+		return true;
 
 		// TODO Auto-generated method stub
 
 	}
+
+
 }

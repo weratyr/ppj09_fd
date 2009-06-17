@@ -158,7 +158,7 @@ public class DataBankerQueries {
 		if (user != 0) {
 			try {
 			    PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT INTO article(userid, title, zipcode, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?)");
-			    stmt.setString(1, Integer.toString(user));
+			    stmt.setInt(1, user);
 			    stmt.setString(2, title);
 			    stmt.setString(3, zipcode);
 			    stmt.setString(4, city);
@@ -247,13 +247,13 @@ public class DataBankerQueries {
 	 * return null -> Fehler beim Auslesen des Users
 	 * return User -> erfolgreich ausgelesen 
 	 */
-	public int getUserId(String user) {
+	public int getUserId(Integer userid) {
 		 ResultSet rs = null;
 		 int id = 0;
 		 
 		 DataBankerConnection dbc = new DataBankerConnection();
 		    Statement stmt = dbc.getStatement();
-		    String query = "SELECT id FROM user WHERE username='"+user+"'";
+		    String query = "SELECT id FROM user WHERE username='"+userid+"'";
 		    try {
 		     rs = stmt.executeQuery(query);
 		     
@@ -274,22 +274,41 @@ public class DataBankerQueries {
 		    return id;
 		}
 
-	public User getUserProfile(String userId) {
+	public User getUserProfile(int userId) {
 		User user = new User();
 		ResultSet rs = null;
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT * FROM user WHERE username='"+userId+"'";
+	    String query = "SELECT * FROM user WHERE id='"+userId+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
 	    	while (rs.next()) {
-			
-	    		InputStream is = rs.getBlob("userob").getBinaryStream();
-	    		ObjectInputStream ois = new ObjectInputStream(is);
-	    		Object x = ois.readObject(); 
-	    		user = (User)x;
+	    		user.setUsername(rs.getString("username"));
+	    		user.setPassword(rs.getString("pwd"));
+	    		user.setFirstName(rs.getString("firstName"));
+	    		user.setLastName(rs.getString("lastName"));
+	    		user.setStreet(rs.getString("street"));
+	    		user.setHouseNumber(rs.getString("houseNumber"));
+	    		user.setZip(rs.getString("zipCode"));
+	    		user.setCity(rs.getString("city"));
+	    		user.setEmail(rs.getString("email"));
+	    		user.setGender(rs.getString("gender"));
+	    		user.setBirthdate(rs.getDate("birthdate"));
+	    		user.setJob(rs.getString("job"));
+	    		user.setHobbys(rs.getString("hobbies"));
+	    		user.setMusic(rs.getString("music"));
+	    		user.setMovie(rs.getString("movies"));
+	    		user.setILike(rs.getString("iLike"));
+	    		user.setIDontLike(rs.getString("iDontLike"));
+	    		user.setAboutMe(rs.getString("aboutMe"));
+	    		user.setIcq(rs.getString("icq"));
+	    		user.setYahoo(rs.getString("yahoo"));
+	    		user.setAim(rs.getString("aim"));
+	    		user.setJabber(rs.getString("jabber"));
+	    		user.setMsn(rs.getString("msn"));
+	    		user.setHomepage(rs.getString("homepage"));
 			}
 			
 			rs.close();
@@ -300,13 +319,7 @@ public class DataBankerQueries {
 	    } catch (SQLException e) {
 	    	e.printStackTrace();
 	    	return null;
-	    	//e.printStackTrace();
-	    } catch (IOException ioe) {
-	    	ioe.printStackTrace();
-	    } catch (ClassNotFoundException cnfe) {
-	    	cnfe.printStackTrace();
 	    }
-		
 		return user;
 	}
 	
@@ -315,7 +328,7 @@ public class DataBankerQueries {
 	 * return = 1 -> OK - User wurde angelegt
 	 * return = 2 -> USER existiert schon
 	 */
-	public int updateUser(String oldUserName, User newUser) {
+	public int updateUser(Integer user, User newUser) {
 		int saved = 0;
 		
 		String userID = newUser.getUsername();
@@ -352,7 +365,7 @@ public class DataBankerQueries {
 			   stmt.setString(1, userID);
 			//   stmt.setString(2, pwd);
 			   stmt.setObject(2, (Object)newUser);
-			   stmt.setString(3, oldUserName);
+//			   stmt.setString(3, user);
 			   
 			   stmt.executeUpdate();
 		       

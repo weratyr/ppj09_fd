@@ -282,7 +282,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testProfileHyperlink);
 		testProfileHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				userView = new UserView("georg");
+				userView = new UserView(5);
 				contentPanel.clear();
 				contentPanel.add(userView);
 				contentPanel.doLayout();

@@ -123,11 +123,11 @@ public class UserView extends Composite implements View {
 		getuser();
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 	}
-	public UserView(String username) {
+	public UserView(int userid) {
 
 		user = new User();
 		createForm();
-		getuser(username);
+		getuser(userid);
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 
 	}
@@ -539,10 +539,10 @@ public class UserView extends Composite implements View {
 		}
 	}
 
-	private void getuser(String username) {
+	private void getuser(int userid) {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
-		userManager.getUser(username, new AsyncCallback<User>() {
+		userManager.getUser(userid, new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
 				System.out.println("fehler");
@@ -577,29 +577,29 @@ public class UserView extends Composite implements View {
 	public void fillForm(User user) {
 
 		try {
-			setFirstName(user.getFirstName());
+			lblFirstName2.setText(user.getFirstName());
 		} catch (NullPointerException e) {
 		}
 		try {
-			setLastName(user.getLastName());
+			lblLastName.setText(user.getLastName());
 		} catch (NullPointerException e) {
 		}
 		try {
-			setZip(user.getZip());
+			lblZip.setText(user.getZip());
 		} catch (NullPointerException e) {
 		}
 
 		try {
-			setCity(user.getCity());
+			lblCity2.setText(user.getCity());
 		} catch (NullPointerException e) {
 		}
 		try {
-			setUsername(user.getUsername());
+			usernameLabel1.setText(user.getUsername());
 		} catch (NullPointerException e) {
 		}
 		try {
 			if (!user.getGender().equals("")) {
-				setGender(user.getGender());
+				lblGender2.setText(user.getGender());
 				hpGender.setVisible(true);
 				verticalSeperatorGender.setVisible(true);
 			}
