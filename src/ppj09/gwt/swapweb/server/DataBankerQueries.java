@@ -230,7 +230,7 @@ public class DataBankerQueries {
 	    		hashFromDB = rs.getString(1);
 			}
 
-	    	exist =BCrypt.checkpw(pwHash, hashFromDB);
+	    	exist = BCrypt.checkpw(pwHash, hashFromDB);
 			rs.close();
 			dbc.close();
 			stmt.close();
@@ -274,22 +274,41 @@ public class DataBankerQueries {
 		    return id;
 		}
 
-	public User getUserProfile(String userId) {
+	public User getUserProfile(String username) {
 		User user = new User();
 		ResultSet rs = null;
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 	    Statement stmt = dbc.getStatement();
-	    String query = "SELECT * FROM user WHERE username='"+userId+"'";
+	    String query = "SELECT * FROM user WHERE username='"+username+"'";
 	    try {
 	    	rs = stmt.executeQuery(query);
 	    	
 	    	while (rs.next()) {
-			
-	    		InputStream is = rs.getBlob("userob").getBinaryStream();
-	    		ObjectInputStream ois = new ObjectInputStream(is);
-	    		Object x = ois.readObject(); 
-	    		user = (User)x;
+	    		user.setUsername(rs.getString("username"));
+	    		user.setPassword(rs.getString("pwd"));
+	    		user.setFirstName(rs.getString("firstName"));
+	    		user.setLastName(rs.getString("lastName"));
+	    		user.setStreet(rs.getString("street"));
+	    		user.setHouseNumber(rs.getString("houseNumber"));
+	    		user.setZip(rs.getString("zipCode"));
+	    		user.setCity(rs.getString("city"));
+	    		user.setEmail(rs.getString("email"));
+	    		user.setGender(rs.getString("gender"));
+	    		user.setBirthdate(rs.getDate("birthdate"));
+	    		user.setJob(rs.getString("job"));
+	    		user.setHobbys(rs.getString("hobbies"));
+	    		user.setMusic(rs.getString("music"));
+	    		user.setMovie(rs.getString("movies"));
+	    		user.setILike(rs.getString("iLike"));
+	    		user.setIDontLike(rs.getString("iDontLike"));
+	    		user.setAboutMe(rs.getString("aboutMe"));
+	    		user.setIcq(rs.getString("icq"));
+	    		user.setYahoo(rs.getString("yahoo"));
+	    		user.setAim(rs.getString("aim"));
+	    		user.setJabber(rs.getString("jabber"));
+	    		user.setMsn(rs.getString("msn"));
+	    		user.setHomepage(rs.getString("homepage"));
 			}
 			
 			rs.close();
@@ -300,13 +319,7 @@ public class DataBankerQueries {
 	    } catch (SQLException e) {
 	    	e.printStackTrace();
 	    	return null;
-	    	//e.printStackTrace();
-	    } catch (IOException ioe) {
-	    	ioe.printStackTrace();
-	    } catch (ClassNotFoundException cnfe) {
-	    	cnfe.printStackTrace();
 	    }
-		
 		return user;
 	}
 	

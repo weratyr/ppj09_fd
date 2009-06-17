@@ -1,25 +1,33 @@
 package ppj09.gwt.swapweb.client;
 
-import ppj09.gwt.swapweb.client.gui.*;
+import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
+import ppj09.gwt.swapweb.client.gui.ArticleForm;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResultListView;
+import ppj09.gwt.swapweb.client.gui.ArticleView;
+import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.UserForm;
+import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
+import ppj09.gwt.swapweb.client.gui.UserView;
 
 import com.google.gwt.core.client.EntryPoint;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-
+import com.gwtext.client.core.RegionPosition;
+import com.gwtext.client.widgets.BoxComponent;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+import com.gwtext.client.widgets.Viewport;
+import com.gwtext.client.widgets.event.ContainerListenerAdapter;
+import com.gwtext.client.widgets.form.MultiFieldPanel;
+import com.gwtext.client.widgets.layout.BorderLayoutData;
+import com.gwtext.client.widgets.layout.FitLayout;
 
 /**
  * SwapWeb implementiert das EntryPoint Interface. Die erst zu ladene Methode
@@ -39,17 +47,14 @@ public class SwapWeb implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
-	RootPanel rootPanel;
-	LoginForm loginForm;
-	ArticleSearchForm articleSearchForm;
-	UserRegistrationForm registrationForm;
+	private Panel mainPanel;
+	private Panel borderPanel;
+	private TabPanel outerTabPanel;
 
-	private DockPanel dockPanel;
 	private Image image;
 	private DisclosurePanel disclosurePanelMy;
 	private DisclosurePanel disclosurePanelKate;
 	private Tree categoryTree;
-	private HorizontalPanel HeaderPanel;
 	private static Panel contentPanel;
 	private TreeItem autoTreeItem;
 	private TreeItem computerTreeItem;
@@ -61,9 +66,7 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink myRatingsHyperlink;
 	private Hyperlink myMessagesHyperlink;
 
-	private HelpView helpView;
-	private VerticalPanel verticalPanel;
-	private TabPanel tabPanel;
+	private Panel navigationsContentPanel;
 	private ArticleForm articleForm;
 	private UserView userView;
 	private ArticleSearchResultListView articleSearchResultView;
@@ -82,172 +85,154 @@ public class SwapWeb implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		rootPanel = RootPanel.get();
+		/*
+		 * Hauptfenster
+		 */
+		mainPanel = new Panel();
+		mainPanel.setBorder(false);
+		mainPanel.setLayout(new FitLayout());
+
+		borderPanel = new Panel();
+		borderPanel.setBorder(false);
+		borderPanel.setPaddings(10);
+		borderPanel.setAutoScroll(true);
 
 		/*
-		 * Hauptfenster mit DockPanel, Image, TabPanel
+		 * NORTH Header und äußeres TabPanel
 		 */
-
-		dockPanel = new DockPanel();
-		dockPanel.setSize("100%", "100%");
-		dockPanel.setSpacing(5);
-		// dockPanel.setBorderWidth(2);
-		rootPanel.add(dockPanel);
-
-		/*
-		 * NORTH
-		 */
-		HeaderPanel = new HorizontalPanel();
-		dockPanel.add(HeaderPanel, DockPanel.NORTH);
-		dockPanel.setCellHeight(HeaderPanel, "85");
 		image = new Image();
-		HeaderPanel.add(image);
 		image.setUrl("http://www.renegade-station.de/swhead.jpg");
 
-		VerticalPanel nordTabPanel = new VerticalPanel();
-		nordTabPanel.setWidth("100%");
-		dockPanel.add(nordTabPanel, DockPanel.NORTH);
+		Panel northOuterPanel = new Panel();
+		northOuterPanel.add(image);
+		northOuterPanel.setBorder(false);
 
-		TabPanel outerTabPanel = new TabPanel();
-
+		outerTabPanel = new TabPanel();
+		outerTabPanel.setPaddings(3);
+		outerTabPanel.setWidth(885);
 		
-		
-		articleSearchForm = new ArticleSearchForm(outerTabPanel);
 
-		loginForm = new LoginForm(outerTabPanel);
+		new ArticleSearchForm(outerTabPanel);
+		new AdvancedSearchForm(outerTabPanel);
+		new LoginForm(outerTabPanel);
+		new UserRegistrationForm(outerTabPanel);
+		northOuterPanel.add(outerTabPanel);
+		borderPanel.add(northOuterPanel, new BorderLayoutData(RegionPosition.NORTH));
 
-		registrationForm = new UserRegistrationForm(outerTabPanel);
-		// tabPanel.add(registrationForm, "Registrieren", false);
-		/*
-		 * helpView = new HelpView(); tabPanel.add(helpView, "Hilfe", false);
-		 */
-
-		nordTabPanel.add(outerTabPanel);
+		MultiFieldPanel southContainer = new MultiFieldPanel();
+		southContainer.setBorder(false);
+		southContainer.setPaddings(5, 0, 0, 0);
 
 		/*
 		 * CENTER contentPanel
 		 */
 		contentPanel = new Panel();
-		contentPanel.setPaddings(10);
 		contentPanel.setTitle("Inhaltspanel");
-		contentPanel.setCollapsible(true);
-		dockPanel.add(contentPanel, DockPanel.CENTER);
-		dockPanel.setCellHeight(contentPanel, "100%");
+		contentPanel.setWidth(700);
+		contentPanel.setPaddings(10);
 
-		/*
-		 * WEST
-		 */
-
+		// WEST
 		Panel navigationPanel = new Panel();
 		navigationPanel.setTitle("My Swapweb");
-		navigationPanel.setPaddings(10);
+		navigationPanel.setWidth(181);
 
-		dockPanel.add(navigationPanel, DockPanel.WEST);
-		dockPanel.setCellWidth(navigationPanel, "180");
+		southContainer.addToRow(navigationPanel, 185);
+		southContainer.add(contentPanel);
 
-		verticalPanel = new VerticalPanel();
-		navigationPanel.add(verticalPanel);
-		verticalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		verticalPanel.setSpacing(1);
-		navigationPanel.doLayout();
-		/*
-		 * Mein SwapWeb
-		 */
+		borderPanel.add(southContainer);
 
-		{
-			disclosurePanelMy = new DisclosurePanel("Mein SwapWeb", false);
-			verticalPanel.add(disclosurePanelMy);
-			disclosurePanelMy.setTitle("Mein SwapWeb");
+		navigationsContentPanel = new Panel();
+		navigationsContentPanel.setBorder(false);
+		navigationPanel.add(navigationsContentPanel);
 
-			verticalPanel_1 = new VerticalPanel();
-			disclosurePanelMy.setContent(verticalPanel_1);
-			verticalPanel_1.setSize("140", "100");
+		// Mein SwapWeb
+		disclosurePanelMy = new DisclosurePanel("Mein SwapWeb", false);
+		navigationsContentPanel.add(disclosurePanelMy);
+		disclosurePanelMy.setTitle("Mein SwapWeb");
 
-			myProfileHyperlink = new Hyperlink("New hyperlink", false,
-					"newHistoryToken");
-			verticalPanel_1.add(myProfileHyperlink);
-			myProfileHyperlink.setText("Mein Profil");
-			myProfileHyperlink.addClickHandler(new ClickHandler() {
+		verticalPanel_1 = new VerticalPanel();
+		disclosurePanelMy.setContent(verticalPanel_1);
+		verticalPanel_1.setSize("140", "100");
 
-				public void onClick(ClickEvent event) {
-					myProfile = new UserView();
-					contentPanel.clear();
-					contentPanel.add(myProfile);
-					contentPanel.doLayout();
-				}
+		myProfileHyperlink = new Hyperlink("New hyperlink", false,
+				"newHistoryToken");
+		verticalPanel_1.add(myProfileHyperlink);
+		myProfileHyperlink.setText("Mein Profil");
+		myProfileHyperlink.addClickHandler(new ClickHandler() {
 
-			});
+			public void onClick(ClickEvent event) {
+				myProfile = new UserView();
+				contentPanel.clear();
+				contentPanel.add(myProfile);
+				contentPanel.doLayout();
+			}
 
-			testProfileFormHyperlink = new Hyperlink("New hyperlink", false,
-					"newHistoryToken");
-			verticalPanel_1.add(testProfileFormHyperlink);
-			testProfileFormHyperlink.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					userForm = new UserForm();
-					contentPanel.clear();
-					contentPanel.add(userForm);
-					contentPanel.doLayout();
-				}
-			});
-			testProfileFormHyperlink.setText("Profil bearbeiten");
+		});
 
-			myArticlesHyperlink = new Hyperlink("New hyperlink", false,
-					"newHistoryToken");
-			verticalPanel_1.add(myArticlesHyperlink);
-			myArticlesHyperlink.setText("Meine Artikel");
+		testProfileFormHyperlink = new Hyperlink("New hyperlink", false,
+				"newHistoryToken");
+		verticalPanel_1.add(testProfileFormHyperlink);
+		testProfileFormHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				userForm = new UserForm();
+				contentPanel.clear();
+				contentPanel.add(userForm);
+				contentPanel.doLayout();
+			}
+		});
+		testProfileFormHyperlink.setText("Profil bearbeiten");
 
-			insertArticleHyperlink = new Hyperlink("New hyperlink", false,
-					"newHistoryToken");
-			verticalPanel_1.add(insertArticleHyperlink);
-			insertArticleHyperlink.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					contentPanel.clear();
-					contentPanel.add(articleForm);
-				}
+		myArticlesHyperlink = new Hyperlink("New hyperlink", false,
+				"newHistoryToken");
+		verticalPanel_1.add(myArticlesHyperlink);
+		myArticlesHyperlink.setText("Meine Artikel");
 
-			});
+		insertArticleHyperlink = new Hyperlink("New hyperlink", false,
+				"newHistoryToken");
+		verticalPanel_1.add(insertArticleHyperlink);
+		insertArticleHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				contentPanel.clear();
+				contentPanel.add(articleForm);
+			}
 
-			insertArticleHyperlink.setText("Artikel einstellen");
+		});
 
-			myRatingsHyperlink = new Hyperlink("New hyperlink", false,
-					"newHistoryToken");
-			verticalPanel_1.add(myRatingsHyperlink);
-			myRatingsHyperlink.setText("Meine Bewertungen");
+		insertArticleHyperlink.setText("Artikel einstellen");
 
-			myMessagesHyperlink = new Hyperlink("New hyperlink", false,
-					"newHistoryToken");
-			verticalPanel_1.add(myMessagesHyperlink);
-			myMessagesHyperlink.setText("Nachrichten");
-		}
+		myRatingsHyperlink = new Hyperlink("New hyperlink", false,
+				"newHistoryToken");
+		verticalPanel_1.add(myRatingsHyperlink);
+		myRatingsHyperlink.setText("Meine Bewertungen");
 
-		/*
-		 * Kategoriebaum
-		 */
+		myMessagesHyperlink = new Hyperlink("New hyperlink", false,
+				"newHistoryToken");
+		verticalPanel_1.add(myMessagesHyperlink);
+		myMessagesHyperlink.setText("Nachrichten");
 
-		{
-			disclosurePanelKate = new DisclosurePanel("Kategorien", false);
-			verticalPanel.add(disclosurePanelKate);
-			disclosurePanelKate.setTitle("Kategorien");
+		// Kategoriebaum
 
-			categoryTree = new Tree();
-			disclosurePanelKate.setContent(categoryTree);
+		disclosurePanelKate = new DisclosurePanel("Kategorien", false);
+		navigationsContentPanel.add(disclosurePanelKate);
+		disclosurePanelKate.setTitle("Kategorien");
 
-			autoTreeItem = new TreeItem("New item");
-			categoryTree.addItem(autoTreeItem);
-			autoTreeItem.setText("Auto");
+		categoryTree = new Tree();
+		disclosurePanelKate.setContent(categoryTree);
 
-			computerTreeItem = new TreeItem("New item");
-			categoryTree.addItem(computerTreeItem);
-			computerTreeItem.setText("Computer");
+		autoTreeItem = new TreeItem("New item");
+		categoryTree.addItem(autoTreeItem);
+		autoTreeItem.setText("Auto");
 
-			gardenTreeItem = new TreeItem("New item");
-			categoryTree.addItem(gardenTreeItem);
-			gardenTreeItem.setText("Garten");
+		computerTreeItem = new TreeItem("New item");
+		categoryTree.addItem(computerTreeItem);
+		computerTreeItem.setText("Computer");
 
-		}
+		gardenTreeItem = new TreeItem("New item");
+		categoryTree.addItem(gardenTreeItem);
+		gardenTreeItem.setText("Garten");
 
 		disclosurePanel = new DisclosurePanel("Tests", false);
-		verticalPanel.add(disclosurePanel);
+		navigationsContentPanel.add(disclosurePanel);
 
 		verticalPanel_2 = new VerticalPanel();
 		disclosurePanel.setContent(verticalPanel_2);
@@ -269,7 +254,7 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testartikelHyperlink);
 		testartikelHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				articleView = new ArticleView(29);
+				articleView = new ArticleView(30);
 				contentPanel.clear();
 				contentPanel.add(articleView);
 				contentPanel.doLayout();
@@ -282,15 +267,13 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel_2.add(testProfileHyperlink);
 		testProfileHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				userView = new UserView("georg");
+				userView = new UserView("Theonlybender");
 				contentPanel.clear();
 				contentPanel.add(userView);
 				contentPanel.doLayout();
 			}
 		});
 		testProfileHyperlink.setText("Testprofil");
-
-	
 
 		testArticleFormHyperlink = new Hyperlink("Artikel einstellen", false,
 				"newHistoryToken");
@@ -303,10 +286,12 @@ public class SwapWeb implements EntryPoint {
 				contentPanel.doLayout();
 			}
 		});
+		mainPanel.add(borderPanel);
+		new Viewport(mainPanel);
+
 	}
 
 	public static Panel getContenPanel() {
-		// TODO Auto-generated method stub
 		return contentPanel;
 	}
 }

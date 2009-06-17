@@ -9,6 +9,7 @@ package ppj09.gwt.swapweb.client;
 
 import com.gwtext.client.widgets.MessageBox;
 
+import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
@@ -55,6 +56,10 @@ public abstract class Validation {
 
 	public static boolean validateArticleSearchForm(
 			ArticleSearchForm articleSearchForm) {
+		return true;
+	}
+	public static boolean validateAdvancedSearchForm(
+			AdvancedSearchForm advancedSearchForm) {
 		return true;
 	}
 }
