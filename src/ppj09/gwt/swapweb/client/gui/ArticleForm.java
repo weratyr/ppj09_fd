@@ -168,7 +168,7 @@ public class ArticleForm extends Composite implements Form {
 		// }
 		return true;
 	}
-	
+	// füllt das Artikelobjekt mit Formulardaten
 	private Article fillArticle(Article article) {
 		article.setTitle(txtbxName.getText());
 		article.setZipCode(txtbxZip.getText());
