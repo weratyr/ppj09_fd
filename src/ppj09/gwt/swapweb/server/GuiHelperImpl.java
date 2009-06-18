@@ -6,10 +6,11 @@ import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class GuiHelperImpl extends RemoteServiceServlet implements GuiHelper{
+	DataBankerQueries db = new DataBankerQueries();
 
-	public int getCategories() {
+	public String[] getCategories() {
 		// TODO Auto-generated method stub
-		return 0;
+		return db.getCategories();
 	}
 
 }

@@ -416,4 +416,36 @@ public class DataBankerQueries {
 
 		return article;
 	}
+
+	public String[] getCategories() {
+		ResultSet rs = null;
+		String[] categories = new String[30];
+
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		String query = "SELECT * FROM categories";
+		try {
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				int i = 0;
+				categories[i] = (rs.getString("category"));
+				i++;
+			}
+//			for (int i=0;i<=rs.getFetchSize();i++){
+//				categories[i] = rs.getString("category");
+//				System.out.println(categories[i]);
+//				rs.next();
+//			}
+			
+			rs.close();
+			dbc.close();
+			stmt.close();
+			dbc.closeStatement();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return categories;
+	}
 }
