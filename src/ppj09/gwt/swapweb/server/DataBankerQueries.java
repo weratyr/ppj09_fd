@@ -429,6 +429,7 @@ public class DataBankerQueries {
 			while (rs.next()) {
 				int i = 0;
 				categories[i] = (rs.getString("category"));
+				System.out.println(categories[i]);
 				i++;
 			}
 //			for (int i=0;i<=rs.getFetchSize();i++){
