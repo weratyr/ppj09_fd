@@ -7,6 +7,9 @@ import ppj09.gwt.swapweb.client.datatype.Rate;
 import ppj09.gwt.swapweb.client.serverInterface.SwapManager;
 
 public class SwapManagerImpl extends RemoteServiceServlet implements SwapManager {
+	
+	SessionHandler sh = new SessionHandler();
+	
 	public int createSwapOffer(Article offeredArticle, Article desiredArticle) {
 		return 1;
 	} 
@@ -24,8 +27,18 @@ public class SwapManagerImpl extends RemoteServiceServlet implements SwapManager
 	 * Bewertet einen Tausch (Swap)
 	 */
 	public String rateSwap(Rate rate) {
-		String bla = ("\nKommentar: \t" + rate.getComment() + "\nSterne: \t" + rate.getStars()  );
+		//speichert user id vom nutzer der bewertet hat
+		rate.setRatingUser(sh.getSession(this.getThreadLocalRequest()));
 		
+		//user der bewertet wird ergibt sich aus dem swap
+		//rate.setRatedUser(bla);
+		
+		
+		//dann alles in db speichern
+		
+		
+		//rückgabe zum testen
+		String bla = ("\nKommentar: \t" + rate.getComment() + "\nSterne: \t" + rate.getStars()  );
 		return bla;
 	}
 }

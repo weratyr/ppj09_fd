@@ -297,24 +297,23 @@ public class SwapWeb implements EntryPoint {
 		
 		//frage den databanker welche kategorien es gibt
 		//rpc
-		DataBankerQueriesAsync dataBanker = GWT.create(SwapManager.class);
-		String[] categories = dataBanker.getCategories(new AsyncCallback<String>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Och nööö: " + caught.getMessage());
-			}
-			public void onSuccess(String result) {
-				//System.out.println("Juppiii: " + result);
-			}
-		});
+//		GuiHelperAsync dataBanker = GWT.create(SwapManager.class);
+//		String[] categories = dataBanker.getCategories(new AsyncCallback<String>() {
+//			public void onFailure(Throwable caught) {
+//				System.out.println("Kategorien RPC funzt net: \n\n" + caught.getMessage());
+//			}
+//			public void onSuccess(String result) {
+//				System.out.println("Kategorien RPC funzt");
+//			}
+//		});
 		
 		//adde alle elemente der arraylist in die drop down box
 		//categoryTree.add( alle elemente vom string[] result)
-		for (int i = 0; i < categories.length; i++){
-			TreeItem temp = new TreeItem("New Item");
-			temp.setText(categories[i]);
-			categoryTree.addItem(temp);
-		}
-		
+//		for (int i = 0; i < categories.length; i++){
+//			TreeItem temp = new TreeItem("New Item");
+//			temp.setText(categories[i]);
+//			categoryTree.addItem(temp);
+//		}
 		
 //		autoTreeItem = new TreeItem("New item");
 //		categoryTree.addItem(autoTreeItem);
