@@ -15,6 +15,8 @@ import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
+import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
+import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 
@@ -44,9 +46,8 @@ import com.gwtext.client.widgets.form.TextField;
  */
 public class ArticleSearchForm implements Form {
 	private VerticalPanel searchResultPanel;
-	private Object[][] categories;
 	public ArticleSearchForm(TabPanel outerTabPanel) {
-
+		getCategories();
 		final FormPanel containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
@@ -59,8 +60,7 @@ public class ArticleSearchForm implements Form {
 
 //		Object[][] quickOptionsCategory = new Object[][] { new Object[] {
 //				"index", "nix drin" }, };
-
-		Store quickCategoryStore = new SimpleStore(new String[] { "index", "category" }, categories);
+		Store quickCategoryStore = new SimpleStore("category", getCategories());
 		quickCategoryStore.load();
 
 		
@@ -116,23 +116,23 @@ public class ArticleSearchForm implements Form {
 		outerTabPanel.add(containerFormPanel);
 	}
 
-	private boolean getCategories() {
-		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
-//		articleManager.createArticle(new AsyncCallback<String [][]>() {
-//			public void onFailure(Throwable caught) {
-//				// 
-//				System.out.println("neeee: " + caught.getMessage());
-//			}
-//
-//			public void onSuccess(Integer serverMsg) {
-//				// 
-//				System.out.println("OK: " + serverMsg.toString());
-//				formPanel.getForm().reset();
-//				window.show(submitButton.getId());
-//			}
-//		});
-//		// }
-		return true;
+
+	private String[] getCategories() {
+		String[] categories = new String[10];		
+		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
+		
+		guiHelper.getCategories(new AsyncCallback<String []>() {
+			public void onFailure(Throwable caught) {
+				// 
+				System.out.println("neeee: " + caught.getMessage());
+			}
+
+			public void onSuccess(String [] categories) {
+				// 
+				System.out.println("OK: ");
+			}
+		});
+		return categories;
 	}
 	
 
