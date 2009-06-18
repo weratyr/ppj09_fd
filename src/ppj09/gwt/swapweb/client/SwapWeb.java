@@ -57,20 +57,15 @@ public class SwapWeb implements EntryPoint {
 
 	private Panel mainPanel;
 	private Panel borderPanel;
-	private TabPanel outerTabPanel;
+	private TabPanel tabPanel;
 
 	private Image image;
-	private DisclosurePanel disclosurePanelMy;
-	private DisclosurePanel disclosurePanelKate;
+	private DisclosurePanel meinSwapWeb;
+	private DisclosurePanel kategorien;
 	private Tree categoryTree;
 	private static Panel contentPanel;
 	
-//	private TreeItem autoTreeItem;
-//	private TreeItem computerTreeItem;
-//	private TreeItem gardenTreeItem;
-//	private ArrayList<TreeItem> treeItems;
-	
-	private VerticalPanel verticalPanel_1;
+	private VerticalPanel meinSwapWeb_verticalPanel;
 	private Hyperlink myProfileHyperlink;
 	private Hyperlink myArticlesHyperlink;
 	private Hyperlink insertArticleHyperlink;
@@ -111,23 +106,14 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * NORTH Header und äußeres TabPanel
 		 */
-		image = new Image();
-		image.setUrl("http://www.renegade-station.de/swhead.jpg");
+		image = new Image("http://www.renegade-station.de/swhead.jpg");
 
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.add(image);
 		northOuterPanel.setBorder(false);
 
-		outerTabPanel = new TabPanel();
-		outerTabPanel.setPaddings(3);
-		outerTabPanel.setWidth(885);
-		
-
-		new ArticleSearchForm(outerTabPanel);
-		new AdvancedSearchForm(outerTabPanel);
-		new LoginForm(outerTabPanel);
-		new UserRegistrationForm(outerTabPanel);
-		northOuterPanel.add(outerTabPanel);
+		tabPanel = getUpperTabPanel();
+		northOuterPanel.add(tabPanel);
 		borderPanel.add(northOuterPanel, new BorderLayoutData(RegionPosition.NORTH));
 
 		MultiFieldPanel southContainer = new MultiFieldPanel();
@@ -143,8 +129,7 @@ public class SwapWeb implements EntryPoint {
 		contentPanel.setPaddings(10);
 
 		// WEST
-		Panel navigationPanel = new Panel();
-		navigationPanel.setTitle("My Swapweb");
+		Panel navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
 
 		southContainer.addToRow(navigationPanel, 185);
@@ -157,80 +142,18 @@ public class SwapWeb implements EntryPoint {
 		navigationPanel.add(navigationsContentPanel);
 
 		// Mein SwapWeb
-		disclosurePanelMy = new DisclosurePanel("Mein SwapWeb", false);
-		navigationsContentPanel.add(disclosurePanelMy);
-		disclosurePanelMy.setTitle("Mein SwapWeb");
+		meinSwapWeb = new DisclosurePanel("Mein SwapWeb", false);
+		meinSwapWeb.setContent(getMySwapWebPanel());
+		navigationsContentPanel.add(meinSwapWeb);
 
-		verticalPanel_1 = new VerticalPanel();
-		disclosurePanelMy.setContent(verticalPanel_1);
-		verticalPanel_1.setSize("140", "100");
-
-		myProfileHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
-		verticalPanel_1.add(myProfileHyperlink);
-		myProfileHyperlink.setText("Mein Profil");
-		myProfileHyperlink.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				myProfile = new UserView();
-				contentPanel.clear();
-				contentPanel.add(myProfile);
-				contentPanel.doLayout();
-			}
-
-		});
-
-		testProfileFormHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
-		verticalPanel_1.add(testProfileFormHyperlink);
-		testProfileFormHyperlink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				userForm = new UserForm();
-				contentPanel.clear();
-				contentPanel.add(userForm);
-				contentPanel.doLayout();
-			}
-		});
-		testProfileFormHyperlink.setText("Profil bearbeiten");
-
-		myArticlesHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
-		verticalPanel_1.add(myArticlesHyperlink);
-		myArticlesHyperlink.setText("Meine Artikel");
-
-		insertArticleHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
-		verticalPanel_1.add(insertArticleHyperlink);
-		insertArticleHyperlink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				contentPanel.clear();
-				contentPanel.add(articleForm);
-			}
-
-		});
-
-		insertArticleHyperlink.setText("Artikel einstellen");
-
-		myRatingsHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
-		verticalPanel_1.add(myRatingsHyperlink);
-		myRatingsHyperlink.setText("Meine Bewertungen");
-
-		myMessagesHyperlink = new Hyperlink("New hyperlink", false,
-				"newHistoryToken");
-		verticalPanel_1.add(myMessagesHyperlink);
-		myMessagesHyperlink.setText("Nachrichten");
 
 		// Kategoriebaum
 
-		disclosurePanelKate = new DisclosurePanel("Kategorien", false);
-		navigationsContentPanel.add(disclosurePanelKate);
-		disclosurePanelKate.setTitle("Kategorien");
+		kategorien = new DisclosurePanel("Kategorien", false);
+		navigationsContentPanel.add(kategorien);
 
 		categoryTree = new Tree();
-		disclosurePanelKate.setContent(categoryTree);
-
-		generateCategories();
+		kategorien.setContent(categoryTree);
 
 		disclosurePanel = new DisclosurePanel("Tests", false);
 		navigationsContentPanel.add(disclosurePanel);
@@ -292,10 +215,44 @@ public class SwapWeb implements EntryPoint {
 
 	}
 
-	/**
-	 * Holt sich aus der Datenbank alle Kategorien und fügt sie zur Kategoriebaum hinzu
-	 */
-	private void generateCategories() {
+	private VerticalPanel getMySwapWebPanel() {
+		meinSwapWeb_verticalPanel = new VerticalPanel();
+		meinSwapWeb_verticalPanel.setSize("140", "100");
+
+		myProfileHyperlink = new Hyperlink("Mein Profil", null);
+		myProfileHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				myProfile = new UserView();
+				contentPanel.clear();
+				contentPanel.add(myProfile);
+				contentPanel.doLayout();
+			}
+			
+		});
+
+		testProfileFormHyperlink = new Hyperlink("Profil bearbeiten", null);
+		testProfileFormHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				userForm = new UserForm();
+				contentPanel.clear();
+				contentPanel.add(userForm);
+				contentPanel.doLayout();
+			}
+		});
+
+		myArticlesHyperlink = new Hyperlink("Meine Artikel", null);
+
+		insertArticleHyperlink = new Hyperlink("Artikel einstellen", null);
+		insertArticleHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				contentPanel.clear();
+				contentPanel.add(articleForm);
+			}
+
+		});
+
+		myRatingsHyperlink = new Hyperlink("Meine Bewertungen", null);
+		myMessagesHyperlink = new Hyperlink("Nachrichten", null);
 		
 		//frage den databanker welche kategorien es gibt
 		//rpc
@@ -317,6 +274,27 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 		
+		meinSwapWeb_verticalPanel.add(myProfileHyperlink);
+		meinSwapWeb_verticalPanel.add(testProfileFormHyperlink);
+		meinSwapWeb_verticalPanel.add(myArticlesHyperlink);
+		meinSwapWeb_verticalPanel.add(insertArticleHyperlink);
+		meinSwapWeb_verticalPanel.add(myRatingsHyperlink);
+		meinSwapWeb_verticalPanel.add(myMessagesHyperlink);
+		
+		return meinSwapWeb_verticalPanel;
+	}
+
+	private TabPanel getUpperTabPanel() {
+		tabPanel = new TabPanel();
+		tabPanel.setPaddings(3);
+		tabPanel.setWidth(885);
+
+		new ArticleSearchForm(tabPanel);
+		new AdvancedSearchForm(tabPanel);
+		new LoginForm(tabPanel);
+		new UserRegistrationForm(tabPanel);
+		
+		return tabPanel;
 	}
 
 	public static Panel getContenPanel() {
