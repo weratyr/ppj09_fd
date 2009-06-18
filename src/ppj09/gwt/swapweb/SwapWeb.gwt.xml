@@ -19,9 +19,4 @@
   <script src="js/ext/adapter/ext/ext-base.js"/>
   <script src="js/ext/ext-all.js"/>
   <inherits name="com.gwtext.GwtExt"/>
-<<<<<<< HEAD:src/ppj09/gwt/swapweb/SwapWeb.gwt.xml
-
-=======
- 
->>>>>>> e9d2b9fe23c457e06fca012186cf0e90383e7294:src/ppj09/gwt/swapweb/SwapWeb.gwt.xml
 </module>
