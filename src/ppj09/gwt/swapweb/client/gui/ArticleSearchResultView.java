@@ -5,11 +5,13 @@ import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
  
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Widget;
  
  
 /**
@@ -40,10 +42,10 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
       verticalPanel.setSize("650", "90");
       {
         absolutePanel = new AbsolutePanel();
-        SwapWeb.getContenPanel().clear();
-        SwapWeb.getContenPanel().add(absolutePanel);
-        SwapWeb.getContenPanel().doLayout();
-        absolutePanel.setSize("650", "90");
+         absolutePanel.setSize("650", "90");
+         SwapWeb.getContenPanel().add(absolutePanel);
+         SwapWeb.getContenPanel().doLayout();
+         
         {
           articleImage = new Image(null);
           absolutePanel.add(articleImage, 5, 5);

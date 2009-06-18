@@ -19,7 +19,10 @@ import java.util.ArrayList;
 
 
 import ppj09.gwt.swapweb.client.datatype.Article;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
+import ppj09.gwt.swapweb.client.datatype.SearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 
@@ -385,6 +388,26 @@ public class DataBankerQueries {
 		return saved;
 	}
 
+	public ArrayList<SearchResult> getArticleSearchResult(ArticleSearchQuery sq) {
+		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+	    Statement stmt = dbc.getStatement();
+	    String query = "SELECT * FROM article WHERE title='"+sq.getTitle()+"'";
+	    ResultSet resultSet = null;
+	    try {
+	    	resultSet = stmt.executeQuery(query);
+	    	while(resultSet.next()) {
+	    		articleList.add(new ArticleSearchResult());
+	    	}
+	    	
+	    }catch (Exception e) {
+			// TODO: handle exception
+		}
+		return articleList;
+	}
+	
+	
 	public Article getArticle(int articleId) {
 		Article article = new Article();
 		ResultSet rs = null;
