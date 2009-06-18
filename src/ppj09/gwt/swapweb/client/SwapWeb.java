@@ -145,7 +145,6 @@ public class SwapWeb implements EntryPoint {
 
 		navigationsContentPanel.add(meinSwapWeb);
 		navigationsContentPanel.add(kategorien);
-		navigationsContentPanel.add(tests);
 		
 		return navigationsContentPanel;
 	}

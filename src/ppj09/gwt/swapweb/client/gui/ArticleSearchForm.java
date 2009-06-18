@@ -96,7 +96,7 @@ public class ArticleSearchForm implements Form {
 									}
 
 									public void onSuccess(ArrayList<SearchResult> results) {
-										SwapWeb.getContenPanel().clear();
+										SwapWeb.getContentPanel().clear();
 										for (SearchResult r : results) {
 											r.getView();
 										}
