@@ -15,9 +15,9 @@
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='ppj09.gwt.swapweb.client.SwapWeb'/> 
-  <stylesheet src="js/ext/resources/css/ext-all.css"/>
-  <script src="js/ext/adapter/ext/ext-base.js"/>
-  <script src="js/ext/ext-all.js"/>
+  <stylesheet src="../js/ext/resources/css/ext-all.css"/>
+  <script src="../js/ext/adapter/ext/ext-base.js"/>
+  <script src="../js/ext/ext-all.js"/>
   <inherits name="com.gwtext.GwtExt"/>
   
   
