@@ -256,23 +256,23 @@ public class SwapWeb implements EntryPoint {
 		
 		//frage den databanker welche kategorien es gibt
 		//rpc
-		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
-		guiHelper.getCategories(new AsyncCallback<String[]>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Kategorien RPC funzt net: \n\n" + caught.getMessage());
-			}
-			public void onSuccess(String[] categories) {
-				System.out.println("Kategorien RPC funzt");
-				
-				ArrayList listItems = new ArrayList<TreeItem>();
-				
-				for (int i = 0; i < categories.length; i++){
-					TreeItem temp = new TreeItem("New Item");
-					temp.setText(categories[i]);
-					System.out.println(categories[i]);
-				}
-			}
-		});
+//		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
+//		guiHelper.getCategories(new AsyncCallback<String[]>() {
+//			public void onFailure(Throwable caught) {
+//				System.out.println("Kategorien RPC funzt net: \n\n" + caught.getMessage());
+//			}
+//			public void onSuccess(String[] categories) {
+//				System.out.println("Kategorien RPC funzt");
+//				
+//				ArrayList listItems = new ArrayList<TreeItem>();
+//				
+//				for (int i = 0; i < categories.length; i++){
+//					TreeItem temp = new TreeItem("New Item");
+//					temp.setText(categories[i]);
+//					System.out.println(categories[i]);
+//				}
+//			}
+//		});
 		
 		meinSwapWeb_verticalPanel.add(myProfileHyperlink);
 		meinSwapWeb_verticalPanel.add(testProfileFormHyperlink);

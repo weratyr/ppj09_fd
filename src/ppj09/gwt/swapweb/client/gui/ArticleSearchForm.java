@@ -10,11 +10,8 @@ package ppj09.gwt.swapweb.client.gui;
 import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.Validation;
-import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
-import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
-import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
@@ -46,36 +43,23 @@ import com.gwtext.client.widgets.form.TextField;
  */
 public class ArticleSearchForm implements Form {
 	private VerticalPanel searchResultPanel;
+	private HorizontalPanel searchPanel;
+	private final FormPanel containerFormPanel;
+	
 	public ArticleSearchForm(TabPanel outerTabPanel) {
-		getCategories();
-		final FormPanel containerFormPanel = new FormPanel();
+		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
-		HorizontalPanel searchPanel = new HorizontalPanel();
+		searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(6);
 		Label searchLabel = new Label("Suche: ");
 		TextField searchField = new TextField("","phrase",120);
 		searchPanel.add(searchLabel);
+		getCategories();
 		searchPanel.add(searchField);
 
-//		Object[][] quickOptionsCategory = new Object[][] { new Object[] {
-//				"index", "nix drin" }, };
-		Store quickCategoryStore = new SimpleStore("category", getCategories());
-		quickCategoryStore.load();
-
-		
-		final ComboBox quickArticleCategoryCB = new ComboBox();
-		
-		quickArticleCategoryCB.setStore(quickCategoryStore);
-		quickArticleCategoryCB.setDisplayField("category");
-		quickArticleCategoryCB.setMode(ComboBox.LOCAL);
-		quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
-		quickArticleCategoryCB.setForceSelection(true);
-		quickArticleCategoryCB.setReadOnly(true);
-		quickArticleCategoryCB.setWidth(120);
-		quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-		
-		searchPanel.add(quickArticleCategoryCB);
+	
+	   
 
 		Button quickSearchButton = new Button("Suchen",
 				new ButtonListenerAdapter() {
@@ -117,24 +101,36 @@ public class ArticleSearchForm implements Form {
 	}
 
 
-	private String[] getCategories() {
-		final String[] categories = new String[30];		
+	private void getCategories() {
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
 		
-		guiHelper.getCategories(new AsyncCallback<String[]>() {
+		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
 			public void onFailure(Throwable caught) {
-				// 
-				System.out.println("neeee: " + caught.getMessage());
+				System.out.println("neeeekldfj: " + caught.getMessage());
 			}
 
-			public void onSuccess(String[] results) {
-				for (int i=0;i<=results.length;i++){
-					categories[i] = results [i];
-					System.out.println(results[i]);
+			public void onSuccess(ArrayList<String> results) {
+				String[] categories = new String[results.size()];
+				for (int i = 0;i<results.size();i++){
+					categories[i] = results.get(i);
 				}
+				
+				Store quickCategoryStore = new SimpleStore("category", categories);
+			    quickCategoryStore.load();
+			 
+			    final ComboBox quickArticleCategoryCB = new ComboBox();
+			    quickArticleCategoryCB.setStore(quickCategoryStore);
+			    quickArticleCategoryCB.setDisplayField("category");
+			    quickArticleCategoryCB.setMode(ComboBox.LOCAL);
+			    quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
+			    quickArticleCategoryCB.setForceSelection(true);
+			    quickArticleCategoryCB.setReadOnly(true);
+			    quickArticleCategoryCB.setWidth(120);
+			    quickArticleCategoryCB.setEmptyText("Kategorie wählen");
+			    
+			    searchPanel.add(quickArticleCategoryCB);
 			}
 		});
-		return categories;
 	}
 	
 
