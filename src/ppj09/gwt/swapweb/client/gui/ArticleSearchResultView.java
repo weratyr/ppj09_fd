@@ -4,6 +4,8 @@ import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
  
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -33,7 +35,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
   private Label shippingLabel_1;
   private ArticleSearchResult searchResult;
  
-  public ArticleSearchResultView(SearchResult searchResult) {
+  public ArticleSearchResultView(final SearchResult searchResult) {
     {
       this.searchResult = (ArticleSearchResult) searchResult;
       
@@ -57,6 +59,15 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
         }
         {
           articlenameHyperlink = new Hyperlink(this.searchResult.getTitle(), false, "newHistoryToken");
+
+          articlenameHyperlink.addClickHandler(new ClickHandler() { 
+        	  public void onClick(ClickEvent event) {
+        		  System.out.println("article");
+        		  SwapWeb.getContenPanel().clear();
+        		  SwapWeb.getContenPanel().add(new ArticleView( ( (ArticleSearchResult) searchResult).getId() ) );
+        		  SwapWeb.getContenPanel().doLayout();
+        	  }
+        	  });
           absolutePanel.add(articlenameHyperlink, 100, 5);
           articlenameHyperlink.setWidth("400");
         }
@@ -66,6 +77,14 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
         }
         {
           userHyperlink = new Hyperlink(this.searchResult.getUserName(), false, "newHistoryToken");
+          userHyperlink.addClickHandler(new ClickHandler() { 
+        	  public void onClick(ClickEvent event) {
+        		  System.out.println("user");
+        		  SwapWeb.getContenPanel().clear();
+        		  SwapWeb.getContenPanel().add(new UserView(((ArticleSearchResult) searchResult).getUserName()) );
+        		  SwapWeb.getContenPanel().doLayout();
+        	  }
+        	  });
           absolutePanel.add(userHyperlink, 180, 40);
           userHyperlink.setWidth("300");
         }

@@ -18,12 +18,11 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private DataBankerQueries db = new DataBankerQueries();
 
 	public ArrayList<SearchResult> search(ArticleSearchQuery articleSearch) {
-		ArrayList<SearchResult> dummyResults = new ArrayList<SearchResult>();
-		dummyResults.add(new ArticleSearchResult("Swap Web", "Hans", "http://www.geocities.com/hollywood/cinema/2636/pic-coll1/it-clown.jpg"));
-		dummyResults.add(new ArticleSearchResult("Walroß", "Karl", "http://www.zoo-augsburg.de/server2/content/die-tiere_infotafeln/content_tafel-09-02.jpg"));
-		return dummyResults;
+		
+		return db.getArticleSearchResult(articleSearch);
 	}
 	
 	public ArrayList<SearchResult> search(UserSearchQuery userSearch) {
