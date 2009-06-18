@@ -31,7 +31,7 @@ import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.FormLayout;
 
-public class AdvancedSearchForm {
+public class AdvancedSearchForm implements Form{
 	private Panel firstTab;
 	private Checkbox activeArticleCheckBox;
 	private Checkbox pictureArticlesCheckBox;
@@ -73,11 +73,13 @@ public class AdvancedSearchForm {
 		secondColumn.setBorder(false);
 		secondColumn.setPaddings(10,10,0,0);
 
-		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
-				"nix drin" }, };
+//		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
+//				"nix drin" }, };
 
-		Store categoryStore = new SimpleStore(new String[] { "b", "options" },
-				optionsCategory);
+		Store categoryStore = new SimpleStore(new String[] { "index", "category" },
+				new String[][] {
+				new String[] { "1", "test1" },
+				new String[] { "2", "test2" } });
 		categoryStore.load();
 
 		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
