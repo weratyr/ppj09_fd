@@ -38,37 +38,22 @@ public class ArticleView extends Composite implements View {
 	private Panel imagePanel1;
 	private Panel ImagePanel3;
 	private HorizontalPanel hpLocation;
-
+	private Label lblUsername;
 	private Label lblLocation;
-
 	private Label lblLocation2;
-
 	private HorizontalPanel hpCondition;
-
 	private Label lblCondition2;
-
 	private Label lblCondition;
-
 	private Label verticalSeperator1;
-
 	private HorizontalPanel hpDelivery;
-
 	private Label lblDelivery2;
-
 	private Label lblDelivery;
-
 	private HorizontalPanel hpAmount;
-
 	private Label lblAmount;
-
 	private Label lblAmount2;
-
 	private HorizontalPanel hpSwapIdea;
-
 	private Label lblSwapIdea2;
-
 	private Label lblSwapIdea;
-	
 	private Label description;
 
 
@@ -223,7 +208,7 @@ public class ArticleView extends Composite implements View {
 					// Gegentauschvorstellungen
 					{
 						hpSwapIdea = new HorizontalPanel();
-						lblSwapIdea = new Label("Gegentauschvorstellungen:");
+						lblSwapIdea = new Label("Tauschvorstellungen:");
 						lblSwapIdea.setWidth("160");
 						hpSwapIdea.add(lblSwapIdea);
 						lblSwapIdea2 = new Label();
@@ -244,8 +229,22 @@ public class ArticleView extends Composite implements View {
 			articleDescription.setTitle("Über das Angebot:");
 			description = new Label();
 			articleDescription.add(description);
+			articleDescription.setWidth(660);
+			articleDescription.setPaddings(5);
 			verticalPanel.add(articleDescription);
+			verticalPanel.setSpacing(10);
 			
+			Panel offeredArticles = new Panel();
+			offeredArticles.setTitle("Vorliegende Angebote:");
+			offeredArticles.setWidth(660);
+			verticalPanel.add(offeredArticles);
+			
+			Panel ownArticles = new Panel();
+			ownArticles.setTitle("Ihre eigenen Artikel:");
+			ownArticles.setWidth(660);
+			verticalPanel.add(ownArticles);
+			Label guide = new Label("Wählen sie einen ihrer Artikel aus und klicken sie auf 'Tauschen' um ein Tauschangebot an "+lblUsername+" zu senden.");
+			verticalPanel.add(guide);
 
 		}
 
