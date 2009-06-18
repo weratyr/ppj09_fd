@@ -41,7 +41,6 @@ public class SessionHandler {
 	public void deleteSession(HttpServletRequest r) {
 
 		HttpServletRequest request = r;
-
 		HttpSession session = request.getSession();
 
 		session.removeAttribute("userid");

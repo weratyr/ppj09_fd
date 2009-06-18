@@ -113,6 +113,7 @@ public class SwapWeb implements EntryPoint {
 		 * CENTER contentPanel
 		 */
 		contentPanel = new Panel("Inhaltspanel");
+
 		contentPanel.setWidth(700);
 		contentPanel.setPaddings(10);
 
@@ -130,7 +131,6 @@ public class SwapWeb implements EntryPoint {
 		new Viewport(mainPanel);
 	}
 
-
 	private Panel getNavigationPanel() {
 		navigationsContentPanel = new Panel();
 		navigationsContentPanel.setBorder(false);
@@ -141,72 +141,13 @@ public class SwapWeb implements EntryPoint {
 
 		// Kategoriebaum
 		kategorien = new DisclosurePanel("Kategorien", false);
-		kategorien.setContent(getTestPanel());
-
-		// Test
-		tests = new DisclosurePanel("Tests", false);
-		tests.setContent(getTestPanel());
+		//kategorien.setContent();
 
 		navigationsContentPanel.add(meinSwapWeb);
 		navigationsContentPanel.add(kategorien);
 		navigationsContentPanel.add(tests);
 		
 		return navigationsContentPanel;
-	}
-
-	
-	private VerticalPanel getTestPanel() {
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.setSize("140", "50");
-
-		suchenTestHyperlink = new Hyperlink("Testsuche", null);
-		suchenTestHyperlink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				articleSearchResultView = new ArticleSearchResultListView();
-				contentPanel.clear();
-				contentPanel.add(articleSearchResultView);
-				contentPanel.doLayout();
-			}
-		});
-
-
-		testartikelHyperlink = new Hyperlink("Testartikel", null);
-		testartikelHyperlink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				articleView = new ArticleView(30);
-				contentPanel.clear();
-				contentPanel.add(articleView);
-				contentPanel.doLayout();
-			}
-		});
-
-
-		testProfileHyperlink = new Hyperlink("Testprofil", null);
-		testProfileHyperlink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				userView = new UserView("Theonlybender");
-				contentPanel.clear();
-				contentPanel.add(userView);
-				contentPanel.doLayout();
-			}
-		});
-
-		testArticleFormHyperlink = new Hyperlink("Artikel einstellen", null);
-		testArticleFormHyperlink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				articleForm = new ArticleForm();
-				contentPanel.clear();
-				contentPanel.add(articleForm);
-				contentPanel.doLayout();
-			}
-		});
-
-		verticalPanel.add(suchenTestHyperlink);
-		verticalPanel.add(testartikelHyperlink);
-		verticalPanel.add(testProfileHyperlink);
-		verticalPanel.add(testArticleFormHyperlink);
-
-		return verticalPanel;
 	}
 
 	private VerticalPanel getMySwapWebPanel() {
@@ -238,8 +179,10 @@ public class SwapWeb implements EntryPoint {
 		insertArticleHyperlink = new Hyperlink("Artikel einstellen", null);
 		insertArticleHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				articleForm = new ArticleForm();
 				contentPanel.clear();
 				contentPanel.add(articleForm);
+				contentPanel.doLayout();
 			}
 
 		});

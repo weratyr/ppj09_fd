@@ -9,6 +9,7 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
@@ -46,6 +47,7 @@ import com.gwtext.client.widgets.form.TextField;
  */
 public class ArticleSearchForm implements Form {
 	private VerticalPanel searchResultPanel;
+
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 		getCategories();
 		final FormPanel containerFormPanel = new FormPanel();
@@ -54,18 +56,16 @@ public class ArticleSearchForm implements Form {
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(6);
 		Label searchLabel = new Label("Suche: ");
-		TextField searchField = new TextField("","phrase",120);
+		TextField searchField = new TextField("", "phrase", 120);
 		searchPanel.add(searchLabel);
 		searchPanel.add(searchField);
 
-//		Object[][] quickOptionsCategory = new Object[][] { new Object[] {
-//				"index", "nix drin" }, };
+		// Object[][] quickOptionsCategory = new Object[][] { new Object[] {
+		// "index", "nix drin" }, };
 		Store quickCategoryStore = new SimpleStore("category", getCategories());
 		quickCategoryStore.load();
 
-		
 		final ComboBox quickArticleCategoryCB = new ComboBox();
-		
 		quickArticleCategoryCB.setStore(quickCategoryStore);
 		quickArticleCategoryCB.setDisplayField("category");
 		quickArticleCategoryCB.setMode(ComboBox.LOCAL);
@@ -74,14 +74,14 @@ public class ArticleSearchForm implements Form {
 		quickArticleCategoryCB.setReadOnly(true);
 		quickArticleCategoryCB.setWidth(120);
 		quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-		
+
 		searchPanel.add(quickArticleCategoryCB);
 
 		Button quickSearchButton = new Button("Suchen",
 				new ButtonListenerAdapter() {
 					public void onClick(Button button, EventObject e) {
 
-						System.out.println("gedrückt");
+						System.out.println("gedrücktkkkkkk");
 						/**
 						 * TODO erstellt aus den Formulardaten ein ArticleSearch
 						 * Objekt und übergibt es per RPC an
@@ -95,12 +95,10 @@ public class ArticleSearchForm implements Form {
 										System.out.println("neeee: ");
 									}
 
-									public void onSuccess(
-											ArrayList<SearchResult> results) {
-										System.out.println("neeee: ");
+									public void onSuccess(ArrayList<SearchResult> results) {
+										SwapWeb.getContenPanel().clear();
 										for (SearchResult r : results) {
-											searchResultPanel.add((Widget) r
-													.getView());
+											r.getView();
 										}
 									}
 								});
@@ -110,31 +108,40 @@ public class ArticleSearchForm implements Form {
 		quickSearchButton.setIconCls("icon-search");
 		searchPanel.add(quickSearchButton);
 
+		/*
+		 * advancedSearchHyperlink = new Hyperlink("New hyperlink", false,
+		 * "newHistoryToken"); searchPanel.add(advancedSearchHyperlink);
+		 * advancedSearchHyperlink.addClickHandler(new ClickHandler() { public
+		 * void onClick(ClickEvent event) {
+		 * tabPanel.setVisible(!tabPanel.isVisible());
+		 * searchPanel.setVisible(!searchPanel.isVisible());
+		 * containerFormPanel.setHeight(180); } });
+		 * 
+		 * advancedSearchHyperlink.setText("Erweiterte Suche");
+		 */
 
 		containerFormPanel.add(searchPanel);
-		
+
 		outerTabPanel.add(containerFormPanel);
 	}
 
-
 	private String[] getCategories() {
-		String[] categories = new String[10];		
+		String[] categories = new String[10];
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
-		
-		guiHelper.getCategories(new AsyncCallback<String []>() {
+
+		guiHelper.getCategories(new AsyncCallback<String[]>() {
 			public void onFailure(Throwable caught) {
 				// 
 				System.out.println("neeee: " + caught.getMessage());
 			}
 
-			public void onSuccess(String [] categories) {
+			public void onSuccess(String[] categories) {
 				// 
 				System.out.println("OK: ");
 			}
 		});
 		return categories;
 	}
-	
 
 	/**
 	 * Schickt die validierten Formulardaten an den Article-Search Modul, und
