@@ -19,6 +19,8 @@ import ppj09.gwt.swapweb.client.datatype.User;
 
 public class DataBankerQueries {
 
+	private String[] categories;
+
 	public ArrayList<SearchResult> retriveArticles(
 			ArrayList<Parameter> parameters) {
 		return null;
@@ -444,27 +446,20 @@ public class DataBankerQueries {
 		return article;
 	}
 
-	public String[] getCategories() {
+	public ArrayList<String> getCategories() {
 		ResultSet rs = null;
-		String[] categories = new String[30];
+		ArrayList<String> categories = new ArrayList<String>();
 
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
 		String query = "SELECT * FROM categories";
 		try {
 			rs = stmt.executeQuery(query);
+			int i = 0;
 			while (rs.next()) {
-				int i = 0;
-				categories[i] = (rs.getString("category"));
-				System.out.println(categories[i]);
+				categories.add(rs.getString("category"));
 				i++;
 			}
-			// for (int i=0;i<=rs.getFetchSize();i++){
-			// categories[i] = rs.getString("category");
-			// System.out.println(categories[i]);
-			// rs.next();
-			// }
-
 			rs.close();
 			dbc.close();
 			stmt.close();
@@ -475,5 +470,6 @@ public class DataBankerQueries {
 			return null;
 		}
 		return categories;
+
 	}
 }
