@@ -53,10 +53,11 @@ public class ArticleSearchForm implements Form {
 		containerFormPanel.setLabelAlign(Position.TOP);
 		searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(6);
+		getCategories();
 		Label searchLabel = new Label("Suche: ");
 		TextField searchField = new TextField("", "phrase", 120);
 		searchPanel.add(searchLabel);
-		getCategories();
+		
 		searchPanel.add(searchField);
 
 
@@ -93,7 +94,7 @@ public class ArticleSearchForm implements Form {
 
 				});
 		quickSearchButton.setIconCls("icon-search");
-		searchPanel.add(quickSearchButton);
+		
 
 		/*
 		 * advancedSearchHyperlink = new Hyperlink("New hyperlink", false,
@@ -106,7 +107,7 @@ public class ArticleSearchForm implements Form {
 		 * 
 		 * advancedSearchHyperlink.setText("Erweiterte Suche");
 		 */
-
+		searchPanel.add(quickSearchButton);
 		containerFormPanel.add(searchPanel);
 
 		outerTabPanel.add(containerFormPanel);

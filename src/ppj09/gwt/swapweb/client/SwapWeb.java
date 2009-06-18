@@ -1,7 +1,5 @@
 package ppj09.gwt.swapweb.client;
 
-import java.util.ArrayList;
-
 import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
@@ -11,28 +9,18 @@ import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
-import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
-import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
-import ppj09.gwt.swapweb.client.serverInterface.SwapManager;
-import ppj09.gwt.swapweb.client.serverInterface.SwapManagerAsync;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.RegionPosition;
-import com.gwtext.client.widgets.BoxComponent;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
-import com.gwtext.client.widgets.event.ContainerListenerAdapter;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
@@ -78,8 +66,6 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink suchenTestHyperlink;
 	private UserView myProfile;
 
-	private DisclosurePanel meinSwapWeb_verticalPanel;
-
 	/**
 	 * Die EntryPoin Methode
 	 */
@@ -97,7 +83,7 @@ public class SwapWeb implements EntryPoint {
 		outerPanel.setAutoScroll(true);
 
 		/*
-		 * NORTH Header und äußeres TabPanel
+		 * NORTH Header und Šu§eres TabPanel
 		 */
 		image = new Image("http://www.renegade-station.de/swhead.jpg");
 		tabPanel = getUpperTabPanel();
@@ -153,7 +139,7 @@ public class SwapWeb implements EntryPoint {
 		return navigationsContentPanel;
 	}
 
-	private DisclosurePanel getMySwapWebPanel() {
+	private VerticalPanel getMySwapWebPanel() {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.setSize("140", "100");
 
@@ -192,35 +178,15 @@ public class SwapWeb implements EntryPoint {
 
 		myRatingsHyperlink = new Hyperlink("Meine Bewertungen", null);
 		myMessagesHyperlink = new Hyperlink("Nachrichten", null);
-		
-		//frage den databanker welche kategorien es gibt
-		//rpc
-//		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
-//		guiHelper.getCategories(new AsyncCallback<String[]>() {
-//			public void onFailure(Throwable caught) {
-//				System.out.println("Kategorien RPC funzt net: \n\n" + caught.getMessage());
-//			}
-//			public void onSuccess(String[] categories) {
-//				System.out.println("Kategorien RPC funzt");
-//				
-//				ArrayList listItems = new ArrayList<TreeItem>();
-//				
-//				for (int i = 0; i < categories.length; i++){
-//					TreeItem temp = new TreeItem("New Item");
-//					temp.setText(categories[i]);
-//					System.out.println(categories[i]);
-//				}
-//			}
-//		});
-		
-		meinSwapWeb_verticalPanel.add(myProfileHyperlink);
-		meinSwapWeb_verticalPanel.add(testProfileFormHyperlink);
-		meinSwapWeb_verticalPanel.add(myArticlesHyperlink);
-		meinSwapWeb_verticalPanel.add(insertArticleHyperlink);
-		meinSwapWeb_verticalPanel.add(myRatingsHyperlink);
-		meinSwapWeb_verticalPanel.add(myMessagesHyperlink);
-		
-		return meinSwapWeb_verticalPanel;
+
+		verticalPanel.add(myProfileHyperlink);
+		verticalPanel.add(testProfileFormHyperlink);
+		verticalPanel.add(myArticlesHyperlink);
+		verticalPanel.add(insertArticleHyperlink);
+		verticalPanel.add(myRatingsHyperlink);
+		verticalPanel.add(myMessagesHyperlink);
+
+		return verticalPanel;
 	}
 
 	private TabPanel getUpperTabPanel() {
