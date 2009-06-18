@@ -10,3 +10,4 @@ war/WEB-INF/classes/*
 doc/*
 war/js/*
 src/ppj09/gwt/swapweb/public/*
+src/ppj09/gwt/swapweb/SwapWeb.gwt.xml
