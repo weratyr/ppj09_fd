@@ -45,8 +45,8 @@ public class UserSearchResultView extends Composite implements SearchResultView 
 			verticalPanel.setSize("650", "90");
 			{
 				absolutePanel = new AbsolutePanel();
-				SwapWeb.getContenPanel().clear();
-				SwapWeb.getContenPanel().add(absolutePanel);
+				SwapWeb.getContentPanel().clear();
+				SwapWeb.getContentPanel().add(absolutePanel);
 				absolutePanel.setSize("650", "90");
 				{
 					userImage = new Image(null);

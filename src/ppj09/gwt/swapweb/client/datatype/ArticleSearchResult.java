@@ -9,8 +9,9 @@ package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.gwtext.client.widgets.Panel;
 
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResultListView;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
@@ -19,29 +20,41 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 04.05.09
+ * @version 0.1, 04.06.09
  */
-public class ArticleSearchResult implements SearchResult, IsSerializable {
-	public String title;
-	public String userName;
-	public String pictureUrl;
+public class ArticleSearchResult implements SearchResult, Serializable {
+	private String title;
+	private int id;
+	private String userName;
+	private String pictureUrl;
 	
 	public ArticleSearchResult() {
 		this.title = null;
 		this.pictureUrl = null;
 		this.userName = null;
-	}
-	
-	public ArticleSearchResult(String title, String userName, String pictureUrl) {
-		this.title = title;
-		this.pictureUrl = pictureUrl;
-		this.userName = userName;
+		this.id = 0;
 	}
 	
 	public SearchResultView getView() {
 		return new ArticleSearchResultView(this);
 	}
+	
+	public SearchResultView getView(Panel contentPanel) {
+		return new ArticleSearchResultListView(contentPanel);
+	}
+	
+	public ArticleSearchResult(String title, String userName, String pictureUrl, int id) {
+		this.title = title;
+		this.pictureUrl = pictureUrl;
+		this.userName = userName;
+		this.id = id;
+	}
 
+	public int getId() {
+		return id;
+	}
+	
+	
 	public String getTitle() {
 		return title;
 	}

@@ -46,7 +46,7 @@ public class AdvancedSearchForm implements Form{
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(10);
 		searchPanel.add(new TextField("", "phrase", 120));
-		
+
 		tabPanel = new TabPanel();;
 		tabPanel.setWidth("100%");
 		tabPanel.setHeight(300);
@@ -55,11 +55,11 @@ public class AdvancedSearchForm implements Form{
 		tabPanel.setPaddings(5);
 		tabPanel.setVisible(false);
 		containerFormPanel.add(tabPanel);
-		
+
 		firstTab = new Panel();
 		firstTab.setBorder(false);
 		firstTab.setTitle("Artikelsuche");
-		
+
 		Panel firstColumn = new Panel();
 		firstColumn.setBorder(false);
 		firstColumn.setLayout(new FormLayout());
@@ -73,8 +73,8 @@ public class AdvancedSearchForm implements Form{
 		secondColumn.setBorder(false);
 		secondColumn.setPaddings(10,10,0,0);
 
-//		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
-//				"nix drin" }, };
+		//		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
+		//				"nix drin" }, };
 
 		Store categoryStore = new SimpleStore(new String[] { "index", "category" },
 				new String[][] {
@@ -83,7 +83,7 @@ public class AdvancedSearchForm implements Form{
 		categoryStore.load();
 
 		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
-		
+
 		articleCategoryCB.setStore(categoryStore);
 		articleCategoryCB.setDisplayField("options");
 		articleCategoryCB.setMode(ComboBox.LOCAL);
@@ -155,7 +155,7 @@ public class AdvancedSearchForm implements Form{
 		pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
 		checkBoxPanel.add(pictureArticlesCheckBox);
 		fourthColumn.add(checkBoxPanel);
-		
+
 		Panel buttonPanel = new Panel();
 		buttonPanel.setBorder(false);
 		buttonPanel.setPaddings(10, 0, 0, 0);
@@ -168,21 +168,21 @@ public class AdvancedSearchForm implements Form{
 				 * und übergibt es per RPC an SearchHandler.search()
 				 */
 				SearchHandlerAsync searchHandler = GWT
-						.create(SearchHandler.class);
+				.create(SearchHandler.class);
 				searchHandler.search(new ArticleSearchQuery(),
 						new AsyncCallback<ArrayList<SearchResult>>() {
-							public void onFailure(Throwable caught) {
-								System.out.println("neeee: ");
-							}
+					public void onFailure(Throwable caught) {
+						System.out.println("neeee: ");
+					}
 
-							public void onSuccess(
-									ArrayList<SearchResult> results) {
-								System.out.println("neeee: ");
-								for (SearchResult r : results) {
-									searchResultPanel.add((Widget) r.getView());
-								}
-							}
-						});
+					public void onSuccess(
+							ArrayList<SearchResult> results) {
+						System.out.println("neeee: ");
+						for (SearchResult r : results) {
+							searchResultPanel.add((Widget) r.getView());
+						}
+					}
+				});
 			}
 
 		});
@@ -197,7 +197,7 @@ public class AdvancedSearchForm implements Form{
 		multiPanel.addToRow(secondColumn, 140);
 		multiPanel.addToRow(thirdColumn, 140);
 		multiPanel.addToRow(fourthColumn, 310);
-		
+
 		firstTab.add(multiPanel);
 		tabPanel.add(firstTab);
 		new UserSearchForm(tabPanel);

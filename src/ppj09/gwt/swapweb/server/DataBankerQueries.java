@@ -4,10 +4,6 @@ package ppj09.gwt.swapweb.server;
  * Stefan Elm
  */
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -275,6 +273,37 @@ public class DataBankerQueries {
 		return id;
 	}
 
+	/*
+	 * Liefert den Username für eine userid oder Null wenn die userid nicht
+	 * existiert
+	 */
+	public String getUsername(int userid) {
+		ResultSet rs = null;
+		String username = null;
+
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		String query = "SELECT username FROM user WHERE id='" + userid + "'";
+		try {
+			rs = stmt.executeQuery(query);
+
+			while (rs.next()) {
+				username = rs.getString("username");
+			}
+
+			rs.close();
+			dbc.close();
+			stmt.close();
+			dbc.closeStatement();
+
+		} catch (SQLException e) {
+			return username;
+			// e.printStackTrace();
+		}
+
+		return username;
+	}
+
 	public User getUserProfile(String username) {
 		User user = new User();
 		ResultSet rs = null;
@@ -356,6 +385,29 @@ public class DataBankerQueries {
 		return saved;
 	}
 
+	public ArrayList<SearchResult> getArticleSearchResult(ArticleSearchQuery sq) {
+		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
+
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+
+		String query = "SELECT * FROM article ";
+		ResultSet resultSet = null;
+		try {
+			resultSet = stmt.executeQuery(query);
+			while (resultSet.next()) {
+
+				articleList.add(new ArticleSearchResult(resultSet.getString("title"), getUsername(resultSet.getInt("userid")), resultSet.getString("image1"), resultSet.getInt("id") ) );
+
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+			// TODO: handle exception
+		}
+		return articleList;
+	}
+
 	/*
 	 * Liefert den Artikel über die ID
 	 */
@@ -408,7 +460,6 @@ public class DataBankerQueries {
 				categories.add(rs.getString("category"));
 				i++;
 			}
-
 			rs.close();
 			dbc.close();
 			stmt.close();
