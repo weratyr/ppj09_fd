@@ -4,7 +4,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("GuiHelper")
-public interface GuiHelper {
-	public int getCategories();
+public interface GuiHelper extends RemoteService{
+	public String[] getCategories();
 
 }
