@@ -42,17 +42,17 @@ public class ArticleSearchResultListView extends Composite {
 				horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 				{
 					searchResultsForLabel = new Label("Suchergebnisse f\u00FCr \"");
-					SwapWeb.getContenPanel().add(searchResultsForLabel);
+					SwapWeb.getContentPanel().add(searchResultsForLabel);
 					searchResultsForLabel.setHeight("25");
 				}
 				{
 					searchQueryLabel = new Label("New label");
-					SwapWeb.getContenPanel().add(searchQueryLabel);
+					SwapWeb.getContentPanel().add(searchQueryLabel);
 					searchQueryLabel.setHeight("25");
 				}
 				{
 					searchResultsForLabel_2 = new Label(" \"");
-					SwapWeb.getContenPanel().add(searchResultsForLabel_2);
+					SwapWeb.getContentPanel().add(searchResultsForLabel_2);
 					searchResultsForLabel_2.setHeight("25");
 				}
 			}
