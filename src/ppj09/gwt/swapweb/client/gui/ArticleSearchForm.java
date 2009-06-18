@@ -141,7 +141,7 @@ public class ArticleSearchForm implements Form {
 			    quickArticleCategoryCB.setReadOnly(true);
 			    quickArticleCategoryCB.setWidth(120);
 			    quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-			    
+//			    test
 			    searchPanel.add(quickArticleCategoryCB);
 			    }
 		});
