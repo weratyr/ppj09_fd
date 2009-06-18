@@ -395,7 +395,7 @@ public class DataBankerQueries {
 
 	public String[] getCategories() {
 		ResultSet rs = null;
-		String[] categories = new String[30];
+		String[] categories = new String[15];
 
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
@@ -405,14 +405,8 @@ public class DataBankerQueries {
 			while (rs.next()) {
 				int i = 0;
 				categories[i] = (rs.getString("category"));
-				System.out.println(categories[i]);
 				i++;
 			}
-//			for (int i=0;i<=rs.getFetchSize();i++){
-//				categories[i] = rs.getString("category");
-//				System.out.println(categories[i]);
-//				rs.next();
-//			}
 			
 			rs.close();
 			dbc.close();

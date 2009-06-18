@@ -11,6 +11,8 @@ import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
+import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
+import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SwapManager;
 import ppj09.gwt.swapweb.client.serverInterface.SwapManagerAsync;
 
@@ -297,35 +299,24 @@ public class SwapWeb implements EntryPoint {
 		
 		//frage den databanker welche kategorien es gibt
 		//rpc
-//		GuiHelperAsync dataBanker = GWT.create(SwapManager.class);
-//		String[] categories = dataBanker.getCategories(new AsyncCallback<String>() {
-//			public void onFailure(Throwable caught) {
-//				System.out.println("Kategorien RPC funzt net: \n\n" + caught.getMessage());
-//			}
-//			public void onSuccess(String result) {
-//				System.out.println("Kategorien RPC funzt");
-//			}
-//		});
+		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
+		guiHelper.getCategories(new AsyncCallback<String[]>() {
+			public void onFailure(Throwable caught) {
+				System.out.println("Kategorien RPC funzt net: \n\n" + caught.getMessage());
+			}
+			public void onSuccess(String[] categories) {
+				System.out.println("Kategorien RPC funzt");
+				
+				ArrayList listItems = new ArrayList<TreeItem>();
+				
+				for (int i = 0; i < categories.length; i++){
+					TreeItem temp = new TreeItem("New Item");
+					temp.setText(categories[i]);
+					System.out.println(categories[i]);
+				}
+			}
+		});
 		
-		//adde alle elemente der arraylist in die drop down box
-		//categoryTree.add( alle elemente vom string[] result)
-//		for (int i = 0; i < categories.length; i++){
-//			TreeItem temp = new TreeItem("New Item");
-//			temp.setText(categories[i]);
-//			categoryTree.addItem(temp);
-//		}
-		
-//		autoTreeItem = new TreeItem("New item");
-//		categoryTree.addItem(autoTreeItem);
-//		autoTreeItem.setText("Auto");
-//
-//		computerTreeItem = new TreeItem("New item");
-//		categoryTree.addItem(computerTreeItem);
-//		computerTreeItem.setText("Computer");
-//
-//		gardenTreeItem = new TreeItem("New item");
-//		categoryTree.addItem(gardenTreeItem);
-//		gardenTreeItem.setText("Garten");
 	}
 
 	public static Panel getContenPanel() {

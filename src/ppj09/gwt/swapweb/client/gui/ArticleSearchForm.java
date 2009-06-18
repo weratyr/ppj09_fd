@@ -118,18 +118,20 @@ public class ArticleSearchForm implements Form {
 
 
 	private String[] getCategories() {
-		String[] categories = new String[10];		
+		final String[] categories = new String[30];		
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
 		
-		guiHelper.getCategories(new AsyncCallback<String []>() {
+		guiHelper.getCategories(new AsyncCallback<String[]>() {
 			public void onFailure(Throwable caught) {
 				// 
 				System.out.println("neeee: " + caught.getMessage());
 			}
 
-			public void onSuccess(String [] categories) {
-				// 
-				System.out.println("OK: ");
+			public void onSuccess(String[] results) {
+				for (int i=0;i<=results.length;i++){
+					categories[i] = results [i];
+					System.out.println(results[i]);
+				}
 			}
 		});
 		return categories;
