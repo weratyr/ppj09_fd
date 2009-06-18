@@ -1,5 +1,7 @@
 package ppj09.gwt.swapweb.client;
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
@@ -9,10 +11,14 @@ import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
+import ppj09.gwt.swapweb.client.serverInterface.SwapManager;
+import ppj09.gwt.swapweb.client.serverInterface.SwapManagerAsync;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
@@ -56,9 +62,12 @@ public class SwapWeb implements EntryPoint {
 	private DisclosurePanel disclosurePanelKate;
 	private Tree categoryTree;
 	private static Panel contentPanel;
-	private TreeItem autoTreeItem;
-	private TreeItem computerTreeItem;
-	private TreeItem gardenTreeItem;
+	
+//	private TreeItem autoTreeItem;
+//	private TreeItem computerTreeItem;
+//	private TreeItem gardenTreeItem;
+//	private ArrayList<TreeItem> treeItems;
+	
 	private VerticalPanel verticalPanel_1;
 	private Hyperlink myProfileHyperlink;
 	private Hyperlink myArticlesHyperlink;
@@ -220,17 +229,7 @@ public class SwapWeb implements EntryPoint {
 		categoryTree = new Tree();
 		disclosurePanelKate.setContent(categoryTree);
 
-		autoTreeItem = new TreeItem("New item");
-		categoryTree.addItem(autoTreeItem);
-		autoTreeItem.setText("Auto");
-
-		computerTreeItem = new TreeItem("New item");
-		categoryTree.addItem(computerTreeItem);
-		computerTreeItem.setText("Computer");
-
-		gardenTreeItem = new TreeItem("New item");
-		categoryTree.addItem(gardenTreeItem);
-		gardenTreeItem.setText("Garten");
+		generateCategories();
 
 		disclosurePanel = new DisclosurePanel("Tests", false);
 		navigationsContentPanel.add(disclosurePanel);
@@ -287,6 +286,44 @@ public class SwapWeb implements EntryPoint {
 		mainPanel.add(borderPanel);
 		new Viewport(mainPanel);
 
+	}
+
+	/**
+	 * Holt sich aus der Datenbank alle Kategorien und fügt sie zur Kategoriebaum hinzu
+	 */
+	private void generateCategories() {
+		
+		//frage den databanker welche kategorien es gibt
+		//rpc
+//		GuiHelperAsync dataBanker = GWT.create(SwapManager.class);
+//		String[] categories = dataBanker.getCategories(new AsyncCallback<String>() {
+//			public void onFailure(Throwable caught) {
+//				System.out.println("Kategorien RPC funzt net: \n\n" + caught.getMessage());
+//			}
+//			public void onSuccess(String result) {
+//				System.out.println("Kategorien RPC funzt");
+//			}
+//		});
+		
+		//adde alle elemente der arraylist in die drop down box
+		//categoryTree.add( alle elemente vom string[] result)
+//		for (int i = 0; i < categories.length; i++){
+//			TreeItem temp = new TreeItem("New Item");
+//			temp.setText(categories[i]);
+//			categoryTree.addItem(temp);
+//		}
+		
+//		autoTreeItem = new TreeItem("New item");
+//		categoryTree.addItem(autoTreeItem);
+//		autoTreeItem.setText("Auto");
+//
+//		computerTreeItem = new TreeItem("New item");
+//		categoryTree.addItem(computerTreeItem);
+//		computerTreeItem.setText("Computer");
+//
+//		gardenTreeItem = new TreeItem("New item");
+//		categoryTree.addItem(gardenTreeItem);
+//		gardenTreeItem.setText("Garten");
 	}
 
 	public static Panel getContenPanel() {
