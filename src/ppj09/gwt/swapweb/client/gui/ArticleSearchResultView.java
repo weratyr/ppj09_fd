@@ -45,8 +45,8 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 			{
 				absolutePanel = new AbsolutePanel();
 
-				SwapWeb.getContentPanel().add(absolutePanel);
-				SwapWeb.getContentPanel().doLayout();
+//				SwapWeb.getContentPanel().add(absolutePanel);
+//				SwapWeb.getContentPanel().doLayout();
 				absolutePanel.setSize("650", "90");
 				{
 					articleImage = new Image(null);

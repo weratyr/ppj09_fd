@@ -21,7 +21,6 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 	private DataBankerQueries db = new DataBankerQueries();
 
 	public ArrayList<SearchResult> search(ArticleSearchQuery articleSearch) {
-		
 		return db.getArticleSearchResult(articleSearch);
 	}
 	

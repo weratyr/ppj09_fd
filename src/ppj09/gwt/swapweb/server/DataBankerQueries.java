@@ -357,10 +357,8 @@ public class DataBankerQueries {
 	 */
 	public int updateUser(String userName, User updatedUser) {
 		int saved = 0;
-
 		String userID = updatedUser.getUsername();
 		String pwd = updatedUser.getPassword();
-
 		DataBankerConnection dbc = new DataBankerConnection();
 
 		try {
@@ -370,9 +368,7 @@ public class DataBankerQueries {
 			stmt.setString(1, userID);
 			stmt.setObject(2, (Object) updatedUser);
 			stmt.setString(3, userName);
-
 			stmt.executeUpdate();
-
 			dbc.close();
 			stmt.close();
 
@@ -381,24 +377,20 @@ public class DataBankerQueries {
 			e.printStackTrace();
 			return 0;
 		}
-
 		return saved;
 	}
 
+	
 	public ArrayList<SearchResult> getArticleSearchResult(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
-
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-
 		String query = "SELECT * FROM article ";
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);
 			while (resultSet.next()) {
-
 				articleList.add(new ArticleSearchResult(resultSet.getString("title"), getUsername(resultSet.getInt("userid")), resultSet.getString("image1"), resultSet.getInt("id") ) );
-
 			}
 
 		} catch (Exception e) {

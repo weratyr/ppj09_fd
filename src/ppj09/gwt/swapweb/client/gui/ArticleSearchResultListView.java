@@ -8,6 +8,7 @@
 package ppj09.gwt.swapweb.client.gui;
 
 import ppj09.gwt.swapweb.client.SwapWeb;
+import ppj09.gwt.swapweb.client.datatype.SearchResult;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -25,15 +26,14 @@ import com.gwtext.client.widgets.Panel;
  * @version 0.1, 08.06.09
  * 
  */
-public class ArticleSearchResultListView extends Composite implements
-		SearchResultView {
+public class ArticleSearchResultListView extends Composite implements SearchResultView {
 	private VerticalPanel verticalPanel;
 	private HorizontalPanel horizontalPanel;
 	private Label searchResultsForLabel;
 	private Label searchQueryLabel;
 	private Label searchResultsForLabel_2;
 
-	public ArticleSearchResultListView(Panel contentPanel) {
+	public ArticleSearchResultListView(SearchResult searchResult) {
 		{
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
@@ -57,8 +57,6 @@ public class ArticleSearchResultListView extends Composite implements
 			searchResultsForLabel_2 = new Label(" \"");
 			SwapWeb.getContentPanel().add(searchResultsForLabel_2);
 			searchResultsForLabel_2.setHeight("25");
-
-			contentPanel.add(verticalPanel);
 		}
 	}
 

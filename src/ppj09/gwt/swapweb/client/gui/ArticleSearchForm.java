@@ -57,36 +57,30 @@ public class ArticleSearchForm implements Form {
 		Label searchLabel = new Label("Suche: ");
 		TextField searchField = new TextField("", "phrase", 120);
 		searchPanel.add(searchLabel);
-		
 		searchPanel.add(searchField);
-
 
 		// Object[][] quickOptionsCategory = new Object[][] { new Object[] {
 		// "index", "nix drin" }, };
 		
-
 		Button quickSearchButton = new Button("Suchen",
 				new ButtonListenerAdapter() {
 					public void onClick(Button button, EventObject e) {
 
-						System.out.println("gedrücktkkkkkk");
 						/**
 						 * TODO erstellt aus den Formulardaten ein ArticleSearch
 						 * Objekt und übergibt es per RPC an
 						 * SearchHandler.search()
 						 */
-						SearchHandlerAsync searchHandler = GWT
-								.create(SearchHandler.class);
+						SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 						searchHandler.search(new ArticleSearchQuery(),
 								new AsyncCallback<ArrayList<SearchResult>>() {
 									public void onFailure(Throwable caught) {
-										System.out.println("neeee: ");
+										System.out.println("artikel liste geht nicht: ArticleSearchForm.java ");
 									}
-
 									public void onSuccess(ArrayList<SearchResult> results) {
 										SwapWeb.getContentPanel().clear();
 										for (SearchResult r : results) {
-											r.getView();
+											
 										}
 									}
 								});

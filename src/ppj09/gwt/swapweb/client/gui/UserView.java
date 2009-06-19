@@ -5,8 +5,14 @@ package ppj09.gwt.swapweb.client.gui;
  * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils 
  */
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.SwapWeb;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
@@ -19,11 +25,11 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.widgets.Panel;
 
 public class UserView extends Composite implements View {
 	private User user;
-
 	private Label usernameLabel1;
 	private Label usernameLabel2;
 	private HorizontalPanel horizontalPanel2;
@@ -533,12 +539,38 @@ public class UserView extends Composite implements View {
 		{
 			articlePanel = new Panel();
 			articlePanel.setPaddings(10);
+			articlePanel.setHeight(400);
 			articlePanel.setTitle("Meine Tauschartikel");
 			articlePanel.setCollapsible(true);
+			articlePanel.add(getArtikelListe());
 			verticalPanel.add(articlePanel);
 		}
 	}
-
+	private Panel getArtikelListe() {
+		final Panel retrunPanel = new Panel();
+		/**
+		 * TODO erstellt aus den Formulardaten ein ArticleSearch
+		 * Objekt und übergibt es per RPC an
+		 * SearchHandler.search()
+		 */
+		SearchHandlerAsync searchHandler = GWT
+				.create(SearchHandler.class);
+		searchHandler.search(new ArticleSearchQuery(),
+				new AsyncCallback<ArrayList<SearchResult>>() {
+					public void onFailure(Throwable caught) {
+						System.out.println("neeee: ");
+					}
+					public void onSuccess(ArrayList<SearchResult> results) {
+						for (SearchResult r : results) {
+						 retrunPanel.add((Widget) r.getView() );
+						}
+						SwapWeb.getContentPanel().clear();
+					}
+				});
+		return retrunPanel;
+	}
+	
+	
 	private void getuser(String username) {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
