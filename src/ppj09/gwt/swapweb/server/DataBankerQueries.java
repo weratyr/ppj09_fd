@@ -129,60 +129,62 @@ public class DataBankerQueries {
 	// }
 
 	public int createArticle(Article newArticle, int user) {
-		int saved = 0;
+		  int saved = 0;
 
-		String title = newArticle.getTitle();
-		String zipcode = newArticle.getZipCode();
-		String city = newArticle.getLocation();
-		String articlecondition = newArticle.getCondition();
-		String shipping = newArticle.getShippingMethods();
-		String amount = newArticle.getOfferScope();
-		String swaps = newArticle.getDesiredItemsComment();
-		String description = newArticle.getDescription();
+		  String title = newArticle.getTitle();
+		  String category = newArticle.getCategory();
+		  String zipcode = newArticle.getZipCode();
+		  String city = newArticle.getLocation();
+		  String articlecondition = newArticle.getCondition();
+		  String shipping = newArticle.getShippingMethods();
+		  String amount = newArticle.getOfferScope();
+		  String swaps = newArticle.getDesiredItemsComment();
+		  String description = newArticle.getDescription();
 
-		// Test output
-		System.out.println(title);
-		System.out.println(zipcode);
-		System.out.println(city);
-		System.out.println(articlecondition);
-		System.out.println(shipping);
-		System.out.println(amount);
-		System.out.println(swaps);
-		System.out.println(description);
+		  // Test output
+		  System.out.println(title);
+		  System.out.println(zipcode);
+		  System.out.println(city);
+		  System.out.println(articlecondition);
+		  System.out.println(shipping);
+		  System.out.println(amount);
+		  System.out.println(swaps);
+		  System.out.println(description);
 
-		DataBankerConnection dbc = new DataBankerConnection();
+		  DataBankerConnection dbc = new DataBankerConnection();
 
-		if (user != 0) { // User ist eingeloggt
-			try {
-				PreparedStatement stmt = dbc
-						.getConnection()
-						.prepareStatement(
-								"INSERT INTO article(userid, title, zipcode, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?)");
-				stmt.setString(1, Integer.toString(user));
-				stmt.setString(2, title);
-				stmt.setString(3, zipcode);
-				stmt.setString(4, city);
-				stmt.setString(5, articlecondition);
-				stmt.setString(6, shipping);
-				stmt.setString(7, amount);
-				stmt.setString(8, swaps);
-				stmt.setString(9, description);
-				System.out.println(stmt.toString());
+		  if (user != 0) { // User ist eingeloggt
+		   try {
+		    PreparedStatement stmt = dbc
+		      .getConnection()
+		      .prepareStatement(
+		        "INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?,?)");
+		    stmt.setString(1, Integer.toString(user));
+		    stmt.setString(2, title);
+		    stmt.setString(3, zipcode);
+		    stmt.setString(4, category);
+		    stmt.setString(5, city);
+		    stmt.setString(6, articlecondition);
+		    stmt.setString(7, shipping);
+		    stmt.setString(8, amount);
+		    stmt.setString(9, swaps);
+		    stmt.setString(10, description);
+		    System.out.println(stmt.toString());
 
-				stmt.executeUpdate();
+		    stmt.executeUpdate();
 
-				dbc.close();
-				stmt.close();
-				System.out.println("done!");
-				saved = 1;
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("net done!");
-				return 0;
-			}
-		}
-		return saved;
-	}
+		    dbc.close();
+		    stmt.close();
+		    System.out.println("done!");
+		    saved = 1;
+		   } catch (SQLException e) {
+		    e.printStackTrace();
+		    System.out.println("net done!");
+		    return 0;
+		   }
+		  }
+		  return saved;
+		 }
 
 	public boolean checkUsername(String UserId) {
 		ResultSet rs = null;
