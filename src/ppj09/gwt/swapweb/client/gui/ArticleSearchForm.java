@@ -23,15 +23,20 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
+import com.gwtext.client.widgets.form.event.CheckboxListenerAdapter;
 
 /**
  * Formularfelder und Submit der Artikelsuche. Implementiert das Interface Form.
@@ -41,13 +46,14 @@ import com.gwtext.client.widgets.form.TextField;
  * @version 0.1, 03.06.09
  */
 public class ArticleSearchForm implements Form {
+	private Panel maskPanel;
 	private HorizontalPanel searchPanel;
-	private final FormPanel containerFormPanel;
+	private final Panel containerFormPanel;
 	
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
-		containerFormPanel.setLabelAlign(Position.TOP);
+		containerFormPanel.setId("mask-panel"); 
 		searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(6);
 		getCategories();
@@ -93,14 +99,15 @@ public class ArticleSearchForm implements Form {
 			    Button quickSearchButton = new Button("Suchen",
 						new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
-								/**
-								 * TODO erstellt aus den Formulardaten ein ArticleSearch
-								 * Objekt und übergibt es per RPC an
-								 * SearchHandler.search()
-								 */
-								SearchHandlerAsync searchHandler = GWT
+								ArticleSearchQuery sq = new ArticleSearchQuery();
+								sq.setSearchPhrase("");
+				                 
+								final ExtElement element = Ext.get("mask-panel");  
+				                element.mask("sucht...");  
+								
+				                SearchHandlerAsync searchHandler = GWT
 										.create(SearchHandler.class);
-								searchHandler.search(new ArticleSearchQuery(),
+								searchHandler.search(sq,
 										new AsyncCallback<ArrayList<SearchResult>>() {
 											public void onFailure(Throwable caught) {
 												System.out.println("neeee: ");
@@ -108,6 +115,8 @@ public class ArticleSearchForm implements Form {
 
 											public void onSuccess(ArrayList<SearchResult> results) {
 												SwapWeb.getContentPanel().clear();
+												final ExtElement element = Ext.get("mask-panel");  
+								                element.unmask();
 												for (SearchResult r : results) {
 													r.getView();
 												}
@@ -116,13 +125,16 @@ public class ArticleSearchForm implements Form {
 							}
 
 						});
+			    
 				quickSearchButton.setIconCls("icon-search");
 				searchPanel.add(quickSearchButton);
-				
 			    }
 			
 		});
 	}
+	
+
+	
 
 	/**
 	 * Schickt die validierten Formulardaten an den Article-Search Modul, und

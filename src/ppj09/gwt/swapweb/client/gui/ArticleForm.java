@@ -2,7 +2,7 @@ package ppj09.gwt.swapweb.client.gui;
 
 /**
  * Autor Georg Ortwein & Michael Lukaszczyk
- * Klasse User- Form ist zum Aendern bzw. bearbeiten eines Profils 
+ * Klasse User- Form ist zum Aendern bzw. bearbeiten eines Profils
  */
 
 import ppj09.gwt.swapweb.client.datatype.Article;
@@ -279,12 +279,12 @@ public class ArticleForm extends Composite implements Form {
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 		articleManager.createArticle(newArticle, new AsyncCallback<Integer>() {
 			public void onFailure(Throwable caught) {
-				// 
+				//
 				System.out.println("neeee: " + caught.getMessage());
 			}
 
 			public void onSuccess(Integer serverMsg) {
-				// 
+				//
 				System.out.println("OK: " + serverMsg.toString());
 				formPanel.getForm().reset();
 				window.show(submitButton.getId());
