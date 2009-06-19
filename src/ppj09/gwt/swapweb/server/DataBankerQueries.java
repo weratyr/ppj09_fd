@@ -104,27 +104,27 @@ public class DataBankerQueries {
 	// public int getUserId(String user) {
 	// ResultSet rs = null;
 	// int id = 0;
-	//		
+	//    
 	// DataBankerConnection dbc = new DataBankerConnection();
 	// Statement stmt = dbc.getStatement();
 	// String query = "SELECT id FROM user WHERE userid='"+user+"'";
 	// try {
 	// rs = stmt.executeQuery(query);
-	//	    	
+	//     
 	// while (rs.next()) {
 	// id = rs.getInt(1);
 	// }
-	//	    	
+	//     
 	// rs.close();
 	// dbc.close();
 	// stmt.close();
 	// dbc.closeStatement();
-	//	    	
+	//     
 	// } catch (SQLException e) {
 	// return id;
 	// //e.printStackTrace();
 	// }
-	//	    
+	//  
 	// return id;
 	// }
 
@@ -380,24 +380,27 @@ public class DataBankerQueries {
 		return saved;
 	}
 
-	
 	public ArrayList<SearchResult> getArticleSearchResult(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
 		String query;
-		if(sq.getUserName()!=null) {
+		if (sq.getUserName() != null) {
 			int userid = getUserId(sq.getUserName());
 			query = "SELECT * FROM article WHERE userid ='6'";
 		} else {
-			query = "SELECT * FROM article WHERE title ='"+sq.getSearchPhrase()+"'";
+			query = "SELECT * FROM article WHERE title ='"
+					+ sq.getSearchPhrase() + "'";
 		}
-		
+
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);
 			while (resultSet.next()) {
-				articleList.add(new ArticleSearchResult(resultSet.getString("title"), getUsername(resultSet.getInt("userid")), resultSet.getString("image1"), resultSet.getInt("id") ) );
+				articleList.add(new ArticleSearchResult(resultSet
+						.getString("title"), getUsername(resultSet
+						.getInt("userid")), resultSet.getString("image1"),
+						resultSet.getInt("id")));
 			}
 
 		} catch (Exception e) {
@@ -406,7 +409,7 @@ public class DataBankerQueries {
 		}
 		return articleList;
 	}
-	
+
 	/*
 	 * liefert nur die Artikel eines Users
 	 */
@@ -414,12 +417,15 @@ public class DataBankerQueries {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		String query = "SELECT * FROM article WHERE userid ='"+sq+"'";
+		String query = "SELECT * FROM article WHERE userid ='" + sq + "'";
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);
 			while (resultSet.next()) {
-				articleList.add(new ArticleSearchResult(resultSet.getString("title"), getUsername(resultSet.getInt("userid")), resultSet.getString("image1"), resultSet.getInt("id") ) );
+				articleList.add(new ArticleSearchResult(resultSet
+						.getString("title"), getUsername(resultSet
+						.getInt("userid")), resultSet.getString("image1"),
+						resultSet.getInt("id")));
 			}
 
 		} catch (Exception e) {

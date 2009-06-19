@@ -68,9 +68,10 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * Hauptfenster
 		 */
-		
-		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
-		
+
+		CSS.swapStyleSheet("theme",
+				"swapweb/js/ext/resources/css/xtheme-slate.css");
+
 		mainPanel = new Panel();
 		mainPanel.setBorder(false);
 		mainPanel.setLayout(new FitLayout());
@@ -201,31 +202,44 @@ public class SwapWeb implements EntryPoint {
 
 			public void onSuccess(ArrayList<String> results) {
 				ArrayList<Hyperlink> categoryList = new ArrayList<Hyperlink>();
-				for (int i = 0;i<results.size();i++){
-					final Hyperlink categoryLink = new Hyperlink(results.get(i),null);
+				for (int i = 0; i < results.size(); i++) {
+					final Hyperlink categoryLink = new Hyperlink(
+							results.get(i), null);
 					categoryLink.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 							// Setzt Links auf die Kategorien
 							ArticleSearchQuery sq = new ArticleSearchQuery();
-							sq.setSearchPhrase("WHERE category = '"+categoryLink.getText()+"'");
-							
-							final ExtElement element = Ext.get("navi-panel");  
-			                element.mask("Lädt");  
-							
-							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-							searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
-								public void onFailure(Throwable caught) {
-									System.out.println("Fehler:" + caught.getMessage());
-								}
-								public void onSuccess(ArrayList<SearchResult> results) {
-									contentPanel.clear();
-									final ExtElement element = Ext.get("navi-panel");  
-					                element.unmask();  
-									for (SearchResult r : results) {
-										r.getView();
-									}
-								}
-							});
+							sq.setSearchPhrase("WHERE category = '"
+									+ categoryLink.getText() + "'");
+
+							final ExtElement element = Ext.get("navi-panel");
+							element.mask("Lädt");
+
+							SearchHandlerAsync searchHandler = GWT
+									.create(SearchHandler.class);
+							searchHandler
+									.search(
+											sq,
+											new AsyncCallback<ArrayList<SearchResult>>() {
+												public void onFailure(
+														Throwable caught) {
+													System.out
+															.println("Fehler:"
+																	+ caught
+																			.getMessage());
+												}
+
+												public void onSuccess(
+														ArrayList<SearchResult> results) {
+													contentPanel.clear();
+													final ExtElement element = Ext
+															.get("navi-panel");
+													element.unmask();
+													for (SearchResult r : results) {
+														r.getView();
+													}
+												}
+											});
 						}
 					});
 					categoryList.add(categoryLink);

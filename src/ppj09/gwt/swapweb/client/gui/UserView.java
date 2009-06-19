@@ -2,12 +2,11 @@ package ppj09.gwt.swapweb.client.gui;
 
 /**
  * Autor Georg Ortwein
- * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils 
+ * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils
  */
 
 import java.util.ArrayList;
 
-import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -25,9 +24,6 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.gwtext.client.core.Ext;
-import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.widgets.Panel;
 
 public class UserView extends Composite implements View {

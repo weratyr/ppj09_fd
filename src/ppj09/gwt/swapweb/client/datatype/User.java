@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Image;
  * @version 0.1, 04.05.09
  */
 public class User implements Serializable {
-
+	
 	private String firstName;
 	private String lastName;
 	private String street;
@@ -427,4 +427,6 @@ public class User implements Serializable {
 	public String getImage() {
 		return image;
 	}
+
+
 }
