@@ -25,18 +25,15 @@ import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Ext;
 import com.gwtext.client.core.ExtElement;
-import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
-import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
-import com.gwtext.client.widgets.form.event.CheckboxListenerAdapter;
 
 /**
  * Formularfelder und Submit der Artikelsuche. Implementiert das Interface Form.
@@ -55,7 +52,7 @@ public class ArticleSearchForm implements Form {
 		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setId("mask-panel"); 
 		searchPanel = new HorizontalPanel();
-		searchPanel.setSpacing(6);
+		searchPanel.setSpacing(8);
 		getCategories();
 		Label searchLabel = new Label("Suche: ");
 		TextField searchField = new TextField("", "phrase", 120);

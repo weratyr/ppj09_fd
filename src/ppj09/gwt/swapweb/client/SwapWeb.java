@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.util.CSS;
 import com.gwtext.client.widgets.Panel;
@@ -121,6 +123,7 @@ public class SwapWeb implements EntryPoint {
 	private Panel getNavigationPanel() {
 		navigationsContentPanel = new Panel();
 		navigationsContentPanel.setBorder(false);
+		navigationsContentPanel.setId("navi-panel");
 
 		// Mein SwapWeb
 		meinSwapWeb = new DisclosurePanel("Mein SwapWeb", false);
@@ -206,6 +209,9 @@ public class SwapWeb implements EntryPoint {
 							ArticleSearchQuery sq = new ArticleSearchQuery();
 							sq.setSearchPhrase("WHERE category = '"+categoryLink.getText()+"'");
 							
+							final ExtElement element = Ext.get("navi-panel");  
+			                element.mask("Lädt");  
+							
 							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 							searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
 								public void onFailure(Throwable caught) {
@@ -213,6 +219,8 @@ public class SwapWeb implements EntryPoint {
 								}
 								public void onSuccess(ArrayList<SearchResult> results) {
 									contentPanel.clear();
+									final ExtElement element = Ext.get("navi-panel");  
+					                element.unmask();  
 									for (SearchResult r : results) {
 										r.getView();
 									}
