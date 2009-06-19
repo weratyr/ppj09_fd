@@ -1,6 +1,8 @@
 package ppj09.gwt.swapweb.server;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,7 +19,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class ImageUploadHandler extends HttpServlet {
    
-   
+   final static String UPLOADDIR = "uploads/";
+	
    public void doPost(HttpServletRequest req, HttpServletResponse resp)
            throws ServletException, IOException {
        
@@ -29,9 +32,30 @@ public class ImageUploadHandler extends HttpServlet {
            return;
        }
        
-       resp.getWriter().write(new String(uploadItem.get()));
+       String filename = uploadItem.getName();
        
+       int indexPoint = filename.lastIndexOf(".");
+       int length = filename.length();
        
+       String extension = filename.substring(indexPoint, length);
+       
+       GregorianCalendar cal = new GregorianCalendar(); 
+       
+       String newFileName = cal.getTimeInMillis()+extension;
+       
+       System.out.println("FILENAME: " + newFileName);
+       
+       File f = new File(UPLOADDIR + newFileName);
+       
+       try {
+		  uploadItem.write(f);
+       } catch (Exception e) {
+		// TODO Auto-generated catch block
+		  e.printStackTrace();
+       }
+       
+       //resp.getWriter().write(new String(uploadItem.get()));
+       resp.getWriter().write(new String("Ihr Bild wurde erfolgreich gespeichert"));
    }
 
    private FileItem getFileItem(HttpServletRequest req) {

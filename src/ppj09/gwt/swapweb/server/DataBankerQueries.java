@@ -101,33 +101,6 @@ public class DataBankerQueries {
 		return saved;
 	}
 
-	// public int getUserId(String user) {
-	// ResultSet rs = null;
-	// int id = 0;
-	//    
-	// DataBankerConnection dbc = new DataBankerConnection();
-	// Statement stmt = dbc.getStatement();
-	// String query = "SELECT id FROM user WHERE userid='"+user+"'";
-	// try {
-	// rs = stmt.executeQuery(query);
-	//     
-	// while (rs.next()) {
-	// id = rs.getInt(1);
-	// }
-	//     
-	// rs.close();
-	// dbc.close();
-	// stmt.close();
-	// dbc.closeStatement();
-	//     
-	// } catch (SQLException e) {
-	// return id;
-	// //e.printStackTrace();
-	// }
-	//  
-	// return id;
-	// }
-
 	public int createArticle(Article newArticle, int user) {
 		int saved = 0;
 
