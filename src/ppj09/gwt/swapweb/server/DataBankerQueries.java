@@ -185,9 +185,9 @@ public class DataBankerQueries {
   }
   return saved;
  }
-
+ 
  public boolean checkUsername(String UserId) {
-  ResultSet rs = null;
+ ResultSet rs = null;
   boolean exist = false;
 
   DataBankerConnection dbc = new DataBankerConnection();
@@ -211,6 +211,7 @@ public class DataBankerQueries {
   }
   return exist;
  }
+ 
 
  /*
   * Vergleicht das angegebene Passwort mit dem aus dem Userprofil return 1
