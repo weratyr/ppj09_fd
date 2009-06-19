@@ -37,14 +37,16 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 
 	public ArticleSearchResultView(final SearchResult searchResult) {
 		{
+			
 			this.searchResult = (ArticleSearchResult) searchResult;
-
+			
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
+		
 			verticalPanel.setSize("650", "90");
 			{
 				absolutePanel = new AbsolutePanel();
-
+				
 //				SwapWeb.getContentPanel().add(absolutePanel);
 //				SwapWeb.getContentPanel().doLayout();
 				absolutePanel.setSize("650", "90");
@@ -93,9 +95,13 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 					absolutePanel.add(shippingLabel_1, 180, 60);
 					shippingLabel_1.setWidth("300");
 				}
+				verticalPanel.add(absolutePanel);
+				
 			}
 		}
 	}
+	
+	
 
 	/**
 	 * @return the articlenameHyperlink text

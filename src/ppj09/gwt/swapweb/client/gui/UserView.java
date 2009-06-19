@@ -542,7 +542,7 @@ public class UserView extends Composite implements View {
 			articlePanel.setHeight(400);
 			articlePanel.setTitle("Meine Tauschartikel");
 			articlePanel.setCollapsible(true);
-			articlePanel.add(getArtikelListe());
+			//articlePanel.add(getArtikelListe());
 			verticalPanel.add(articlePanel);
 		}
 	}

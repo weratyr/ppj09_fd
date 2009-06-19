@@ -37,8 +37,8 @@ public class ArticleSearchResultListView extends Composite implements SearchResu
 		{
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
-			verticalPanel.setWidth("650");
-
+			
+			verticalPanel.setWidth("650");			
 			horizontalPanel = new HorizontalPanel();
 			verticalPanel.add(horizontalPanel);
 			horizontalPanel

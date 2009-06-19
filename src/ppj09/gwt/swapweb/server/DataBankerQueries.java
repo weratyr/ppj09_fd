@@ -385,8 +385,7 @@ public class DataBankerQueries {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		String query = "SELECT * FROM article "+sq.getSearchPhrase();
-
+		String query = "SELECT * FROM article WHERE title ='"+sq.getSearchPhrase()+"'";
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);
