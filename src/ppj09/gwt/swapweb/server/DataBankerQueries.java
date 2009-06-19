@@ -316,32 +316,35 @@ public class DataBankerQueries {
 		try {
 			rs = stmt.executeQuery(query);
 
-			while (rs.next()) { // Sollte nur eine Iteration durchlaufen
-				user.setUsername(rs.getString("username"));
-				user.setPassword(rs.getString("pwd"));
-				user.setFirstName(rs.getString("firstName"));
-				user.setLastName(rs.getString("lastName"));
-				user.setStreet(rs.getString("street"));
-				user.setHouseNumber(rs.getString("houseNumber"));
-				user.setZip(rs.getString("zipCode"));
-				user.setCity(rs.getString("city"));
-				user.setEmail(rs.getString("email"));
-				user.setGender(rs.getString("gender"));
-				user.setBirthdate(rs.getDate("birthdate"));
-				user.setJob(rs.getString("job"));
-				user.setHobbys(rs.getString("hobbies"));
-				user.setMusic(rs.getString("music"));
-				user.setMovie(rs.getString("movies"));
-				user.setILike(rs.getString("iLike"));
-				user.setIDontLike(rs.getString("iDontLike"));
-				user.setAboutMe(rs.getString("aboutMe"));
-				user.setIcq(rs.getString("icq"));
-				user.setYahoo(rs.getString("yahoo"));
-				user.setAim(rs.getString("aim"));
-				user.setJabber(rs.getString("jabber"));
-				user.setMsn(rs.getString("msn"));
-				user.setHomepage(rs.getString("homepage"));
+			if (rs.wasNull()) {
+				System.out.println("rs ist null getUserProfil");
 			}
+			rs.next();// Sollte nur eine Iteration durchlaufen
+			System.out.println(rs.getString("username") + " username");
+			user.setUsername(rs.getString("username"));
+			user.setPassword(rs.getString("pwd"));
+			user.setFirstName(rs.getString("firstName"));
+			user.setLastName(rs.getString("lastName"));
+			user.setStreet(rs.getString("street"));
+			user.setHouseNumber(rs.getString("houseNumber"));
+			user.setZip(rs.getString("zipCode"));
+			user.setCity(rs.getString("city"));
+			user.setEmail(rs.getString("email"));
+			user.setGender(rs.getString("gender"));
+			user.setBirthdate(rs.getDate("birthdate"));
+			user.setJob(rs.getString("job"));
+			user.setHobbys(rs.getString("hobbies"));
+			user.setMusic(rs.getString("music"));
+			user.setMovie(rs.getString("movies"));
+			user.setILike(rs.getString("iLike"));
+			user.setIDontLike(rs.getString("iDontLike"));
+			user.setAboutMe(rs.getString("aboutMe"));
+			user.setIcq(rs.getString("icq"));
+			user.setYahoo(rs.getString("yahoo"));
+			user.setAim(rs.getString("aim"));
+			user.setJabber(rs.getString("jabber"));
+			user.setMsn(rs.getString("msn"));
+			user.setHomepage(rs.getString("homepage"));
 
 			rs.close();
 			dbc.close();
@@ -349,6 +352,7 @@ public class DataBankerQueries {
 			dbc.closeStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Fehler databankerQueries: getUserProfil()");
 			return null;
 		}
 		return user;
@@ -389,12 +393,14 @@ public class DataBankerQueries {
 		String query = null;
 		if (sq.getUserName() != null) {
 			int userid = getUserId(sq.getUserName());
-			query = "SELECT * FROM article WHERE userid ='"+userid+"'";
+			query = "SELECT * FROM article WHERE userid ='" + userid + "'";
 		} else if (sq.getCategoryPhrase() != null) {
-	           query = "SELECT * FROM article WHERE category ='" + sq.getCategoryPhrase() + "'";
-	    } else {
-	    	query = "SELECT * FROM article WHERE title ='"+ sq.getSearchPhrase() + "'";
-	    }
+			query = "SELECT * FROM article WHERE category ='"
+					+ sq.getCategoryPhrase() + "'";
+		} else {
+			query = "SELECT * FROM article WHERE title ='"
+					+ sq.getSearchPhrase() + "'";
+		}
 
 		ResultSet resultSet = null;
 		try {
