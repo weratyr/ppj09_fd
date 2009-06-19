@@ -22,13 +22,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.EventObject;
-import com.gwtext.client.core.Position;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.ComboBox;
@@ -43,16 +43,16 @@ import com.gwtext.client.widgets.form.TextField;
  * @version 0.1, 03.06.09
  */
 public class ArticleSearchForm implements Form {
-	private VerticalPanel searchResultPanel;
+	private Panel maskPanel;
 	private HorizontalPanel searchPanel;
-	private final FormPanel containerFormPanel;
+	private final Panel containerFormPanel;
 	
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
-		containerFormPanel.setLabelAlign(Position.TOP);
+		containerFormPanel.setId("mask-panel"); 
 		searchPanel = new HorizontalPanel();
-		searchPanel.setSpacing(6);
+		searchPanel.setSpacing(8);
 		getCategories();
 		Label searchLabel = new Label("Suche: ");
 		TextField searchField = new TextField("", "phrase", 120);
@@ -102,6 +102,7 @@ public class ArticleSearchForm implements Form {
 		 * advancedSearchHyperlink.setText("Erweiterte Suche");
 		 */
 		searchPanel.add(quickSearchButton);
+
 		containerFormPanel.add(searchPanel);
 
 		outerTabPanel.add(containerFormPanel);
@@ -114,7 +115,7 @@ public class ArticleSearchForm implements Form {
 		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
 
 			public void onFailure(Throwable caught) {
-				System.out.println("neeeekldfj: " + caught.getMessage());
+				System.out.println("Fehler: " + caught.getMessage());
 			}
 
 			public void onSuccess(ArrayList<String> results) {
@@ -135,11 +136,47 @@ public class ArticleSearchForm implements Form {
 			    quickArticleCategoryCB.setReadOnly(true);
 			    quickArticleCategoryCB.setWidth(120);
 			    quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-//			    test
 			    searchPanel.add(quickArticleCategoryCB);
+			    
+			    Button quickSearchButton = new Button("Suchen",
+						new ButtonListenerAdapter() {
+							public void onClick(Button button, EventObject e) {
+								ArticleSearchQuery sq = new ArticleSearchQuery();
+								sq.setSearchPhrase("");
+				                 
+								final ExtElement element = Ext.get("mask-panel");  
+				                element.mask("sucht...");  
+								
+				                SearchHandlerAsync searchHandler = GWT
+										.create(SearchHandler.class);
+								searchHandler.search(sq,
+										new AsyncCallback<ArrayList<SearchResult>>() {
+											public void onFailure(Throwable caught) {
+												System.out.println("neeee: ");
+											}
+
+											public void onSuccess(ArrayList<SearchResult> results) {
+												SwapWeb.getContentPanel().clear();
+												final ExtElement element = Ext.get("mask-panel");  
+								                element.unmask();
+												for (SearchResult r : results) {
+													r.getView();
+												}
+											}
+										});
+							}
+
+						});
+			    
+				quickSearchButton.setIconCls("icon-search");
+				searchPanel.add(quickSearchButton);
 			    }
+			
 		});
 	}
+	
+
+	
 
 	/**
 	 * Schickt die validierten Formulardaten an den Article-Search Modul, und
