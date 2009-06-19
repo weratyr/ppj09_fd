@@ -17,9 +17,22 @@ package ppj09.gwt.swapweb.client.datatype;
 public class ArticleSearchQuery extends Article implements SearchQuery {
 	// primitive Suche
 	private String searchPhrase;
+	private String UserName;
 
 	// erweiterte Suche
 	private boolean picturesOnly;
+	
+	public ArticleSearchQuery() {
+		
+	}
+
+	public String getUserName() {
+		return UserName;
+	}
+
+	public void setUserName(String userName) {
+		UserName = userName;
+	}
 
 	public String getSearchPhrase() {
 		return searchPhrase;
@@ -36,6 +49,7 @@ public class ArticleSearchQuery extends Article implements SearchQuery {
 	public void setPicturesOnly(boolean picturesOnly) {
 		this.picturesOnly = picturesOnly;
 	}
+	
 	
 	/* Auf diese Weise würden die Parameter in eine universelle Form gebracht
 	 * werden, die vom Databanker unabhängig vom Inhalt verarbeitet werden kann.

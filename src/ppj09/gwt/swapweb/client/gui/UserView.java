@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.widgets.Panel;
 
 public class UserView extends Composite implements View {
@@ -127,13 +129,14 @@ public class UserView extends Composite implements View {
 	public UserView() {
 		user = new User();
 		createForm();
-		getuser();
+		getUser();
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 	}
+
 	public UserView(String username) {
 		user = new User();
 		createForm();
-		getuser(username);
+		getUser(username);
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 
 	}
@@ -542,42 +545,44 @@ public class UserView extends Composite implements View {
 			articlePanel.setHeight(400);
 			articlePanel.setTitle("Meine Tauschartikel");
 			articlePanel.setCollapsible(true);
-			//articlePanel.add(getArtikelListe());
+			articlePanel.add(getArtikelListe());
 			verticalPanel.add(articlePanel);
 		}
 	}
-	private Panel getArtikelListe() {
-		final Panel retrunPanel = new Panel();
+
+	private VerticalPanel getArtikelListe() {
+		final VerticalPanel userArticleList = new VerticalPanel();
+
 		/**
-		 * TODO erstellt aus den Formulardaten ein ArticleSearch
-		 * Objekt und übergibt es per RPC an
-		 * SearchHandler.search()
+		 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt und
+		 * übergibt es per RPC an SearchHandler.search()
 		 */
-		SearchHandlerAsync searchHandler = GWT
-				.create(SearchHandler.class);
-		searchHandler.search(new ArticleSearchQuery(),
-				new AsyncCallback<ArrayList<SearchResult>>() {
-					public void onFailure(Throwable caught) {
-						System.out.println("neeee: ");
-					}
-					public void onSuccess(ArrayList<SearchResult> results) {
-						for (SearchResult r : results) {
-						 retrunPanel.add((Widget) r.getView() );
-						}
-						SwapWeb.getContentPanel().clear();
-					}
-				});
-		return retrunPanel;
+		ArticleSearchQuery sq = new ArticleSearchQuery();
+		sq.setUserName("Theonlybender");
+		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+
+		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
+			public void onFailure(Throwable caught) {
+				System.out
+						.println("RPC UserView: fehler im user article liste");
+			}
+
+			public void onSuccess(ArrayList<SearchResult> results) {
+				for (SearchResult r : results) {
+					userArticleList.add((ArticleSearchResultView) r.getView());
+				}
+			}
+		});
+		return userArticleList;
 	}
-	
-	
-	private void getuser(String username) {
+
+	private void getUser(String username) {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.getUser(username, new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("fehler");
+				System.out.println("fehler: userView getUser(String username)");
 
 			}
 
@@ -588,13 +593,14 @@ public class UserView extends Composite implements View {
 			}
 		});
 	}
-	private void getuser() {
+
+	private void getUser() {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("fehler");
+				System.out.println("fehler: userView getUser()");
 
 			}
 
@@ -754,7 +760,6 @@ public class UserView extends Composite implements View {
 		}
 
 	}
-
 
 	public void setFirstName(String firstName) {
 		this.lblFirstName2.setText(firstName);
