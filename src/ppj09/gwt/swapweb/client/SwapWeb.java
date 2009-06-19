@@ -1,5 +1,7 @@
 package ppj09.gwt.swapweb.client;
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
@@ -9,10 +11,14 @@ import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
+import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
+import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
@@ -34,8 +40,8 @@ public class SwapWeb implements EntryPoint {
 	 * internen oder einen externen Fehler hat.
 	 */
 	private static final String SERVER_ERROR = "An error occurred while "
-		+ "attempting to contact the server. Please check your network "
-		+ "connection and try again.";
+			+ "attempting to contact the server. Please check your network "
+			+ "connection and try again.";
 
 	private Panel mainPanel;
 	private Panel outerPanel;
@@ -87,13 +93,14 @@ public class SwapWeb implements EntryPoint {
 		 */
 		image = new Image("http://www.renegade-station.de/swhead.jpg");
 		tabPanel = getUpperTabPanel();
-		
+
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.setBorder(false);
 		northOuterPanel.add(image);
 		northOuterPanel.add(tabPanel);
-		
-		outerPanel.add(northOuterPanel, new BorderLayoutData(RegionPosition.NORTH));
+
+		outerPanel.add(northOuterPanel, new BorderLayoutData(
+				RegionPosition.NORTH));
 
 		MultiFieldPanel southContainer = new MultiFieldPanel();
 		southContainer.setBorder(false);
@@ -110,7 +117,7 @@ public class SwapWeb implements EntryPoint {
 		Panel navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
 		navigationPanel.add(getNavigationPanel());
-		
+
 		// WEST
 		southContainer.addToRow(navigationPanel, 185);
 		southContainer.add(contentPanel);
@@ -131,11 +138,11 @@ public class SwapWeb implements EntryPoint {
 
 		// Kategoriebaum
 		kategorien = new DisclosurePanel("Kategorien", false);
-		//kategorien.setContent();
+		kategorien.setContent(getCategories());
 
 		navigationsContentPanel.add(meinSwapWeb);
 		navigationsContentPanel.add(kategorien);
-		
+
 		return navigationsContentPanel;
 	}
 
@@ -186,6 +193,28 @@ public class SwapWeb implements EntryPoint {
 		verticalPanel.add(myRatingsHyperlink);
 		verticalPanel.add(myMessagesHyperlink);
 
+		return verticalPanel;
+	}
+
+	private VerticalPanel getCategories() {
+		final VerticalPanel verticalPanel = new VerticalPanel();
+
+		// Erstellt die Kategorie Liste aus der Datenbank.
+		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
+		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
+			public void onFailure(Throwable caught) {
+				System.out.println("Fehler: " + caught.getMessage());
+			}
+
+			public void onSuccess(ArrayList<String> results) {
+				ArrayList<Hyperlink> categoryList = new ArrayList<Hyperlink>();
+				for (int i = 0;i<results.size();i++){
+					categoryList.add(new Hyperlink(results.get(i),null));
+					verticalPanel.add(categoryList.get(i));
+				}
+			}
+
+		});
 		return verticalPanel;
 	}
 
