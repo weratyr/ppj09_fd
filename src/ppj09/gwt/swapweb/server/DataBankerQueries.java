@@ -386,14 +386,15 @@ public class DataBankerQueries {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		String query;
+		String query = null;
 		if (sq.getUserName() != null) {
 			int userid = getUserId(sq.getUserName());
 			query = "SELECT * FROM article WHERE userid ='"+userid+"'";
-		} else {
-			query = "SELECT * FROM article WHERE title ='"
-					+ sq.getSearchPhrase() + "'";
-		}
+		} else if (sq.getCategoryPhrase() != null) {
+	           query = "SELECT * FROM article WHERE category ='" + sq.getCategoryPhrase() + "'";
+	    } else {
+	    	query = "SELECT * FROM article WHERE title ='"+ sq.getSearchPhrase() + "'";
+	    }
 
 		ResultSet resultSet = null;
 		try {

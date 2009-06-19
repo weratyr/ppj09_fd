@@ -209,18 +209,13 @@ public class SwapWeb implements EntryPoint {
 						public void onClick(ClickEvent event) {
 							// Setzt Links auf die Kategorien
 							ArticleSearchQuery sq = new ArticleSearchQuery();
-							sq.setSearchPhrase("WHERE category = '"
-									+ categoryLink.getText() + "'");
-
+							sq.setCategoryPhrase(categoryLink.toString());
+							
 							final ExtElement element = Ext.get("navi-panel");
 							element.mask("Lädt");
 
-							SearchHandlerAsync searchHandler = GWT
-									.create(SearchHandler.class);
-							searchHandler
-									.search(
-											sq,
-											new AsyncCallback<ArrayList<SearchResult>>() {
+							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+							searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
 												public void onFailure(
 														Throwable caught) {
 													System.out
