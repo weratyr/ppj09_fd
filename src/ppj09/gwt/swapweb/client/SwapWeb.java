@@ -7,6 +7,7 @@ import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
+import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
@@ -200,7 +201,7 @@ public class SwapWeb implements EntryPoint {
 				System.out.println("Fehler: " + caught.getMessage());
 			}
 
-			public void onSuccess(ArrayList<String> results) {
+			public void onSuccess(final ArrayList<String> results) {
 				ArrayList<Hyperlink> categoryList = new ArrayList<Hyperlink>();
 				for (int i = 0; i < results.size(); i++) {
 					final Hyperlink categoryLink = new Hyperlink(
@@ -209,38 +210,54 @@ public class SwapWeb implements EntryPoint {
 						public void onClick(ClickEvent event) {
 							// Setzt Links auf die Kategorien
 							ArticleSearchQuery sq = new ArticleSearchQuery();
-							sq.setCategoryPhrase(categoryLink.toString());
-							
+							sq.setCategoryPhrase(categoryLink.getText());
+						
 							final ExtElement element = Ext.get("navi-panel");
 							element.mask("Lädt");
 
-							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-							searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
+							SearchHandlerAsync searchHandler = GWT
+									.create(SearchHandler.class);
+							searchHandler
+									.search(
+											sq,
+											new AsyncCallback<ArrayList<SearchResult>>() {
 												public void onFailure(
 														Throwable caught) {
 													System.out
-															.println("Fehler:"
+															.println("Fehler: SwapWeb.java "
 																	+ caught
 																			.getMessage());
 												}
 
 												public void onSuccess(
 														ArrayList<SearchResult> results) {
-													contentPanel.clear();
-													final ExtElement element = Ext
-															.get("navi-panel");
 													element.unmask();
+													SwapWeb.getContentPanel()
+															.clear();
+													Panel listView = new Panel();
+
 													for (SearchResult r : results) {
-														r.getView();
+														listView
+																.add((ArticleSearchResultView) r
+																		.getView());
 													}
+
+													SwapWeb.getContentPanel()
+															.add(listView);
+													SwapWeb.getContentPanel()
+															.doLayout();
 												}
 											});
 						}
+						
 					});
 					categoryList.add(categoryLink);
 					verticalPanel.add(categoryList.get(i));
+					
 				}
+				
 			}
+			
 
 		});
 		return verticalPanel;
