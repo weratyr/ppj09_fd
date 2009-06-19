@@ -127,16 +127,14 @@ public class UserView extends Composite implements View {
 	 */
 
 	public UserView() {
-		user = new User();
 		createForm();
 		getUser();
-		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 	}
 
 	public UserView(String username) {
-		user = new User();
-		createForm();
 		getUser(username);
+		
+		createForm();
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 
 	}
@@ -175,6 +173,7 @@ public class UserView extends Composite implements View {
 					{
 						image = new Image();
 						image.setPixelSize(150, 150);
+						setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 						absolutePanel.add(image, 0, 0);
 					}
 
@@ -545,7 +544,6 @@ public class UserView extends Composite implements View {
 			articlePanel.setHeight(400);
 			articlePanel.setTitle("Meine Tauschartikel");
 			articlePanel.setCollapsible(true);
-			articlePanel.add(getArtikelListe());
 			verticalPanel.add(articlePanel);
 		}
 	}
@@ -558,13 +556,14 @@ public class UserView extends Composite implements View {
 		 * übergibt es per RPC an SearchHandler.search()
 		 */
 		ArticleSearchQuery sq = new ArticleSearchQuery();
-		sq.setUserName("Theonlybender");
+		sq.setUserName(user.getUsername());
+		System.out.println(user.getUsername());
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 
 		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
 			public void onFailure(Throwable caught) {
 				System.out
-						.println("RPC UserView: fehler im user article liste");
+				.println("RPC UserView: fehler im user article liste");
 			}
 
 			public void onSuccess(ArrayList<SearchResult> results) {
@@ -583,13 +582,12 @@ public class UserView extends Composite implements View {
 			public void onFailure(Throwable caught) {
 				// :(
 				System.out.println("fehler: userView getUser(String username)");
-
 			}
 
 			public void onSuccess(User userProfile) {
 				// :)
 				user = userProfile;
-				fillForm(userProfile);
+				fillForm();
 			}
 		});
 	}
@@ -600,20 +598,24 @@ public class UserView extends Composite implements View {
 		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("fehler: userView getUser()");
+				System.out.println("fehler: getUser() :"+caught.getMessage());
 
 			}
 
 			public void onSuccess(User userProfile) {
 				// :)
 				user = userProfile;
-				fillForm(userProfile);
+				fillForm();
 				setFirstName(user.getUsername());
+
 			}
 		});
+		
 	}
 
-	public void fillForm(User user) {
+	public void fillForm() {
+		articlePanel.add(getArtikelListe());
+		articlePanel.doLayout();
 
 		try {
 			lblFirstName2.setText(user.getFirstName());
