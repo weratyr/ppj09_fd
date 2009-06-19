@@ -164,10 +164,10 @@ public class UserView extends Composite implements View {
 
 					// Bild
 					{
-//						image = new Image();
-//						image.setPixelSize(150, 150);
-//						setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
-//						absolutePanel.add(image, 0, 0);
+						image = new Image();
+						image.setPixelSize(150, 150);
+						setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
+						absolutePanel.add(image, 0, 0);
 					}
 
 					// Links unter Bild

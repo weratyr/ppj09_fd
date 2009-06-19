@@ -81,7 +81,7 @@ public class ArticleForm extends Composite implements Form {
      
         quickArticleCategoryCB = new ComboBox();
         quickArticleCategoryCB.setStore(quickCategoryStore);
-        quickArticleCategoryCB.setFieldLabel("Zustand*");
+        quickArticleCategoryCB.setFieldLabel("Kategorie*");
         quickArticleCategoryCB.setDisplayField("category");
         quickArticleCategoryCB.setMode(ComboBox.LOCAL);
         quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
