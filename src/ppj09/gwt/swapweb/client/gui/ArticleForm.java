@@ -195,7 +195,12 @@ public class ArticleForm extends Composite implements Form {
      Button button2 = new Button("Submit");
      button2.addListener(new ButtonListenerAdapter() {
       public void onClick(Button button, EventObject e) {
-       form.submit();
+    	  if(validateImageExtension(upload.getFilename())) {
+             form.submit();
+		  } else {
+			 MessageBox.alert("Bitte wählen Sie ein Bild mit der Endung\n \"jpg\", \"png\" oder \"bmp\" aus.");
+		  }
+
       }
      });
 
@@ -286,6 +291,22 @@ public class ArticleForm extends Composite implements Form {
   }
 
  }
+ 
+ public boolean validateImageExtension(String filename){
+		boolean isAllowdExt = false;
+		
+		int indexPoint = filename.lastIndexOf(".");
+	    int length = filename.length();
+	       
+	    String extension = filename.substring(indexPoint+1, length);
+		
+	    if (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp")) {
+	    	isAllowdExt = true;
+	    }
+	    
+		return isAllowdExt;
+ }
+
 
  public boolean submit() {
   Article newArticle = new Article();
