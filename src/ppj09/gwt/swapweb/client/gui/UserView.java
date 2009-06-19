@@ -7,6 +7,7 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -583,6 +584,7 @@ public class UserView extends Composite implements View {
 			public void onSuccess(User userProfile) {
 				// :)
 				user = userProfile;
+				SwapWeb.getContentPanel().setTitle(user.getUsername()+"´s Profil");
 				fillForm();
 			}
 		});
