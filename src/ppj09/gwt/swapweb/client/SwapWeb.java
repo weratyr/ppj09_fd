@@ -2,6 +2,8 @@ package ppj09.gwt.swapweb.client;
 
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
@@ -13,6 +15,8 @@ import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -199,7 +203,7 @@ public class SwapWeb implements EntryPoint {
 	private VerticalPanel getCategories() {
 		final VerticalPanel verticalPanel = new VerticalPanel();
 
-		// Erstellt die Kategorie Liste aus der Datenbank.
+		// Erstellt die Kategorieliste aus der Datenbank
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
 		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
 			public void onFailure(Throwable caught) {
@@ -209,7 +213,28 @@ public class SwapWeb implements EntryPoint {
 			public void onSuccess(ArrayList<String> results) {
 				ArrayList<Hyperlink> categoryList = new ArrayList<Hyperlink>();
 				for (int i = 0;i<results.size();i++){
-					categoryList.add(new Hyperlink(results.get(i),null));
+					final Hyperlink categoryLink = new Hyperlink(results.get(i),null);
+					categoryLink.addClickHandler(new ClickHandler() {
+						public void onClick(ClickEvent event) {
+							// Setzt Links auf die Kategorien
+							ArticleSearchQuery sq = new ArticleSearchQuery();
+							sq.setSearchPhrase("WHERE category = '"+categoryLink.getText()+"'");
+							SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+							searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
+								public void onFailure(Throwable caught) {
+									System.out.println("Fehler:" + caught.getMessage());
+								}
+
+								public void onSuccess(ArrayList<SearchResult> results) {
+									contentPanel.clear();
+									for (SearchResult r : results) {
+										r.getView();
+									}
+								}
+							});
+						}
+					});
+					categoryList.add(categoryLink);
 					verticalPanel.add(categoryList.get(i));
 				}
 			}

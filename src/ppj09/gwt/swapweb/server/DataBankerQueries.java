@@ -387,11 +387,11 @@ public class DataBankerQueries {
 
 	public ArrayList<SearchResult> getArticleSearchResult(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
-
+		
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
 
-		String query = "SELECT * FROM article ";
+		String query = "SELECT * FROM article "+sq.getSearchPhrase();
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);
