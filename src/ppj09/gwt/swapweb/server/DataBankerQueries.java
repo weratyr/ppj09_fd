@@ -387,7 +387,7 @@ public class DataBankerQueries {
 		String query;
 		if (sq.getUserName() != null) {
 			int userid = getUserId(sq.getUserName());
-			query = "SELECT * FROM article WHERE userid ='6'";
+			query = "SELECT * FROM article WHERE userid ='"+userid+"'";
 		} else {
 			query = "SELECT * FROM article WHERE title ='"
 					+ sq.getSearchPhrase() + "'";
@@ -402,7 +402,6 @@ public class DataBankerQueries {
 						.getInt("userid")), resultSet.getString("image1"),
 						resultSet.getInt("id")));
 			}
-
 		} catch (Exception e) {
 			System.out.println(e);
 			// TODO: handle exception
@@ -411,6 +410,7 @@ public class DataBankerQueries {
 	}
 
 	/*
+<<<<<<< HEAD:src/ppj09/gwt/swapweb/server/DataBankerQueries.java
 	 * liefert nur die Artikel eines Users
 	 */
 	public ArrayList<SearchResult> getArticleUser(String sq) {
@@ -436,6 +436,8 @@ public class DataBankerQueries {
 	}
 
 	/*
+=======
+>>>>>>> 23383296900779eb8bc34f84a06c8aa7b0116167:src/ppj09/gwt/swapweb/server/DataBankerQueries.java
 	 * Liefert den Artikel über die ID
 	 */
 	public Article getArticle(int articleId) {
