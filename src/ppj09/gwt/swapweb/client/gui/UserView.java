@@ -147,10 +147,6 @@ public class UserView extends Composite implements View {
 				usernameLabel1 = new Label();
 				horizontalPanel2.add(usernameLabel1);
 				lblHorizontalSeperator = new Label();
-				lblHorizontalSeperator.setWidth("5");
-				horizontalPanel2.add(lblHorizontalSeperator);
-				usernameLabel2 = new Label();
-				horizontalPanel2.add(usernameLabel2);
 				usernameLabel3 = new Label("'s Profil");
 				horizontalPanel2.add(usernameLabel3);
 				usernameLabel4 = new Label();
@@ -168,10 +164,10 @@ public class UserView extends Composite implements View {
 
 					// Bild
 					{
-						image = new Image();
-						image.setPixelSize(150, 150);
-						setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
-						absolutePanel.add(image, 0, 0);
+//						image = new Image();
+//						image.setPixelSize(150, 150);
+//						setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
+//						absolutePanel.add(image, 0, 0);
 					}
 
 					// Links unter Bild
@@ -538,9 +534,9 @@ public class UserView extends Composite implements View {
 		{
 			articlePanel = new Panel();
 			articlePanel.setPaddings(10);
-			articlePanel.setHeight(400);
 			articlePanel.setTitle("Meine Tauschartikel");
 			articlePanel.setCollapsible(true);
+			articlePanel.setWidth(670);
 			verticalPanel.add(articlePanel);
 		}
 	}
@@ -604,7 +600,7 @@ public class UserView extends Composite implements View {
 				// :)
 				user = userProfile;
 				fillForm();
-				setFirstName(user.getUsername());
+				setUserName(user.getUsername());
 
 			}
 		});
@@ -761,13 +757,11 @@ public class UserView extends Composite implements View {
 
 	}
 
-	public void setFirstName(String firstName) {
-		this.lblFirstName2.setText(firstName);
-		usernameLabel1.setText(firstName);
-		articlePanel.setTitle(firstName + "'s Artikel");
-		this.messageUser.setText("Nachricht an " + firstName);
-		this.userRatings.setText(firstName + "'s Bewertungen");
-		this.reportUser.setText(firstName + " melden");
+	public void setUserName(String userName) {
+		articlePanel.setTitle(userName + "'s Artikel");
+		this.messageUser.setText("Nachricht an " + userName);
+		this.userRatings.setText(userName + "'s Bewertungen");
+		this.reportUser.setText(userName + " melden");
 	}
 
 	public void setImage(String imageurl) {

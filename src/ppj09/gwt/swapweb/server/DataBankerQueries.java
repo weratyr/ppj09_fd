@@ -132,6 +132,7 @@ public class DataBankerQueries {
 		int saved = 0;
 
 		String title = newArticle.getTitle();
+		String category = newArticle.getCategory();
 		String zipcode = newArticle.getZipCode();
 		String city = newArticle.getLocation();
 		String articlecondition = newArticle.getCondition();
@@ -157,16 +158,17 @@ public class DataBankerQueries {
 				PreparedStatement stmt = dbc
 						.getConnection()
 						.prepareStatement(
-								"INSERT INTO article(userid, title, zipcode, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?)");
+								"INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?,?)");
 				stmt.setString(1, Integer.toString(user));
 				stmt.setString(2, title);
 				stmt.setString(3, zipcode);
-				stmt.setString(4, city);
-				stmt.setString(5, articlecondition);
-				stmt.setString(6, shipping);
-				stmt.setString(7, amount);
-				stmt.setString(8, swaps);
-				stmt.setString(9, description);
+				stmt.setString(4, category);
+				stmt.setString(5, city);
+				stmt.setString(6, articlecondition);
+				stmt.setString(7, shipping);
+				stmt.setString(8, amount);
+				stmt.setString(9, swaps);
+				stmt.setString(10, description);
 				System.out.println(stmt.toString());
 
 				stmt.executeUpdate();

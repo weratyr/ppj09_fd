@@ -46,6 +46,7 @@ public class ArticleForm extends Composite implements Form {
 	private TextField txtbxCity;
 	private MultiFieldPanel panel1;
 	private ComboBox combobxCondition;
+	private ComboBox quickArticleCategoryCB;
 	private Checkbox chkbxdelivery1;
 	private Checkbox chkbxdelivery2;
 	private Checkbox chkbxdelivery3;
@@ -75,6 +76,20 @@ public class ArticleForm extends Composite implements Form {
 							.setBlankText("Bitte geben Sie den Artikelnamen ein");
 					formPanel.add(txtbxName);
 
+					final Store quickCategoryStore = new SimpleStore("category", new String[]{"Auto","Computer"});
+				    quickCategoryStore.load();
+				 
+				    quickArticleCategoryCB = new ComboBox();
+				    quickArticleCategoryCB.setStore(quickCategoryStore);
+				    quickArticleCategoryCB.setFieldLabel("Zustand*");
+				    quickArticleCategoryCB.setDisplayField("category");
+				    quickArticleCategoryCB.setMode(ComboBox.LOCAL);
+				    quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
+				    quickArticleCategoryCB.setForceSelection(true);
+				    quickArticleCategoryCB.setWidth(190);
+				    quickArticleCategoryCB.setEmptyText("Kategorie wählen");
+				    formPanel.add(quickArticleCategoryCB);
+					
 					txtbxZip = new NumberField("Plz* / Artikelstandort*",
 							"number_field", 50);
 					txtbxZip.setAllowBlank(false);
@@ -297,6 +312,7 @@ public class ArticleForm extends Composite implements Form {
 	// füllt das Artikelobjekt mit Formulardaten
 	private Article fillArticle(Article article) {
 		article.setTitle(txtbxName.getText());
+		article.setCategory(quickArticleCategoryCB.getText());
 		article.setZipCode(txtbxZip.getText());
 		article.setLocation(txtbxCity.getText());
 		article.setCondition(combobxCondition.getText());

@@ -31,7 +31,7 @@ public class Article implements Serializable {
 	private String description;
 	private String offerScope;
 	// Auswahl der Kategorien zu dem der Artikel passen koennte
-	protected ArrayList<Integer> categoryIds;
+	private String category;
 	// Versandtartsnummer und ein Kommentar
 	protected String shippingMethods;
 	private String shippingMethodComment;
@@ -177,15 +177,15 @@ public class Article implements Serializable {
 	 * 
 	 * @return categoryId
 	 */
-	public ArrayList<Integer> getCategoryId() {
-		return categoryIds;
+	public String getCategory() {
+		return category;
 	}
 
 	/**
 	 * Setzt die categoryId
 	 */
-	public void setCategoryId(ArrayList<Integer> categoryId) {
-		this.categoryIds = categoryId;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	/**

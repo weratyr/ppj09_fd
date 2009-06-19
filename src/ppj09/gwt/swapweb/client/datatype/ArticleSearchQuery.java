@@ -18,7 +18,8 @@ public class ArticleSearchQuery extends Article implements SearchQuery {
 	// primitive Suche
 	private String searchPhrase;
 	private String UserName;
-
+	private String categoryPhrase;
+	
 	// erweiterte Suche
 	private boolean picturesOnly;
 	
@@ -48,6 +49,14 @@ public class ArticleSearchQuery extends Article implements SearchQuery {
 
 	public void setPicturesOnly(boolean picturesOnly) {
 		this.picturesOnly = picturesOnly;
+	}
+
+	public void setCategoryPhrase(String categoryPhrase) {
+		this.categoryPhrase = categoryPhrase;
+	}
+
+	public String getCategoryPhrase() {
+		return categoryPhrase;
 	}
 	
 	
