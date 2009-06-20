@@ -92,7 +92,6 @@ public class UserForm extends Composite implements View {
 	 */
 
 	public UserForm() {
-
 		createForm();
 		getuser();
 

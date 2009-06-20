@@ -20,6 +20,7 @@ import ppj09.gwt.swapweb.client.datatype.User;
 
 public class DataBankerQueries {
 
+
 	public ArrayList<SearchResult> retriveArticles(
 			ArrayList<Parameter> parameters) {
 		return null;
@@ -109,11 +110,6 @@ public class DataBankerQueries {
 			System.out.println("Mache Update");
 			String pwd = BCrypt.hashpw(updatedUser.getPassword(), BCrypt
 					.gensalt());
-			Date d = null;
-			d.setYear(updatedUser.getBirthdate().getYear());
-			d.setMonth(updatedUser.getBirthdate().getMonth());
-			d.setDate(updatedUser.getBirthdate().getDay());
-			System.out.println(d.toString()+"date db");
 			
 			int resultCode = dbc.getStatement().executeUpdate(
 					"UPDATE user SET pwd='"+pwd+"', " +
@@ -326,12 +322,10 @@ public class DataBankerQueries {
 		String query = "SELECT * FROM user WHERE username='" + username + "'";
 		try {
 			rs = stmt.executeQuery(query);
-
 			if (rs.wasNull()) {
 				System.out.println("rs ist null getUserProfil");
 			}
-			rs.next();// Sollte nur eine Iteration durchlaufen
-			
+			rs.next();
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("pwd"));
 			user.setFirstName(rs.getString("firstName"));
@@ -341,7 +335,7 @@ public class DataBankerQueries {
 			user.setZip(rs.getString("zipCode"));
 			user.setCity(rs.getString("city"));
 			user.setEmail(rs.getString("email"));
-			user.setGender(rs.getString("gender"));
+			//user.setGender(rs.getString("gender"));
 			//user.setBirthdate(rs.getString("birthdate"));
 			user.setJob(rs.getString("job"));
 			user.setHobbys(rs.getString("hobbies"));
@@ -361,7 +355,7 @@ public class DataBankerQueries {
 			dbc.close();
 			stmt.close();
 			dbc.closeStatement();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Fehler databankerQueries: getUserProfil()");
 			return null;
