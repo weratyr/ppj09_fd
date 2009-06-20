@@ -1,8 +1,10 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * Autor Daniel Abeska
- * Klasse User- Form ist zum �ndern bzw. bearbeiten eines Profils
+ * Klasse User- Form ist zum ändern bzw. bearbeiten eines Profils
+ * 
+ * @author Daniel Abeska, Christian Happ
+ * @version 0.1 16.06.09
  */
 
 import java.util.Date;
@@ -24,18 +26,15 @@ import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
-import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.DateField;
-import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.NumberField;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.VType;
 import com.google.gwt.core.client.GWT;
 import com.gwtext.client.widgets.form.FormPanel;
-import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 import com.gwtext.client.widgets.layout.ColumnLayoutData;
 import com.gwtext.client.widgets.form.TextArea;
 
@@ -52,7 +51,6 @@ public class UserForm extends Composite implements View {
 	private MultiFieldPanel streetPanel;
 	private TextField txtbxUsername;
 	private TextField txtbxPwd;
-	private MultiFieldPanel userFreePanel;
 	private Label txtbxUserFree;
 	private TextField txtbxEmail;
 	private TextField txtbxEmail2;
@@ -99,6 +97,7 @@ public class UserForm extends Composite implements View {
 		getuser();
 
 	}
+
 	public UserForm(User user) {
 		createForm();
 	}
@@ -140,7 +139,7 @@ public class UserForm extends Composite implements View {
 					formPanelTop.setFooter(true);
 					formPanelTop.setWidth(470);
 					formPanelTop.setBorder(false);
-		
+
 					// formPanelTop.setBorder(false);
 					{
 						txtbxFirstName = new TextField("Vorname*",
@@ -266,10 +265,9 @@ public class UserForm extends Composite implements View {
 						comboBoxGender.setHideTrigger(false);
 						formPanelTop.add(comboBoxGender);
 
-						dateField = new DateField("Geburtstag ", "date_Field",
-								190);
+						dateField = new DateField("Geburtstag ", "date_Field", 190);
 						formPanelTop.add(dateField);
-
+						
 						txtbxJob = new TextField("Beruf ", "text_field", 190);
 						txtbxJob.setSelectOnFocus(true);
 						txtbxJob.isValidateOnBlur();
@@ -356,7 +354,7 @@ public class UserForm extends Composite implements View {
 							public void onClick(Button button, EventObject e) {
 								// TODO
 								submit();
-								//checkPassword(txtbxPwd.getText());
+								// checkPassword(txtbxPwd.getText());
 							}
 						});
 
@@ -378,19 +376,18 @@ public class UserForm extends Composite implements View {
 	private boolean submit() {
 
 		fillUser(user);
-		System.out.println("test submit");
-
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.updateUser(user, new AsyncCallback<Integer>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("neeee: " + caught.getMessage());
+				System.out.println("neeee: submit() UserForm.java "
+						+ caught.getMessage());
 			}
 
 			public void onSuccess(Integer serverMsg) {
 				// :)
-				System.out.println("OK: " + serverMsg.toString());
+				System.out.println("OK: update User " + serverMsg.toString());
 			}
 		});
 		return true;
@@ -403,15 +400,12 @@ public class UserForm extends Composite implements View {
 			public void onFailure(Throwable caught) {
 				// :(
 				Window.alert("fehler");
-
 			}
 
 			public void onSuccess(User userProfile) {
 				// :)
-				
 				user = userProfile;
 				fillForm(userProfile);
-				
 			}
 		});
 	}
@@ -458,7 +452,6 @@ public class UserForm extends Composite implements View {
 								public void onFailure(Throwable caught) {
 									// :(
 									Window.alert("fehler" + caught);
-
 								}
 
 								public void onSuccess(Boolean serverMsg) {
@@ -469,7 +462,6 @@ public class UserForm extends Composite implements View {
 									} else {
 										System.out.println("pw falsch");
 									}
-
 								}
 							});
 				} else {
@@ -478,142 +470,51 @@ public class UserForm extends Composite implements View {
 			} else {
 				System.out
 						.println("neue Passwörter leer/ stimmen nicht überein");
-				txtbxPwdNew.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
-				txtbxPwdNew2.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
-				}
+				txtbxPwdNew
+						.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
+				txtbxPwdNew2
+						.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
+			}
 		} else {
 			System.out.println("passwort alt leer");
 		}
 		return checkedPw;
-
 	}
 
 	public void fillForm(User user) {
 
 		try {
 			this.setFirstName(user.getFirstName());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setLastName(user.getLastName());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setStreet(user.getStreet());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setHouseNumber(user.getHouseNumber());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setZip(user.getZip());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setCity(user.getCity());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setUsername(user.getUsername());
-		} catch (NullPointerException e) {
-		}
-		// try {
-		// this.setPwd(user.getPassword());
-		// } catch (NullPointerException e) {
-		// }
-		try {
-
+			// try {
+			// this.setPwd(user.getPassword());
+			// } catch (NullPointerException e) {
+			// }
 			this.setEmail(user.getEmail());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setGender(user.getGender());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setBirthdate(user.getBirthdate());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setJob(user.getJob());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setHomepage(user.getHomepage());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setHobbys(user.getHobbys());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setMusic(user.getMusic());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setMovie(user.getMovie());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setILike(user.getILike());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setIDontLike(user.getIDontLike());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setAboutMe(user.getAboutMe());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setIcq(user.getIcq());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setMsn(user.getMsn());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setYahoo(user.getYahoo());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setAim(user.getAim());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setJabber(user.getJabber());
-		} catch (NullPointerException e) {
-		}
-		try {
-
 			this.setImage(user.getImage());
 		} catch (NullPointerException e) {
+			System.out.println(e);
 		}
-		System.out.println("test3");
 
 	}
 
@@ -628,11 +529,10 @@ public class UserForm extends Composite implements View {
 		user.setHouseNumber(getHouseNumber());
 		user.setZip(getZip());
 		user.setCity(getCity());
-		//user.setUsername(getUsername());
-		//user.setPassword(getPwd());
 		user.setEmail(getEmail());
-		//user.setGender(getGender());
-		//user.setBirthdate(getBirthday());
+		user.setPassword(getPwd());
+		user.setGender(getGender());
+		user.setBirthdate(getBirthday());
 		user.setJob(getJob());
 		user.setHomepage(getHomepage());
 		user.setHobbys(getHobbys());
@@ -646,7 +546,7 @@ public class UserForm extends Composite implements View {
 		user.setYahoo(getYahoo());
 		user.setAim(getAim());
 		user.setJabber(getJabber());
-		//user.setImage(getImage());
+		user.setImage(getImage());
 
 		return user;
 	}

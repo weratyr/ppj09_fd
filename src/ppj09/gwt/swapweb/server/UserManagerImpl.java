@@ -58,7 +58,6 @@ public class UserManagerImpl extends RemoteServiceServlet implements		UserManage
 
 	public User getUser() {
 		String user = sh.getSession(this.getThreadLocalRequest());
-		
 		if (user == null) {
 			return null;
 		} else {

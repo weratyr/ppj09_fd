@@ -1,7 +1,8 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * Autor Georg Ortwein
+ * @author Georg Ortwein, Chrisitan Happ
+ * @version 0.1  15.06.09
  * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils
  */
 
@@ -550,7 +551,6 @@ public class UserView extends Composite implements View {
 		 */
 		ArticleSearchQuery sq = new ArticleSearchQuery();
 		sq.setUserName(user.getUsername());
-		System.out.println(user.getUsername());
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 
 		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
@@ -601,7 +601,6 @@ public class UserView extends Composite implements View {
 				user = userProfile;
 				fillForm();
 				setUserName(user.getUsername());
-
 			}
 		});
 		

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
@@ -18,8 +19,6 @@ import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 
 public class DataBankerQueries {
-
-	private String[] categories;
 
 	public ArrayList<SearchResult> retriveArticles(
 			ArrayList<Parameter> parameters) {
@@ -101,6 +100,56 @@ public class DataBankerQueries {
 		return saved;
 	}
 
+	/*
+	 * Aktualisiert das Userprofil
+	 */
+	public int updateUser(String userName, User updatedUser) {
+		DataBankerConnection dbc = new DataBankerConnection();
+		try {
+			System.out.println("Mache Update");
+			String pwd = BCrypt.hashpw(updatedUser.getPassword(), BCrypt
+					.gensalt());
+			Date d = null;
+			d.setYear(updatedUser.getBirthdate().getYear());
+			d.setMonth(updatedUser.getBirthdate().getMonth());
+			d.setDate(updatedUser.getBirthdate().getDay());
+			System.out.println(d.toString()+"date db");
+			
+			int resultCode = dbc.getStatement().executeUpdate(
+					"UPDATE user SET pwd='"+pwd+"', " +
+							"firstName='"+updatedUser.getFirstName()+"', " +
+							"lastName='"+updatedUser.getLastName()+ "', " +
+							"street='"+updatedUser.getStreet()+"', " +
+							"houseNumber='"+updatedUser.getHouseNumber()+"'," +
+							"zipcode='"+updatedUser.getZip()+"', " +
+							"city='"+updatedUser.getCity()+"'," +
+							"email='"+updatedUser.getEmail() + "', " +
+							"gender='"+updatedUser.getGender()+ "', " +
+							//"birthdate='"+updatedUser.getBirthdate()+"', " +
+							"job='"+updatedUser.getJob()+"', " +
+							"hobbies='"+updatedUser.getHobbys()+"', " +
+							"music='"+updatedUser.getMusic()+"'," +
+							"movies='"+updatedUser.getMovie()+"'," +
+							"iLike='" + updatedUser.getILike()+"', " +
+							"iDontLike='" + updatedUser.getIDontLike()+"', " +
+							"aboutMe='" + updatedUser.getAboutMe() + "'," +
+							"icq='" + updatedUser.getIcq() + "',"
+							+ " yahoo='" + updatedUser.getYahoo() + "',"
+							+ " aim='" + updatedUser.getAim() + "', "
+							+ "jabber='" + updatedUser.getJabber() + "', "
+							+ "msn='" + updatedUser.getMsn() + "', "
+							+ "homepage='" + updatedUser.getHomepage() + "' "
+							+ "WHERE username='" + userName + "' ");
+			dbc.close();
+			dbc.getStatement().close();
+			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+
+	}
+
 	public int createArticle(Article newArticle, int user) {
 		int saved = 0;
 
@@ -114,18 +163,7 @@ public class DataBankerQueries {
 		String swaps = newArticle.getDesiredItemsComment();
 		String description = newArticle.getDescription();
 
-		// Test output
-		System.out.println(title);
-		System.out.println(zipcode);
-		System.out.println(city);
-		System.out.println(articlecondition);
-		System.out.println(shipping);
-		System.out.println(amount);
-		System.out.println(swaps);
-		System.out.println(description);
-
 		DataBankerConnection dbc = new DataBankerConnection();
-
 		if (user != 0) { // User ist eingeloggt
 			try {
 				PreparedStatement stmt = dbc
@@ -293,7 +331,7 @@ public class DataBankerQueries {
 				System.out.println("rs ist null getUserProfil");
 			}
 			rs.next();// Sollte nur eine Iteration durchlaufen
-			System.out.println(rs.getString("username") + " username");
+			
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("pwd"));
 			user.setFirstName(rs.getString("firstName"));
@@ -304,7 +342,7 @@ public class DataBankerQueries {
 			user.setCity(rs.getString("city"));
 			user.setEmail(rs.getString("email"));
 			user.setGender(rs.getString("gender"));
-			user.setBirthdate(rs.getDate("birthdate"));
+			//user.setBirthdate(rs.getString("birthdate"));
 			user.setJob(rs.getString("job"));
 			user.setHobbys(rs.getString("hobbies"));
 			user.setMusic(rs.getString("music"));
@@ -329,34 +367,6 @@ public class DataBankerQueries {
 			return null;
 		}
 		return user;
-	}
-
-	/*
-	 * Aktualisiert das Userprofil
-	 */
-	public int updateUser(String userName, User updatedUser) {
-		int saved = 0;
-		String userID = updatedUser.getUsername();
-		String pwd = updatedUser.getPassword();
-		DataBankerConnection dbc = new DataBankerConnection();
-
-		try {
-			System.out.println("Mache Update");
-			PreparedStatement stmt = dbc.getConnection().prepareStatement(
-					"UPDATE user SET username=?,userob=? WHERE username = ?");
-			stmt.setString(1, userID);
-			stmt.setObject(2, (Object) updatedUser);
-			stmt.setString(3, userName);
-			stmt.executeUpdate();
-			dbc.close();
-			stmt.close();
-
-			saved = 1;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return 0;
-		}
-		return saved;
 	}
 
 	public ArrayList<SearchResult> getArticleSearchResult(ArticleSearchQuery sq) {
