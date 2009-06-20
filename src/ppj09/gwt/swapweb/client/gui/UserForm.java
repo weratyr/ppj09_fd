@@ -490,13 +490,10 @@ public class UserForm extends Composite implements View {
 			this.setZip(user.getZip());
 			this.setCity(user.getCity());
 			this.setUsername(user.getUsername());
-			// try {
-			// this.setPwd(user.getPassword());
-			// } catch (NullPointerException e) {
-			// }
+//			this.setPwd(user.getPassword());
 			this.setEmail(user.getEmail());
-			this.setGender(user.getGender());
-			this.setBirthdate(user.getBirthdate());
+			//this.setGender(user.getGender());
+			//this.setBirthdate(user.getBirthdate());
 			this.setJob(user.getJob());
 			this.setHomepage(user.getHomepage());
 			this.setHobbys(user.getHobbys());
@@ -512,7 +509,7 @@ public class UserForm extends Composite implements View {
 			this.setJabber(user.getJabber());
 			this.setImage(user.getImage());
 		} catch (NullPointerException e) {
-			System.out.println(e);
+			System.out.println("fillForm() UserForm.java -- "+e);
 		}
 
 	}
