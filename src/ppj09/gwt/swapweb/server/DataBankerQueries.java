@@ -178,18 +178,79 @@ public class DataBankerQueries {
 
 				stmt.executeUpdate();
 
+				ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+				
+				int id = 0;
+				
+				while (rs.next()) {
+					id = rs.getInt(1);
+				}
+				
+				System.out.println("DAS IST JETZT DIE LETZTE ID: " + id);
+				
 				dbc.close();
 				stmt.close();
 				System.out.println("done!");
-				return 1; // OK
+				return id; // OK
 			} catch (SQLException e) {
 				e.printStackTrace();
 				System.out.println("net done!");
 				return 0; // Fehler
 			}
 		} else {
+			System.out.println("NICHT EINGELOGT");
 			return 2; // User nicht eingeloggt
 		}
+	}
+	
+	public boolean saveImageToArticle(String url, String id) {
+		boolean saved = false;
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+		
+		if (!id.equals("0")) {
+			try {
+				int resultCode = dbc.getStatement().executeUpdate("UPDATE article SET image1='"+url+"' WHERE id='" + id + "'");
+				dbc.close();
+				dbc.getStatement().close();
+				
+				//return resultCode;
+				saved = true; // OK
+			} catch (SQLException e) {
+				System.out.println(e);
+				return false; // Fehler
+			}
+		}
+		
+		return saved;
+	}
+	
+	public int getLastInsertedId() {
+		int id = 0;
+		ResultSet rs = null;
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+
+		Statement stmt = dbc.getStatement();
+		String query = "SELECT LAST_INSERT_ID()";
+		try {
+			rs = stmt.executeQuery(query);
+
+			while (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+			System.out.println("LAST ID: " + id);
+			rs.close();
+			stmt.close();
+			dbc.close();
+
+		} catch (SQLException e) {
+			return 0;
+			// e.printStackTrace();
+		}
+		
+		return id;
 	}
 
 	public boolean checkUsername(String UserId) {

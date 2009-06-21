@@ -58,6 +58,7 @@ public class ArticleForm extends Composite implements Form {
  private TextArea txtbxSwaps;
  private TextArea txtbxDescription;
  private final Window window;
+ TextField hiddenText;
 
  public ArticleForm() {
   {
@@ -192,7 +193,12 @@ public class ArticleForm extends Composite implements Form {
      final FileUpload upload = new FileUpload();
      upload.setName("uploadFormElement");
 
+     hiddenText = new TextField();
+     hiddenText.setName("uploadHiddenElement");
+     hiddenText.setVisible(false);
+     
      panel.add(upload);
+     panel.add(hiddenText);
 
      Button button2 = new Button("Submit");
      button2.addListener(new ButtonListenerAdapter() {
@@ -266,6 +272,7 @@ public class ArticleForm extends Composite implements Form {
      window.add(form);
      window.setCloseAction(Window.HIDE);
 
+     /*
      uploadWindowButton = new Button("Bild hochladen");
      uploadWindowButton.addListener(new ButtonListenerAdapter() {
       public void onClick(Button button, EventObject e) {
@@ -273,7 +280,7 @@ public class ArticleForm extends Composite implements Form {
       }
      });
      formPanel.add(uploadWindowButton);
-
+	 */
      // //// ENDE FORMS FÜR FILE UPLOAD
 
      submitButton = new Button("Artikel Erstellen");
@@ -324,8 +331,15 @@ public class ArticleForm extends Composite implements Form {
    public void onSuccess(Integer serverMsg) {
     //
     System.out.println("OK: " + serverMsg.toString());
-    formPanel.getForm().reset();
-    window.show(submitButton.getId());
+    if(serverMsg == 2){
+    	MessageBox.alert("ACHTUNG: Sie sind nicht eingeloggt. Bitte Melden Sie sich an.");
+    } else if (serverMsg > 2) {
+        formPanel.getForm().reset();
+        hiddenText.setRawValue(serverMsg.toString());
+        window.show(submitButton.getId());
+    } else if (serverMsg == 0){
+    	MessageBox.alert("FEHLER: Ihr Artikel konnte nicht angelegt werden.");
+    }
    }
   });
   // }
