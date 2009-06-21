@@ -1,8 +1,10 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * Autor Georg Ortwein & Michael Lukaszczyk
  * Klasse User- Form ist zum Aendern bzw. bearbeiten eines Profils
+ * 
+ * @author Georg Ortwein & Michael Lukaszczyk, Chrisitan Happ
+ * @version 0.1 16.06.09
  */
 
 import ppj09.gwt.swapweb.client.datatype.Article;
