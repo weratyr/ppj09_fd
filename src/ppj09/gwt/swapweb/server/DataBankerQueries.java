@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
@@ -19,8 +18,7 @@ import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 
 public class DataBankerQueries {
-
-
+	
 	public ArrayList<SearchResult> retriveArticles(
 			ArrayList<Parameter> parameters) {
 		return null;
@@ -28,20 +26,17 @@ public class DataBankerQueries {
 
 	public ArrayList<SearchResult> retriveUsers() {
 		return null;
-
 	}
 
 	/*
-	 * return = 0 -> FEHLER - User nicht angelegt return = 1 -> OK - User wurde
-	 * angelegt return = 2 -> USER existiert schon
+	 * Erstellt einen neuen User und gibt einen Status Code zurück
+	 * 0 = Fehler
+	 * 1 = OK
+	 * 2 = User existiert bereits
 	 */
 	public int createUser(User newUser) {
-		// IN DATENBANK SPEICHERN
-		int saved = 0;
-
 		String username = newUser.getUsername();
-		String pwd = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
-		newUser.setPassword(pwd);
+		String pwdHash = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
 		String firstName = newUser.getFirstName();
 		String lastName = newUser.getLastName();
 		String street = newUser.getStreet();
@@ -68,14 +63,13 @@ public class DataBankerQueries {
 		DataBankerConnection dbc = new DataBankerConnection();
 
 		if (!checkUsername(username)) {
-
 			try {
 				PreparedStatement stmt = dbc
-						.getConnection()
-						.prepareStatement(
-								"INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email) VALUES(?,?,?,?,?,?,?,?,?)");
+				.getConnection()
+				.prepareStatement(
+						"INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email) VALUES(?,?,?,?,?,?,?,?,?)");
 				stmt.setString(1, username);
-				stmt.setString(2, pwd);
+				stmt.setString(2, pwdHash);
 				stmt.setString(3, firstName);
 				stmt.setString(4, lastName);
 				stmt.setString(5, street);
@@ -90,19 +84,20 @@ public class DataBankerQueries {
 				dbc.close();
 				stmt.close();
 
-				saved = 1;
+				return 1; // OK
 			} catch (SQLException e) {
-				return 0;
+				System.out.println(e);
+				return 0; // Fehler
 			}
 		} else {
-			saved = 2;
+			return 2; // Username existiert bereits
 		}
-
-		return saved;
 	}
 
 	/*
-	 * Aktualisiert das Userprofil
+	 * Aktualisiert das Userprofil und gibt Statuscode zurück
+	 * 0 = Fehler
+	 * ...
 	 */
 	public int updateUser(String userName, User updatedUser) {
 		DataBankerConnection dbc = new DataBankerConnection();
@@ -110,32 +105,32 @@ public class DataBankerQueries {
 			System.out.println("Mache Update");
 			String pwd = BCrypt.hashpw(updatedUser.getPassword(), BCrypt
 					.gensalt());
-			
+
 			int resultCode = dbc.getStatement().executeUpdate(
 					"UPDATE user SET pwd='"+pwd+"', " +
-							"firstName='"+updatedUser.getFirstName()+"', " +
-							"lastName='"+updatedUser.getLastName()+ "', " +
-							"street='"+updatedUser.getStreet()+"', " +
-							"houseNumber='"+updatedUser.getHouseNumber()+"'," +
-							"zipcode='"+updatedUser.getZip()+"', " +
-							"city='"+updatedUser.getCity()+"'," +
-							"email='"+updatedUser.getEmail() + "', " +
-							"gender='"+updatedUser.getGender()+ "', " +
-							//"birthdate='"+updatedUser.getBirthdate()+"', " +
-							"job='"+updatedUser.getJob()+"', " +
-							"hobbies='"+updatedUser.getHobbys()+"', " +
-							"music='"+updatedUser.getMusic()+"'," +
-							"movies='"+updatedUser.getMovie()+"'," +
-							"iLike='" + updatedUser.getILike()+"', " +
-							"iDontLike='" + updatedUser.getIDontLike()+"', " +
-							"aboutMe='" + updatedUser.getAboutMe() + "'," +
-							"icq='" + updatedUser.getIcq() + "',"
-							+ " yahoo='" + updatedUser.getYahoo() + "',"
-							+ " aim='" + updatedUser.getAim() + "', "
-							+ "jabber='" + updatedUser.getJabber() + "', "
-							+ "msn='" + updatedUser.getMsn() + "', "
-							+ "homepage='" + updatedUser.getHomepage() + "' "
-							+ "WHERE username='" + userName + "' ");
+					"firstName='"+updatedUser.getFirstName()+"', " +
+					"lastName='"+updatedUser.getLastName()+ "', " +
+					"street='"+updatedUser.getStreet()+"', " +
+					"houseNumber='"+updatedUser.getHouseNumber()+"'," +
+					"zipcode='"+updatedUser.getZip()+"', " +
+					"city='"+updatedUser.getCity()+"'," +
+					"email='"+updatedUser.getEmail() + "', " +
+					"gender='"+updatedUser.getGender()+ "', " +
+					//"birthdate='"+updatedUser.getBirthdate()+"', " +
+					"job='"+updatedUser.getJob()+"', " +
+					"hobbies='"+updatedUser.getHobbys()+"', " +
+					"music='"+updatedUser.getMusic()+"'," +
+					"movies='"+updatedUser.getMovie()+"'," +
+					"iLike='" + updatedUser.getILike()+"', " +
+					"iDontLike='" + updatedUser.getIDontLike()+"', " +
+					"aboutMe='" + updatedUser.getAboutMe() + "'," +
+					"icq='" + updatedUser.getIcq() + "',"
+					+ " yahoo='" + updatedUser.getYahoo() + "',"
+					+ " aim='" + updatedUser.getAim() + "', "
+					+ "jabber='" + updatedUser.getJabber() + "', "
+					+ "msn='" + updatedUser.getMsn() + "', "
+					+ "homepage='" + updatedUser.getHomepage() + "' "
+					+ "WHERE username='" + userName + "' ");
 			dbc.close();
 			dbc.getStatement().close();
 			return resultCode;
@@ -143,12 +138,15 @@ public class DataBankerQueries {
 			e.printStackTrace();
 			return 0;
 		}
-
 	}
 
-	public int createArticle(Article newArticle, int user) {
-		int saved = 0;
-
+	/*
+	 * Erstellt einen neuen Artikel und gibt Statuscode zurück:
+	 * 0 = Fehler
+	 * 1 = OK
+	 * 2 = User nicht eingeloggt
+	 */
+	public int createArticle(Article newArticle, int userId) {
 		String title = newArticle.getTitle();
 		String category = newArticle.getCategory();
 		String zipcode = newArticle.getZipCode();
@@ -160,13 +158,13 @@ public class DataBankerQueries {
 		String description = newArticle.getDescription();
 
 		DataBankerConnection dbc = new DataBankerConnection();
-		if (user != 0) { // User ist eingeloggt
+		if (userId != 0) { // User ist eingeloggt
 			try {
 				PreparedStatement stmt = dbc
-						.getConnection()
-						.prepareStatement(
-								"INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?,?)");
-				stmt.setString(1, Integer.toString(user));
+				.getConnection()
+				.prepareStatement(
+						"INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?,?)");
+				stmt.setString(1, Integer.toString(userId));
 				stmt.setString(2, title);
 				stmt.setString(3, zipcode);
 				stmt.setString(4, category);
@@ -183,14 +181,15 @@ public class DataBankerQueries {
 				dbc.close();
 				stmt.close();
 				System.out.println("done!");
-				saved = 1;
+				return 1; // OK
 			} catch (SQLException e) {
 				e.printStackTrace();
 				System.out.println("net done!");
-				return 0;
+				return 0; // Fehler
 			}
+		} else {
+			return 2; // User nicht eingeloggt
 		}
-		return saved;
 	}
 
 	public boolean checkUsername(String UserId) {
@@ -220,8 +219,10 @@ public class DataBankerQueries {
 	}
 
 	/*
-	 * Vergleicht das angegebene Passwort mit dem aus dem Userprofil return 1
-	 * wenn übereinstimmend, andernfalls return 0
+	 * Vergleicht das angegebene Passwort mit dem aus dem Userprofil und
+	 * gibt einen Statuscode zurück
+	 * 1 = übereinstimmend
+	 * 0 = nicht übereinstimmend
 	 */
 	public boolean loginRequest(String user, String suppliedPwd) {
 		String hashFromDB = null;
@@ -264,21 +265,17 @@ public class DataBankerQueries {
 		String query = "SELECT id FROM user WHERE username='" + userName + "'";
 		try {
 			rs = stmt.executeQuery(query);
-
 			while (rs.next()) {
 				id = rs.getInt(1);
 			}
-
 			rs.close();
 			dbc.close();
 			stmt.close();
 			dbc.closeStatement();
-
 		} catch (SQLException e) {
 			return id;
 			// e.printStackTrace();
 		}
-
 		return id;
 	}
 
@@ -286,30 +283,26 @@ public class DataBankerQueries {
 	 * Liefert den Username für eine userid oder Null wenn die userid nicht
 	 * existiert
 	 */
-	public String getUsername(int userid) {
+	public String getUsername(int userId) {
 		ResultSet rs = null;
 		String username = null;
 
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		String query = "SELECT username FROM user WHERE id='" + userid + "'";
+		String query = "SELECT username FROM user WHERE id='" + userId + "'";
 		try {
 			rs = stmt.executeQuery(query);
-
 			while (rs.next()) {
 				username = rs.getString("username");
 			}
-
 			rs.close();
 			dbc.close();
 			stmt.close();
 			dbc.closeStatement();
-
 		} catch (SQLException e) {
 			return username;
 			// e.printStackTrace();
 		}
-
 		return username;
 	}
 
@@ -350,7 +343,6 @@ public class DataBankerQueries {
 			user.setJabber(rs.getString("jabber"));
 			user.setMsn(rs.getString("msn"));
 			user.setHomepage(rs.getString("homepage"));
-
 			rs.close();
 			dbc.close();
 			stmt.close();
@@ -373,10 +365,10 @@ public class DataBankerQueries {
 			query = "SELECT * FROM article WHERE userid ='" + userid + "'";
 		} else if (sq.getCategoryPhrase() != null) {
 			query = "SELECT * FROM article WHERE category ='"
-					+ sq.getCategoryPhrase() + "'";
+				+ sq.getCategoryPhrase() + "'";
 		} else {
 			query = "SELECT * FROM article WHERE title ='"
-					+ sq.getSearchPhrase() + "'";
+				+ sq.getSearchPhrase() + "'";
 		}
 
 		ResultSet resultSet = null;
@@ -385,8 +377,8 @@ public class DataBankerQueries {
 			while (resultSet.next()) {
 				articleList.add(new ArticleSearchResult(resultSet
 						.getString("title"), getUsername(resultSet
-						.getInt("userid")), resultSet.getString("image1"),
-						resultSet.getInt("id")));
+								.getInt("userid")), resultSet.getString("image1"),
+								resultSet.getInt("id")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -451,12 +443,10 @@ public class DataBankerQueries {
 			dbc.close();
 			stmt.close();
 			dbc.closeStatement();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 		return categories;
-
 	}
 }
