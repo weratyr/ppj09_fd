@@ -6,7 +6,7 @@
  */
 
 package ppj09.gwt.swapweb.client.datatype;
- 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -20,269 +20,277 @@ import java.util.ArrayList;
  */
 public class Article implements Serializable {
 
- // Informationen ueber den Artikel
- protected int articleId;
- private int userId;
- private String userName;
- private String title;
- private String location;
- private String zipCode;
- private ArrayList<String> pictureUrls;
- private String condition;
- private String description;
- private String offerScope;
- // Auswahl der Kategorien zu dem der Artikel passen koennte
- private String category;
- // Versandtartsnummer und ein Kommentar
- protected String shippingMethods;
- private String shippingMethodComment;
- // Wunschgegenstandsnummer und ein moeglicher Kommentar
- private ArrayList<Integer> desiredItemsCategoryIds;
- private String desiredItemsComment;
- // Wenn ein Artikel im Tausch ist, aber noch offen ist
- private boolean inSwap; 
- 
- public Article(){
- }
- 
- public Article(int articleId, String title, String offerScope){
-	 this.articleId = articleId;
-	 this.title = title;
-	 this.offerScope = offerScope;
- }
- 
- /**
-  * Gibt die articleId zurueck
-  * 
-  * @return articleId
-  */
- public int getArticleId() {
-  return articleId;
- }
+	// Informationen ueber den Artikel
+	protected int articleId;
+	private int userId;
+	private String userName;
+	private String title;
+	private String location;
+	private String zipCode;
+	private String pictureUrl;
+	private String condition;
+	private String description;
+	private String offerScope;
+	// Auswahl der Kategorien zu dem der Artikel passen koennte
+	private String category;
+	// Versandtartsnummer und ein Kommentar
+	protected String shippingMethods;
+	private String shippingMethodComment;
+	// Wunschgegenstandsnummer und ein moeglicher Kommentar
+	private ArrayList<Integer> desiredItemsCategoryIds;
+	private String desiredItemsComment;
+	// Wenn ein Artikel im Tausch ist, aber noch offen ist
+	private boolean inSwap;
 
- /**
-  * Setzt die articleId
-  */
- public void setArticleId(int articleId) {
-  this.articleId = articleId;
- }
+	public Article() {
+	}
 
- /**
-  * Gibt den inSwap Wert zurueck
-  * 
-  * @return inSwap
-  */
- public boolean isInSwap() {
-  return inSwap;
- }
+	public Article(int articleId, String title, String offerScope) {
+		this.articleId = articleId;
+		this.title = title;
+		this.offerScope = offerScope;
+	}
 
- /**
-  * Setzt die inSwap
-  */
- public void setInSwap(boolean inSwap) {
-  this.inSwap = inSwap;
- }
+	/**
+	 * Gibt die articleId zurueck
+	 * 
+	 * @return articleId
+	 */
+	public int getArticleId() {
+		return articleId;
+	}
 
- /**
-  * Gibt den title zurueck
-  * 
-  * @return title
-  */
- public String getTitle() {
-  return title;
- }
+	/**
+	 * Setzt die articleId
+	 */
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
 
- /**
-  * Setzt den title
-  */
- public void setTitle(String title) {
-  this.title = title;
- }
+	/**
+	 * Gibt den inSwap Wert zurueck
+	 * 
+	 * @return inSwap
+	 */
+	public boolean isInSwap() {
+		return inSwap;
+	}
 
- /**
-  * Gibt die articleId zurueck
-  * 
-  * @return articleId
-  */
- public int articleId() {
-  return articleId;
- }
+	/**
+	 * Setzt die inSwap
+	 */
+	public void setInSwap(boolean inSwap) {
+		this.inSwap = inSwap;
+	}
 
- /**
-  * Setzt die articleId
-  */
- public void articleId(int articleId) {
-  this.articleId = articleId;
- }
+	/**
+	 * Gibt den title zurueck
+	 * 
+	 * @return title
+	 */
+	public String getTitle() {
+		return title;
+	}
 
- /**
-  * Gibt die userId zurueck
-  * 
-  * @return userId
-  */
- public int getUserId() {
-  return userId;
- }
+	/**
+	 * Setzt den title
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
- /**
-  * 
-  * @param userId
-  */
- public void setUserId(int userId) {
-  this.userId = userId;
- }
+	/**
+	 * Gibt die articleId zurueck
+	 * 
+	 * @return articleId
+	 */
+	public int articleId() {
+		return articleId;
+	}
 
- /**
-  * Gibt die location zurueck
-  * 
-  * @return location
-  */
- public String getLocation() {
-  return location;
- }
+	/**
+	 * Setzt die articleId
+	 */
+	public void articleId(int articleId) {
+		this.articleId = articleId;
+	}
 
- /**
-  * Setzt die location
-  */
- public void setLocation(String location) {
-  this.location = location;
- }
+	/**
+	 * Gibt die userId zurueck
+	 * 
+	 * @return userId
+	 */
+	public int getUserId() {
+		return userId;
+	}
 
- /**
-  * Gibt den conditionCode zurueck
-  * 
-  * @return conditionCode
-  */
- public String getCondition() {
-  return condition;
- }
+	/**
+	 * 
+	 * @param userId
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
- /**
-  * Setzt den condition
-  */
- public void setCondition(String condition) {
-  this.condition = condition;
- }
+	/**
+	 * Gibt die location zurueck
+	 * 
+	 * @return location
+	 */
+	public String getLocation() {
+		return location;
+	}
 
- /**
-  * Gibt die description zurueck
-  * 
-  * @return description
-  */
- public String getDescription() {
-  return description;
- }
+	/**
+	 * Setzt die location
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
- /**
-  * Setzt die description
-  */
- public void setDescription(String description) {
-  this.description = description;
- }
+	/**
+	 * Gibt den conditionCode zurueck
+	 * 
+	 * @return conditionCode
+	 */
+	public String getCondition() {
+		return condition;
+	}
 
- /**
-  * Gibt die categoryId zurueck
-  * 
-  * @return categoryId
-  */
- public String getCategory() {
-  return category;
- }
+	/**
+	 * Setzt den condition
+	 */
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
 
- /**
-  * Setzt die categoryId
-  */
- public void setCategory(String category) {
-  this.category = category;
- }
+	/**
+	 * Gibt die description zurueck
+	 * 
+	 * @return description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
- /**
-  * Gibt die shippingMethodId zurueck
-  * 
-  * @return shippingMethodId
-  */
- public String getShippingMethods() {
-  return shippingMethods;
- }
+	/**
+	 * Setzt die description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
- /**
-  * Setzt die shippingMethodId
-  */
- public void setShippingMethods(String shippingMethods) {
-  this.shippingMethods = shippingMethods;
- }
+	/**
+	 * Gibt die categoryId zurueck
+	 * 
+	 * @return categoryId
+	 */
+	public String getCategory() {
+		return category;
+	}
 
- /**
-  * Gibt den shippingMethodComment zurueck
-  * 
-  * @return shippingMethodComment
-  */
- public String getShippingMethodComment() {
-  return shippingMethodComment;
- }
+	/**
+	 * Setzt die categoryId
+	 */
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
- /**
-  * Setzt den shippingMethodComment
-  */
- public void setShippingMethodComment(String shippingMethodComment) {
-  this.shippingMethodComment = shippingMethodComment;
- }
+	/**
+	 * Gibt die shippingMethodId zurueck
+	 * 
+	 * @return shippingMethodId
+	 */
+	public String getShippingMethods() {
+		return shippingMethods;
+	}
 
- /**
-  * Gibt die desiredItemsCategoryId zurueck
-  * 
-  * @return desirdItemsCategoryId
-  */
- public ArrayList<Integer> getDesiredItemsCategoryId() {
-  return desiredItemsCategoryIds;
- }
+	/**
+	 * Setzt die shippingMethodId
+	 */
+	public void setShippingMethods(String shippingMethods) {
+		this.shippingMethods = shippingMethods;
+	}
 
- /**
-  * Setzt die desiredItemsCategoryId
-  */
- public void setDesiredItemsCategoryId(
-   ArrayList<Integer> desiredItemsCategoryId) {
-  this.desiredItemsCategoryIds = desiredItemsCategoryId;
- }
+	/**
+	 * Gibt den shippingMethodComment zurueck
+	 * 
+	 * @return shippingMethodComment
+	 */
+	public String getShippingMethodComment() {
+		return shippingMethodComment;
+	}
 
- /**
-  * Gibt den desirdItemsComment zurueck
-  * 
-  * @return desirdItemsComment
-  */
- public String getDesiredItemsComment() {
-  return desiredItemsComment;
- }
+	/**
+	 * Setzt den shippingMethodComment
+	 */
+	public void setShippingMethodComment(String shippingMethodComment) {
+		this.shippingMethodComment = shippingMethodComment;
+	}
 
- /**
-  * Setzt den desiredItemsComment
-  */
- public void setDesiredItemsComment(String desiredItemsComment) {
-  this.desiredItemsComment = desiredItemsComment;
- }
+	/**
+	 * Gibt die desiredItemsCategoryId zurueck
+	 * 
+	 * @return desirdItemsCategoryId
+	 */
+	public ArrayList<Integer> getDesiredItemsCategoryId() {
+		return desiredItemsCategoryIds;
+	}
 
- public void setZipCode(String zipCode) {
-  this.zipCode = zipCode;
- }
+	/**
+	 * Setzt die desiredItemsCategoryId
+	 */
+	public void setDesiredItemsCategoryId(
+			ArrayList<Integer> desiredItemsCategoryId) {
+		this.desiredItemsCategoryIds = desiredItemsCategoryId;
+	}
 
- public String getZipCode() {
-  return zipCode;
- }
+	/**
+	 * Gibt den desirdItemsComment zurueck
+	 * 
+	 * @return desirdItemsComment
+	 */
+	public String getDesiredItemsComment() {
+		return desiredItemsComment;
+	}
 
- public void setOfferScope(String offerScope) {
-  this.offerScope = offerScope;
- }
+	/**
+	 * Setzt den desiredItemsComment
+	 */
+	public void setDesiredItemsComment(String desiredItemsComment) {
+		this.desiredItemsComment = desiredItemsComment;
+	}
 
- public String getOfferScope() {
-  return offerScope;
- }
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
 
-public void setUserName(String userName) {
-	this.userName = userName;
-}
+	public String getZipCode() {
+		return zipCode;
+	}
 
-public String getUserName() {
-	return userName;
-}
+	public void setOfferScope(String offerScope) {
+		this.offerScope = offerScope;
+	}
+
+	public String getOfferScope() {
+		return offerScope;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
+	}
+
+	public String getPictureUrl() {
+		return pictureUrl;
+	}
 
 }
