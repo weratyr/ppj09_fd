@@ -538,7 +538,7 @@ public class UserView extends Composite implements View {
 		{
 			articlePanel = new Panel();
 			articlePanel.setPaddings(10);
-			articlePanel.setTitle("Meine Tauschartikel");
+			articlePanel.setTitle("");
 			articlePanel.setCollapsible(true);
 			articlePanel.setWidth(670);
 			verticalPanel.add(articlePanel);
@@ -640,6 +640,8 @@ public class UserView extends Composite implements View {
 		}
 		try {
 			SwapWeb.getContentPanel().setTitle(user.getUsername()+"'s Profil");
+			articlePanel.setTitle(user.getUsername()+"'s Artikel");
+
 
 		} catch (NullPointerException e) {
 		}
