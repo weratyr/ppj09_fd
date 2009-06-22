@@ -36,8 +36,10 @@ import com.gwtext.client.data.RecordDef;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.data.StringFieldDef;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.grid.BaseColumnConfig;
 import com.gwtext.client.widgets.grid.CheckboxColumnConfig;
@@ -45,6 +47,7 @@ import com.gwtext.client.widgets.grid.CheckboxSelectionModel;
 import com.gwtext.client.widgets.grid.ColumnConfig;
 import com.gwtext.client.widgets.grid.ColumnModel;
 import com.gwtext.client.widgets.grid.GridPanel;
+import com.gwtext.client.widgets.layout.BorderLayout;
 import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class ArticleView extends Composite implements View {
@@ -257,7 +260,7 @@ public class ArticleView extends Composite implements View {
 			articleDescription.setPaddings(5);
 			verticalPanel.add(articleDescription);
 			verticalPanel.setSpacing(10);
-			createOwnArticlesForm();
+			createOwnArticlesForm(); 
 
 		}
 	}
@@ -280,6 +283,8 @@ public class ArticleView extends Composite implements View {
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 
 		articleManager.getOwnArticlesList(new AsyncCallback<ArrayList<Article>>() {
+			private Window window;
+
 			public void onFailure(Throwable caught) {
 				System.out
 				.println("RPC ArticleView: Fehler beim ausgeben der eigenen Artikel");
@@ -338,17 +343,28 @@ public class ArticleView extends Composite implements View {
 				grid.setWidth(660);
 				grid.setFrame(true);
 				grid.setTitle("Ihre eigenen Artikel");
-
+				
+				window = new Window();
+				window.setTitle("Bild hochladen");
+				window.setClosable(true);
+				window.setWidth(600);
+				window.setHeight(350);
+				window.setPlain(true);
+				window.add(getOfferSubmitForm());
+				window.setCloseAction(Window.HIDE);
+				
 				Button button = new Button("Angebot senden",
 						new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
-								Record[] records = cbSelectionModel.getSelections();
-								String msg = "";
-								for (int i = 0; i < records.length; i++) {
-									Record record = records[i];
-									msg += record.getAsString("artikel") + " ";
-								}
-								System.out.println("Records Selected :" + msg);
+//								Record[] records = cbSelectionModel.getSelections();
+//								String msg = "";
+//								for (int i = 0; i < records.length; i++) {
+//									Record record = records[i];
+//									msg += record.getAsString("artikel") + " ";
+//								}
+//								System.out.println("Records Selected :" + msg);
+								
+								window.show(button.getId());  
 							}
 						});
 
@@ -361,6 +377,16 @@ public class ArticleView extends Composite implements View {
 								+ lblUsername + " zu senden. Wenn sie mehrere Artikel auswählen, werden diese Artikel zu einem Angebot zusammengefasst.");
 				verticalPanel.add(guide);
 			}
+
+			private Component getOfferSubmitForm() {
+				Panel offerSubmitForm = new Panel();
+				Label offerQuestion = new Label();
+				Label offerList = new Label();
+
+				offerQuestion.setText("Sind sie sicher, dass sie Folgende Artikel:\n"+offerList+" gegen den Artikel \""+article.getTitle().toString()+"\" tauschen möchten?");
+				offerSubmitForm.add(offerQuestion);
+				return offerSubmitForm;
+			} 	 	
 		});
 	}
          
