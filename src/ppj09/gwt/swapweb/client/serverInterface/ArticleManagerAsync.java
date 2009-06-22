@@ -7,6 +7,8 @@
 
 package ppj09.gwt.swapweb.client.serverInterface;
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 
@@ -27,4 +29,5 @@ public interface ArticleManagerAsync {
 	public void updateArticle(AsyncCallback<Integer> callback);
 	public void readArticle(SearchResult searchResult, AsyncCallback<Article> callback);
 	public void getArticle(int articleId, AsyncCallback<Article> callback);
+	public void getOwnArticlesList(AsyncCallback<ArrayList<Article>> callback);
 }

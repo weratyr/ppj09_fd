@@ -7,6 +7,8 @@
 
 package ppj09.gwt.swapweb.client.serverInterface;
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 
@@ -29,4 +31,5 @@ public interface ArticleManager extends RemoteService {
 	public int updateArticle();
 	public Article readArticle(SearchResult searchResult);
 	public Article getArticle(int articleId);
+	public ArrayList<Article> getOwnArticlesList();
 }

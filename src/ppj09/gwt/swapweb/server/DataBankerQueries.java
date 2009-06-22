@@ -349,13 +349,13 @@ public class DataBankerQueries {
 	 * Liefert den Username für eine userid oder Null wenn die userid nicht
 	 * existiert
 	 */
-	public String getUsername(int userId) {
+	public String getUsername(int user) {
 		ResultSet rs = null;
 		String username = null;
 
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		String query = "SELECT username FROM user WHERE id='" + userId + "'";
+		String query = "SELECT username FROM user WHERE id='" + user + "'";
 		try {
 			rs = stmt.executeQuery(query);
 			while (rs.next()) {
@@ -371,6 +371,7 @@ public class DataBankerQueries {
 		}
 		return username;
 	}
+
 
 	public User getUserProfile(String username) {
 		User user = new User();
@@ -432,6 +433,9 @@ public class DataBankerQueries {
 		} else if (sq.getCategoryPhrase() != null) {
 			query = "SELECT * FROM article WHERE category ='"
 					+ sq.getCategoryPhrase() + "'";
+		} else if (sq.getUserIdPhrase() != null) {
+			query = "SELECT * FROM article WHERE id ='"
+				+ sq.getCategoryPhrase() + "'";
 		} else {
 			query = "SELECT * FROM article WHERE title ='"
 					+ sq.getSearchPhrase() + "'";
@@ -468,6 +472,7 @@ public class DataBankerQueries {
 
 			while (rs.next()) {
 				article.setUserId(rs.getInt("userid"));
+				article.setUserName(getUsername(rs.getInt("userid")));
 				article.setTitle(rs.getString("title"));
 				article.setZipCode(rs.getString("zipcode"));
 				article.setLocation(rs.getString("city"));
@@ -500,10 +505,8 @@ public class DataBankerQueries {
 		String query = "SELECT * FROM categories";
 		try {
 			rs = stmt.executeQuery(query);
-			int i = 0;
 			while (rs.next()) {
 				categories.add(rs.getString("category"));
-				i++;
 			}
 			rs.close();
 			dbc.close();
@@ -514,5 +517,29 @@ public class DataBankerQueries {
 			return null;
 		}
 		return categories;
+	}
+
+	public ArrayList<Article> getOwnArticlesList(int userId) {
+		ResultSet rs = null;
+		ArrayList<Article> ownArticles = new ArrayList<Article>();
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		String query = "SELECT * FROM article WHERE userid ='" + userId + "'";
+		try {
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				ownArticles.add(new Article(rs.getInt("id"),rs.getString("title"),rs.getString("amount")));
+			}
+			rs.close();
+			dbc.close();
+			stmt.close();
+			dbc.closeStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		
+		return ownArticles;
 	}
 }
