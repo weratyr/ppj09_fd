@@ -3,8 +3,8 @@ package ppj09.gwt.swapweb.client;
 /*
  * TODO:
  * - erfolgreichen Login irgendwie kennzeichnen
- *     - Login und Register Panels verschwinden lassen  		- ERLEDIGT
  *     - eingeloggten User anzeigen
+ *     - logout Möglichkeit
  * - Nachrichtensystem
  *     - User-User Nachrichten
  *     - Benachrichtigung bei
