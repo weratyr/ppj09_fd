@@ -76,16 +76,13 @@ public class AdvancedSearchForm implements Form{
 		//		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
 		//				"nix drin" }, };
 
-		Store categoryStore = new SimpleStore(new String[] { "index", "category" },
-				new String[][] {
-				new String[] { "1", "test1" },
-				new String[] { "2", "test2" } });
+		Store categoryStore = new SimpleStore("category", new String[]{"abc"});
 		categoryStore.load();
 
 		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
 
 		articleCategoryCB.setStore(categoryStore);
-		articleCategoryCB.setDisplayField("options");
+		articleCategoryCB.setDisplayField("category");
 		articleCategoryCB.setMode(ComboBox.LOCAL);
 		articleCategoryCB.setTriggerAction(ComboBox.ALL);
 		articleCategoryCB.setForceSelection(true);
