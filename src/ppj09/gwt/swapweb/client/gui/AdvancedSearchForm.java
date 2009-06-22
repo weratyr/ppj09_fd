@@ -41,7 +41,7 @@ public class AdvancedSearchForm implements Form{
 	private ComboBox categoryComboBox;
 
 	public AdvancedSearchForm(TabPanel outerTabPanel) {
-		categoryComboBox = new ComboBox();
+		categoryComboBox = new ComboBox("Kategorie");
 		final FormPanel containerFormPanel = new FormPanel();
 		containerFormPanel.setId("advanced-panel"); 
 		containerFormPanel.setTitle("Erweiterte Suche");
@@ -92,10 +92,12 @@ public class AdvancedSearchForm implements Form{
 //		articleCategoryCB.setWidth(120);
 //		secondColumn.add(articleCategoryCB);
 		
-		Panel categoryPanel = new Panel();
-		categoryPanel.setBorder(false);
-		secondColumn.add(categoryPanel);
-		SwapWeb.getCategories(categoryPanel, categoryComboBox);
+//		Panel categoryPanel = new Panel();
+//		categoryPanel.setBorder(false);
+//		secondColumn.add(categoryPanel);
+		SwapWeb.getCategories(secondColumn, categoryComboBox);
+		categoryComboBox.setFieldLabel("Kategorie");
+//		categoryPanel.setHeight(50);
 
 		Object[][] optionsCondition = new Object[][] {
 				new Object[] { "b", "Beliebig" }, new Object[] { "n", "Neu" },
