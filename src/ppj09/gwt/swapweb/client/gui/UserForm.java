@@ -1,7 +1,5 @@
 package ppj09.gwt.swapweb.client.gui;
 
-
-
 /**
 
  * Autor Daniel Abeska
@@ -10,11 +8,7 @@ package ppj09.gwt.swapweb.client.gui;
 
  */
 
-
-
 import java.util.Date;
-
-
 
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -22,8 +16,6 @@ import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
-
-
 
 import com.google.gwt.user.client.Timer;
 
@@ -98,8 +90,6 @@ import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 import com.gwtext.client.widgets.layout.ColumnLayoutData;
 
 import com.gwtext.client.widgets.form.TextArea;
-
-
 
 public class UserForm extends Composite implements View {
 
@@ -199,31 +189,22 @@ public class UserForm extends Composite implements View {
 
 	private TextField hiddenText;
 
-
-
 	/**
-
+	 * 
 	 * Constructor
-
 	 * 
-
+	 * 
+	 * 
 	 * @param username
-
 	 * 
-
+	 * 
 	 */
 
-
-
 	public UserForm() {
-
-
 
 		createForm();
 
 		getuser();
-
-
 
 	}
 
@@ -232,8 +213,6 @@ public class UserForm extends Composite implements View {
 		createForm();
 
 	}
-
-
 
 	public void createForm() {
 
@@ -244,11 +223,6 @@ public class UserForm extends Composite implements View {
 			initWidget(verticalPanel);
 
 			SwapWeb.getContentPanel().setTitle("Profil bearbeiten");
-
-
-
-
-
 
 			{
 
@@ -264,257 +238,206 @@ public class UserForm extends Composite implements View {
 
 					absolutePanel.setSize("200", "200");
 
-
-
 					image = new Image();
 
 					image.setPixelSize(150, 150);
 
 					absolutePanel.add(image, 0, 0);
 
+					// imageUploader = new TextField("File", "file");
 
+					// imageUploader.setInputType("file");
 
-					//imageUploader = new TextField("File", "file");
-
-					//imageUploader.setInputType("file");
-
-					//absolutePanel.add(imageUploader, 0, 160);
-
-					
-
-					
-
-					
-
-					
-
-					
-
-					
+					// absolutePanel.add(imageUploader, 0, 160);
 
 					// // AB HIER FORM FÜR FILE UPLOAD
 
+					final com.google.gwt.user.client.ui.FormPanel form = new com.google.gwt.user.client.ui.FormPanel();
 
+					form.setAction(GWT.getModuleBaseURL()
 
-				     final com.google.gwt.user.client.ui.FormPanel form = new com.google.gwt.user.client.ui.FormPanel();
+					+ "UserImageUpdateHandler");
 
-				     form.setAction(GWT.getModuleBaseURL()
+					// Because we're going to add a FileUpload widget, we'll
 
-				       + "UserImageUpdateHandler");
+					// need to set the
 
+					// form to use the POST method, and multipart MIME encoding.
 
+					form
 
-				     // Because we're going to add a FileUpload widget, we'll
+							.setEncoding(com.google.gwt.user.client.ui.FormPanel.ENCODING_MULTIPART);
 
-				     // need to set the
+					form
 
-				     // form to use the POST method, and multipart MIME encoding.
+							.setMethod(com.google.gwt.user.client.ui.FormPanel.METHOD_POST);
 
-				     form
+					VerticalPanel panel = new VerticalPanel();
 
-				       .setEncoding(com.google.gwt.user.client.ui.FormPanel.ENCODING_MULTIPART);
+					form.setWidget(panel);
 
-				     form
+					// Create a FileUpload widget.
 
-				       .setMethod(com.google.gwt.user.client.ui.FormPanel.METHOD_POST);
+					final FileUpload upload = new FileUpload();
 
+					upload.setName("uploadFormElement");
 
+					hiddenText = new TextField();
 
-				     VerticalPanel panel = new VerticalPanel();
+					hiddenText.setName("uploadHiddenElement");
 
-				     form.setWidget(panel);
+					hiddenText.setVisible(false);
 
+					panel.add(upload);
 
+					panel.add(hiddenText);
 
-				     // Create a FileUpload widget.
+					Button button2 = new Button("Submit");
 
-				     final FileUpload upload = new FileUpload();
+					button2.addListener(new ButtonListenerAdapter() {
 
-				     upload.setName("uploadFormElement");
+						public void onClick(Button button, EventObject e) {
 
+							if (validateImageExtension(upload.getFilename())) {
 
+								form.submit();
 
-				     hiddenText = new TextField();
+							} else {
 
-				     hiddenText.setName("uploadHiddenElement");
+								MessageBox
+										.alert("Bitte wählen Sie ein Bild mit der Endung\n \"jpg\", \"png\" oder \"bmp\" aus.");
 
-				     hiddenText.setVisible(false);
+							}
 
-				     
+						}
 
-				     panel.add(upload);
+					});
 
-				     panel.add(hiddenText);
+					// Add a 'submit' button.
 
+					panel.add(button2);
 
+					form.addSubmitHandler(new SubmitHandler() {
 
-				     Button button2 = new Button("Submit");
+						public void onSubmit(SubmitEvent event) {
 
-				     button2.addListener(new ButtonListenerAdapter() {
+							if (upload.getFilename().length() == 0) {
 
-				      public void onClick(Button button, EventObject e) {
+								MessageBox
 
-				    	  if(validateImageExtension(upload.getFilename())) {
+								.alert("The text box must not be empty");
 
-				             form.submit();
+								event.cancel();
 
-						  } else {
+							} else {
 
-							 MessageBox.alert("Bitte wählen Sie ein Bild mit der Endung\n \"jpg\", \"png\" oder \"bmp\" aus.");
+								MessageBox.show(new MessageBoxConfig() {
 
-						  }
+									{
 
+										setMsg("Ihr Bild wird gespeichert, bitte warten...");
 
+										setProgressText("Speichern...");
 
-				      }
+										setWidth(300);
 
-				     });
+										setWait(true);
 
+										setWaitConfig(new WaitConfig() {
 
+											{
 
-				     // Add a 'submit' button.
+												setInterval(200);
 
-				     panel.add(button2);
+											}
 
+										});
 
+										setAnimEl(uploadWindowButton.getId());
 
-				     form.addSubmitHandler(new SubmitHandler() {
+									}
 
+								});
 
+								Timer timer = new Timer() {
 
-				      public void onSubmit(SubmitEvent event) {
+									public void run() {
 
-				       if (upload.getFilename().length() == 0) {
+										MessageBox.hide();
 
-				        MessageBox
+										System.out
 
-				          .alert("The text box must not be empty");
+												.println("Done, Your fake data was saved!");
 
-				        event.cancel();
+									}
 
-				       } else {
+								};
 
-				        MessageBox.show(new MessageBoxConfig() {
+								timer.schedule(8000);
 
-				         {
+							}
 
-				          setMsg("Ihr Bild wird gespeichert, bitte warten...");
+						}
 
-				          setProgressText("Speichern...");
+					});
 
-				          setWidth(300);
+					form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 
-				          setWait(true);
+						public void onSubmitComplete(SubmitCompleteEvent event) {
 
-				          setWaitConfig(new WaitConfig() {
+							// When the form submission is successfully
 
-				           {
+							// completed, this event is
 
-				            setInterval(200);
+							// fired. Assuming the service returned a response
 
-				           }
+							// of type text/html,
 
-				          });
+							// we can get the result text here (see the
 
-				          setAnimEl(uploadWindowButton.getId());
+							// FormPanel documentation for
 
-				         }
+							// further explanation).
 
-				        });
+							MessageBox.alert(event.getResults());
 
+							getuser();
 
+						}
 
-				        Timer timer = new Timer() {
+					});
 
-				         public void run() {
+					window = new Window();
 
-				          MessageBox.hide();
+					window.setTitle("Bild hochladen");
 
-				          System.out
+					window.setClosable(true);
 
-				            .println("Done, Your fake data was saved!");
+					window.setWidth(600);
 
-				         }
+					window.setHeight(350);
 
-				        };
+					window.setPlain(true);
 
-				        timer.schedule(8000);
+					window.add(form);
 
-				       }
+					window.setCloseAction(Window.HIDE);
 
-				      }
+					uploadWindowButton = new Button("Bild hochladen");
 
-				     });
+					uploadWindowButton.addListener(new ButtonListenerAdapter() {
 
+						public void onClick(Button button, EventObject e) {
 
+							window.show(submitButton.getId());
 
-				     form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+						}
 
-				      public void onSubmitComplete(SubmitCompleteEvent event) {
+					});
 
-				       // When the form submission is successfully
+					absolutePanel.add(uploadWindowButton, 0, 160);
 
-				       // completed, this event is
-
-				       // fired. Assuming the service returned a response
-
-				       // of type text/html,
-
-				       // we can get the result text here (see the
-
-				       // FormPanel documentation for
-
-				       // further explanation).
-
-				       MessageBox.alert(event.getResults());
-
-				       getuser();
-
-				      }
-
-				     });
-
-
-
-				     window = new Window();
-
-				     window.setTitle("Bild hochladen");
-
-				     window.setClosable(true);
-
-				     window.setWidth(600);
-
-				     window.setHeight(350);
-
-				     window.setPlain(true);
-
-				     window.add(form);
-
-				     window.setCloseAction(Window.HIDE);
-
-
-
-				     
-
-				     uploadWindowButton = new Button("Bild hochladen");
-
-				     uploadWindowButton.addListener(new ButtonListenerAdapter() {
-
-				      public void onClick(Button button, EventObject e) {
-
-				       window.show(submitButton.getId());
-
-				      }
-
-				     });
-
-				     absolutePanel.add(uploadWindowButton, 0, 160);
-
-					 
-
-				     // //// ENDE FORMS FÜR FILE UPLOAD
-
-					
+					// //// ENDE FORMS FÜR FILE UPLOAD
 
 				}
 
@@ -530,15 +453,13 @@ public class UserForm extends Composite implements View {
 
 					formPanelTop.setBorder(false);
 
-		
-
 					// formPanelTop.setBorder(false);
 
 					{
 
 						txtbxFirstName = new TextField("Vorname*",
 
-								"text_field", 190);
+						"text_field", 190);
 
 						txtbxFirstName.setAllowBlank(false);
 
@@ -546,11 +467,9 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxFirstName);
 
-
-
 						txtbxLastName = new TextField("Nachname*",
 
-								"text_field", 190);
+						"text_field", 190);
 
 						txtbxLastName.setAllowBlank(false);
 
@@ -558,11 +477,9 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxLastName);
 
-
-
 						txtbxStreet = new TextField("Stra\u00DFe* / Nr.*",
 
-								"text_field", 145);
+						"text_field", 145);
 
 						txtbxStreet.setAllowBlank(false);
 
@@ -571,8 +488,6 @@ public class UserForm extends Composite implements View {
 								.setBlankText("Bitte geben Sie ihre Stra\u00DFe und Hausnummer ein");
 
 						txtbxStreet.setSelectOnFocus(true);
-
-
 
 						txtbxNumber = new NumberField("Nr.", "number_field", 40);
 
@@ -588,31 +503,25 @@ public class UserForm extends Composite implements View {
 
 						txtbxNumber.setSelectOnFocus(true);
 
-
-
 						streetPanel = new MultiFieldPanel();
 
 						streetPanel.addToRow(txtbxStreet, 255);
 
 						streetPanel.addToRow(txtbxNumber, new ColumnLayoutData(
 
-								1));
+						1));
 
 						streetPanel.setBorder(false);
 
 						formPanelTop.add(streetPanel);
 
-
-
 						txtbxZip = new TextField("Plz* / Wohnort*",
 
-								"text_field", 50);
+						"text_field", 50);
 
 						txtbxZip.setAllowBlank(false);
 
 						txtbxZip.setSelectOnFocus(true);
-
-
 
 						txtbxCity = new TextField("Wohnort", "text_field", 135);
 
@@ -621,8 +530,6 @@ public class UserForm extends Composite implements View {
 						txtbxCity.setHideLabel(true);
 
 						txtbxCity.setSelectOnFocus(true);
-
-
 
 						panel1 = new MultiFieldPanel();
 
@@ -634,15 +541,13 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(panel1);
 
-
-
 						txtbxEmail = new TextField("eMail*", "text_field", 190);
 
 						txtbxEmail.setAllowBlank(false);
 
 						txtbxEmail
 
-								.setBlankText("Bitte geben Sie ihre eMail Adresse ein");
+						.setBlankText("Bitte geben Sie ihre eMail Adresse ein");
 
 						txtbxEmail.setVtype(VType.EMAIL);
 
@@ -652,11 +557,9 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxEmail);
 
-
-
 						txtbxEmail2 = new TextField("eMail wdh.*",
 
-								"text_field", 190);
+						"text_field", 190);
 
 						txtbxEmail2.setAllowBlank(false);
 
@@ -672,13 +575,11 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxEmail2);
 
-
-
 						// TODO
 
 						txtbxPwd = new TextField("Altes Passwort",
 
-								"text_field", 190);
+						"text_field", 190);
 
 						txtbxPwd.setSelectOnFocus(true);
 
@@ -694,13 +595,11 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxPwd);
 
-
-
 						// TODO
 
 						txtbxPwdNew = new TextField("Neues Passwort",
 
-								"text_field", 190);
+						"text_field", 190);
 
 						txtbxPwdNew.setSelectOnFocus(true);
 
@@ -716,13 +615,11 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxPwdNew);
 
-
-
 						// TODO
 
 						txtbxPwdNew2 = new TextField(
 
-								"Neues Passwort wiederholen", "text_field", 190);
+						"Neues Passwort wiederholen", "text_field", 190);
 
 						txtbxPwdNew2.setSelectOnFocus(true);
 
@@ -738,21 +635,17 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxPwdNew2);
 
-
-
 						final Store store = new SimpleStore(new String[] {
 
-								"geschlecht", "nr" }, new String[][] {
+						"geschlecht", "nr" }, new String[][] {
 
-								new String[] { "-", "0" },
+						new String[] { "-", "0" },
 
-								new String[] { "M\u00E4nnlich", "1" },
+						new String[] { "M\u00E4nnlich", "1" },
 
-								new String[] { "Weiblich", "2" } });
+						new String[] { "Weiblich", "2" } });
 
 						store.load();
-
-
 
 						// TODO
 
@@ -780,15 +673,11 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(comboBoxGender);
 
-
-
 						dateField = new DateField("Geburtstag ", "date_Field",
 
-								190);
+						190);
 
 						formPanelTop.add(dateField);
-
-
 
 						txtbxJob = new TextField("Beruf ", "text_field", 190);
 
@@ -798,17 +687,13 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxJob);
 
-
-
 						txtbxHomepage = new TextField("Homepage ",
 
-								"text_field", 190);
+						"text_field", 190);
 
 						txtbxHomepage.setSelectOnFocus(true);
 
 						formPanelTop.add(txtbxHomepage);
-
-
 
 						txtbxHobbys = new TextArea("Hobbys ", "text_field");
 
@@ -820,11 +705,9 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxHobbys);
 
-
-
 						txtbxMusic = new TextArea("Musikgeschmack ",
 
-								"text_field");
+						"text_field");
 
 						txtbxMusic.setSize(190, 80);
 
@@ -834,11 +717,9 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxMusic);
 
-
-
 						txtbxMovie = new TextArea("Filmgeschmack ",
 
-								"text_field");
+						"text_field");
 
 						txtbxMovie.setSize(190, 80);
 
@@ -847,8 +728,6 @@ public class UserForm extends Composite implements View {
 						txtbxMovie.isValidateOnBlur();
 
 						formPanelTop.add(txtbxMovie);
-
-
 
 						txtbxILike = new TextArea("Ich mag ", "text_field");
 
@@ -860,11 +739,9 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxILike);
 
-
-
 						txtbxIDontLike = new TextArea("Ich mag nicht ",
 
-								"text_field");
+						"text_field");
 
 						txtbxIDontLike.setSize(190, 80);
 
@@ -874,11 +751,9 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxIDontLike);
 
-
-
 						txtbxAboutMe = new TextArea("&uuml;ber mich ",
 
-								"text_field");
+						"text_field");
 
 						txtbxAboutMe.setSize(190, 80);
 
@@ -888,15 +763,11 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxAboutMe);
 
-
-
 						txtbxIcq = new TextField("ICQ ", "text_field", 190);
 
 						txtbxIcq.setSelectOnFocus(true);
 
 						formPanelTop.add(txtbxIcq);
-
-
 
 						txtbxMsn = new TextField("MSN ", "text_field", 190);
 
@@ -904,15 +775,11 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxMsn);
 
-
-
 						txtbxYahoo = new TextField("Yahoo ", "text_field", 190);
 
 						txtbxYahoo.setSelectOnFocus(true);
 
 						formPanelTop.add(txtbxYahoo);
-
-
 
 						txtbxAim = new TextField("AIM ", "text_field", 190);
 
@@ -920,17 +787,13 @@ public class UserForm extends Composite implements View {
 
 						formPanelTop.add(txtbxAim);
 
-
-
 						txtbxJabber = new TextField("Jabber ", "text_field",
 
-								190);
+						190);
 
 						txtbxJabber.setSelectOnFocus(true);
 
 						formPanelTop.add(txtbxJabber);
-
-
 
 						resetButton = new Button("Abbrechen");
 
@@ -944,11 +807,7 @@ public class UserForm extends Composite implements View {
 
 							}
 
-
-
 						});
-
-
 
 						submitButton = new Button("Speichern");
 
@@ -962,13 +821,11 @@ public class UserForm extends Composite implements View {
 
 								submit();
 
-								//checkPassword(txtbxPwd.getText());
+								// checkPassword(txtbxPwd.getText());
 
 							}
 
 						});
-
-
 
 						panelButton = new MultiFieldPanel();
 
@@ -976,13 +833,11 @@ public class UserForm extends Composite implements View {
 
 						panelButton.addToRow(submitButton,
 
-								new ColumnLayoutData(1));
+						new ColumnLayoutData(1));
 
 						panelButton.setBorder(false);
 
 						formPanelTop.add(panelButton);
-
-
 
 					}
 
@@ -992,27 +847,17 @@ public class UserForm extends Composite implements View {
 
 			}
 
-
-
 		}
 
 	}
 
-
-
 	private boolean submit() {
-
-
 
 		fillUser(user);
 
 		System.out.println("test submit");
 
-
-
 		UserManagerAsync userManager = GWT.create(UserManager.class);
-
-
 
 		userManager.updateUser(user, new AsyncCallback<Integer>() {
 
@@ -1023,8 +868,6 @@ public class UserForm extends Composite implements View {
 				System.out.println("neeee: " + caught.getMessage());
 
 			}
-
-
 
 			public void onSuccess(Integer serverMsg) {
 
@@ -1040,13 +883,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	private void getuser() {
 
 		UserManagerAsync userManager = GWT.create(UserManager.class);
-
-
 
 		userManager.getUser(new AsyncCallback<User>() {
 
@@ -1056,23 +895,15 @@ public class UserForm extends Composite implements View {
 
 				MessageBox.alert("Sie sind nicht eingeloggt");
 
-
-
 			}
-
-
 
 			public void onSuccess(User userProfile) {
 
 				// :)
 
-				
-
 				user = userProfile;
 
 				fillForm(userProfile);
-
-				
 
 			}
 
@@ -1080,20 +911,18 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
-	 * sendet den eingegeben Benutzernamen an den Server, welcher ï¿½berprï¿½ft ob
-
-	 * dieser noch frei ist. Ist der Benutzername schon vergeben, wird das
-
-	 * textField txtbxUserFree sichtbar geschaltet,
-
 	 * 
-
+	 * sendet den eingegeben Benutzernamen an den Server, welcher ï¿½berprï¿½ft
+	 * ob
+	 * 
+	 * dieser noch frei ist. Ist der Benutzername schon vergeben, wird das
+	 * 
+	 * textField txtbxUserFree sichtbar geschaltet,
+	 * 
+	 * 
+	 * 
 	 * @param username
-
 	 */
 
 	public void checkUsername(String username) {
@@ -1104,8 +933,6 @@ public class UserForm extends Composite implements View {
 
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
-
-
 		userManager.checkUsername(username, new AsyncCallback<Boolean>() {
 
 			public void onFailure(Throwable caught) {
@@ -1114,11 +941,7 @@ public class UserForm extends Composite implements View {
 
 				MessageBox.alert("Sie sind nicht eingeloggt");
 
-
-
 			}
-
-
 
 			public void onSuccess(Boolean serverMsg) {
 
@@ -1127,8 +950,6 @@ public class UserForm extends Composite implements View {
 				// if (!serverMsg) {
 
 				MessageBox.alert("test");
-
-
 
 				txtbxUserFree.setVisible(true);
 
@@ -1140,59 +961,49 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	public boolean checkPassword(String password) {
 
 		UserManagerAsync userManager = GWT.create(UserManager.class);
-
-
 
 		if (!txtbxPwd.getText().equals("")) {
 
 			if (txtbxPwdNew.getText().equals(txtbxPwdNew2.getText())
 
-					&& !txtbxPwdNew.getText().equals("")) {
+			&& !txtbxPwdNew.getText().equals("")) {
 
 				if ((txtbxPwdNew.isValid() && txtbxPwdNew2.isValid())) {
 
 					userManager.checkPassword(password,
 
-							new AsyncCallback<Boolean>() {
+					new AsyncCallback<Boolean>() {
 
-								public void onFailure(Throwable caught) {
+						public void onFailure(Throwable caught) {
 
-									// :(
+							// :(
 
-									MessageBox.alert("Fehler" + caught);
+							MessageBox.alert("Fehler" + caught);
 
+						}
 
+						public void onSuccess(Boolean serverMsg) {
 
-								}
+							// :)
 
+							checkedPw = serverMsg;
 
+							if (serverMsg) {
 
-								public void onSuccess(Boolean serverMsg) {
+								System.out.println("pw okay");
 
-									// :)
+							} else {
 
-									checkedPw = serverMsg;
+								System.out.println("pw falsch");
 
-									if (serverMsg) {
+							}
 
-										System.out.println("pw okay");
+						}
 
-									} else {
-
-										System.out.println("pw falsch");
-
-									}
-
-
-
-								}
-
-							});
+					});
 
 				} else {
 
@@ -1204,13 +1015,15 @@ public class UserForm extends Composite implements View {
 
 				System.out
 
-						.println("neue PasswÃ¶rter leer/ stimmen nicht Ã¼berein");
+				.println("neue PasswÃ¶rter leer/ stimmen nicht Ã¼berein");
 
-				txtbxPwdNew.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
+				txtbxPwdNew
+						.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
 
-				txtbxPwdNew2.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
+				txtbxPwdNew2
+						.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
 
-				}
+			}
 
 		} else {
 
@@ -1220,15 +1033,9 @@ public class UserForm extends Composite implements View {
 
 		return checkedPw;
 
-
-
 	}
 
-
-
 	public void fillForm(User user) {
-
-
 
 		try {
 
@@ -1240,8 +1047,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setLastName(user.getLastName());
 
 		} catch (NullPointerException e) {
@@ -1249,8 +1054,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setStreet(user.getStreet());
 
@@ -1260,8 +1063,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setHouseNumber(user.getHouseNumber());
 
 		} catch (NullPointerException e) {
@@ -1269,8 +1070,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setZip(user.getZip());
 
@@ -1280,8 +1079,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setCity(user.getCity());
 
 		} catch (NullPointerException e) {
@@ -1290,8 +1087,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setUsername(user.getUsername());
 
 		} catch (NullPointerException e) {
@@ -1299,8 +1094,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setHiddenText(user.getUsername());
 
@@ -1318,8 +1111,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setEmail(user.getEmail());
 
 		} catch (NullPointerException e) {
@@ -1327,8 +1118,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setGender(user.getGender());
 
@@ -1338,8 +1127,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setBirthdate(user.getBirthdate());
 
 		} catch (NullPointerException e) {
@@ -1347,9 +1134,7 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
-
+			System.out.println(user.getJob());
 			this.setJob(user.getJob());
 
 		} catch (NullPointerException e) {
@@ -1357,8 +1142,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setHomepage(user.getHomepage());
 
@@ -1368,8 +1151,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setHobbys(user.getHobbys());
 
 		} catch (NullPointerException e) {
@@ -1377,8 +1158,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setMusic(user.getMusic());
 
@@ -1388,8 +1167,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setMovie(user.getMovie());
 
 		} catch (NullPointerException e) {
@@ -1397,8 +1174,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setILike(user.getILike());
 
@@ -1408,8 +1183,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setIDontLike(user.getIDontLike());
 
 		} catch (NullPointerException e) {
@@ -1417,8 +1190,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setAboutMe(user.getAboutMe());
 
@@ -1428,8 +1199,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setIcq(user.getIcq());
 
 		} catch (NullPointerException e) {
@@ -1437,8 +1206,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setMsn(user.getMsn());
 
@@ -1448,8 +1215,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setYahoo(user.getYahoo());
 
 		} catch (NullPointerException e) {
@@ -1457,8 +1222,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setAim(user.getAim());
 
@@ -1468,8 +1231,6 @@ public class UserForm extends Composite implements View {
 
 		try {
 
-
-
 			this.setJabber(user.getJabber());
 
 		} catch (NullPointerException e) {
@@ -1477,8 +1238,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-
-
 
 			this.setImage(user.getImage());
 
@@ -1488,49 +1247,32 @@ public class UserForm extends Composite implements View {
 
 		System.out.println("test3");
 
-
-
 	}
 
-	
-
-	public boolean validateImageExtension(String filename){
+	public boolean validateImageExtension(String filename) {
 
 		boolean isAllowdExt = false;
 
-		
-
 		int indexPoint = filename.lastIndexOf(".");
 
-	    int length = filename.length();
+		int length = filename.length();
 
-	       
+		String extension = filename.substring(indexPoint + 1, length);
 
-	    String extension = filename.substring(indexPoint+1, length);
+		if (extension.equals("jpg") || extension.equals("png")
+				|| extension.equals("bmp")) {
 
-		
+			isAllowdExt = true;
 
-	    if (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp")) {
-
-	    	isAllowdExt = true;
-
-	    }
-
-	    
+		}
 
 		return isAllowdExt;
 
-   }
-
-
+	}
 
 	public void validate() {
 
-
-
 	}
-
-
 
 	public User fillUser(User user) {
 
@@ -1546,15 +1288,15 @@ public class UserForm extends Composite implements View {
 
 		user.setCity(getCity());
 
-		//user.setUsername(getUsername());
+		// user.setUsername(getUsername());
 
-		//user.setPassword(getPwd());
+		// user.setPassword(getPwd());
 
 		user.setEmail(getEmail());
 
-		//user.setGender(getGender());
+		// user.setGender(getGender());
 
-		//user.setBirthdate(getBirthday());
+		// user.setBirthdate(getBirthday());
 
 		user.setJob(getJob());
 
@@ -1584,23 +1326,16 @@ public class UserForm extends Composite implements View {
 
 		user.setImage(getImage());
 
-
-
 		return user;
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param firstName
-
+	 * 
 	 *            the firstName to set
-
 	 */
-
-
 
 	public void setFirstName(String firstName) {
 
@@ -1608,12 +1343,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the firstName textField
-
 	 */
 
 	public String getFirstName() {
@@ -1622,17 +1354,12 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param lastName
-
+	 * 
 	 *            the firstName to set
-
 	 */
-
-
 
 	public void setLastName(String lastName) {
 
@@ -1640,12 +1367,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the lastName textField
-
 	 */
 
 	public String getLastName() {
@@ -1654,17 +1378,12 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param street
-
+	 * 
 	 *            the street to set
-
 	 */
-
-
 
 	public void setStreet(String street) {
 
@@ -1672,12 +1391,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the firstName textField
-
 	 */
 
 	public String getStreet() {
@@ -1686,17 +1402,12 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param houseNumber
-
+	 * 
 	 *            the houseNumber to set
-
 	 */
-
-
 
 	public void setHouseNumber(String number) {
 
@@ -1704,12 +1415,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the houseNumber textField
-
 	 */
 
 	public String getHouseNumber() {
@@ -1718,14 +1426,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param zipCode
-
+	 * 
 	 *            the zipCode to set
-
 	 */
 
 	public void setZip(String zip) {
@@ -1734,12 +1439,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the zipCode textField
-
 	 */
 
 	public String getZip() {
@@ -1748,14 +1450,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param city
-
+	 * 
 	 *            the city to set
-
 	 */
 
 	public void setCity(String city) {
@@ -1764,12 +1463,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the city textField
-
 	 */
 
 	public String getCity() {
@@ -1778,17 +1474,12 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param eMail
-
+	 * 
 	 *            the eMail to set
-
 	 */
-
-
 
 	public void setEmail(String email) {
 
@@ -1798,12 +1489,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the eMail textField
-
 	 */
 
 	public String getEmail() {
@@ -1812,28 +1500,22 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param username
-
+	 * 
 	 *            the username to set
-
 	 */
 
 	public void setUsername(String username) {
 
 		// this.txtbxUsername.setRawValue(username);
-		//SwapWeb.getContentPanel().setTitle("Profil bearbeiten");
+		// SwapWeb.getContentPanel().setTitle("Profil bearbeiten");
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the eMail textField
-
 	 */
 
 	public String getPwd() {
@@ -1842,14 +1524,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param username
-
+	 * 
 	 *            the username to set
-
 	 */
 
 	public void setPwd(String pwd) {
@@ -1858,12 +1537,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the username textField
-
 	 */
 
 	public String getUsername() {
@@ -1872,14 +1548,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param username
-
+	 * 
 	 *            the username to set
-
 	 */
 
 	public void setGender(String gender) {
@@ -1888,12 +1561,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the username textField
-
 	 */
 
 	public String getGender() {
@@ -1904,14 +1574,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param birthdate
-
+	 * 
 	 *            the birthdate to set
-
 	 */
 
 	public void setBirthdate(Date date) {
@@ -1920,12 +1587,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the birthdate textField
-
 	 */
 
 	public Date getBirthday() {
@@ -1934,14 +1598,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param job
-
+	 * 
 	 *            the job to set
-
 	 */
 
 	public void setJob(String job) {
@@ -1950,12 +1611,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the job textField
-
 	 */
 
 	public String getJob() {
@@ -1964,14 +1622,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param hobbys
-
+	 * 
 	 *            the hobbys to set
-
 	 */
 
 	public void setHobbys(String hobbys) {
@@ -1980,12 +1635,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the hobby textArea
-
 	 */
 
 	public String getHobbys() {
@@ -1994,14 +1646,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param music
-
+	 * 
 	 *            the music to set
-
 	 */
 
 	public void setMusic(String music) {
@@ -2010,12 +1659,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the music textArea
-
 	 */
 
 	public String getMusic() {
@@ -2024,14 +1670,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param movie
-
+	 * 
 	 *            the movie to set
-
 	 */
 
 	public void setMovie(String movie) {
@@ -2040,12 +1683,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the movie textArea
-
 	 */
 
 	public String getMovie() {
@@ -2054,14 +1694,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param ilike
-
+	 * 
 	 *            the ilike to set
-
 	 */
 
 	public void setILike(String ilike) {
@@ -2070,12 +1707,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the ilike textArea
-
 	 */
 
 	public String getILike() {
@@ -2084,14 +1718,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param idontlike
-
+	 * 
 	 *            the idontlike to set
-
 	 */
 
 	public void setIDontLike(String idontlike) {
@@ -2100,12 +1731,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the idontlike textArea
-
 	 */
 
 	public String getIDontLike() {
@@ -2114,14 +1742,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param aboutme
-
+	 * 
 	 *            the aboutme to set
-
 	 */
 
 	public void setAboutMe(String aboutme) {
@@ -2130,12 +1755,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the aboutme textArea
-
 	 */
 
 	public String getAboutMe() {
@@ -2144,14 +1766,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param icq
-
+	 * 
 	 *            the icq to set
-
 	 */
 
 	public void setIcq(String icq) {
@@ -2160,12 +1779,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the icq textArea
-
 	 */
 
 	public String getIcq() {
@@ -2174,14 +1790,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param msn
-
+	 * 
 	 *            the msn to set
-
 	 */
 
 	public void setMsn(String msn) {
@@ -2190,12 +1803,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the msn textArea
-
 	 */
 
 	public String getMsn() {
@@ -2204,14 +1814,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param yahoo
-
+	 * 
 	 *            the yahoo to set
-
 	 */
 
 	public void setYahoo(String yahoo) {
@@ -2220,12 +1827,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the yahoo textArea
-
 	 */
 
 	public String getYahoo() {
@@ -2234,14 +1838,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param aim
-
+	 * 
 	 *            the aim to set
-
 	 */
 
 	public void setAim(String aim) {
@@ -2250,12 +1851,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the aim textArea
-
 	 */
 
 	public String getAim() {
@@ -2264,14 +1862,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param jabber
-
+	 * 
 	 *            the jabber to set
-
 	 */
 
 	public void setJabber(String jabber) {
@@ -2280,12 +1875,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the jabber textArea
-
 	 */
 
 	public String getJabber() {
@@ -2294,14 +1886,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param url
-
+	 * 
 	 *            the homepage to set
-
 	 */
 
 	public void setHomepage(String url) {
@@ -2310,12 +1899,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the homepage textArea
-
 	 */
 
 	public String getHomepage() {
@@ -2324,14 +1910,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @param imageurl
-
+	 * 
 	 *            the imageurl to set
-
 	 */
 
 	public void setImage(String imageurl) {
@@ -2342,12 +1925,9 @@ public class UserForm extends Composite implements View {
 
 	}
 
-
-
 	/**
-
+	 * 
 	 * @return the imageurl textArea
-
 	 */
 
 	public String getImage() {
@@ -2358,15 +1938,11 @@ public class UserForm extends Composite implements View {
 
 	}
 
-	
-
 	public void setHiddenText(String username) {
 
 		this.hiddenText.setRawValue(username);
 
 	}
-
-	
 
 	public String getHiddenText() {
 

@@ -268,7 +268,8 @@ public class DataBankerQueries {
 		
 		DataBankerConnection dbc = new DataBankerConnection();
 		
-		if (!user.equals("")) {
+
+		if (attrSpecified(user)) {
 			try {
 				int resultCode = dbc.getStatement().executeUpdate("UPDATE user SET image='"+url+"' WHERE username='" + user + "'");
 				dbc.close();
