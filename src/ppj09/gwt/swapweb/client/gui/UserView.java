@@ -144,16 +144,16 @@ public class UserView extends Composite implements View {
 
 			// Überschrift
 			{
-				horizontalPanel2 = new HorizontalPanel();
-				usernameLabel1 = new Label();
-				horizontalPanel2.add(usernameLabel1);
-				lblHorizontalSeperator = new Label();
-				usernameLabel3 = new Label("'s Profil");
-				horizontalPanel2.add(usernameLabel3);
-				usernameLabel4 = new Label();
-				horizontalPanel2.add(usernameLabel4);
-
-				verticalPanel.add(horizontalPanel2);
+//				horizontalPanel2 = new HorizontalPanel();
+//				usernameLabel1 = new Label();
+//				horizontalPanel2.add(usernameLabel1);
+//				lblHorizontalSeperator = new Label();
+//				usernameLabel3 = new Label("'s Profil");
+//				horizontalPanel2.add(usernameLabel3);
+//				usernameLabel4 = new Label();
+//				horizontalPanel2.add(usernameLabel4);
+//
+//				verticalPanel.add(horizontalPanel2);
 			}
 
 			{
@@ -630,7 +630,8 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			usernameLabel2.setText(user.getUsername());
+			SwapWeb.getContentPanel().setTitle(user.getUsername()+"'s Profil");
+
 		} catch (NullPointerException e) {
 		}
 		try {
@@ -701,8 +702,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getIDontLike() == null || user.getIDontLike()
-					.equals(""))) {
+			if (!(user.getIDontLike() == null || user.getIDontLike().equals(""))) {
 				lblIDontLike2.setText(user.getIDontLike());
 				hpIDontLike.setVisible(true);
 				verticalSeperatorIDontLike.setVisible(true);

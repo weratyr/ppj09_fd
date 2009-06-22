@@ -15,16 +15,26 @@ import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Timer;
+//import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
+import com.gwtext.client.widgets.Window;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
+import com.gwtext.client.widgets.MessageBoxConfig;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+import com.gwtext.client.widgets.WaitConfig;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -68,6 +78,8 @@ public class UserRegistrationForm implements Form {
 	private TextField dummy;
 	private Label txtbxUserFree;
 	private MultiFieldPanel userFreePanel;
+	private final Window window;
+	private TextField hiddenText;
 
 	/**
 	 * Initialisiert Formular Eingabefelder
@@ -238,6 +250,122 @@ public class UserRegistrationForm implements Form {
 					panel5.addToRow(txtbxEmail2, new ColumnLayoutData(1));
 					panel5.setBorder(false);
 					formPanel.add(panel5);
+					
+					
+					// // AB HIER FORM FÜR FILE UPLOAD
+
+				     final com.google.gwt.user.client.ui.FormPanel form = new com.google.gwt.user.client.ui.FormPanel();
+				     form.setAction(GWT.getModuleBaseURL()
+				       + "UserImageUploadHandler");
+
+				     // Because we're going to add a FileUpload widget, we'll
+				     // need to set the
+				     // form to use the POST method, and multipart MIME encoding.
+				     form
+				       .setEncoding(com.google.gwt.user.client.ui.FormPanel.ENCODING_MULTIPART);
+				     form
+				       .setMethod(com.google.gwt.user.client.ui.FormPanel.METHOD_POST);
+
+				     VerticalPanel panel = new VerticalPanel();
+				     form.setWidget(panel);
+
+				     // Create a FileUpload widget.
+				     final FileUpload upload = new FileUpload();
+				     upload.setName("uploadFormElement");
+
+				     hiddenText = new TextField();
+				     hiddenText.setName("uploadHiddenElement");
+				     hiddenText.setVisible(false);
+				     
+				     panel.add(upload);
+				     panel.add(hiddenText);
+
+				     Button button2 = new Button("Submit");
+				     button2.addListener(new ButtonListenerAdapter() {
+				      public void onClick(Button button, EventObject e) {
+				    	  if(validateImageExtension(upload.getFilename())) {
+				             form.submit();
+						  } else {
+							 MessageBox.alert("Bitte wählen Sie ein Bild mit der Endung\n \"jpg\", \"png\" oder \"bmp\" aus.");
+						  }
+
+				      }
+				     });
+
+				     // Add a 'submit' button.
+				     panel.add(button2);
+
+				     form.addSubmitHandler(new SubmitHandler() {
+
+				      public void onSubmit(SubmitEvent event) {
+				       if (upload.getFilename().length() == 0) {
+				        MessageBox
+				          .alert("The text box must not be empty");
+				        event.cancel();
+				       } else {
+				        MessageBox.show(new MessageBoxConfig() {
+				         {
+				          setMsg("Ihr Bild wird gespeichert, bitte warten...");
+				          setProgressText("Speichern...");
+				          setWidth(300);
+				          setWait(true);
+				          setWaitConfig(new WaitConfig() {
+				           {
+				            setInterval(200);
+				           }
+				          });
+				          setAnimEl(regButton.getId());
+				         }
+				        });
+
+				        Timer timer = new Timer() {
+				         public void run() {
+				          MessageBox.hide();
+				          System.out
+				            .println("Done, Your fake data was saved!");
+				         }
+				        };
+				        timer.schedule(8000);
+				       }
+				      }
+				     });
+
+				     form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+				      public void onSubmitComplete(SubmitCompleteEvent event) {
+				       // When the form submission is successfully
+				       // completed, this event is
+				       // fired. Assuming the service returned a response
+				       // of type text/html,
+				       // we can get the result text here (see the
+				       // FormPanel documentation for
+				       // further explanation).
+				       MessageBox.alert(event.getResults());
+				      }
+				     });
+
+				     window = new Window();
+				     window.setTitle("Bild hochladen");
+				     window.setClosable(true);
+				     window.setWidth(600);
+				     window.setHeight(350);
+				     window.setPlain(true);
+				     window.add(form);
+				     window.setCloseAction(Window.HIDE);
+
+				     /*
+				     uploadWindowButton = new Button("Bild hochladen");
+				     uploadWindowButton.addListener(new ButtonListenerAdapter() {
+				      public void onClick(Button button, EventObject e) {
+				       window.show(submitButton.getId());
+				      }
+				     });
+				     formPanel.add(uploadWindowButton);
+					 */
+				     // //// ENDE FORMS FÜR FILE UPLOAD
+					
+					
+					
+					
 
 					regButton = new Button("Registrieren");
 					regButton.setTabIndex(12);
@@ -262,6 +390,21 @@ public class UserRegistrationForm implements Form {
 		}
 		
 	}
+	
+	public boolean validateImageExtension(String filename){
+		boolean isAllowdExt = false;
+		
+		int indexPoint = filename.lastIndexOf(".");
+	    int length = filename.length();
+	       
+	    String extension = filename.substring(indexPoint+1, length);
+		
+	    if (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp")) {
+	    	isAllowdExt = true;
+	    }
+	    
+		return isAllowdExt;
+    }
 
 	public boolean validate() {
 		if (formPanel.getForm().isValid()) {
@@ -336,6 +479,15 @@ public class UserRegistrationForm implements Form {
 			public void onSuccess(Integer serverMsg) {
 				// :)
 				System.out.println("OK: " + serverMsg.toString());
+				if(serverMsg == 2){
+			    	MessageBox.alert("ACHTUNG: Sie sind nicht eingeloggt. Bitte Melden Sie sich an.");
+			    } else if (serverMsg > 2) {
+			        //formPanel.getForm().reset();
+			        hiddenText.setRawValue(serverMsg.toString());
+			        window.show(regButton.getId());
+			    } else if (serverMsg == 0){
+			    	MessageBox.alert("FEHLER: Ihr Artikel konnte nicht angelegt werden.");
+			    }
 			}
 		});
 		// }

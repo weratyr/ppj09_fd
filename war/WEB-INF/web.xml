@@ -62,5 +62,25 @@
    <servlet-name>imageUploadHandler</servlet-name>
    <url-pattern>/swapweb/ImageUploadHandler</url-pattern>
 </servlet-mapping>
+
+<servlet>
+  <servlet-name>userImageUploadHandler</servlet-name> 
+  <servlet-class>ppj09.gwt.swapweb.server.UserImageUploadHandler</servlet-class>  
+</servlet>
+
+<servlet-mapping>
+   <servlet-name>userImageUploadHandler</servlet-name>
+   <url-pattern>/swapweb/UserImageUploadHandler</url-pattern>
+</servlet-mapping>
+
+<servlet>
+  <servlet-name>userImageUpdateHandler</servlet-name> 
+  <servlet-class>ppj09.gwt.swapweb.server.UserImageUpdateHandler</servlet-class>  
+</servlet>
+
+<servlet-mapping>
+   <servlet-name>userImageUpdateHandler</servlet-name>
+   <url-pattern>/swapweb/UserImageUpdateHandler</url-pattern>
+</servlet-mapping>
   
 </web-app>
