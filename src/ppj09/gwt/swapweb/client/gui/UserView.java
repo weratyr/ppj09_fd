@@ -1,12 +1,19 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * Autor Georg Ortwein
- * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils 
+ * @author Georg Ortwein, Chrisitan Happ
+ * @version 0.1  15.06.09
+ * Klasse User- Form ist zum ‰ndern bzw. bearbeiten eines Profils
  */
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.SwapWeb;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
+import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
@@ -23,7 +30,6 @@ import com.gwtext.client.widgets.Panel;
 
 public class UserView extends Composite implements View {
 	private User user;
-
 	private Label usernameLabel1;
 	private Label usernameLabel2;
 	private HorizontalPanel horizontalPanel2;
@@ -119,15 +125,14 @@ public class UserView extends Composite implements View {
 	 */
 
 	public UserView() {
-		user = new User();
 		createForm();
-		getuser();
-		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
+		getUser();
 	}
+
 	public UserView(String username) {
-		user = new User();
+		getUser(username);
+		
 		createForm();
-		getuser(username);
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 
 	}
@@ -143,10 +148,6 @@ public class UserView extends Composite implements View {
 				usernameLabel1 = new Label();
 				horizontalPanel2.add(usernameLabel1);
 				lblHorizontalSeperator = new Label();
-				lblHorizontalSeperator.setWidth("5");
-				horizontalPanel2.add(lblHorizontalSeperator);
-				usernameLabel2 = new Label();
-				horizontalPanel2.add(usernameLabel2);
 				usernameLabel3 = new Label("'s Profil");
 				horizontalPanel2.add(usernameLabel3);
 				usernameLabel4 = new Label();
@@ -166,6 +167,7 @@ public class UserView extends Composite implements View {
 					{
 						image = new Image();
 						image.setPixelSize(150, 150);
+						setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 						absolutePanel.add(image, 0, 0);
 					}
 
@@ -535,47 +537,78 @@ public class UserView extends Composite implements View {
 			articlePanel.setPaddings(10);
 			articlePanel.setTitle("Meine Tauschartikel");
 			articlePanel.setCollapsible(true);
+			articlePanel.setWidth(670);
 			verticalPanel.add(articlePanel);
 		}
 	}
 
-	private void getuser(String username) {
+	private VerticalPanel getArtikelListe() {
+		final VerticalPanel userArticleList = new VerticalPanel();
+
+		/**
+		 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt und
+		 * übergibt es per RPC an SearchHandler.search()
+		 */
+		ArticleSearchQuery sq = new ArticleSearchQuery();
+		sq.setUserName(user.getUsername());
+		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+
+		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
+			public void onFailure(Throwable caught) {
+				System.out
+				.println("RPC UserView: fehler im user article liste");
+			}
+
+			public void onSuccess(ArrayList<SearchResult> results) {
+				for (SearchResult r : results) {
+					userArticleList.add((ArticleSearchResultView) r.getView());
+				}
+			}
+		});
+		return userArticleList;
+	}
+
+	private void getUser(String username) {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.getUser(username, new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("fehler");
-
+				System.out.println("fehler: userView getUser(String username)");
 			}
 
 			public void onSuccess(User userProfile) {
 				// :)
 				user = userProfile;
-				fillForm(userProfile);
+				SwapWeb.getContentPanel().setTitle(user.getUsername()+"´s Profil");
+				fillForm();
 			}
 		});
 	}
-	private void getuser() {
+
+	private void getUser() {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("fehler");
+				System.out.println("fehler: getUser() :"+caught.getMessage());
 
 			}
 
 			public void onSuccess(User userProfile) {
 				// :)
 				user = userProfile;
-				fillForm(userProfile);
-				setFirstName(user.getUsername());
+				fillForm();
+				setUserName(user.getUsername());
 			}
 		});
+		
 	}
 
-	public void fillForm(User user) {
+	public void fillForm() {
+		articlePanel.add(getArtikelListe());
+		articlePanel.doLayout();
 
 		try {
 			lblFirstName2.setText(user.getFirstName());
@@ -723,14 +756,11 @@ public class UserView extends Composite implements View {
 
 	}
 
-
-	public void setFirstName(String firstName) {
-		this.lblFirstName2.setText(firstName);
-		usernameLabel1.setText(firstName);
-		articlePanel.setTitle(firstName + "'s Artikel");
-		this.messageUser.setText("Nachricht an " + firstName);
-		this.userRatings.setText(firstName + "'s Bewertungen");
-		this.reportUser.setText(firstName + " melden");
+	public void setUserName(String userName) {
+		articlePanel.setTitle(userName + "'s Artikel");
+		this.messageUser.setText("Nachricht an " + userName);
+		this.userRatings.setText(userName + "'s Bewertungen");
+		this.reportUser.setText(userName + " melden");
 	}
 
 	public void setImage(String imageurl) {

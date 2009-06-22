@@ -20,7 +20,7 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 04.06.09
+ * @version 0.1, 14.06.09
  */
 public class ArticleSearchResult implements SearchResult, Serializable {
 	private String title;
@@ -39,9 +39,6 @@ public class ArticleSearchResult implements SearchResult, Serializable {
 		return new ArticleSearchResultView(this);
 	}
 	
-	public SearchResultView getView(Panel contentPanel) {
-		return new ArticleSearchResultListView(contentPanel);
-	}
 	
 	public ArticleSearchResult(String title, String userName, String pictureUrl, int id) {
 		this.title = title;

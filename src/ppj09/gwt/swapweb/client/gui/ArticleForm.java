@@ -1,8 +1,10 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * Autor Georg Ortwein & Michael Lukaszczyk
  * Klasse User- Form ist zum Aendern bzw. bearbeiten eines Profils
+ * 
+ * @author Georg Ortwein & Michael Lukaszczyk, Chrisitan Happ
+ * @version 0.1 16.06.09
  */
 
 import ppj09.gwt.swapweb.client.datatype.Article;
@@ -46,6 +48,7 @@ public class ArticleForm extends Composite implements Form {
 	private TextField txtbxCity;
 	private MultiFieldPanel panel1;
 	private ComboBox combobxCondition;
+	private ComboBox quickArticleCategoryCB;
 	private Checkbox chkbxdelivery1;
 	private Checkbox chkbxdelivery2;
 	private Checkbox chkbxdelivery3;
@@ -55,6 +58,7 @@ public class ArticleForm extends Composite implements Form {
 	private TextArea txtbxSwaps;
 	private TextArea txtbxDescription;
 	private final Window window;
+	TextField hiddenText;
 
 	public ArticleForm() {
 		{
@@ -74,6 +78,21 @@ public class ArticleForm extends Composite implements Form {
 					txtbxName
 							.setBlankText("Bitte geben Sie den Artikelnamen ein");
 					formPanel.add(txtbxName);
+
+					final Store quickCategoryStore = new SimpleStore(
+							"category", new String[] { "Auto", "Computer" });
+					quickCategoryStore.load();
+
+					quickArticleCategoryCB = new ComboBox();
+					quickArticleCategoryCB.setStore(quickCategoryStore);
+					quickArticleCategoryCB.setFieldLabel("Kategorie*");
+					quickArticleCategoryCB.setDisplayField("category");
+					quickArticleCategoryCB.setMode(ComboBox.LOCAL);
+					quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
+					quickArticleCategoryCB.setForceSelection(true);
+					quickArticleCategoryCB.setWidth(190);
+					quickArticleCategoryCB.setEmptyText("Kategorie wählen");
+					formPanel.add(quickArticleCategoryCB);
 
 					txtbxZip = new NumberField("Plz* / Artikelstandort*",
 							"number_field", 50);
@@ -175,12 +194,23 @@ public class ArticleForm extends Composite implements Form {
 					final FileUpload upload = new FileUpload();
 					upload.setName("uploadFormElement");
 
+					hiddenText = new TextField();
+					hiddenText.setName("uploadHiddenElement");
+					hiddenText.setVisible(false);
+
 					panel.add(upload);
+					panel.add(hiddenText);
 
 					Button button2 = new Button("Submit");
 					button2.addListener(new ButtonListenerAdapter() {
 						public void onClick(Button button, EventObject e) {
-							form.submit();
+							if (validateImageExtension(upload.getFilename())) {
+								form.submit();
+							} else {
+								MessageBox
+										.alert("Bitte wählen Sie ein Bild mit der Endung\n \"jpg\", \"png\" oder \"bmp\" aus.");
+							}
+
 						}
 					});
 
@@ -244,16 +274,15 @@ public class ArticleForm extends Composite implements Form {
 					window.add(form);
 					window.setCloseAction(Window.HIDE);
 
-					uploadWindowButton = new Button("Bild hochladen");
-					uploadWindowButton.addListener(new ButtonListenerAdapter() {
-						public void onClick(Button button, EventObject e) {
-							window.show(submitButton.getId());
-						}
-					});
-					formPanel.add(uploadWindowButton);
-
+					/*
+					 * uploadWindowButton = new Button("Bild hochladen");
+					 * uploadWindowButton.addListener(new
+					 * ButtonListenerAdapter() { public void onClick(Button
+					 * button, EventObject e) {
+					 * window.show(submitButton.getId()); } });
+					 * formPanel.add(uploadWindowButton);
+					 */
 					// //// ENDE FORMS FÜR FILE UPLOAD
-
 					submitButton = new Button("Artikel Erstellen");
 					submitButton.setFormBind(true);
 
@@ -272,6 +301,22 @@ public class ArticleForm extends Composite implements Form {
 
 	}
 
+	public boolean validateImageExtension(String filename) {
+		boolean isAllowdExt = false;
+
+		int indexPoint = filename.lastIndexOf(".");
+		int length = filename.length();
+
+		String extension = filename.substring(indexPoint + 1, length);
+
+		if (extension.equals("jpg") || extension.equals("png")
+				|| extension.equals("bmp")) {
+			isAllowdExt = true;
+		}
+
+		return isAllowdExt;
+	}
+
 	public boolean submit() {
 		Article newArticle = new Article();
 		newArticle = fillArticle(newArticle);
@@ -286,8 +331,17 @@ public class ArticleForm extends Composite implements Form {
 			public void onSuccess(Integer serverMsg) {
 				//
 				System.out.println("OK: " + serverMsg.toString());
-				formPanel.getForm().reset();
-				window.show(submitButton.getId());
+				if (serverMsg == 2) {
+					MessageBox
+							.alert("ACHTUNG: Sie sind nicht eingeloggt. Bitte Melden Sie sich an.");
+				} else if (serverMsg > 2) {
+					formPanel.getForm().reset();
+					hiddenText.setRawValue(serverMsg.toString());
+					window.show(submitButton.getId());
+				} else if (serverMsg == 0) {
+					MessageBox
+							.alert("FEHLER: Ihr Artikel konnte nicht angelegt werden.");
+				}
 			}
 		});
 		// }
@@ -297,6 +351,7 @@ public class ArticleForm extends Composite implements Form {
 	// füllt das Artikelobjekt mit Formulardaten
 	private Article fillArticle(Article article) {
 		article.setTitle(txtbxName.getText());
+		article.setCategory(quickArticleCategoryCB.getText());
 		article.setZipCode(txtbxZip.getText());
 		article.setLocation(txtbxCity.getText());
 		article.setCondition(combobxCondition.getText());

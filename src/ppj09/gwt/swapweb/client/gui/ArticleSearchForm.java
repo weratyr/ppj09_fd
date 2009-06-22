@@ -1,10 +1,3 @@
-/*
- * @(#)ArticleSearchForm.java      			 20.04.09
- *
- * Copyright (c) 2008-2009 Project Team 4711
- * All rights reserved.
- */
-
 package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
@@ -22,6 +15,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Ext;
 import com.gwtext.client.core.ExtElement;
@@ -40,26 +34,28 @@ import com.gwtext.client.widgets.form.TextField;
  * 
  * @author Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 03.06.09
+ * @version 0.1, 15.06.09
  */
 public class ArticleSearchForm implements Form {
-	private Panel maskPanel;
 	private HorizontalPanel searchPanel;
 	private final Panel containerFormPanel;
 
+	private TextField searchField;
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setId("mask-panel"); 
 		searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(8);
-		getCategories();
+
 		Label searchLabel = new Label("Suche: ");
-		TextField searchField = new TextField("", "phrase", 120);
+		searchField = new TextField("", "phrase", 120);
 		searchPanel.add(searchLabel);
 		searchPanel.add(searchField);
-		containerFormPanel.add(searchPanel);
+		// holt via rpc die Kategorienliste aus der Datenbank
+		getCategories(); 
 
+		containerFormPanel.add(searchPanel);
 		outerTabPanel.add(containerFormPanel);
 	}
 
@@ -80,6 +76,7 @@ public class ArticleSearchForm implements Form {
 				}
 
 				Store quickCategoryStore = new SimpleStore("category", categories);
+
 				quickCategoryStore.load();
 
 				final ComboBox quickArticleCategoryCB = new ComboBox();
@@ -93,11 +90,12 @@ public class ArticleSearchForm implements Form {
 				quickArticleCategoryCB.setEmptyText("Kategorie wählen");
 				searchPanel.add(quickArticleCategoryCB);
 
+
 				Button quickSearchButton = new Button("Suchen",
 						new ButtonListenerAdapter() {
 					public void onClick(Button button, EventObject e) {
 						ArticleSearchQuery sq = new ArticleSearchQuery();
-						sq.setSearchPhrase("");
+						sq.setSearchPhrase(searchField.getText());
 
 						final ExtElement element = Ext.get("mask-panel");  
 						element.mask("sucht...");  
@@ -107,18 +105,25 @@ public class ArticleSearchForm implements Form {
 						searchHandler.search(sq,
 								new AsyncCallback<ArrayList<SearchResult>>() {
 							public void onFailure(Throwable caught) {
-								System.out.println("neeee: ");
+								System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
 							}
 
 							public void onSuccess(ArrayList<SearchResult> results) {
+
 								SwapWeb.getContentPanel().clear();
 								final ExtElement element = Ext.get("mask-panel");  
 								element.unmask();
+								Panel listView = new Panel();
+
 								for (SearchResult r : results) {
-									r.getView();
+									listView.add( (ArticleSearchResultView) r.getView());
 								}
+
+								SwapWeb.getContentPanel().add(listView);
+								SwapWeb.getContentPanel().doLayout();
 							}
 						});
+
 					}
 
 				});
@@ -129,7 +134,6 @@ public class ArticleSearchForm implements Form {
 
 		});
 	}
-
 
 	/**
 	 * Schickt die validierten Formulardaten an den Article-Search Modul, und

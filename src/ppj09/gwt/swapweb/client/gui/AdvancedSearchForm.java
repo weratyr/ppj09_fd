@@ -10,7 +10,6 @@ import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.EventObject;
@@ -40,17 +39,13 @@ public class AdvancedSearchForm implements Form{
 		final FormPanel containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Erweiterte Suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
-		HorizontalPanel searchPanel = new HorizontalPanel();
-		searchPanel.setSpacing(10);
-		searchPanel.add(new TextField("", "phrase", 120));
-
+		
 		tabPanel = new TabPanel();;
 		tabPanel.setWidth("100%");
-		tabPanel.setHeight(300);
 		//tabPanel.setVisible(false);
 		tabPanel.setActiveTab(0);
 		tabPanel.setPaddings(5);
-		tabPanel.setVisible(false);
+		tabPanel.setVisible(true);
 		containerFormPanel.add(tabPanel);
 
 		firstTab = new Panel();

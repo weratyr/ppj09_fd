@@ -27,5 +27,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface SearchHandlerAsync {
 	public void search(ArticleSearchQuery searchQuery, AsyncCallback<ArrayList<SearchResult>> callback);
-	public void search(UserSearchQuery searchQuery, AsyncCallback<ArrayList<SearchResult>> callback);
+	//public ArrayList<SearchResult> search(UserSearchQuery searchQuery);
 }
