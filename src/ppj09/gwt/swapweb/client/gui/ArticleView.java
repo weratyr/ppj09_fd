@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
@@ -350,20 +351,21 @@ public class ArticleView extends Composite implements View {
 				window.setWidth(600);
 				window.setHeight(350);
 				window.setPlain(true);
-				window.add(getOfferSubmitForm());
 				window.setCloseAction(Window.HIDE);
 				
 				Button button = new Button("Angebot senden",
 						new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
-//								Record[] records = cbSelectionModel.getSelections();
-//								String msg = "";
-//								for (int i = 0; i < records.length; i++) {
-//									Record record = records[i];
-//									msg += record.getAsString("artikel") + " ";
-//								}
-//								System.out.println("Records Selected :" + msg);
-								
+								Record[] records = cbSelectionModel.getSelections();
+								ArrayList<Offer> offerList = new ArrayList<Offer>();
+								String msg = "";
+								for (int i = 0; i < records.length; i++) {
+									Record record = records[i];
+									msg += record.getAsString("artikel") + "\n";
+								}
+								System.out.println("Records Selected :" + msg);
+
+								window.add(getOfferSubmitForm(offerList));
 								window.show(button.getId());  
 							}
 						});
@@ -378,10 +380,10 @@ public class ArticleView extends Composite implements View {
 				verticalPanel.add(guide);
 			}
 
-			private Component getOfferSubmitForm() {
+			private Component getOfferSubmitForm(ArrayList<Offer> offerList) {
 				Panel offerSubmitForm = new Panel();
 				Label offerQuestion = new Label();
-				Label offerList = new Label();
+//				Label offerList = new Label("");
 
 				offerQuestion.setText("Sind sie sicher, dass sie Folgende Artikel:\n"+offerList+" gegen den Artikel \""+article.getTitle().toString()+"\" tauschen möchten?");
 				offerSubmitForm.add(offerQuestion);

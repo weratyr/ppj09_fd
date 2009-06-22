@@ -8,6 +8,7 @@
 package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Der Datentyp welcher zwischen Client und Server ausgetauscht wird, und ueber
@@ -21,7 +22,7 @@ public class Offer implements Serializable {
 	//offerId ist eindeutig
 	private int offerId;
 	//speichert die Artikel Nummer der zu tauschenden Gegenstaende
-	private int offeredArticleId;
+	private ArrayList<Integer> offeredArticleIds;
 	private int desiredArticleId;
 	//enthaelt die Id des Status; abgelehnt, noch offen des Tausches
 	private boolean swapStatusId;

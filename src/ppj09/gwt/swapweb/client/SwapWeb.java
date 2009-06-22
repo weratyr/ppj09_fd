@@ -76,7 +76,7 @@ public class SwapWeb implements EntryPoint {
 		 * Hauptfenster
 		 */
 		
-//		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
+		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
 		
 		userManager.getUser(new AsyncCallback<User>(){
 			public void onFailure(Throwable caught) {
