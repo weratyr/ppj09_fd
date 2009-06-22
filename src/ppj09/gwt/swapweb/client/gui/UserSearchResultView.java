@@ -7,11 +7,14 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
+
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.UserSearchResult;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -36,18 +39,16 @@ public class UserSearchResultView extends Composite implements SearchResultView 
 	private Label shippingLabel_1;
 	private UserSearchResult searchResult;
 
-	public UserSearchResultView(SearchResult searchResult) {
-		{
+	public UserSearchResultView(final SearchResult searchResult) {
+		
 			this.searchResult = (UserSearchResult) searchResult;
-			
+		
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
-			verticalPanel.setSize("650", "90");
+			verticalPanel.setSize("650", "110");
 			{
 				absolutePanel = new AbsolutePanel();
-				SwapWeb.getContentPanel().clear();
-				SwapWeb.getContentPanel().add(absolutePanel);
-				absolutePanel.setSize("650", "90");
+				absolutePanel.setSize("650", "110");
 				{
 					userImage = new Image(null);
 					absolutePanel.add(userImage);
@@ -58,13 +59,22 @@ public class UserSearchResultView extends Composite implements SearchResultView 
 					absolutePanel.add(userLabel);
 				}
 				{
-					userHyperlink = new Hyperlink(this.searchResult.getUsername(), false,
-							"newHistoryToken");
-					absolutePanel.add(userHyperlink);
-					userHyperlink.setWidth("300");
+					articlenameHyperlink = new Hyperlink(this.searchResult.getUsername(), false, "newHistoryToken");
+
+					articlenameHyperlink.addClickHandler(new ClickHandler() { 
+						public void onClick(ClickEvent event) {
+							System.out.println("User");
+							SwapWeb.getContentPanel().clear();
+							SwapWeb.getContentPanel().add(new UserView(((UserSearchResult) searchResult).getUsername() ));
+							SwapWeb.getContentPanel().doLayout();
+						}
+					});
+					absolutePanel.add(articlenameHyperlink, 100, 5);
+					articlenameHyperlink.setWidth("400");
 				}
 			}
-		}
+			verticalPanel.add(absolutePanel);
+		
 	}
 
 	/**

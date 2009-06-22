@@ -31,6 +31,7 @@ import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
+import ppj09.gwt.swapweb.client.gui.UserSearchForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
@@ -61,9 +62,7 @@ import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
-import com.gwtext.client.widgets.layout.ContainerLayout;
 import com.gwtext.client.widgets.layout.FitLayout;
-import com.gwtext.client.widgets.layout.VerticalLayout;
 
 /**
  * Initialisiert das allgemeine Layout der Seite
@@ -324,6 +323,7 @@ public class SwapWeb implements EntryPoint {
 		new AdvancedSearchForm(tabPanel);
 		new LoginForm(tabPanel);
 		new UserRegistrationForm(tabPanel);
+		new UserSearchForm(tabPanel);
 		return tabPanel;
 	}
 
