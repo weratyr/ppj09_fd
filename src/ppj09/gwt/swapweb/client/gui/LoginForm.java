@@ -25,6 +25,8 @@ import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.ColumnLayoutData;
+import com.gwtext.client.widgets.layout.HorizontalLayout;
+import com.gwtext.client.widgets.layout.VerticalLayout;
  
 /**
 * Formularfelder und Submit des Login. Der Benutzer hat die Möglichkeit, seine
@@ -140,12 +142,13 @@ public class LoginForm implements Form {
  
           public void onSuccess(Boolean serverMsg) {
             // :)
-            if (serverMsg)
+            if (serverMsg) {
               System.out.println("Eingeloggt");
-            else
+              SwapWeb.addMeinSwapWeb();
+              
+            } else
               System.out
                   .println("Benutzername oder Passwort falsch");
- 
           }
  
         });

@@ -23,6 +23,7 @@ public class Article implements Serializable {
  // Informationen ueber den Artikel
  protected int articleId;
  private int userId;
+ private String userName;
  private String title;
  private String location;
  private String zipCode;
@@ -41,7 +42,14 @@ public class Article implements Serializable {
  // Wenn ein Artikel im Tausch ist, aber noch offen ist
  private boolean inSwap; 
  
+ public Article(){
+ }
  
+ public Article(int articleId, String title, String offerScope){
+	 this.articleId = articleId;
+	 this.title = title;
+	 this.offerScope = offerScope;
+ }
  
  /**
   * Gibt die articleId zurueck
@@ -268,5 +276,13 @@ public class Article implements Serializable {
  public String getOfferScope() {
   return offerScope;
  }
+
+public void setUserName(String userName) {
+	this.userName = userName;
+}
+
+public String getUserName() {
+	return userName;
+}
 
 }

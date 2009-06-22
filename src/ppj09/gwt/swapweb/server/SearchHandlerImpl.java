@@ -20,8 +20,8 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 	private static final long serialVersionUID = 1L;
 	private DataBankerQueries db = new DataBankerQueries();
 
-	public ArrayList<SearchResult> search(ArticleSearchQuery articleSearch) {
-		return db.getArticleSearchResult(articleSearch);
+	public ArrayList<SearchResult> search(ArticleSearchQuery articleSearch) {		
+		return db.getArticleSearchResults(articleSearch);
 	}
 	
 //	public ArrayList<SearchResult> search(UserSearchQuery userSearch) {

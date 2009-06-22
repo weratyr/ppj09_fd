@@ -1,5 +1,7 @@
 package ppj09.gwt.swapweb.server;
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
@@ -18,9 +20,9 @@ public class ArticleManagerImpl extends RemoteServiceServlet implements ArticleM
 	
 
 	public int createArticle(Article newArticle) {
-		 System.out.println("lol");
 		 return db.createArticle(newArticle, db.getUserId(sh.getSession(this.getThreadLocalRequest())));
 		}
+	
 
 	 	
 	public int deleteArticle() {
@@ -40,5 +42,9 @@ public class ArticleManagerImpl extends RemoteServiceServlet implements ArticleM
 
 		return db.getArticle(articleId);
 		
+	}
+
+	public ArrayList<Article> getOwnArticlesList() {
+		 return db.getOwnArticlesList(db.getUserId(sh.getSession(this.getThreadLocalRequest())));
 	}
 }
