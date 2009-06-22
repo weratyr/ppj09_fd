@@ -142,12 +142,13 @@ public class LoginForm implements Form {
  
           public void onSuccess(Boolean serverMsg) {
             // :)
-            if (serverMsg)
+            if (serverMsg) {
               System.out.println("Eingeloggt");
-            else
+              SwapWeb.addMeinSwapWeb();
+              
+            } else
               System.out
                   .println("Benutzername oder Passwort falsch");
- 
           }
  
         });

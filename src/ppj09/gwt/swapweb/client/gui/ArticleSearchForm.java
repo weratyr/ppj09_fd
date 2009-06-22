@@ -39,22 +39,22 @@ import com.gwtext.client.widgets.form.TextField;
 public class ArticleSearchForm implements Form {
 	private HorizontalPanel searchPanel;
 	private final Panel containerFormPanel;
+
 	private TextField searchField;
-	
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setId("mask-panel"); 
 		searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(8);
-		
+
 		Label searchLabel = new Label("Suche: ");
 		searchField = new TextField("", "phrase", 120);
 		searchPanel.add(searchLabel);
 		searchPanel.add(searchField);
 		// holt via rpc die Kategorienliste aus der Datenbank
 		getCategories(); 
-		
+
 		containerFormPanel.add(searchPanel);
 		outerTabPanel.add(containerFormPanel);
 	}
@@ -62,7 +62,7 @@ public class ArticleSearchForm implements Form {
 
 	private void getCategories() {
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
-		
+
 		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
 
 			public void onFailure(Throwable caught) {
@@ -71,69 +71,70 @@ public class ArticleSearchForm implements Form {
 
 			public void onSuccess(ArrayList<String> results) {
 				String[] categories = new String[results.size()];
-				for (int i = 0;i<results.size();i++){
+				for (int i=0; i<results.size(); i++){
 					categories[i] = results.get(i);
 				}
-				
-				Store quickCategoryStore = new SimpleStore("category", categories);
-			    quickCategoryStore.load();
-			 
-			    final ComboBox quickArticleCategoryCB = new ComboBox();
-			    quickArticleCategoryCB.setStore(quickCategoryStore);
-			    quickArticleCategoryCB.setDisplayField("category");
-			    quickArticleCategoryCB.setMode(ComboBox.LOCAL);
-			    quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
-			    quickArticleCategoryCB.setForceSelection(true);
-			    quickArticleCategoryCB.setReadOnly(true);
-			    quickArticleCategoryCB.setWidth(120);
-			    quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-			    searchPanel.add(quickArticleCategoryCB);
-			    
-			    
-			    Button quickSearchButton = new Button("Suchen",
-						new ButtonListenerAdapter() {
-							public void onClick(Button button, EventObject e) {
-								ArticleSearchQuery sq = new ArticleSearchQuery();
-								sq.setSearchPhrase(searchField.getText());
-				                 
-								final ExtElement element = Ext.get("mask-panel");  
-				                element.mask("sucht...");  
-								
-				                SearchHandlerAsync searchHandler = GWT
-										.create(SearchHandler.class);
-								searchHandler.search(sq,
-										new AsyncCallback<ArrayList<SearchResult>>() {
-											public void onFailure(Throwable caught) {
-												System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
-											}
 
-											public void onSuccess(ArrayList<SearchResult> results) {
-												
-												SwapWeb.getContentPanel().clear();
-												final ExtElement element = Ext.get("mask-panel");  
-								                element.unmask();
-												Panel listView = new Panel();
-												
-								                for (SearchResult r : results) {
-												 	listView.add( (ArticleSearchResultView) r.getView());
-												}
-								                
-								                SwapWeb.getContentPanel().add(listView);
-								                SwapWeb.getContentPanel().doLayout();
-											}
-										});
+				Store quickCategoryStore = new SimpleStore("category", categories);
+
+				quickCategoryStore.load();
+
+				final ComboBox quickArticleCategoryCB = new ComboBox();
+				quickArticleCategoryCB.setStore(quickCategoryStore);
+				quickArticleCategoryCB.setDisplayField("category");
+				quickArticleCategoryCB.setMode(ComboBox.LOCAL);
+				quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
+				quickArticleCategoryCB.setForceSelection(true);
+				quickArticleCategoryCB.setReadOnly(true);
+				quickArticleCategoryCB.setWidth(120);
+				quickArticleCategoryCB.setEmptyText("Kategorie wählen");
+				searchPanel.add(quickArticleCategoryCB);
+
+
+				Button quickSearchButton = new Button("Suchen",
+						new ButtonListenerAdapter() {
+					public void onClick(Button button, EventObject e) {
+						ArticleSearchQuery sq = new ArticleSearchQuery();
+						sq.setSearchPhrase(searchField.getText());
+
+						final ExtElement element = Ext.get("mask-panel");  
+						element.mask("sucht...");  
+
+						SearchHandlerAsync searchHandler = GWT
+						.create(SearchHandler.class);
+						searchHandler.search(sq,
+								new AsyncCallback<ArrayList<SearchResult>>() {
+							public void onFailure(Throwable caught) {
+								System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
 							}
 
+							public void onSuccess(ArrayList<SearchResult> results) {
+
+								SwapWeb.getContentPanel().clear();
+								final ExtElement element = Ext.get("mask-panel");  
+								element.unmask();
+								Panel listView = new Panel();
+
+								for (SearchResult r : results) {
+									listView.add( (ArticleSearchResultView) r.getView());
+								}
+
+								SwapWeb.getContentPanel().add(listView);
+								SwapWeb.getContentPanel().doLayout();
+							}
 						});
-			    
+
+					}
+
+				});
+
 				quickSearchButton.setIconCls("icon-search");
 				searchPanel.add(quickSearchButton);
-			    }
-			
+			}
+
 		});
 	}
-	
-	
+
 	/**
 	 * Schickt die validierten Formulardaten an den Article-Search Modul, und
 	 * wartet auf Rueckmeldung

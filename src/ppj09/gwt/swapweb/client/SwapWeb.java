@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
+import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
@@ -16,6 +17,8 @@ import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
+import ppj09.gwt.swapweb.client.serverInterface.UserManager;
+import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -41,12 +44,14 @@ import com.gwtext.client.widgets.layout.FitLayout;
  * Initialisiert das allgemeine Layout der Seite
  */
 public class SwapWeb implements EntryPoint {
+	private final UserManagerAsync userManager = GWT.create(UserManager.class);
+	private User user;
 	private Panel mainPanel;
 	private Panel outerPanel;
 	private TabPanel tabPanel;
 
 	private Image image;
-	private DisclosurePanel meinSwapWeb;
+	private static DisclosurePanel meinSwapWeb;
 	private DisclosurePanel kategorien;
 	private static Panel contentPanel;
 
@@ -57,6 +62,7 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink myMessagesHyperlink;
 
 	private Panel navigationsContentPanel;
+	private static Panel navigationPanel;
 	private ArticleForm articleForm;
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
@@ -69,10 +75,18 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * Hauptfenster
 		 */
-
-		CSS.swapStyleSheet("theme",
-				"swapweb/js/ext/resources/css/xtheme-slate.css");
-
+		
+//		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
+		
+		userManager.getUser(new AsyncCallback<User>(){
+			public void onFailure(Throwable caught) {
+				user = null;
+			}
+			public void onSuccess(User result) {
+				user = result;
+			}
+		});
+	
 		mainPanel = new Panel();
 		mainPanel.setBorder(false);
 		mainPanel.setLayout(new FitLayout());
@@ -108,9 +122,9 @@ public class SwapWeb implements EntryPoint {
 		contentPanel.setWidth(700);
 		contentPanel.setPaddings(10);
 
-		Panel navigationPanel = new Panel("Navigation");
+		navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
-		navigationPanel.add(getNavigationPanel());
+		navigationPanel.add(createNavigationPanel());
 
 		// WEST
 		southContainer.addToRow(navigationPanel, 185);
@@ -122,7 +136,7 @@ public class SwapWeb implements EntryPoint {
 		new Viewport(mainPanel);
 	}
 
-	private Panel getNavigationPanel() {
+	private Panel createNavigationPanel() {
 		navigationsContentPanel = new Panel();
 		navigationsContentPanel.setBorder(false);
 		navigationsContentPanel.setId("navi-panel");
@@ -135,7 +149,7 @@ public class SwapWeb implements EntryPoint {
 		kategorien = new DisclosurePanel("Kategorien", false);
 		kategorien.setContent(getCategories());
 
-		navigationsContentPanel.add(meinSwapWeb);
+//		navigationsContentPanel.add(meinSwapWeb);
 		navigationsContentPanel.add(kategorien);
 
 		return navigationsContentPanel;
@@ -276,5 +290,10 @@ public class SwapWeb implements EntryPoint {
 
 	public static Panel getContentPanel() {
 		return contentPanel;
+	}
+	
+	public static void addMeinSwapWeb() {
+		navigationPanel.add(meinSwapWeb);
+		navigationPanel.doLayout();
 	}
 }
