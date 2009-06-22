@@ -3,7 +3,7 @@ package ppj09.gwt.swapweb.client;
 /*
  * TODO:
  * - erfolgreichen Login irgendwie kennzeichnen
- *     - Login und Register Panels verschwinden lassen
+ *     - Login und Register Panels verschwinden lassen  		- ERLEDIGT
  *     - eingeloggten User anzeigen
  * - Nachrichtensystem
  *     - User-User Nachrichten
@@ -70,7 +70,7 @@ public class SwapWeb implements EntryPoint {
 	private User user;
 	private Panel mainPanel;
 	private Panel outerPanel;
-	private TabPanel tabPanel;
+	private static TabPanel tabPanel;
 
 	private Image image;
 	private static DisclosurePanel meinSwapWeb;
@@ -97,12 +97,14 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * Hauptfenster
 		 */
-		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
+		CSS.swapStyleSheet("theme",
+				"swapweb/js/ext/resources/css/xtheme-slate.css");
 
-		userManager.getUser(new AsyncCallback<User>(){
+		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				user = null;
 			}
+
 			public void onSuccess(User result) {
 				user = result;
 			}
@@ -250,38 +252,38 @@ public class SwapWeb implements EntryPoint {
 							element.mask("Lädt");
 
 							SearchHandlerAsync searchHandler = GWT
-							.create(SearchHandler.class);
+									.create(SearchHandler.class);
 							searchHandler
-							.search(
-									sq,
-									new AsyncCallback<ArrayList<SearchResult>>() {
-										public void onFailure(
-												Throwable caught) {
-											System.out
-											.println("Fehler: SwapWeb.java "
-													+ caught
-													.getMessage());
-										}
+									.search(
+											sq,
+											new AsyncCallback<ArrayList<SearchResult>>() {
+												public void onFailure(
+														Throwable caught) {
+													System.out
+															.println("Fehler: SwapWeb.java "
+																	+ caught
+																			.getMessage());
+												}
 
-										public void onSuccess(
-												ArrayList<SearchResult> results) {
-											element.unmask();
-											SwapWeb.getContentPanel()
-											.clear();
-											Panel listView = new Panel();
+												public void onSuccess(
+														ArrayList<SearchResult> results) {
+													element.unmask();
+													SwapWeb.getContentPanel()
+															.clear();
+													Panel listView = new Panel();
 
-											for (SearchResult r : results) {
-												listView
-												.add((ArticleSearchResultView) r
-														.getView());
-											}
+													for (SearchResult r : results) {
+														listView
+																.add((ArticleSearchResultView) r
+																		.getView());
+													}
 
-											SwapWeb.getContentPanel()
-											.add(listView);
-											SwapWeb.getContentPanel()
-											.doLayout();
-										}
-									});
+													SwapWeb.getContentPanel()
+															.add(listView);
+													SwapWeb.getContentPanel()
+															.doLayout();
+												}
+											});
 						}
 
 					});
@@ -291,7 +293,6 @@ public class SwapWeb implements EntryPoint {
 				}
 
 			}
-
 
 		});
 		return verticalPanel;
@@ -308,6 +309,10 @@ public class SwapWeb implements EntryPoint {
 		return tabPanel;
 	}
 
+	public static TabPanel getTabPanel() {
+		return tabPanel;
+	}
+
 	public static Panel getContentPanel() {
 		return contentPanel;
 	}
@@ -317,7 +322,8 @@ public class SwapWeb implements EntryPoint {
 		navigationPanel.doLayout();
 	}
 
-	public static void getCategories(final Panel container, final ComboBox categoryComboBox) {
+	public static void getCategories(final Panel container,
+			final ComboBox categoryComboBox) {
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
 		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
 			public void onFailure(Throwable caught) {
@@ -325,7 +331,8 @@ public class SwapWeb implements EntryPoint {
 			}
 
 			public void onSuccess(ArrayList<String> results) {
-				Store quickCategoryStore = new SimpleStore("category", results.toArray());
+				Store quickCategoryStore = new SimpleStore("category", results
+						.toArray());
 				quickCategoryStore.load();
 				categoryComboBox.setStore(quickCategoryStore);
 				categoryComboBox.setDisplayField("category");

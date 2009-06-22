@@ -145,6 +145,8 @@ public class LoginForm implements Form {
             if (serverMsg) {
               System.out.println("Eingeloggt");
               SwapWeb.addMeinSwapWeb();
+              SwapWeb.getTabPanel().remove("2");
+              SwapWeb.getTabPanel().remove("2");
             } else
               System.out
                   .println("Benutzername oder Passwort falsch");
