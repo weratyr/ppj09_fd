@@ -2,6 +2,7 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
@@ -13,6 +14,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
@@ -33,10 +36,13 @@ public class AdvancedSearchForm implements Form{
 	private Checkbox pictureArticlesCheckBox;
 	private VerticalPanel searchResultPanel;
 	private TabPanel tabPanel;
+	private TextField searchField;
+	private TextField artikelStandort;
 
 	public AdvancedSearchForm(TabPanel outerTabPanel) {
 
 		final FormPanel containerFormPanel = new FormPanel();
+		containerFormPanel.setId("mask-panel"); 
 		containerFormPanel.setTitle("Erweiterte Suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
 		
@@ -57,8 +63,10 @@ public class AdvancedSearchForm implements Form{
 		firstColumn.setLayout(new FormLayout());
 		firstColumn.setPaddings(10);
 
-		firstColumn.add(new TextField("Suche", "searchPhrase", 120));
-		firstColumn.add(new TextField("Artikelstandort", "searchPhrase", 120));
+		searchField = new TextField("Suche", "searchField", 120);
+		artikelStandort = new TextField("Artikelstandort", "searchPhrase", 120);
+		firstColumn.add(searchField);
+		firstColumn.add(artikelStandort);
 
 		Panel secondColumn = new Panel();
 		secondColumn.setLayout(new FormLayout());
@@ -151,30 +159,42 @@ public class AdvancedSearchForm implements Form{
 		Panel buttonPanel = new Panel();
 		buttonPanel.setBorder(false);
 		buttonPanel.setPaddings(10, 0, 0, 0);
-		Button searchButton = new Button("Suchen", new ButtonListenerAdapter() {
+		Button searchButton = new Button("Suchen",
+				new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
+				final ExtElement element = Ext.get("mask-panel");  
+				element.mask("sucht...");
+				
+				System.out.println("gedrueckt");
+				ArticleSearchQuery sq = new ArticleSearchQuery();
+				sq.setSearchPhrase(searchField.getText());
+				sq.setLocation(artikelStandort.getText());
+				sq.setCategory(articleCategoryCB.getText());
 
-				System.out.println("gedrückt");
-				/**
-				 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt
-				 * und übergibt es per RPC an SearchHandler.search()
-				 */
 				SearchHandlerAsync searchHandler = GWT
 				.create(SearchHandler.class);
-				searchHandler.search(new ArticleSearchQuery(),
+				searchHandler.search(sq,
 						new AsyncCallback<ArrayList<SearchResult>>() {
 					public void onFailure(Throwable caught) {
-						System.out.println("neeee: ");
+						System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
 					}
 
-					public void onSuccess(
-							ArrayList<SearchResult> results) {
-						System.out.println("neeee: ");
+					public void onSuccess(ArrayList<SearchResult> results) {
+						System.out.println("success");
+						element.unmask();
+						Panel cp = SwapWeb.getContentPanel();
+						cp.clear();  
+						Panel listView = new Panel();
+
 						for (SearchResult r : results) {
-							searchResultPanel.add((Widget) r.getView());
+							listView.add( (ArticleSearchResultView) r.getView());
 						}
+
+						cp.add(listView);
+						cp.doLayout();
 					}
 				});
+
 			}
 
 		});

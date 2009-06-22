@@ -18,7 +18,13 @@ import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 
 public class DataBankerQueries {
-
+	private boolean queryHasCondition;
+	private String query;
+	
+	public DataBankerQueries() {
+		queryHasCondition = false;
+	}
+	
 	public ArrayList<SearchResult> retriveArticles(
 			ArrayList<Parameter> parameters) {
 		return null;
@@ -422,25 +428,37 @@ public class DataBankerQueries {
 		return user;
 	}
 
+	public void addCondition(String condition) {
+		if (!queryHasCondition) {
+			query += condition;
+			queryHasCondition = true;
+		} else
+			query += " AND " + condition;
+	}
+	
 	public ArrayList<SearchResult> getArticleSearchResults(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		String query = null;
+		queryHasCondition = false;
+		query = "SELECT * FROM article WHERE ";
 		if (sq.getUserName() != null) {
 			int userid = getUserId(sq.getUserName());
-			query = "SELECT * FROM article WHERE userid ='" + userid + "'";
-		} else if (sq.getCategoryPhrase() != null) {
-			query = "SELECT * FROM article WHERE category ='"
-					+ sq.getCategoryPhrase() + "'";
-		} else if (sq.getUserIdPhrase() != null) {
-			query = "SELECT * FROM article WHERE id ='"
-				+ sq.getCategoryPhrase() + "'";
-		} else {
-			query = "SELECT * FROM article WHERE title like '"
-					+ sq.getSearchPhrase() + "'";
+			addCondition("userid ='" + userid + "'");
+		}  
+		if (sq.getCategoryPhrase() != null) {
+			addCondition("category ='" + sq.getCategoryPhrase() + "'");
+		} 
+		if (sq.getUserIdPhrase() != null) {
+			addCondition("id ='" + sq.getCategoryPhrase() + "'");
+		} 
+		if (sq.getSearchPhrase() != null){
+			addCondition("title like '%" + sq.getSearchPhrase() + "%'");
 		}
-
+		if (sq.getLocation() != null && sq.getLocation().length()>0){
+			addCondition("city like '" + sq.getLocation() + "'");
+		}
+		System.out.println(query);
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);

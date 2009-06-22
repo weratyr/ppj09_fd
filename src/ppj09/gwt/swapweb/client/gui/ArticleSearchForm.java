@@ -109,18 +109,17 @@ public class ArticleSearchForm implements Form {
 							}
 
 							public void onSuccess(ArrayList<SearchResult> results) {
-
-								SwapWeb.getContentPanel().clear();
-								final ExtElement element = Ext.get("mask-panel");  
 								element.unmask();
+								Panel cp = SwapWeb.getContentPanel();
+								cp.clear();  
 								Panel listView = new Panel();
 
 								for (SearchResult r : results) {
 									listView.add( (ArticleSearchResultView) r.getView());
 								}
 
-								SwapWeb.getContentPanel().add(listView);
-								SwapWeb.getContentPanel().doLayout();
+								cp.add(listView);
+								cp.doLayout();
 							}
 						});
 
