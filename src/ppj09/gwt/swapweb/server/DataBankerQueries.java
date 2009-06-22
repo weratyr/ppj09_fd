@@ -551,6 +551,12 @@ public class DataBankerQueries {
 			addCondition("city like '" + sq.getLocation() + "'");
 		if (attrSpecified(sq.getCategory()))
 			addCondition("category = '" + sq.getCategory() + "'");
+		if (attrSpecified(sq.getCondition()))
+			addCondition("articlecondition = '" + sq.getCondition() + "'");
+		if (attrSpecified(sq.getShippingMethods()))
+			addCondition("shipping = '" + sq.getShippingMethods() + "'");
+		if (sq.isPicturesOnly())
+			addCondition("image1 is not null");
 
 		System.out.println(query);
 		ResultSet resultSet = null;
