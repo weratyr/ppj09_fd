@@ -1,5 +1,24 @@
 package ppj09.gwt.swapweb.client;
 
+/*
+ * TODO:
+ * - erfolgreichen Login irgendwie kennzeichnen
+ *     - Login und Register Panels verschwinden lassen
+ *     - eingeloggten User anzeigen
+ * - Nachrichtensystem
+ *     - User-User Nachrichten
+ *     - Benachrichtigung bei
+ *         - neuen/angenommenen/abgelehnten Angeboten
+ *         - erfolgreiche Registrierung
+ * - Bewertungssystem
+ *     - Bewertung von abgeschlossenen Transaktionen
+ * - Ansichten
+ *     - Meine Artikel
+ *     - Artikel bearbeiten
+ *     - Artikel thumbnails
+ * - Swap
+ */
+
 import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
