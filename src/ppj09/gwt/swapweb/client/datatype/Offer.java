@@ -19,43 +19,64 @@ import java.util.ArrayList;
  * @version 0.1, 04.05.09
  */
 public class Offer implements Serializable {
-	//offerId ist eindeutig
+	// offerId ist eindeutig
 	private int offerId;
-	//speichert die Artikel Nummer der zu tauschenden Gegenstaende
+	// speichert die Artikel Nummer der zu tauschenden Gegenstaende
 	private int desiredArticleId;
 	private String offeredArticleIds;
 	private String offerComment;
-	//enthaelt die Id des Status; abgelehnt, noch offen des Tausches
+	// enthaelt die Id des Status; abgelehnt, noch offen des Tausches
 	private int swapStatus;
+
+	public Offer(int desiredArticleId, String offeredArticleIds,
+			String offerComment, int swapStatus) {
+		this.desiredArticleId = desiredArticleId;
+		this.offeredArticleIds = offeredArticleIds;
+		this.offerComment = offerComment;
+		this.setSwapStatus(swapStatus);
+	}
+
+	public Offer() {
+	}
+
 	public void setOfferId(int offerId) {
 		this.offerId = offerId;
 	}
+
 	public int getOfferId() {
 		return offerId;
 	}
+
 	public void setDesiredArticleId(int desiredArticleId) {
 		this.desiredArticleId = desiredArticleId;
 	}
+
 	public int getDesiredArticleId() {
 		return desiredArticleId;
 	}
+
 	public void setOfferedArticleIds(String offeredArticleIds) {
 		this.offeredArticleIds = offeredArticleIds;
 	}
+
 	public String getOfferedArticleIds() {
 		return offeredArticleIds;
 	}
+
 	public void setOfferComment(String offerComment) {
 		this.offerComment = offerComment;
 	}
+
 	public String getOfferComment() {
 		return offerComment;
 	}
+
 	public void setSwapStatus(int swapStatus) {
 		this.swapStatus = swapStatus;
 	}
-	public int isSwapStatus() {
+
+	public int getSwapStatus() {
 		return swapStatus;
 	}
-	
+
 }

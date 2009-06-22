@@ -13,6 +13,8 @@ import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
+import ppj09.gwt.swapweb.client.serverInterface.OfferHandler;
+import ppj09.gwt.swapweb.client.serverInterface.OfferHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
@@ -386,12 +388,14 @@ public class ArticleView extends Composite implements View {
 				verticalPanel.add(guide);
 			}
 
-			private Component getOfferSubmitForm(String offerListIds, String offerListTitles) {
+			private Component getOfferSubmitForm(final String offerListIds, String offerListTitles) {
+
 				FormPanel offerSubmitForm = new FormPanel();
 				offerSubmitForm.setBorder(false);
 				offerSubmitForm.setPaddings(6);
 				offerSubmitForm.setLabelAlign(Position.TOP);
 				offerSubmitForm.setMonitorValid(true);
+				offerSubmitForm.setFooter(true);
 				
 				final Store shippingStore = new SimpleStore(
 						"shipping", splitShippingMethods());
@@ -412,23 +416,42 @@ public class ArticleView extends Composite implements View {
 				offerQuestion.setHtml("Sind sie sicher, dass sie Folgende Artikel:<b><br><ol>"+offerListTitles+"</ol></b> gegen den Artikel \"<b>"+article.getTitle().toString()+" (ID: "+article.getArticleId()+")</b>\" tauschen möchten?<br><br> ");
 				offerSubmitForm.add(offerQuestion);
 
-				TextArea offerComment = new TextArea("Kommentar (optional)");
-				offerComment.setAllowBlank(true);
+				final TextArea offerComment = new TextArea("Kommentar (optional)");
+				offerComment.setAllowBlank(false);
 				offerComment.setSize(365, 50);
 				
 				Checkbox chkbxAccept = new Checkbox("Ja, ich möchte tauschen", "check_Box");
 				chkbxAccept.setValidateOnBlur(true);
 				
-				Button button = new Button("Angebot senden",
-						new ButtonListenerAdapter() {
-							public void onClick(Button button, EventObject e) { 
-							}
-						});
-				button.setFormBind(true);
+				Button button = new Button("Angebot senden");
+//				button.setFormBind(true);
+				
 				offerSubmitForm.add(shippingCB);
 				offerSubmitForm.add(offerComment);
 				offerSubmitForm.add(chkbxAccept);
 				offerSubmitForm.add(button);
+				
+				button.addListener(new ButtonListenerAdapter() {
+					public void onClick(Button button, EventObject e) {
+						System.out.println("lol");
+						int swapStatus = 0;
+//						Offer offer = new Offer();
+						Offer offer = new Offer(article.getArticleId(),offerListIds, offerComment.getText(), swapStatus);
+						OfferHandlerAsync offerHandler = GWT.create(OfferHandler.class);
+						offerHandler.createOffer(offer, new AsyncCallback<Integer>(){
+							public void onFailure(Throwable caught) {
+								System.out.println("ArticleView failed");								
+							}
+
+							public void onSuccess(Integer result) {
+								System.out.println("ArticleView success");
+							}
+							
+						});
+					}
+				});
+
+					
 
 				return offerSubmitForm;
 			}
