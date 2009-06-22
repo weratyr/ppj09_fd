@@ -2,7 +2,7 @@ package ppj09.gwt.swapweb.client.gui;
 
 /**
  * Autor Daniel Abeska
- * Klasse User- Form ist zum ï¿½ndern bzw. bearbeiten eines Profils
+ * Klasse User- Form ist zum Ã¯Â¿Â½ndern bzw. bearbeiten eines Profils
  */
 import java.util.Date;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -136,7 +136,7 @@ public class UserForm extends Composite implements View {
 					// imageUploader.setInputType("file");
 					// absolutePanel.add(imageUploader, 0, 160);
 
-					// // AB HIER FORM FÜR FILE UPLOAD
+					// // AB HIER FORM FÃR FILE UPLOAD
 					final com.google.gwt.user.client.ui.FormPanel form = new com.google.gwt.user.client.ui.FormPanel();
 					form.setAction(GWT.getModuleBaseURL()
 							+ "UserImageUpdateHandler");
@@ -233,7 +233,7 @@ public class UserForm extends Composite implements View {
 					});
 					absolutePanel.add(uploadWindowButton, 0, 160);
 
-					// //// ENDE FORMS FÜR FILE UPLOAD
+					// //// ENDE FORMS FÃR FILE UPLOAD
 
 				}
 				{
@@ -427,7 +427,7 @@ public class UserForm extends Composite implements View {
 						submitButton.setFormBind(true);
 						submitButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
-								checkPasswordAndEmail(txtbxPwd.getText()); // führt auch die submit methode im rpc auf	
+								checkPasswordAndEmail(txtbxPwd.getText()); // fÃ¼hrt auch die submit methode im rpc auf	
 							}
 						});
 						panelButton = new MultiFieldPanel();
@@ -480,14 +480,14 @@ public class UserForm extends Composite implements View {
 	}
 
 	/**
-	 * sendet den eingegeben Benutzernamen an den Server, welcher ï¿½berprï¿½ft
+	 * sendet den eingegeben Benutzernamen an den Server, welcher Ã¯Â¿Â½berprÃ¯Â¿Â½ft
 	 * ob dieser noch frei ist. Ist der Benutzername schon vergeben, wird das
 	 * textField txtbxUserFree sichtbar geschaltet,
 	 * 
 	 * @param username
 	 */
 	public void checkUsername(String username) {
-		// TODO rpc zum ï¿½berprï¿½fen ob der Benutzername noch frei ist
+		// TODO rpc zum Ã¯Â¿Â½berprÃ¯Â¿Â½fen ob der Benutzername noch frei ist
 		// Sende Daten an Server
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 		userManager.checkUsername(username, new AsyncCallback<Boolean>() {
@@ -515,7 +515,7 @@ public class UserForm extends Composite implements View {
 		}	
 
 		if(!validateEmail()) {
-			MessageBox.alert("Die E-Mail Adressen stimmen nicht überein");
+			MessageBox.alert("Die E-Mail Adressen stimmen nicht Ã¼berein");
 			return false;
 		}
 		
@@ -550,7 +550,7 @@ public class UserForm extends Composite implements View {
 				}
 			} else {
 				MessageBox
-						.alert("neue Passwörter leer oder stimmen nicht überein");
+						.alert("neue PasswÃ¶rter leer oder stimmen nicht Ã¼berein");
 				txtbxPwdNew
 						.markInvalid("Das neue Passwort muss mindestens acht Zeichen haben");
 				txtbxPwdNew2

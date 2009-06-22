@@ -1,5 +1,24 @@
 package ppj09.gwt.swapweb.client;
 
+/*
+ * TODO:
+ * - erfolgreichen Login irgendwie kennzeichnen
+ *     - Login und Register Panels verschwinden lassen  		- ERLEDIGT
+ *     - eingeloggten User anzeigen
+ * - Nachrichtensystem
+ *     - User-User Nachrichten
+ *     - Benachrichtigung bei
+ *         - neuen/angenommenen/abgelehnten Angeboten
+ *         - erfolgreiche Registrierung
+ * - Bewertungssystem
+ *     - Bewertung von abgeschlossenen Transaktionen
+ * - Ansichten
+ *     - Meine Artikel
+ *     - Artikel bearbeiten
+ *     - Artikel thumbnails
+ * - Swap
+ */
+
 import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
@@ -39,9 +58,11 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.ComboBox;
+import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
+import com.gwtext.client.widgets.layout.VerticalLayout;
 
 /**
  * Initialisiert das allgemeine Layout der Seite
@@ -51,7 +72,7 @@ public class SwapWeb implements EntryPoint {
 	private User user;
 	private Panel mainPanel;
 	private Panel outerPanel;
-	private TabPanel tabPanel;
+	private static TabPanel tabPanel;
 
 	private Image image;
 	private static DisclosurePanel meinSwapWeb;
@@ -70,6 +91,7 @@ public class SwapWeb implements EntryPoint {
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
+	private static Panel loggedInPanel;
 
 	/**
 	 * Die EntryPoint Methode
@@ -78,18 +100,19 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * Hauptfenster
 		 */
-		
-		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
-		
-		userManager.getUser(new AsyncCallback<User>(){
+		CSS.swapStyleSheet("theme",
+				"swapweb/js/ext/resources/css/xtheme-slate.css");
+
+		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				user = null;
 			}
+
 			public void onSuccess(User result) {
 				user = result;
 			}
 		});
-	
+
 		mainPanel = new Panel();
 		mainPanel.setBorder(false);
 		mainPanel.setLayout(new FitLayout());
@@ -100,14 +123,25 @@ public class SwapWeb implements EntryPoint {
 		outerPanel.setAutoScroll(true);
 
 		/*
-		 * NORTH Header und Šu§eres TabPanel
+		 * NORTH Header und äußeres TabPanel
 		 */
 		image = new Image("http://www.renegade-station.de/swhead.jpg");
 		tabPanel = getUpperTabPanel();
 
+		loggedInPanel = new Panel();
+		loggedInPanel.setBorder(false);
+		loggedInPanel.setId("eingelogged-als-panel");
+
+		MultiFieldPanel northContainer = new MultiFieldPanel();
+		northContainer.setBorder(false);
+		northContainer.add(image);
+		northContainer.add(loggedInPanel);
+		loggedInPanel.setVisible(false);
+
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.setBorder(false);
-		northOuterPanel.add(image);
+		// northOuterPanel.add(image);
+		northOuterPanel.add(northContainer);
 		northOuterPanel.add(tabPanel);
 
 		outerPanel.add(northOuterPanel, new BorderLayoutData(
@@ -152,7 +186,6 @@ public class SwapWeb implements EntryPoint {
 		kategorien = new DisclosurePanel("Kategorien", false);
 		kategorien.setContent(getCategories());
 
-//		navigationsContentPanel.add(meinSwapWeb);
 		navigationsContentPanel.add(kategorien);
 
 		return navigationsContentPanel;
@@ -228,7 +261,7 @@ public class SwapWeb implements EntryPoint {
 							// Setzt Links auf die Kategorien
 							ArticleSearchQuery sq = new ArticleSearchQuery();
 							sq.setCategoryPhrase(categoryLink.getText());
-						
+
 							final ExtElement element = Ext.get("navi-panel");
 							element.mask("Lädt");
 
@@ -266,15 +299,14 @@ public class SwapWeb implements EntryPoint {
 												}
 											});
 						}
-						
+
 					});
 					categoryList.add(categoryLink);
 					verticalPanel.add(categoryList.get(i));
-					
+
 				}
-				
+
 			}
-			
 
 		});
 		return verticalPanel;
@@ -291,16 +323,29 @@ public class SwapWeb implements EntryPoint {
 		return tabPanel;
 	}
 
+	public static TabPanel getTabPanel() {
+		return tabPanel;
+	}
+
 	public static Panel getContentPanel() {
 		return contentPanel;
 	}
-	
+
 	public static void addMeinSwapWeb() {
 		navigationPanel.add(meinSwapWeb);
 		navigationPanel.doLayout();
 	}
-	
-	public static void getCategories(final Panel container, final ComboBox categoryComboBox) {
+
+	public static void setLoggedin(String username) {
+		loggedInPanel.setVisible(true);
+		loggedInPanel.add(new Label("Sie sind angemeldet als " + username));
+		loggedInPanel.add(new Hyperlink("abmelden", username));
+		loggedInPanel.doLayout();
+
+	}
+
+	public static void getCategories(final Panel container,
+			final ComboBox categoryComboBox) {
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
 		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
 			public void onFailure(Throwable caught) {
@@ -308,7 +353,8 @@ public class SwapWeb implements EntryPoint {
 			}
 
 			public void onSuccess(ArrayList<String> results) {
-				Store quickCategoryStore = new SimpleStore("category", results.toArray());
+				Store quickCategoryStore = new SimpleStore("category", results
+						.toArray());
 				quickCategoryStore.load();
 				categoryComboBox.setStore(quickCategoryStore);
 				categoryComboBox.setDisplayField("category");
