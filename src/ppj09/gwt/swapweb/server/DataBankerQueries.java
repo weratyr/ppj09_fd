@@ -1,9 +1,5 @@
 package ppj09.gwt.swapweb.server;
 
-/*
- * Stefan Elm
- */
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,9 +66,10 @@ public class DataBankerQueries {
 		if (!checkUsername(username)) {
 			try {
 				PreparedStatement stmt = dbc
-						.getConnection()
-						.prepareStatement(
-								"INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email) VALUES(?,?,?,?,?,?,?,?,?)");
+
+				.getConnection()
+				.prepareStatement(
+				"INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email) VALUES(?,?,?,?,?,?,?,?,?)");
 				stmt.setString(1, username);
 				stmt.setString(2, pwdHash);
 				stmt.setString(3, firstName);
@@ -188,9 +185,10 @@ public class DataBankerQueries {
 		if (userId != 0) { // User ist eingeloggt
 			try {
 				PreparedStatement stmt = dbc
-						.getConnection()
-						.prepareStatement(
-								"INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?,?)");
+
+				.getConnection()
+				.prepareStatement(
+				"INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?,?)");
 				stmt.setString(1, Integer.toString(userId));
 				stmt.setString(2, title);
 				stmt.setString(3, zipcode);
@@ -229,13 +227,13 @@ public class DataBankerQueries {
 		}
 	}
 
-	
+
 	/*
 	 * Erstellt einen neuen Offer und gibt Statuscode zurück:
 	 * 0 = Fehler
 	 * 1 = OK
 	 */
-	
+
 	public int createOffer(Offer newOffer) {
 		int desiredArticleId = newOffer.getDesiredArticleId();
 		String offerItemIds = newOffer.getOfferedArticleIds();
@@ -243,30 +241,30 @@ public class DataBankerQueries {
 		int swapStatus = newOffer.getSwapStatus();
 
 		DataBankerConnection dbc = new DataBankerConnection();
-			try {
-				PreparedStatement stmt = dbc
-				.getConnection()
-				.prepareStatement(
-						"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapStatusId) VALUES(?,?,?,?)");
-				stmt.setInt(1, desiredArticleId);
-				stmt.setString(2, offerItemIds);
-				stmt.setString(3, offerComment);
-				stmt.setInt(4, swapStatus);
+		try {
+			PreparedStatement stmt = dbc
+			.getConnection()
+			.prepareStatement(
+					"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapStatusId) VALUES(?,?,?,?)");
+			stmt.setInt(1, desiredArticleId);
+			stmt.setString(2, offerItemIds);
+			stmt.setString(3, offerComment);
+			stmt.setInt(4, swapStatus);
 
-				stmt.executeUpdate();
-				
-				
-				dbc.close();
-				stmt.close();
-				System.out.println("done!");
-				return 1; // OK
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("net done!");
-				return 0; // Fehler
-			}
+			stmt.executeUpdate();
+
+
+			dbc.close();
+			stmt.close();
+			System.out.println("done!");
+			return 1; // OK
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("net done!");
+			return 0; // Fehler
+		}
 	}
-	
+
 	public boolean saveImageToArticle(String url, String id) {
 		boolean saved = false;
 
@@ -280,7 +278,7 @@ public class DataBankerQueries {
 				dbc.close();
 				dbc.getStatement().close();
 
-				// return resultCode;
+				//return resultCode;
 				saved = true; // OK
 			} catch (SQLException e) {
 				System.out.println(e);
@@ -304,7 +302,8 @@ public class DataBankerQueries {
 				dbc.close();
 				dbc.getStatement().close();
 
-				// return resultCode;
+
+				//return resultCode;
 				saved = true; // OK
 			} catch (SQLException e) {
 				System.out.println(e);
@@ -328,7 +327,6 @@ public class DataBankerQueries {
 				dbc.close();
 				dbc.getStatement().close();
 
-				// return resultCode;
 				saved = true; // OK
 			} catch (SQLException e) {
 				System.out.println(e);
@@ -529,20 +527,6 @@ public class DataBankerQueries {
 		return user;
 	}
 
-	public void addCondition(String condition) {
-		if (!queryHasCondition) {
-			query += condition;
-			queryHasCondition = true;
-		} else
-			query += " AND " + condition;
-	}
-
-	public boolean attrSpecified(String str) {
-		if (str == null || str.trim().equals(""))
-			return false;
-		else
-			return true;
-	}
 
 	public ArrayList<SearchResult> getArticleSearchResults(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
@@ -579,8 +563,8 @@ public class DataBankerQueries {
 			while (resultSet.next()) {
 				articleList.add(new ArticleSearchResult(resultSet
 						.getString("title"), getUsername(resultSet
-						.getInt("userid")), resultSet.getString("image1"),
-						resultSet.getInt("id")));
+								.getInt("userid")), resultSet.getString("image1"),
+								resultSet.getInt("id")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -677,5 +661,29 @@ public class DataBankerQueries {
 		}
 
 		return ownArticles;
+	}
+	
+	
+	// Helper mehtods
+	
+	/**
+	 * Fügt eine neue Bedingung an das Query an.
+	 */
+	public void addCondition(String condition) {
+		if (!queryHasCondition) {
+			query += condition;
+			queryHasCondition = true;
+		} else
+			query += " AND " + condition;
+	}
+
+	/**
+	 * Überprüft ob der angegebene Parameter definiert ist.
+	 */
+	public boolean attrSpecified(String str) {
+		if (str==null || str.trim().equals(""))
+			return false;
+		else
+			return true;
 	}
 }
