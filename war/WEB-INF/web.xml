@@ -71,6 +71,16 @@
 <servlet-mapping>
    <servlet-name>OfferHandler</servlet-name>
    <url-pattern>/swapweb/OfferHandler</url-pattern>
+<servlet>
+  <servlet-name>userImageUploadHandler</servlet-name> 
+  <servlet-class>ppj09.gwt.swapweb.server.UserImageUploadHandler</servlet-class>  
+</servlet>
+
+<servlet-mapping>
+   <servlet-name>userImageUploadHandler</servlet-name>
+   <url-pattern>/swapweb/UserImageUploadHandler</url-pattern>
 </servlet-mapping>
+
+
   
 </web-app>
