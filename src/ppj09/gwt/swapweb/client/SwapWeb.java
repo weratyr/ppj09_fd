@@ -69,7 +69,7 @@ public class SwapWeb implements EntryPoint {
 	private UserView myProfile;
 
 	/**
-	 * Die EntryPoin Methode
+	 * Die EntryPoint Methode
 	 */
 	public void onModuleLoad() {
 		/*

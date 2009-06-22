@@ -131,7 +131,7 @@ public class UserView extends Composite implements View {
 
 	public UserView(String username) {
 		getUser(username);
-		
+
 		createForm();
 		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 
@@ -165,6 +165,7 @@ public class UserView extends Composite implements View {
 
 					// Bild
 					{
+
 						image = new Image();
 						image.setPixelSize(150, 150);
 						setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
@@ -556,7 +557,7 @@ public class UserView extends Composite implements View {
 		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
 			public void onFailure(Throwable caught) {
 				System.out
-				.println("RPC UserView: fehler im user article liste");
+						.println("RPC UserView: fehler im user article liste");
 			}
 
 			public void onSuccess(ArrayList<SearchResult> results) {
@@ -580,7 +581,8 @@ public class UserView extends Composite implements View {
 			public void onSuccess(User userProfile) {
 				// :)
 				user = userProfile;
-				SwapWeb.getContentPanel().setTitle(user.getUsername()+"´s Profil");
+				SwapWeb.getContentPanel().setTitle(
+						user.getUsername() + "´s Profil");
 				fillForm();
 			}
 		});
@@ -592,7 +594,7 @@ public class UserView extends Composite implements View {
 		userManager.getUser(new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				System.out.println("fehler: getUser() :"+caught.getMessage());
+				System.out.println("fehler: getUser() :" + caught.getMessage());
 
 			}
 
@@ -603,7 +605,7 @@ public class UserView extends Composite implements View {
 				setUserName(user.getUsername());
 			}
 		});
-		
+
 	}
 
 	public void fillForm() {
@@ -632,7 +634,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getGender() == null)) {
+			if (!((user.getGender() == null) || (user.getGender().equals("")))) {
 				lblGender2.setText(user.getGender());
 				hpGender.setVisible(true);
 				verticalSeperatorGender.setVisible(true);
@@ -650,7 +652,7 @@ public class UserView extends Composite implements View {
 		// }
 		try {
 
-			if (!(user.getJob() == null)) {
+			if (!(user.getJob() == null || user.getJob().equals(""))) {
 				lblJob2.setText(user.getJob());
 				hpJob.setVisible(true);
 				verticalSeperatorJob.setVisible(true);
@@ -659,7 +661,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getHomepage() == null)) {
+			if (!(user.getHomepage() == null || user.getHomepage().equals(""))) {
 				lblHomepage2.setText(user.getHomepage());
 				hpHomepage.setVisible(true);
 				verticalSeperatorHomepage.setVisible(true);
@@ -667,7 +669,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getHobbys() == null)) {
+			if (!(user.getHobbys() == null || user.getHobbys().equals(""))) {
 				lblHobbys2.setText(user.getHobbys());
 				hpHobbys.setVisible(true);
 				verticalSeperatorHobbys.setVisible(true);
@@ -675,7 +677,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getMusic() == null)) {
+			if (!(user.getMusic() == null || user.getMusic().equals(""))) {
 				lblMusic2.setText(user.getMusic());
 				hpMusic.setVisible(true);
 				verticalSeperatorMusic.setVisible(true);
@@ -683,7 +685,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getMovie() == null)) {
+			if (!(user.getMovie() == null || user.getMovie().equals(""))) {
 				lblMovie2.setText(user.getMovie());
 				hpMusic.setVisible(true);
 				verticalSeperatorMovie.setVisible(true);
@@ -691,7 +693,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getILike() == null)) {
+			if (!(user.getILike() == null || user.getILike().equals(""))) {
 				lblILike2.setText(user.getILike());
 				hpILike.setVisible(true);
 				verticalSeperatorILike.setVisible(true);
@@ -699,7 +701,8 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getIDontLike() == null)) {
+			if (!(user.getIDontLike() == null || user.getIDontLike()
+					.equals(""))) {
 				lblIDontLike2.setText(user.getIDontLike());
 				hpIDontLike.setVisible(true);
 				verticalSeperatorIDontLike.setVisible(true);
@@ -707,7 +710,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getIcq() == null)) {
+			if (!(user.getIcq() == null || user.getIcq().equals(""))) {
 				lblIcq2.setText(user.getIcq());
 				hpIcq.setVisible(true);
 				verticalSeperatorIcq.setVisible(true);
@@ -715,7 +718,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getMsn() == null)) {
+			if (!(user.getMsn() == null || user.getMsn().equals(""))) {
 				lblMsn2.setText(user.getMsn());
 				hpMsn.setVisible(true);
 				verticalSeperatorMsn.setVisible(true);
@@ -723,7 +726,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getYahoo() == null)) {
+			if (!(user.getYahoo() == null || user.getYahoo().equals(""))) {
 				lblYahoo2.setText(user.getYahoo());
 				hpYahoo.setVisible(true);
 				verticalSeperatorYahoo.setVisible(true);
@@ -731,7 +734,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getAim() == null)) {
+			if (!(user.getAim() == null || user.getAim().equals(""))) {
 				lblAim2.setText(user.getAim());
 				hpAim.setVisible(true);
 				verticalSeperatorAim.setVisible(true);
@@ -739,7 +742,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			if (!(user.getJabber() == null)) {
+			if (!(user.getJabber() == null || user.getJabber().equals(""))) {
 				lblJabber2.setText(user.getJabber());
 				hpJabber.setVisible(true);
 				verticalSeperatorJabber.setVisible(true);

@@ -437,7 +437,7 @@ public class DataBankerQueries {
 			query = "SELECT * FROM article WHERE id ='"
 				+ sq.getCategoryPhrase() + "'";
 		} else {
-			query = "SELECT * FROM article WHERE title ='"
+			query = "SELECT * FROM article WHERE title like '"
 					+ sq.getSearchPhrase() + "'";
 		}
 
