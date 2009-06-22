@@ -1134,7 +1134,6 @@ public class UserForm extends Composite implements View {
 		}
 
 		try {
-			System.out.println(user.getJob());
 			this.setJob(user.getJob());
 
 		} catch (NullPointerException e) {
