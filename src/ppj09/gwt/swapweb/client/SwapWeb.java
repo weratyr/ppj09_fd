@@ -61,6 +61,7 @@ import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
+import com.gwtext.client.widgets.layout.ContainerLayout;
 import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.layout.VerticalLayout;
 
@@ -76,7 +77,7 @@ public class SwapWeb implements EntryPoint {
 
 	private Image image;
 	private static DisclosurePanel meinSwapWeb;
-	private DisclosurePanel kategorien;
+	private static DisclosurePanel kategorien;
 	private static Panel contentPanel;
 
 	private Hyperlink myProfileHyperlink;
@@ -161,6 +162,9 @@ public class SwapWeb implements EntryPoint {
 
 		navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
+		
+		
+		
 		navigationPanel.add(createNavigationPanel());
 
 		// WEST
@@ -333,13 +337,14 @@ public class SwapWeb implements EntryPoint {
 
 	public static void addMeinSwapWeb() {
 		navigationPanel.add(meinSwapWeb);
+		meinSwapWeb.setOpen(true);
 		navigationPanel.doLayout();
 	}
 
 	public static void setLoggedin(String username) {
 		loggedInPanel.setVisible(true);
 		loggedInPanel.add(new Label("Sie sind angemeldet als " + username));
-		loggedInPanel.add(new Hyperlink("abmelden", username));
+		loggedInPanel.add(new Hyperlink("abmelden", ""));
 		loggedInPanel.doLayout();
 
 	}
