@@ -39,9 +39,12 @@ import com.gwtext.client.widgets.form.TextField;
 public class ArticleSearchForm implements Form {
 	private HorizontalPanel searchPanel;
 	private final Panel containerFormPanel;
+	private Panel buttonPanel;
+	private ComboBox categoryComboBox;
 
 	private TextField searchField;
 	public ArticleSearchForm(TabPanel outerTabPanel) {
+		categoryComboBox = new ComboBox();
 		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
 		containerFormPanel.setId("mask-panel"); 
@@ -53,80 +56,53 @@ public class ArticleSearchForm implements Form {
 		searchPanel.add(searchLabel);
 		searchPanel.add(searchField);
 		// holt via rpc die Kategorienliste aus der Datenbank
-		getCategories(); 
+		
+		buttonPanel = new Panel();
+		buttonPanel.setBorder(false);
+		searchPanel.add(buttonPanel);
+		
+		SwapWeb.getCategories(buttonPanel, categoryComboBox); 
 
-		containerFormPanel.add(searchPanel);
-		outerTabPanel.add(containerFormPanel);
-	}
+		Button quickSearchButton = new Button("Suchen",
+				new ButtonListenerAdapter() {
+			public void onClick(Button button, EventObject e) {
+				ArticleSearchQuery sq = new ArticleSearchQuery();
+				sq.setSearchPhrase(searchField.getText());
 
+				final ExtElement element = Ext.get("mask-panel");  
+				element.mask("sucht...");  
 
-	private void getCategories() {
-		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
-
-		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
-
-			public void onFailure(Throwable caught) {
-				System.out.println("Fehler: " + caught.getMessage());
-			}
-
-			public void onSuccess(ArrayList<String> results) {
-				Store quickCategoryStore = new SimpleStore("category", results.toArray());
-
-				quickCategoryStore.load();
-
-				final ComboBox quickArticleCategoryCB = new ComboBox();
-				quickArticleCategoryCB.setStore(quickCategoryStore);
-				quickArticleCategoryCB.setDisplayField("category");
-				quickArticleCategoryCB.setMode(ComboBox.LOCAL);
-				quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
-				quickArticleCategoryCB.setForceSelection(true);
-				quickArticleCategoryCB.setReadOnly(true);
-				quickArticleCategoryCB.setWidth(120);
-				quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-				searchPanel.add(quickArticleCategoryCB);
-
-
-				Button quickSearchButton = new Button("Suchen",
-						new ButtonListenerAdapter() {
-					public void onClick(Button button, EventObject e) {
-						ArticleSearchQuery sq = new ArticleSearchQuery();
-						sq.setSearchPhrase(searchField.getText());
-
-						final ExtElement element = Ext.get("mask-panel");  
-						element.mask("sucht...");  
-
-						SearchHandlerAsync searchHandler = GWT
-						.create(SearchHandler.class);
-						searchHandler.search(sq,
-								new AsyncCallback<ArrayList<SearchResult>>() {
-							public void onFailure(Throwable caught) {
-								System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
-							}
-
-							public void onSuccess(ArrayList<SearchResult> results) {
-								element.unmask();
-								Panel cp = SwapWeb.getContentPanel();
-								cp.clear();  
-								Panel listView = new Panel();
-
-								for (SearchResult r : results) {
-									listView.add( (ArticleSearchResultView) r.getView());
-								}
-
-								cp.add(listView);
-								cp.doLayout();
-							}
-						});
-
+				SearchHandlerAsync searchHandler = GWT
+				.create(SearchHandler.class);
+				searchHandler.search(sq,
+						new AsyncCallback<ArrayList<SearchResult>>() {
+					public void onFailure(Throwable caught) {
+						System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
 					}
 
+					public void onSuccess(ArrayList<SearchResult> results) {
+						element.unmask();
+						Panel cp = SwapWeb.getContentPanel();
+						cp.clear();  
+						Panel listView = new Panel();
+
+						for (SearchResult r : results) {
+							listView.add( (ArticleSearchResultView) r.getView());
+						}
+
+						cp.add(listView);
+						cp.doLayout();
+					}
 				});
 
-				quickSearchButton.setIconCls("icon-search");
-				searchPanel.add(quickSearchButton);
 			}
 
 		});
+
+		quickSearchButton.setIconCls("icon-search");
+		searchPanel.add(quickSearchButton);
+		containerFormPanel.add(searchPanel);
+		outerTabPanel.add(containerFormPanel);
 	}
 
 	/**

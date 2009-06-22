@@ -32,10 +32,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.Ext;
 import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.core.RegionPosition;
+import com.gwtext.client.data.SimpleStore;
+import com.gwtext.client.data.Store;
 import com.gwtext.client.util.CSS;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
+import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
@@ -295,5 +298,30 @@ public class SwapWeb implements EntryPoint {
 	public static void addMeinSwapWeb() {
 		navigationPanel.add(meinSwapWeb);
 		navigationPanel.doLayout();
+	}
+	
+	public static void getCategories(final Panel container, final ComboBox categoryComboBox) {
+		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
+		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
+			public void onFailure(Throwable caught) {
+				System.out.println("Fehler: " + caught.getMessage());
+			}
+
+			public void onSuccess(ArrayList<String> results) {
+				Store quickCategoryStore = new SimpleStore("category", results.toArray());
+				quickCategoryStore.load();
+
+				categoryComboBox.setStore(quickCategoryStore);
+				categoryComboBox.setDisplayField("category");
+				categoryComboBox.setMode(ComboBox.LOCAL);
+				categoryComboBox.setTriggerAction(ComboBox.ALL);
+				categoryComboBox.setForceSelection(true);
+				categoryComboBox.setReadOnly(true);
+				categoryComboBox.setWidth(120);
+				categoryComboBox.setEmptyText("Kategorie wählen");
+				container.add(categoryComboBox);
+				container.doLayout();
+			}
+		});
 	}
 }
