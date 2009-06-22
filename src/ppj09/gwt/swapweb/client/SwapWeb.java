@@ -69,14 +69,14 @@ public class SwapWeb implements EntryPoint {
 	private UserView myProfile;
 
 	/**
-	 * Die EntryPoin Methode
+	 * Die EntryPoint Methode
 	 */
 	public void onModuleLoad() {
 		/*
 		 * Hauptfenster
 		 */
 		
-//		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
+		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
 		
 		userManager.getUser(new AsyncCallback<User>(){
 			public void onFailure(Throwable caught) {
