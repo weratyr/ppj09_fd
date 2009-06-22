@@ -1,14 +1,16 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * Autor Daniel Abeska
- * Klasse User- Form ist zum Ã¯Â¿Â½ndern bzw. bearbeiten eines Profils
+ * @author Daniel Abeska, Chrisitan Happ
+ * 
+ * Klasse User- Form ist zum ändern bzw. bearbeiten eines Profils
  */
 import java.util.Date;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
-import com.google.gwt.user.client.Timer; //import com.google.gwt.user.client.Window;
+
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -427,7 +429,14 @@ public class UserForm extends Composite implements View {
 						submitButton.setFormBind(true);
 						submitButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
-								checkPasswordAndEmail(txtbxPwd.getText()); // fÃ¼hrt auch die submit methode im rpc auf	
+								checkPasswordAndEmail(txtbxPwd.getText()); // fÃ¼hrt
+								// auch
+								// die
+								// submit
+								// methode
+								// im
+								// rpc
+								// auf
 							}
 						});
 						panelButton = new MultiFieldPanel();
@@ -480,9 +489,9 @@ public class UserForm extends Composite implements View {
 	}
 
 	/**
-	 * sendet den eingegeben Benutzernamen an den Server, welcher Ã¯Â¿Â½berprÃ¯Â¿Â½ft
-	 * ob dieser noch frei ist. Ist der Benutzername schon vergeben, wird das
-	 * textField txtbxUserFree sichtbar geschaltet,
+	 * sendet den eingegeben Benutzernamen an den Server, welcher
+	 * Ã¯Â¿Â½berprÃ¯Â¿Â½ft ob dieser noch frei ist. Ist der Benutzername schon
+	 * vergeben, wird das textField txtbxUserFree sichtbar geschaltet,
 	 * 
 	 * @param username
 	 */
@@ -509,16 +518,17 @@ public class UserForm extends Composite implements View {
 	public boolean checkPasswordAndEmail(String password) {
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
-		if (txtbxPwdNew.getText().equals("") && txtbxPwd.getText().equals("") && validateEmail()) {
+		if (txtbxPwdNew.getText().equals("") && txtbxPwd.getText().equals("")
+				&& validateEmail()) {
 			submit();
 			return true; // falls alle password felder leer sind gibt er true
-		}	
+		}
 
-		if(!validateEmail()) {
+		if (!validateEmail()) {
 			MessageBox.alert("Die E-Mail Adressen stimmen nicht Ã¼berein");
 			return false;
 		}
-		
+
 		if (!txtbxPwd.getText().equals("")) {
 			if (txtbxPwdNew.getText().equals(txtbxPwdNew2.getText())
 					&& !txtbxPwdNew.getText().equals("")) {
