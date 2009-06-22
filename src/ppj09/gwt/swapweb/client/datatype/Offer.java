@@ -27,6 +27,16 @@ public class Offer implements Serializable {
 	private String offerComment;
 	//enthaelt die Id des Status; abgelehnt, noch offen des Tausches
 	private int swapStatus;
+	
+	public Offer(int desiredArticleId, String offeredArticleIds, String offerComment, int swapStatus){
+		this.desiredArticleId = desiredArticleId;
+		this.offeredArticleIds = offeredArticleIds;
+		this.offerComment = offerComment;
+		this.swapStatus = swapStatus;
+	}
+	
+	
+	
 	public void setOfferId(int offerId) {
 		this.offerId = offerId;
 	}
