@@ -38,9 +38,10 @@ public class AdvancedSearchForm implements Form{
 	private TabPanel tabPanel;
 	private TextField searchField;
 	private TextField artikelStandort;
+	private ComboBox categoryComboBox;
 
 	public AdvancedSearchForm(TabPanel outerTabPanel) {
-
+		categoryComboBox = new ComboBox();
 		final FormPanel containerFormPanel = new FormPanel();
 		containerFormPanel.setId("advanced-panel"); 
 		containerFormPanel.setTitle("Erweiterte Suche");
@@ -79,18 +80,22 @@ public class AdvancedSearchForm implements Form{
 		Store categoryStore = new SimpleStore("category", new String[]{"abc"});
 		categoryStore.load();
 
-		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
-
-		articleCategoryCB.setStore(categoryStore);
-		articleCategoryCB.setDisplayField("category");
-		articleCategoryCB.setMode(ComboBox.LOCAL);
-		articleCategoryCB.setTriggerAction(ComboBox.ALL);
-		articleCategoryCB.setForceSelection(true);
-		articleCategoryCB.setEmptyText("Kategorie wählen");
-		articleCategoryCB.setReadOnly(true);
-		articleCategoryCB.setWidth(120);
-
-		secondColumn.add(articleCategoryCB);
+//		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
+//
+//		articleCategoryCB.setStore(categoryStore);
+//		articleCategoryCB.setDisplayField("category");
+//		articleCategoryCB.setMode(ComboBox.LOCAL);
+//		articleCategoryCB.setTriggerAction(ComboBox.ALL);
+//		articleCategoryCB.setForceSelection(true);
+//		articleCategoryCB.setEmptyText("Kategorie wählen");
+//		articleCategoryCB.setReadOnly(true);
+//		articleCategoryCB.setWidth(120);
+//		secondColumn.add(articleCategoryCB);
+		
+		Panel categoryPanel = new Panel();
+		categoryPanel.setBorder(false);
+		secondColumn.add(categoryPanel);
+		SwapWeb.getCategories(categoryPanel, categoryComboBox);
 
 		Object[][] optionsCondition = new Object[][] {
 				new Object[] { "b", "Beliebig" }, new Object[] { "n", "Neu" },
@@ -111,7 +116,7 @@ public class AdvancedSearchForm implements Form{
 		articleConditionCB.setReadOnly(true);
 		articleConditionCB.setWidth(120);
 		articleConditionCB.setLazyRender(true);
-		secondColumn.add(articleConditionCB);
+		secondColumn.add(articleConditionCB); 
 
 		Panel thirdColumn = new Panel();
 		thirdColumn.setLayout(new FormLayout());
@@ -166,7 +171,7 @@ public class AdvancedSearchForm implements Form{
 				ArticleSearchQuery sq = new ArticleSearchQuery();
 				sq.setSearchPhrase(searchField.getText());
 				sq.setLocation(artikelStandort.getText());
-				sq.setCategory(articleCategoryCB.getText());
+				sq.setCategory(categoryComboBox.getText());
 
 				SearchHandlerAsync searchHandler = GWT
 				.create(SearchHandler.class);
