@@ -51,13 +51,16 @@ import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextArea;
+import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.grid.BaseColumnConfig;
 import com.gwtext.client.widgets.grid.CheckboxColumnConfig;
 import com.gwtext.client.widgets.grid.CheckboxSelectionModel;
 import com.gwtext.client.widgets.grid.ColumnConfig;
 import com.gwtext.client.widgets.grid.ColumnModel;
 import com.gwtext.client.widgets.grid.GridPanel;
+import com.gwtext.client.widgets.layout.AnchorLayoutData;
 import com.gwtext.client.widgets.layout.BorderLayout;
+import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.layout.VerticalLayout;
  
 public class ArticleView extends Composite implements View {
@@ -267,6 +270,57 @@ private Label lblCategory2;
       verticalPanel.setSpacing(10);
       createOwnArticlesForm();
  
+      
+//      MessageForm
+      
+      final Window window = new Window();
+		window.setTitle("Resize Me");
+		window.setWidth(500);
+		window.setHeight(300);
+		window.setMinWidth(300);
+		window.setMinHeight(200);
+		window.setLayout(new FitLayout());
+		window.setPaddings(5);
+		window.setButtonAlign(Position.CENTER);
+		window.addButton(new Button("Send"));
+		window.addButton(new Button("Cancel"));
+
+		window.setCloseAction(Window.HIDE);
+		window.setPlain(true);
+
+		FormPanel formPanel = new FormPanel();
+		// strips all Ext styling for the component
+		formPanel.setBaseCls("x-plain");
+		formPanel.setLabelWidth(55);
+		formPanel.setUrl("save-form.php");
+
+		formPanel.setWidth(500);
+		formPanel.setHeight(300);
+
+		// anchor width by percentage
+		formPanel.add(new TextField("Send To", "to"), new AnchorLayoutData(
+				"100%"));
+
+		// anchor width by percentage
+		formPanel.add(new TextField("Subject", "subject"),
+				new AnchorLayoutData("100%"));
+
+		TextArea textArea = new TextArea("Subject", "subject");
+		textArea.setHideLabel(true);
+		// anchor width by percentage and height by raw adjustment
+		// sets width to 100% and height to "remainder" height - 53px
+		formPanel.add(textArea, new AnchorLayoutData("100% -53"));
+
+		window.add(formPanel);
+      
+		Button button = new Button("Show Anchor Form",
+				new ButtonListenerAdapter() {
+					public void onClick(Button button, EventObject e) {
+						window.show();
+					}
+				});
+		verticalPanel.add(button);
+      
     }
   }
  
@@ -368,7 +422,6 @@ private Label lblCategory2;
                   offerListIds += record.getAsString("artikelId") + ",";
                   offerListTitles += "<li> - "+ record.getAsString("artikel") + " (ID: "+ record.getAsString("artikelId") +")</li>";
                 }
- 
                 window.add(getOfferSubmitForm(offerListIds,offerListTitles));
                 window.show(button.getId());
               }
@@ -387,6 +440,7 @@ private Label lblCategory2;
       private Component getOfferSubmitForm(final String offerListIds, String offerListTitles) {
  
         FormPanel offerSubmitForm = new FormPanel();
+        offerSubmitForm.clear();
         offerSubmitForm.setBorder(false);
         offerSubmitForm.setPaddings(6);
         offerSubmitForm.setLabelAlign(Position.TOP);
@@ -472,6 +526,10 @@ private Label lblCategory2;
       }      
     });
   }
+  
+//  private void showMessageForm(){
+//	  
+//  }
          
 //  private void getUserSession(){
 //    UserManagerAsync usermanager = GWT.create(UserManager.class);
