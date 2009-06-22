@@ -498,6 +498,7 @@ public class DataBankerQueries {
 			while (rs.next()) {
 				article.setUserId(rs.getInt("userid"));
 				article.setUserName(getUsername(rs.getInt("userid")));
+				article.setArticleId(rs.getInt("id"));
 				article.setTitle(rs.getString("title"));
 				article.setZipCode(rs.getString("zipcode"));
 				article.setLocation(rs.getString("city"));

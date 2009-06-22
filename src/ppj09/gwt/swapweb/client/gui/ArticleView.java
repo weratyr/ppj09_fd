@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
@@ -33,18 +35,26 @@ import com.gwtext.client.data.FloatFieldDef;
 import com.gwtext.client.data.MemoryProxy;
 import com.gwtext.client.data.Record;
 import com.gwtext.client.data.RecordDef;
+import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.data.StringFieldDef;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.form.Checkbox;
+import com.gwtext.client.widgets.form.ComboBox;
+import com.gwtext.client.widgets.form.FormPanel;
+import com.gwtext.client.widgets.form.TextArea;
 import com.gwtext.client.widgets.grid.BaseColumnConfig;
 import com.gwtext.client.widgets.grid.CheckboxColumnConfig;
 import com.gwtext.client.widgets.grid.CheckboxSelectionModel;
 import com.gwtext.client.widgets.grid.ColumnConfig;
 import com.gwtext.client.widgets.grid.ColumnModel;
 import com.gwtext.client.widgets.grid.GridPanel;
+import com.gwtext.client.widgets.layout.BorderLayout;
 import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class ArticleView extends Composite implements View {
@@ -257,7 +267,7 @@ public class ArticleView extends Composite implements View {
 			articleDescription.setPaddings(5);
 			verticalPanel.add(articleDescription);
 			verticalPanel.setSpacing(10);
-			createOwnArticlesForm();
+			createOwnArticlesForm(); 
 
 		}
 	}
@@ -280,6 +290,8 @@ public class ArticleView extends Composite implements View {
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 
 		articleManager.getOwnArticlesList(new AsyncCallback<ArrayList<Article>>() {
+			private Window window;
+
 			public void onFailure(Throwable caught) {
 				System.out
 				.println("RPC ArticleView: Fehler beim ausgeben der eigenen Artikel");
@@ -301,6 +313,7 @@ public class ArticleView extends Composite implements View {
 				ownArticles.setLayout(new VerticalLayout(15));
 
 				final CheckboxSelectionModel cbSelectionModel = new CheckboxSelectionModel();
+				final 
 
 				RecordDef recordDef = new RecordDef(new FieldDef[] {
 						new StringFieldDef("artikel"),
@@ -338,17 +351,28 @@ public class ArticleView extends Composite implements View {
 				grid.setWidth(660);
 				grid.setFrame(true);
 				grid.setTitle("Ihre eigenen Artikel");
-
+				
+				window = new Window();
+				window.setTitle("Artikel zum Tausch anbieten");
+				window.setClosable(true);
+				window.setWidth(400);
+				window.setPlain(true);
+				window.setCloseAction(Window.HIDE);
+				
 				Button button = new Button("Angebot senden",
 						new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								Record[] records = cbSelectionModel.getSelections();
-								String msg = "";
+								String offerListIds = "";
+								String offerListTitles = "";
 								for (int i = 0; i < records.length; i++) {
 									Record record = records[i];
-									msg += record.getAsString("artikel") + " ";
+									offerListIds += record.getAsString("artikelId") + ",";
+									offerListTitles += "<li> - "+ record.getAsString("artikel") + " (ID: "+ record.getAsString("artikelId") +")</li>";
 								}
-								System.out.println("Records Selected :" + msg);
+
+								window.add(getOfferSubmitForm(offerListIds,offerListTitles));
+								window.show(button.getId());  
 							}
 						});
 
@@ -361,6 +385,72 @@ public class ArticleView extends Composite implements View {
 								+ lblUsername + " zu senden. Wenn sie mehrere Artikel auswählen, werden diese Artikel zu einem Angebot zusammengefasst.");
 				verticalPanel.add(guide);
 			}
+
+			private Component getOfferSubmitForm(String offerListIds, String offerListTitles) {
+				FormPanel offerSubmitForm = new FormPanel();
+				offerSubmitForm.setBorder(false);
+				offerSubmitForm.setPaddings(6);
+				offerSubmitForm.setLabelAlign(Position.TOP);
+				offerSubmitForm.setMonitorValid(true);
+				
+				final Store shippingStore = new SimpleStore(
+						"shipping", splitShippingMethods());
+				shippingStore.load();
+
+				ComboBox shippingCB = new ComboBox();
+				shippingCB.setStore(shippingStore);
+				shippingCB.setFieldLabel("Versandart*");
+				shippingCB.setDisplayField("shipping");
+				shippingCB.setMode(ComboBox.LOCAL);
+				shippingCB.setTriggerAction(ComboBox.ALL);
+				shippingCB.setForceSelection(true);
+				shippingCB.setWidth(190);
+				shippingCB.setEmptyText("Versandart wählen");
+				
+				Panel offerQuestion = new Panel();
+				offerQuestion.setBorder(false);
+				offerQuestion.setHtml("Sind sie sicher, dass sie Folgende Artikel:<b><br><ol>"+offerListTitles+"</ol></b> gegen den Artikel \"<b>"+article.getTitle().toString()+" (ID: "+article.getArticleId()+")</b>\" tauschen möchten?<br><br> ");
+				offerSubmitForm.add(offerQuestion);
+
+				TextArea offerComment = new TextArea("Kommentar (optional)");
+				offerComment.setAllowBlank(true);
+				offerComment.setSize(365, 50);
+				
+				Checkbox chkbxAccept = new Checkbox("Ja, ich möchte tauschen", "check_Box");
+				chkbxAccept.setValidateOnBlur(true);
+				
+				Button button = new Button("Angebot senden",
+						new ButtonListenerAdapter() {
+							public void onClick(Button button, EventObject e) { 
+							}
+						});
+				button.setFormBind(true);
+				offerSubmitForm.add(shippingCB);
+				offerSubmitForm.add(offerComment);
+				offerSubmitForm.add(chkbxAccept);
+				offerSubmitForm.add(button);
+
+				return offerSubmitForm;
+			}
+
+			private String[] splitShippingMethods() {
+				ArrayList<String> temp = new ArrayList<String>();
+				String[] shippingMethods;
+				if(article.getShippingMethods().toString().contains("Postversand")){
+					temp.add("Postversand");
+				}
+				if(article.getShippingMethods().toString().contains("Selbstabholung")){
+					temp.add("Selbstabholung");
+				}
+				if(article.getShippingMethods().toString().contains("Treffen")){
+					temp.add("Treffen");
+				}
+				shippingMethods = new String[temp.size()];
+				for (int i = 0;i<temp.size();i++){
+					shippingMethods[i] = temp.get(i);
+				}
+				return shippingMethods;
+			} 	 	
 		});
 	}
          
