@@ -32,10 +32,10 @@ import com.gwtext.client.widgets.layout.FormLayout;
 
 public class AdvancedSearchForm implements Form{
 	private Panel firstTab;
+	private TabPanel tabPanel;
+	private VerticalPanel searchResultPanel;
 	private Checkbox activeArticleCheckBox;
 	private Checkbox pictureArticlesCheckBox;
-	private VerticalPanel searchResultPanel;
-	private TabPanel tabPanel;
 	private TextField searchField;
 	private TextField artikelStandort;
 	private ComboBox categoryComboBox;
@@ -47,18 +47,6 @@ public class AdvancedSearchForm implements Form{
 		containerFormPanel.setTitle("Erweiterte Suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
 		
-		tabPanel = new TabPanel();;
-		tabPanel.setWidth("100%");
-		//tabPanel.setVisible(false);
-		tabPanel.setActiveTab(0);
-		tabPanel.setPaddings(5);
-		tabPanel.setVisible(true);
-		containerFormPanel.add(tabPanel);
-
-		firstTab = new Panel();
-		firstTab.setBorder(false);
-		firstTab.setTitle("Artikelsuche");
-
 		Panel firstColumn = new Panel();
 		firstColumn.setBorder(false);
 		firstColumn.setLayout(new FormLayout());
@@ -74,30 +62,8 @@ public class AdvancedSearchForm implements Form{
 		secondColumn.setBorder(false);
 		secondColumn.setPaddings(10,10,0,0);
 
-		//		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
-		//				"nix drin" }, };
-
-		Store categoryStore = new SimpleStore("category", new String[]{"abc"});
-		categoryStore.load();
-
-//		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
-//
-//		articleCategoryCB.setStore(categoryStore);
-//		articleCategoryCB.setDisplayField("category");
-//		articleCategoryCB.setMode(ComboBox.LOCAL);
-//		articleCategoryCB.setTriggerAction(ComboBox.ALL);
-//		articleCategoryCB.setForceSelection(true);
-//		articleCategoryCB.setEmptyText("Kategorie wählen");
-//		articleCategoryCB.setReadOnly(true);
-//		articleCategoryCB.setWidth(120);
-//		secondColumn.add(articleCategoryCB);
-		
-//		Panel categoryPanel = new Panel();
-//		categoryPanel.setBorder(false);
-//		secondColumn.add(categoryPanel);
 		SwapWeb.getCategories(secondColumn, categoryComboBox);
 		categoryComboBox.setFieldLabel("Kategorie");
-//		categoryPanel.setHeight(50);
 
 		Object[][] optionsCondition = new Object[][] {
 				new Object[] { "b", "Beliebig" }, new Object[] { "n", "Neu" },
@@ -215,9 +181,7 @@ public class AdvancedSearchForm implements Form{
 		multiPanel.addToRow(thirdColumn, 140);
 		multiPanel.addToRow(fourthColumn, 310);
 
-		firstTab.add(multiPanel);
-		tabPanel.add(firstTab);
-		new UserSearchForm(tabPanel);
+		containerFormPanel.add(multiPanel);
 		outerTabPanel.add(containerFormPanel);
 	}
 
