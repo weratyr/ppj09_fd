@@ -310,7 +310,6 @@ public class SwapWeb implements EntryPoint {
 			public void onSuccess(ArrayList<String> results) {
 				Store quickCategoryStore = new SimpleStore("category", results.toArray());
 				quickCategoryStore.load();
-
 				categoryComboBox.setStore(quickCategoryStore);
 				categoryComboBox.setDisplayField("category");
 				categoryComboBox.setMode(ComboBox.LOCAL);

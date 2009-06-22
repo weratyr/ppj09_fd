@@ -7,6 +7,7 @@ package ppj09.gwt.swapweb.client.gui;
  * @version 0.1 16.06.09
  */
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
@@ -48,7 +49,7 @@ public class ArticleForm extends Composite implements Form {
 	private TextField txtbxCity;
 	private MultiFieldPanel panel1;
 	private ComboBox combobxCondition;
-	private ComboBox quickArticleCategoryCB;
+	private ComboBox categoryComboBox;
 	private Checkbox chkbxdelivery1;
 	private Checkbox chkbxdelivery2;
 	private Checkbox chkbxdelivery3;
@@ -83,16 +84,9 @@ public class ArticleForm extends Composite implements Form {
 							"category", new String[] { "Auto", "Computer" });
 					quickCategoryStore.load();
 
-					quickArticleCategoryCB = new ComboBox();
-					quickArticleCategoryCB.setStore(quickCategoryStore);
-					quickArticleCategoryCB.setFieldLabel("Zustand*");
-					quickArticleCategoryCB.setDisplayField("category");
-					quickArticleCategoryCB.setMode(ComboBox.LOCAL);
-					quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
-					quickArticleCategoryCB.setForceSelection(true);
-					quickArticleCategoryCB.setWidth(190);
-					quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-					formPanel.add(quickArticleCategoryCB);
+					categoryComboBox = new ComboBox();
+					categoryComboBox.setFieldLabel("Kategorie");
+					SwapWeb.getCategories(formPanel, categoryComboBox);
 
 					txtbxZip = new NumberField("Plz* / Artikelstandort*",
 							"number_field", 50);
@@ -358,7 +352,7 @@ public class ArticleForm extends Composite implements Form {
 	// füllt das Artikelobjekt mit Formulardaten
 	private Article fillArticle(Article article) {
 		article.setTitle(txtbxName.getText());
-		article.setCategory(quickArticleCategoryCB.getText());
+		article.setCategory(categoryComboBox.getText());
 		article.setZipCode(txtbxZip.getText());
 		article.setLocation(txtbxCity.getText());
 		article.setCondition(combobxCondition.getText());

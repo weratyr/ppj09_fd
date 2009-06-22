@@ -41,7 +41,7 @@ public class AdvancedSearchForm implements Form{
 	private ComboBox categoryComboBox;
 
 	public AdvancedSearchForm(TabPanel outerTabPanel) {
-		categoryComboBox = new ComboBox();
+		categoryComboBox = new ComboBox("Kategorie");
 		final FormPanel containerFormPanel = new FormPanel();
 		containerFormPanel.setId("advanced-panel"); 
 		containerFormPanel.setTitle("Erweiterte Suche");
@@ -92,10 +92,12 @@ public class AdvancedSearchForm implements Form{
 //		articleCategoryCB.setWidth(120);
 //		secondColumn.add(articleCategoryCB);
 		
-		Panel categoryPanel = new Panel();
-		categoryPanel.setBorder(false);
-		secondColumn.add(categoryPanel);
-		SwapWeb.getCategories(categoryPanel, categoryComboBox);
+//		Panel categoryPanel = new Panel();
+//		categoryPanel.setBorder(false);
+//		secondColumn.add(categoryPanel);
+		SwapWeb.getCategories(secondColumn, categoryComboBox);
+		categoryComboBox.setFieldLabel("Kategorie");
+//		categoryPanel.setHeight(50);
 
 		Object[][] optionsCondition = new Object[][] {
 				new Object[] { "b", "Beliebig" }, new Object[] { "n", "Neu" },
@@ -105,18 +107,18 @@ public class AdvancedSearchForm implements Form{
 				optionsCondition);
 		conditionStore.load();
 
-		final ComboBox articleConditionCB = new ComboBox();
-		articleConditionCB.setFieldLabel("Artikel Zustand");
-		articleConditionCB.setStore(conditionStore);
-		articleConditionCB.setDisplayField("options");
-		articleConditionCB.setMode(ComboBox.LOCAL);
-		articleConditionCB.setTriggerAction(ComboBox.ALL);
-		articleConditionCB.setForceSelection(true);
-		articleConditionCB.setEmptyText(optionsCondition[0][1].toString());
-		articleConditionCB.setReadOnly(true);
-		articleConditionCB.setWidth(120);
-		articleConditionCB.setLazyRender(true);
-		secondColumn.add(articleConditionCB); 
+		final ComboBox conditionComboBox = new ComboBox();
+		conditionComboBox.setFieldLabel("Artikel Zustand");
+		conditionComboBox.setStore(conditionStore);
+		conditionComboBox.setDisplayField("options");
+		conditionComboBox.setMode(ComboBox.LOCAL);
+		conditionComboBox.setTriggerAction(ComboBox.ALL);
+		conditionComboBox.setForceSelection(true);
+		conditionComboBox.setEmptyText(optionsCondition[0][1].toString());
+		conditionComboBox.setReadOnly(true);
+		conditionComboBox.setWidth(120);
+		conditionComboBox.setLazyRender(true);
+		secondColumn.add(conditionComboBox); 
 
 		Panel thirdColumn = new Panel();
 		thirdColumn.setLayout(new FormLayout());
@@ -133,17 +135,17 @@ public class AdvancedSearchForm implements Form{
 				optionsDelivery);
 		deliveryStore.load();
 
-		final ComboBox articleDeliveryCB = new ComboBox();
-		articleDeliveryCB.setFieldLabel("Versandart");
-		articleDeliveryCB.setStore(deliveryStore);
-		articleDeliveryCB.setDisplayField("options");
-		articleDeliveryCB.setMode(ComboBox.LOCAL);
-		articleDeliveryCB.setTriggerAction(ComboBox.ALL);
-		articleDeliveryCB.setForceSelection(true);
-		articleDeliveryCB.setEmptyText(optionsDelivery[0][1].toString());
-		articleDeliveryCB.setReadOnly(true);
-		articleDeliveryCB.setWidth(120);
-		thirdColumn.add(articleDeliveryCB);
+		final ComboBox versandComboBox = new ComboBox();
+		versandComboBox.setFieldLabel("Versandart");
+		versandComboBox.setStore(deliveryStore);
+		versandComboBox.setDisplayField("options");
+		versandComboBox.setMode(ComboBox.LOCAL);
+		versandComboBox.setTriggerAction(ComboBox.ALL);
+		versandComboBox.setForceSelection(true);
+		versandComboBox.setEmptyText(optionsDelivery[0][1].toString());
+		versandComboBox.setReadOnly(true);
+		versandComboBox.setWidth(120);
+		thirdColumn.add(versandComboBox);
 
 		Panel fourthColumn = new Panel();
 		fourthColumn.setLayout(new FormLayout());
@@ -152,8 +154,6 @@ public class AdvancedSearchForm implements Form{
 
 		Panel checkBoxPanel = new Panel();
 		checkBoxPanel.setBorder(false);
-		activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
-		checkBoxPanel.add(activeArticleCheckBox);
 		pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
 		checkBoxPanel.add(pictureArticlesCheckBox);
 		fourthColumn.add(checkBoxPanel);
@@ -172,6 +172,9 @@ public class AdvancedSearchForm implements Form{
 				sq.setSearchPhrase(searchField.getText());
 				sq.setLocation(artikelStandort.getText());
 				sq.setCategory(categoryComboBox.getText());
+				sq.setCondition(conditionComboBox.getText());
+				sq.setShippingMethods(versandComboBox.getText());
+				sq.setPicturesOnly(pictureArticlesCheckBox.getValue());
 
 				SearchHandlerAsync searchHandler = GWT
 				.create(SearchHandler.class);

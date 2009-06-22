@@ -565,6 +565,12 @@ public class DataBankerQueries {
 			addCondition("city like '" + sq.getLocation() + "'");
 		if (attrSpecified(sq.getCategory()))
 			addCondition("category = '" + sq.getCategory() + "'");
+		if (attrSpecified(sq.getCondition()))
+			addCondition("articlecondition = '" + sq.getCondition() + "'");
+		if (attrSpecified(sq.getShippingMethods()))
+			addCondition("shipping = '" + sq.getShippingMethods() + "'");
+		if (sq.isPicturesOnly())
+			addCondition("image1 is not null");
 
 		System.out.println(query);
 		ResultSet resultSet = null;
@@ -600,6 +606,7 @@ public class DataBankerQueries {
 				article.setUserId(rs.getInt("userid"));
 				article.setUserName(getUsername(rs.getInt("userid")));
 				article.setArticleId(rs.getInt("id"));
+				article.setPictureUrl(rs.getString("image1"));
 				article.setTitle(rs.getString("title"));
 				article.setZipCode(rs.getString("zipcode"));
 				article.setLocation(rs.getString("city"));
