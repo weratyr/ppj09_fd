@@ -7,6 +7,7 @@
  
 package ppj09.gwt.swapweb.client.gui;
  
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
  
@@ -139,12 +140,13 @@ public class LoginForm implements Form {
  
           public void onSuccess(Boolean serverMsg) {
             // :)
-            if (serverMsg)
+            if (serverMsg) {
               System.out.println("Eingeloggt");
-            else
+              SwapWeb.addMeinSwapWeb();
+              
+            } else
               System.out
                   .println("Benutzername oder Passwort falsch");
- 
           }
  
         });

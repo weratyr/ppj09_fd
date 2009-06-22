@@ -22,7 +22,7 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 
 	public ArrayList<SearchResult> search(ArticleSearchQuery articleSearch) {
 		
-		return db.getArticleSearchResult(articleSearch);
+		return db.getArticleSearchResults(articleSearch);
 	}
 	
 	public ArrayList<SearchResult> search(UserSearchQuery userSearch) {

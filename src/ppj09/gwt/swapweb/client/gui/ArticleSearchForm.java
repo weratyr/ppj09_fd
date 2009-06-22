@@ -46,7 +46,7 @@ public class ArticleSearchForm implements Form {
 	private Panel maskPanel;
 	private HorizontalPanel searchPanel;
 	private final Panel containerFormPanel;
-	
+
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
@@ -66,7 +66,7 @@ public class ArticleSearchForm implements Form {
 
 	private void getCategories() {
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
-		
+
 		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
 
 			public void onFailure(Throwable caught) {
@@ -75,63 +75,61 @@ public class ArticleSearchForm implements Form {
 
 			public void onSuccess(ArrayList<String> results) {
 				String[] categories = new String[results.size()];
-				for (int i = 0;i<results.size();i++){
+				for (int i=0; i<results.size(); i++){
 					categories[i] = results.get(i);
 				}
-				
-				Store quickCategoryStore = new SimpleStore("category", categories);
-			    quickCategoryStore.load();
-			 
-			    final ComboBox quickArticleCategoryCB = new ComboBox();
-			    quickArticleCategoryCB.setStore(quickCategoryStore);
-			    quickArticleCategoryCB.setDisplayField("category");
-			    quickArticleCategoryCB.setMode(ComboBox.LOCAL);
-			    quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
-			    quickArticleCategoryCB.setForceSelection(true);
-			    quickArticleCategoryCB.setReadOnly(true);
-			    quickArticleCategoryCB.setWidth(120);
-			    quickArticleCategoryCB.setEmptyText("Kategorie wählen");
-			    searchPanel.add(quickArticleCategoryCB);
-			    
-			    Button quickSearchButton = new Button("Suchen",
-						new ButtonListenerAdapter() {
-							public void onClick(Button button, EventObject e) {
-								ArticleSearchQuery sq = new ArticleSearchQuery();
-								sq.setSearchPhrase("");
-				                 
-								final ExtElement element = Ext.get("mask-panel");  
-				                element.mask("sucht...");  
-								
-				                SearchHandlerAsync searchHandler = GWT
-										.create(SearchHandler.class);
-								searchHandler.search(sq,
-										new AsyncCallback<ArrayList<SearchResult>>() {
-											public void onFailure(Throwable caught) {
-												System.out.println("neeee: ");
-											}
 
-											public void onSuccess(ArrayList<SearchResult> results) {
-												SwapWeb.getContentPanel().clear();
-												final ExtElement element = Ext.get("mask-panel");  
-								                element.unmask();
-												for (SearchResult r : results) {
-													r.getView();
-												}
-											}
-										});
+				Store quickCategoryStore = new SimpleStore("category", categories);
+				quickCategoryStore.load();
+
+				final ComboBox quickArticleCategoryCB = new ComboBox();
+				quickArticleCategoryCB.setStore(quickCategoryStore);
+				quickArticleCategoryCB.setDisplayField("category");
+				quickArticleCategoryCB.setMode(ComboBox.LOCAL);
+				quickArticleCategoryCB.setTriggerAction(ComboBox.ALL);
+				quickArticleCategoryCB.setForceSelection(true);
+				quickArticleCategoryCB.setReadOnly(true);
+				quickArticleCategoryCB.setWidth(120);
+				quickArticleCategoryCB.setEmptyText("Kategorie wählen");
+				searchPanel.add(quickArticleCategoryCB);
+
+				Button quickSearchButton = new Button("Suchen",
+						new ButtonListenerAdapter() {
+					public void onClick(Button button, EventObject e) {
+						ArticleSearchQuery sq = new ArticleSearchQuery();
+						sq.setSearchPhrase("");
+
+						final ExtElement element = Ext.get("mask-panel");  
+						element.mask("sucht...");  
+
+						SearchHandlerAsync searchHandler = GWT
+						.create(SearchHandler.class);
+						searchHandler.search(sq,
+								new AsyncCallback<ArrayList<SearchResult>>() {
+							public void onFailure(Throwable caught) {
+								System.out.println("neeee: ");
 							}
 
+							public void onSuccess(ArrayList<SearchResult> results) {
+								SwapWeb.getContentPanel().clear();
+								final ExtElement element = Ext.get("mask-panel");  
+								element.unmask();
+								for (SearchResult r : results) {
+									r.getView();
+								}
+							}
 						});
-			    
+					}
+
+				});
+
 				quickSearchButton.setIconCls("icon-search");
 				searchPanel.add(quickSearchButton);
-			    }
-			
+			}
+
 		});
 	}
-	
 
-	
 
 	/**
 	 * Schickt die validierten Formulardaten an den Article-Search Modul, und

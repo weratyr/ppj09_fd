@@ -385,7 +385,7 @@ public class DataBankerQueries {
 		return saved;
 	}
 
-	public ArrayList<SearchResult> getArticleSearchResult(ArticleSearchQuery sq) {
+	public ArrayList<SearchResult> getArticleSearchResults(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		
 		DataBankerConnection dbc = new DataBankerConnection();
