@@ -436,28 +436,35 @@ public class DataBankerQueries {
 			query += " AND " + condition;
 	}
 	
+	public boolean attrSpecified(String str) {
+		if (str==null || str.trim().equals(""))
+			return false;
+		else
+			return true;
+	}
+	
 	public ArrayList<SearchResult> getArticleSearchResults(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
+		
 		queryHasCondition = false;
 		query = "SELECT * FROM article WHERE ";
-		if (sq.getUserName() != null) {
+		if (attrSpecified(sq.getUserName())) {
 			int userid = getUserId(sq.getUserName());
 			addCondition("userid ='" + userid + "'");
 		}  
-		if (sq.getCategoryPhrase() != null) {
+		if (attrSpecified(sq.getCategoryPhrase()))
 			addCondition("category ='" + sq.getCategoryPhrase() + "'");
-		} 
-		if (sq.getUserIdPhrase() != null) {
+		if (attrSpecified(sq.getUserIdPhrase()))
 			addCondition("id ='" + sq.getCategoryPhrase() + "'");
-		} 
-		if (sq.getSearchPhrase() != null){
+		if (attrSpecified(sq.getSearchPhrase()))
 			addCondition("title like '%" + sq.getSearchPhrase() + "%'");
-		}
-		if (sq.getLocation() != null && sq.getLocation().length()>0){
+		if (attrSpecified(sq.getLocation()))
 			addCondition("city like '" + sq.getLocation() + "'");
-		}
+		if (attrSpecified(sq.getCategory()))
+			addCondition("category = '" + sq.getCategory() + "'");
+
 		System.out.println(query);
 		ResultSet resultSet = null;
 		try {

@@ -70,12 +70,7 @@ public class ArticleSearchForm implements Form {
 			}
 
 			public void onSuccess(ArrayList<String> results) {
-				String[] categories = new String[results.size()];
-				for (int i=0; i<results.size(); i++){
-					categories[i] = results.get(i);
-				}
-
-				Store quickCategoryStore = new SimpleStore("category", categories);
+				Store quickCategoryStore = new SimpleStore("category", results.toArray());
 
 				quickCategoryStore.load();
 
