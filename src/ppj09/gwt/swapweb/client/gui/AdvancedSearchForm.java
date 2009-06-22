@@ -42,7 +42,7 @@ public class AdvancedSearchForm implements Form{
 	public AdvancedSearchForm(TabPanel outerTabPanel) {
 
 		final FormPanel containerFormPanel = new FormPanel();
-		containerFormPanel.setId("mask-panel"); 
+		containerFormPanel.setId("advanced-panel"); 
 		containerFormPanel.setTitle("Erweiterte Suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
 		
@@ -162,7 +162,7 @@ public class AdvancedSearchForm implements Form{
 		Button searchButton = new Button("Suchen",
 				new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
-				final ExtElement element = Ext.get("mask-panel");  
+				final ExtElement element = Ext.get("advanced-panel");  
 				element.mask("sucht...");
 				
 				System.out.println("gedrueckt");
