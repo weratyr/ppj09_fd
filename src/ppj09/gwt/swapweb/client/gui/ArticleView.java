@@ -69,7 +69,7 @@ public class ArticleView extends Composite implements View {
 	private VerticalPanel verticalPanel;
 	private Label lblArticleName;
 	private TabPanel imagePanel;
-	private Image image1;
+	private Image image;
 	private Image image2;
 	private Image image3;
 	private Panel ImagePanel2;
@@ -93,6 +93,7 @@ public class ArticleView extends Composite implements View {
 	private Label lblSwapIdea2;
 	private Label lblSwapIdea;
 	private Label description;
+	private String imageUrl;
 
 	/**
 	 * Constructor
@@ -102,8 +103,8 @@ public class ArticleView extends Composite implements View {
 	 */
 	public ArticleView(int articleId) {
 		article = new Article();
-		createForm();
 		getArticle(articleId);
+		createForm();
 
 	}
 
@@ -129,41 +130,10 @@ public class ArticleView extends Composite implements View {
 
 					// Bild
 					{
-						imagePanel = new TabPanel();
-						imagePanel.setWidth(155);
-						imagePanel.setTabPosition(Position.BOTTOM);
 
-						image1 = new Image();
-						image1.setSize("150", "160");
-						image1
-								.setUrl("http://www.willgewinnen.at/wp-content/uploads/2008/09/wg_e-gitarre1.jpg");
-
-						imagePanel1 = new Panel();
-						imagePanel1.setTitle("Bild 1");
-						imagePanel1.add(image1);
-						imagePanel.add(imagePanel1);
-
-						image2 = new Image();
-						image2.setPixelSize(150, 160);
-						image2
-								.setUrl("http://www.spiegel.de/img/0,1020,128453,00.jpg");
-
-						ImagePanel2 = new Panel();
-						ImagePanel2.setTitle("Bild 2");
-						ImagePanel2.add(image2);
-						imagePanel.add(ImagePanel2);
-
-						image3 = new Image();
-						image3.setPixelSize(150, 160);
-						image3
-								.setUrl("http://www.willgewinnen.at/wp-content/uploads/2008/09/wg_e-gitarre1.jpg");
-
-						ImagePanel3 = new Panel();
-						ImagePanel3.setTitle("Bild 3");
-						ImagePanel3.add(image3);
-						imagePanel.add(ImagePanel3);
-
-						absolutePanel.add(imagePanel, 0, 0);
+						image = new Image();
+						image.setSize("150", "150");
+						absolutePanel.add(image, 0, 0);
 					}
 
 				}
@@ -504,7 +474,10 @@ public class ArticleView extends Composite implements View {
 
 			public void onSuccess(Article articleDatatype) {
 				article = articleDatatype;
-
+				
+				image.setUrl(article.getPictureUrl());
+				System.out.println(article.getPictureUrl());
+				
 				System.out.println(article.getTitle());
 				System.out.println(article.getUserId());
 				lblArticleName.setText(article.getTitle());
