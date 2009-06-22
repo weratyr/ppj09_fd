@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
@@ -42,6 +43,8 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.form.FormPanel;
+import com.gwtext.client.widgets.form.TextArea;
 import com.gwtext.client.widgets.grid.BaseColumnConfig;
 import com.gwtext.client.widgets.grid.CheckboxColumnConfig;
 import com.gwtext.client.widgets.grid.CheckboxSelectionModel;
@@ -307,6 +310,7 @@ public class ArticleView extends Composite implements View {
 				ownArticles.setLayout(new VerticalLayout(15));
 
 				final CheckboxSelectionModel cbSelectionModel = new CheckboxSelectionModel();
+				final 
 
 				RecordDef recordDef = new RecordDef(new FieldDef[] {
 						new StringFieldDef("artikel"),
@@ -346,10 +350,9 @@ public class ArticleView extends Composite implements View {
 				grid.setTitle("Ihre eigenen Artikel");
 				
 				window = new Window();
-				window.setTitle("Bild hochladen");
+				window.setTitle("Artikel abschicken");
 				window.setClosable(true);
-				window.setWidth(600);
-				window.setHeight(350);
+				window.setWidth(400);
 				window.setPlain(true);
 				window.setCloseAction(Window.HIDE);
 				
@@ -357,15 +360,15 @@ public class ArticleView extends Composite implements View {
 						new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								Record[] records = cbSelectionModel.getSelections();
-								ArrayList<Offer> offerList = new ArrayList<Offer>();
-								String msg = "";
+								String offerListIds = "";
+								String offerListTitles = "";
 								for (int i = 0; i < records.length; i++) {
 									Record record = records[i];
-									msg += record.getAsString("artikel") + "\n";
+									offerListIds += record.getAsString("artikelId") + ",";
+									offerListTitles += "<li> "+ record.getAsString("artikel") + " (ID: "+ record.getAsString("artikelId") +")</li>";
 								}
-								System.out.println("Records Selected :" + msg);
 
-								window.add(getOfferSubmitForm(offerList));
+								window.add(getOfferSubmitForm(offerListIds,offerListTitles));
 								window.show(button.getId());  
 							}
 						});
@@ -380,13 +383,17 @@ public class ArticleView extends Composite implements View {
 				verticalPanel.add(guide);
 			}
 
-			private Component getOfferSubmitForm(ArrayList<Offer> offerList) {
-				Panel offerSubmitForm = new Panel();
-				Label offerQuestion = new Label();
-//				Label offerList = new Label("");
-
-				offerQuestion.setText("Sind sie sicher, dass sie Folgende Artikel:\n"+offerList+" gegen den Artikel \""+article.getTitle().toString()+"\" tauschen möchten?");
+			private Component getOfferSubmitForm(String offerListIds, String offerListTitles) {
+				FormPanel offerSubmitForm = new FormPanel();
+				offerSubmitForm.setBorder(false);
+				offerSubmitForm.setLabelAlign(Position.TOP);
+				Panel offerQuestion = new Panel();
+				offerQuestion.setBorder(false);
+				offerQuestion.setHtml("Sind sie sicher, dass sie Folgende Artikel:<b><br><ol>"+offerListTitles+"</ol></b> gegen den Artikel \"<b>"+article.getTitle().toString()+"</b>\" tauschen möchten? ");
 				offerSubmitForm.add(offerQuestion);
+				TextArea offerComment = new TextArea("Angebotsumfang*", "text_Area");
+				offerComment.setSize(300, 100);
+				offerSubmitForm.add(offerComment);
 				return offerSubmitForm;
 			} 	 	
 		});
