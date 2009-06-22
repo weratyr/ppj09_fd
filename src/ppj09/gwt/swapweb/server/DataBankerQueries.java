@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
+import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -217,6 +218,43 @@ public class DataBankerQueries {
 			System.out.println("NICHT EINGELOGT");
 			return 2; // User nicht eingeloggt
 		}
+	}
+	
+	/*
+	 * Erstellt einen neuen Offer und gibt Statuscode zurück:
+	 * 0 = Fehler
+	 * 1 = OK
+	 */
+	
+	public int createOffer(Offer newOffer) {
+		int desiredArticleId = newOffer.getDesiredArticleId();
+		String offerItemIds = newOffer.getOfferedArticleIds();
+		String offerComment = newOffer.getOfferComment();
+		int swapStatus = newOffer.getSwapStatus();
+
+		DataBankerConnection dbc = new DataBankerConnection();
+			try {
+				PreparedStatement stmt = dbc
+				.getConnection()
+				.prepareStatement(
+						"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapStatusId) VALUES(?,?,?,?)");
+				stmt.setInt(1, desiredArticleId);
+				stmt.setString(2, offerItemIds);
+				stmt.setString(3, offerComment);
+				stmt.setInt(4, swapStatus);
+
+				stmt.executeUpdate();
+				
+				
+				dbc.close();
+				stmt.close();
+				System.out.println("done!");
+				return 1; // OK
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println("net done!");
+				return 0; // Fehler
+			}
 	}
 	
 	public boolean saveImageToArticle(String url, String id) {

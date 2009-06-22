@@ -424,7 +424,7 @@ public class ArticleView extends Composite implements View {
 				chkbxAccept.setValidateOnBlur(true);
 				
 				Button button = new Button("Angebot senden");
-				button.setFormBind(true);
+//				button.setFormBind(true);
 				
 				offerSubmitForm.add(shippingCB);
 				offerSubmitForm.add(offerComment);
@@ -433,7 +433,9 @@ public class ArticleView extends Composite implements View {
 				
 				button.addListener(new ButtonListenerAdapter() {
 					public void onClick(Button button, EventObject e) {
+						System.out.println("lol");
 						int swapStatus = 0;
+//						Offer offer = new Offer();
 						Offer offer = new Offer(article.getArticleId(),offerListIds, offerComment.getText(), swapStatus);
 						OfferHandlerAsync offerHandler = GWT.create(OfferHandler.class);
 						offerHandler.createOffer(offer, new AsyncCallback<Integer>(){
