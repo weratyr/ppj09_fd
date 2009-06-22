@@ -47,7 +47,7 @@ public class ArticleSearchForm implements Form {
 		categoryComboBox = new ComboBox();
 		containerFormPanel = new FormPanel();
 		containerFormPanel.setTitle("Ich suche");
-		containerFormPanel.setId("mask-panel"); 
+		containerFormPanel.setId("mask-panel");
 		searchPanel = new HorizontalPanel();
 		searchPanel.setSpacing(8);
 
@@ -68,6 +68,7 @@ public class ArticleSearchForm implements Form {
 			public void onClick(Button button, EventObject e) {
 				ArticleSearchQuery sq = new ArticleSearchQuery();
 				sq.setSearchPhrase(searchField.getText());
+				sq.setCategory(categoryComboBox.getText());
 
 				final ExtElement element = Ext.get("mask-panel");  
 				element.mask("sucht...");  

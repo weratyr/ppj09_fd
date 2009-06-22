@@ -32,10 +32,10 @@ import com.gwtext.client.widgets.layout.FormLayout;
 
 public class AdvancedSearchForm implements Form{
 	private Panel firstTab;
+	private TabPanel tabPanel;
+	private VerticalPanel searchResultPanel;
 	private Checkbox activeArticleCheckBox;
 	private Checkbox pictureArticlesCheckBox;
-	private VerticalPanel searchResultPanel;
-	private TabPanel tabPanel;
 	private TextField searchField;
 	private TextField artikelStandort;
 	private ComboBox categoryComboBox;
@@ -47,18 +47,6 @@ public class AdvancedSearchForm implements Form{
 		containerFormPanel.setTitle("Erweiterte Suche");
 		containerFormPanel.setLabelAlign(Position.TOP);
 		
-		tabPanel = new TabPanel();;
-		tabPanel.setWidth("100%");
-		//tabPanel.setVisible(false);
-		tabPanel.setActiveTab(0);
-		tabPanel.setPaddings(5);
-		tabPanel.setVisible(true);
-		containerFormPanel.add(tabPanel);
-
-		firstTab = new Panel();
-		firstTab.setBorder(false);
-		firstTab.setTitle("Artikelsuche");
-
 		Panel firstColumn = new Panel();
 		firstColumn.setBorder(false);
 		firstColumn.setLayout(new FormLayout());
@@ -74,30 +62,8 @@ public class AdvancedSearchForm implements Form{
 		secondColumn.setBorder(false);
 		secondColumn.setPaddings(10,10,0,0);
 
-		//		Object[][] optionsCategory = new Object[][] { new Object[] { "index",
-		//				"nix drin" }, };
-
-		Store categoryStore = new SimpleStore("category", new String[]{"abc"});
-		categoryStore.load();
-
-//		final ComboBox articleCategoryCB = new ComboBox("Kategorie");
-//
-//		articleCategoryCB.setStore(categoryStore);
-//		articleCategoryCB.setDisplayField("category");
-//		articleCategoryCB.setMode(ComboBox.LOCAL);
-//		articleCategoryCB.setTriggerAction(ComboBox.ALL);
-//		articleCategoryCB.setForceSelection(true);
-//		articleCategoryCB.setEmptyText("Kategorie wählen");
-//		articleCategoryCB.setReadOnly(true);
-//		articleCategoryCB.setWidth(120);
-//		secondColumn.add(articleCategoryCB);
-		
-//		Panel categoryPanel = new Panel();
-//		categoryPanel.setBorder(false);
-//		secondColumn.add(categoryPanel);
 		SwapWeb.getCategories(secondColumn, categoryComboBox);
 		categoryComboBox.setFieldLabel("Kategorie");
-//		categoryPanel.setHeight(50);
 
 		Object[][] optionsCondition = new Object[][] {
 				new Object[] { "b", "Beliebig" }, new Object[] { "n", "Neu" },
@@ -107,18 +73,18 @@ public class AdvancedSearchForm implements Form{
 				optionsCondition);
 		conditionStore.load();
 
-		final ComboBox articleConditionCB = new ComboBox();
-		articleConditionCB.setFieldLabel("Artikel Zustand");
-		articleConditionCB.setStore(conditionStore);
-		articleConditionCB.setDisplayField("options");
-		articleConditionCB.setMode(ComboBox.LOCAL);
-		articleConditionCB.setTriggerAction(ComboBox.ALL);
-		articleConditionCB.setForceSelection(true);
-		articleConditionCB.setEmptyText(optionsCondition[0][1].toString());
-		articleConditionCB.setReadOnly(true);
-		articleConditionCB.setWidth(120);
-		articleConditionCB.setLazyRender(true);
-		secondColumn.add(articleConditionCB); 
+		final ComboBox conditionComboBox = new ComboBox();
+		conditionComboBox.setFieldLabel("Artikel Zustand");
+		conditionComboBox.setStore(conditionStore);
+		conditionComboBox.setDisplayField("options");
+		conditionComboBox.setMode(ComboBox.LOCAL);
+		conditionComboBox.setTriggerAction(ComboBox.ALL);
+		conditionComboBox.setForceSelection(true);
+		conditionComboBox.setEmptyText(optionsCondition[0][1].toString());
+		conditionComboBox.setReadOnly(true);
+		conditionComboBox.setWidth(120);
+		conditionComboBox.setLazyRender(true);
+		secondColumn.add(conditionComboBox); 
 
 		Panel thirdColumn = new Panel();
 		thirdColumn.setLayout(new FormLayout());
@@ -135,17 +101,17 @@ public class AdvancedSearchForm implements Form{
 				optionsDelivery);
 		deliveryStore.load();
 
-		final ComboBox articleDeliveryCB = new ComboBox();
-		articleDeliveryCB.setFieldLabel("Versandart");
-		articleDeliveryCB.setStore(deliveryStore);
-		articleDeliveryCB.setDisplayField("options");
-		articleDeliveryCB.setMode(ComboBox.LOCAL);
-		articleDeliveryCB.setTriggerAction(ComboBox.ALL);
-		articleDeliveryCB.setForceSelection(true);
-		articleDeliveryCB.setEmptyText(optionsDelivery[0][1].toString());
-		articleDeliveryCB.setReadOnly(true);
-		articleDeliveryCB.setWidth(120);
-		thirdColumn.add(articleDeliveryCB);
+		final ComboBox versandComboBox = new ComboBox();
+		versandComboBox.setFieldLabel("Versandart");
+		versandComboBox.setStore(deliveryStore);
+		versandComboBox.setDisplayField("options");
+		versandComboBox.setMode(ComboBox.LOCAL);
+		versandComboBox.setTriggerAction(ComboBox.ALL);
+		versandComboBox.setForceSelection(true);
+		versandComboBox.setEmptyText(optionsDelivery[0][1].toString());
+		versandComboBox.setReadOnly(true);
+		versandComboBox.setWidth(120);
+		thirdColumn.add(versandComboBox);
 
 		Panel fourthColumn = new Panel();
 		fourthColumn.setLayout(new FormLayout());
@@ -154,8 +120,6 @@ public class AdvancedSearchForm implements Form{
 
 		Panel checkBoxPanel = new Panel();
 		checkBoxPanel.setBorder(false);
-		activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
-		checkBoxPanel.add(activeArticleCheckBox);
 		pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
 		checkBoxPanel.add(pictureArticlesCheckBox);
 		fourthColumn.add(checkBoxPanel);
@@ -174,6 +138,9 @@ public class AdvancedSearchForm implements Form{
 				sq.setSearchPhrase(searchField.getText());
 				sq.setLocation(artikelStandort.getText());
 				sq.setCategory(categoryComboBox.getText());
+				sq.setCondition(conditionComboBox.getText());
+				sq.setShippingMethods(versandComboBox.getText());
+				sq.setPicturesOnly(pictureArticlesCheckBox.getValue());
 
 				SearchHandlerAsync searchHandler = GWT
 				.create(SearchHandler.class);
@@ -214,9 +181,7 @@ public class AdvancedSearchForm implements Form{
 		multiPanel.addToRow(thirdColumn, 140);
 		multiPanel.addToRow(fourthColumn, 310);
 
-		firstTab.add(multiPanel);
-		tabPanel.add(firstTab);
-		new UserSearchForm(tabPanel);
+		containerFormPanel.add(multiPanel);
 		outerTabPanel.add(containerFormPanel);
 	}
 
