@@ -141,7 +141,9 @@ public class UserView extends Composite implements View {
 		{
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
-
+			SwapWeb.getContentPanel().setTitle("Benutzerprofil");
+			
+			
 			// Überschrift
 			{
 //				horizontalPanel2 = new HorizontalPanel();

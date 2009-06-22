@@ -16,6 +16,7 @@ import java.util.Date;
 
 
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.User;
 
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
@@ -242,23 +243,10 @@ public class UserForm extends Composite implements View {
 
 			initWidget(verticalPanel);
 
+			SwapWeb.getContentPanel().setTitle("Profil bearbeiten");
 
 
-			horizontalPanel2 = new HorizontalPanel();
 
-			usernameLabel1 = new Label("Profil von:\" ");
-
-			horizontalPanel2.add(usernameLabel1);
-
-			usernameLabel2 = new Label("");
-
-			horizontalPanel2.add(usernameLabel2);
-
-			usernameLabel3 = new Label("\"");
-
-			horizontalPanel2.add(usernameLabel3);
-
-			verticalPanel.add(horizontalPanel2);
 
 
 
@@ -1837,9 +1825,7 @@ public class UserForm extends Composite implements View {
 	public void setUsername(String username) {
 
 		// this.txtbxUsername.setRawValue(username);
-
-		this.usernameLabel2.setText(username);
-
+		//SwapWeb.getContentPanel().setTitle("Profil bearbeiten");
 	}
 
 
