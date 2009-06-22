@@ -58,9 +58,11 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.ComboBox;
+import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
+import com.gwtext.client.widgets.layout.VerticalLayout;
 
 /**
  * Initialisiert das allgemeine Layout der Seite
@@ -89,6 +91,7 @@ public class SwapWeb implements EntryPoint {
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
+	private static Panel loggedInPanel;
 
 	/**
 	 * Die EntryPoint Methode
@@ -120,14 +123,25 @@ public class SwapWeb implements EntryPoint {
 		outerPanel.setAutoScroll(true);
 
 		/*
-		 * NORTH Header und Šu§eres TabPanel
+		 * NORTH Header und äußeres TabPanel
 		 */
 		image = new Image("http://www.renegade-station.de/swhead.jpg");
 		tabPanel = getUpperTabPanel();
 
+		loggedInPanel = new Panel();
+		loggedInPanel.setBorder(false);
+		loggedInPanel.setId("eingelogged-als-panel");
+
+		MultiFieldPanel northContainer = new MultiFieldPanel();
+		northContainer.setBorder(false);
+		northContainer.add(image);
+		northContainer.add(loggedInPanel);
+		loggedInPanel.setVisible(false);
+
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.setBorder(false);
-		northOuterPanel.add(image);
+		// northOuterPanel.add(image);
+		northOuterPanel.add(northContainer);
 		northOuterPanel.add(tabPanel);
 
 		outerPanel.add(northOuterPanel, new BorderLayoutData(
@@ -320,6 +334,14 @@ public class SwapWeb implements EntryPoint {
 	public static void addMeinSwapWeb() {
 		navigationPanel.add(meinSwapWeb);
 		navigationPanel.doLayout();
+	}
+
+	public static void setLoggedin(String username) {
+		loggedInPanel.setVisible(true);
+		loggedInPanel.add(new Label("Sie sind angemeldet als " + username));
+		loggedInPanel.add(new Hyperlink("abmelden", username));
+		loggedInPanel.doLayout();
+
 	}
 
 	public static void getCategories(final Panel container,

@@ -144,6 +144,7 @@ public class LoginForm implements Form {
             // :)
             if (serverMsg) {
               System.out.println("Eingeloggt");
+              SwapWeb.setLoggedin(txtbxUsername.getText());
               SwapWeb.addMeinSwapWeb();
               SwapWeb.getTabPanel().remove("2");
               SwapWeb.getTabPanel().remove("2");
