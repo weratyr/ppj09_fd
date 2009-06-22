@@ -97,9 +97,8 @@ public class SwapWeb implements EntryPoint {
 		/*
 		 * Hauptfenster
 		 */
-		
 		CSS.swapStyleSheet("theme", "swapweb/js/ext/resources/css/xtheme-slate.css"); 
-		
+
 		userManager.getUser(new AsyncCallback<User>(){
 			public void onFailure(Throwable caught) {
 				user = null;
@@ -108,7 +107,7 @@ public class SwapWeb implements EntryPoint {
 				user = result;
 			}
 		});
-	
+
 		mainPanel = new Panel();
 		mainPanel.setBorder(false);
 		mainPanel.setLayout(new FitLayout());
@@ -171,7 +170,6 @@ public class SwapWeb implements EntryPoint {
 		kategorien = new DisclosurePanel("Kategorien", false);
 		kategorien.setContent(getCategories());
 
-//		navigationsContentPanel.add(meinSwapWeb);
 		navigationsContentPanel.add(kategorien);
 
 		return navigationsContentPanel;
@@ -247,53 +245,53 @@ public class SwapWeb implements EntryPoint {
 							// Setzt Links auf die Kategorien
 							ArticleSearchQuery sq = new ArticleSearchQuery();
 							sq.setCategoryPhrase(categoryLink.getText());
-						
+
 							final ExtElement element = Ext.get("navi-panel");
 							element.mask("Lädt");
 
 							SearchHandlerAsync searchHandler = GWT
-									.create(SearchHandler.class);
+							.create(SearchHandler.class);
 							searchHandler
-									.search(
-											sq,
-											new AsyncCallback<ArrayList<SearchResult>>() {
-												public void onFailure(
-														Throwable caught) {
-													System.out
-															.println("Fehler: SwapWeb.java "
-																	+ caught
-																			.getMessage());
-												}
+							.search(
+									sq,
+									new AsyncCallback<ArrayList<SearchResult>>() {
+										public void onFailure(
+												Throwable caught) {
+											System.out
+											.println("Fehler: SwapWeb.java "
+													+ caught
+													.getMessage());
+										}
 
-												public void onSuccess(
-														ArrayList<SearchResult> results) {
-													element.unmask();
-													SwapWeb.getContentPanel()
-															.clear();
-													Panel listView = new Panel();
+										public void onSuccess(
+												ArrayList<SearchResult> results) {
+											element.unmask();
+											SwapWeb.getContentPanel()
+											.clear();
+											Panel listView = new Panel();
 
-													for (SearchResult r : results) {
-														listView
-																.add((ArticleSearchResultView) r
-																		.getView());
-													}
+											for (SearchResult r : results) {
+												listView
+												.add((ArticleSearchResultView) r
+														.getView());
+											}
 
-													SwapWeb.getContentPanel()
-															.add(listView);
-													SwapWeb.getContentPanel()
-															.doLayout();
-												}
-											});
+											SwapWeb.getContentPanel()
+											.add(listView);
+											SwapWeb.getContentPanel()
+											.doLayout();
+										}
+									});
 						}
-						
+
 					});
 					categoryList.add(categoryLink);
 					verticalPanel.add(categoryList.get(i));
-					
+
 				}
-				
+
 			}
-			
+
 
 		});
 		return verticalPanel;
@@ -313,12 +311,12 @@ public class SwapWeb implements EntryPoint {
 	public static Panel getContentPanel() {
 		return contentPanel;
 	}
-	
+
 	public static void addMeinSwapWeb() {
 		navigationPanel.add(meinSwapWeb);
 		navigationPanel.doLayout();
 	}
-	
+
 	public static void getCategories(final Panel container, final ComboBox categoryComboBox) {
 		GuiHelperAsync guiHelper = GWT.create(GuiHelper.class);
 		guiHelper.getCategories(new AsyncCallback<ArrayList<String>>() {
