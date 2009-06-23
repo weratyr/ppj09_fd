@@ -183,18 +183,20 @@ public class UserView extends Composite implements View {
 						userRatings.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
 								//TODO mach was
+								System.out.println("send user Ratings");
+								new UserRateView(user);
 							}
 						});
 						verticalPanel_1.add(userRatings);
 
-						reportUser = new Hyperlink("", null);
-						reportUser.addClickHandler(new ClickHandler() {
-							public void onClick(ClickEvent event) {
-								new UserRateView(user);
-							}
-						});
-						verticalPanel_1.add(reportUser);
-						
+//						reportUser = new Hyperlink("", null);
+//						reportUser.addClickHandler(new ClickHandler() {
+//							public void onClick(ClickEvent event) {
+//								
+//							}
+//						});
+//						verticalPanel_1.add(reportUser);
+//						
 						
 						absolutePanel.add(verticalPanel_1, 0, 0);
 	
@@ -658,7 +660,7 @@ public class UserView extends Composite implements View {
 			articlePanel.setTitle(username+"'s Artikel");
 			messageUser.setText("Nachricht an "+username);
 			userRatings.setText("Bewertungen von "+username);
-			reportUser.setText(username+" melden");
+			//reportUser.setText(username+" melden");
 			
 
 		} catch (NullPointerException e) {
@@ -803,7 +805,7 @@ public class UserView extends Composite implements View {
 		articlePanel.setTitle(userName + "'s Artikel");
 		this.messageUser.setText("Nachricht an " + userName);
 		this.userRatings.setText(userName + "'s Bewertungen");
-		this.reportUser.setText(userName + " melden");
+	//	this.reportUser.setText(userName + " melden");
 	}
 
 	public void setImage(String imageurl) {
