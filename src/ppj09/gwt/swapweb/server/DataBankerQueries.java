@@ -723,16 +723,16 @@ public class DataBankerQueries {
 		if (attrSpecified(sq.getHobbies()))
 			addCondition("category = '" + sq.getHobbies() + "'");
 		if (attrSpecified(sq.getJob()))
-			addCondition("articlecondition = '" + sq.getJob() + "'");
+			addCondition("job = '" + sq.getJob() + "'");
 		if (sq.isOnlyPic())
-			addCondition("image1 is not null");
+			addCondition("image is not null");
 
 		System.out.println(query);
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);
 			while (resultSet.next()) {
-				userList.add(new UserSearchResult());
+				userList.add(new UserSearchResult(getUserProfile(resultSet.getString("username"))));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
