@@ -72,7 +72,6 @@ public class ArticleForm extends Composite implements Form {
 
 	public ArticleForm() {
 		createFrom();
-		getArticle(82);
 	}
 
 	private void createFrom() {

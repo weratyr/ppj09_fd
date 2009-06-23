@@ -7,8 +7,6 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
-
-
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
@@ -144,7 +142,8 @@ public class LoginForm implements Form {
 						MessageBox.alert("Benutzername oder Passwort falsch");
 						txtbxPassword.setRawValue("");
 						txtbxUsername.setRawValue("");
-						txtbxUsername.markInvalid("Bitte geben Sie ihren Benutzernamen ein");
+						txtbxUsername
+								.markInvalid("Bitte geben Sie ihren Benutzernamen ein");
 						System.out.println("Benutzername oder Passwort falsch");
 					}
 
@@ -174,9 +173,13 @@ public class LoginForm implements Form {
 									});
 
 						} else
-							MessageBox.alert("Benutzername oder Passwort falsch");
-							System.out
-									.println("Benutzername oder Passwort falsch");
+							MessageBox
+									.alert("Benutzername oder Passwort falsch");
+						txtbxPassword.setRawValue("");
+						txtbxUsername.setRawValue("");
+						txtbxUsername
+								.markInvalid("Bitte geben Sie ihren Benutzernamen ein");
+						System.out.println("Benutzername oder Passwort falsch");
 					}
 
 				});
