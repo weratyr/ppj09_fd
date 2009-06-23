@@ -675,7 +675,6 @@ public class DataBankerQueries {
 		Statement stmt = dbc.getStatement();
 		ResultSet offerResultSet = null;
 		
-		articleId = 76;
 		String query = "SELECT * FROM offer WHERE desiredItemId = '" + articleId + "'";
 		try {
 			offerResultSet = stmt.executeQuery(query);
@@ -777,8 +776,18 @@ public class DataBankerQueries {
 	}
 	
 	public int declineOffer(int offerId) {
-		// DELETE from offer WHERE id = offerId;
-		return 1;
+		DataBankerConnection dbc = new DataBankerConnection();
+		int statusCode = 0;
+		try {
+			Statement stmt = dbc.getStatement();
+			String query = "DELETE FROM offer WHERE id = '" + offerId + "'";
+			statusCode = stmt.executeUpdate(query);
+			dbc.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return statusCode;
 	}
 	
 
@@ -786,18 +795,17 @@ public class DataBankerQueries {
 		ArrayList<Message> messages = new ArrayList<Message>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		
 		String query = "SELECT * FROM message WHERE author = '" + username + "' OR receiver = '" + username + "'";
 
-//		ResultSet rs = null;
 		try {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				messages.add(new Message(rs.getInt("messageID"),rs.getString("articleID"),rs.getString("author"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
 				System.out.println(rs.getString("message"));
 			}
+			dbc.close();
 		} catch (Exception e) {
-		System.out.println(e);
+			System.out.println(e);
 		}
 		return messages;
 	}
@@ -831,7 +839,6 @@ public class DataBankerQueries {
 	 * entgegen und gibt sie als ArrayList<Integer> zurück.
 	 */
 	public ArrayList<Integer> parseForIds(String strIdList) {
-		// Parsed die ids aus dem String
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		for (String strId : strIdList.split(",")) {
 			int intId = Integer.parseInt(strId);
