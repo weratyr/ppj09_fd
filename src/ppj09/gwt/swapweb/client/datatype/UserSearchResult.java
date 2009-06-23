@@ -9,6 +9,7 @@ package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
+import ppj09.gwt.swapweb.client.gui.UserSearchResultView;
 
 /**
  * Stellt den Datentpye einer Benutzersuche dar. 
@@ -17,7 +18,7 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
-public class UserSearchResult implements SearchResult,Serializable {
+public class UserSearchResult implements SearchResult, Serializable {
 	private String userName;
 	private String userPicture;
 	
@@ -29,13 +30,17 @@ public class UserSearchResult implements SearchResult,Serializable {
 	public UserSearchResult(String string, String string2) {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public UserSearchResult(){
+		
+		
+	}
 
 	/**
 	 * Gibt ein SearchResultView Objekt vom Server zur�ck
 	 */
 	public SearchResultView getView() {
-		// TODO Auto-generated method stub
-		return null;
+		return new UserSearchResultView(this);
 	}
 
 	public String getUsername() {
