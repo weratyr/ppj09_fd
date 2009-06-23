@@ -77,6 +77,7 @@ public class SwapWeb implements EntryPoint {
 	private User user;
 	private Panel mainPanel;
 	private Panel outerPanel;
+	
 	private static TabPanel tabPanel;
 
 	private Image image;
@@ -96,8 +97,10 @@ public class SwapWeb implements EntryPoint {
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
+	private static Hyperlink abmeldenHyperlink;
+	private static Label angemeldetAlsLabel2;
 	private static Label angemeldetAlsLabel;
-	private static Panel loggedInPanel;
+	private static HorizontalPanel loggedInPanel;
 
 	/**
 	 * Die EntryPoint Methode
@@ -136,12 +139,13 @@ public class SwapWeb implements EntryPoint {
 		image = new Image("http://www.renegade-station.de/swhead.jpg");
 		tabPanel = getUpperTabPanel();
 
-		loggedInPanel = new Panel();
-		loggedInPanel.setBorder(false);
+		loggedInPanel = new HorizontalPanel();
+		
+		//loggedInPanel.setBorder(false);
 		angemeldetAlsLabel = new Label();
 		loggedInPanel.add(angemeldetAlsLabel);
 
-		Hyperlink abmeldenHyperlink = new Hyperlink("abmelden", null);
+		abmeldenHyperlink = new Hyperlink("abmelden", null);
 
 		abmeldenHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -160,6 +164,9 @@ public class SwapWeb implements EntryPoint {
 					public void onSuccess(Void result) {
 						// :)
 						loggedInPanel.setVisible(false);
+						angemeldetAlsLabel2.setVisible(false);
+						abmeldenHyperlink.setVisible(false);
+						
 						new LoginForm(getTabPanel());
 						new UserRegistrationForm(getTabPanel());
 						toggleMeinSwapWeb();
@@ -169,14 +176,21 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 		loggedInPanel.add(abmeldenHyperlink);
-		loggedInPanel.add(new Label("]"));
-		loggedInPanel.setId("eingelogged-als-panel");
+		
+		angemeldetAlsLabel2 = new Label("]");
+		loggedInPanel.add(angemeldetAlsLabel2);
+	
+		
+		loggedInPanel.setVisible(false);
+		angemeldetAlsLabel2.setVisible(false);
+		abmeldenHyperlink.setVisible(false);
+		
 
 		MultiFieldPanel northContainer = new MultiFieldPanel();
 		northContainer.setBorder(false);
 		northContainer.add(image);
 		northContainer.add(loggedInPanel);
-		loggedInPanel.setVisible(false);
+		
 
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.setBorder(false);
@@ -393,9 +407,11 @@ public class SwapWeb implements EntryPoint {
 
 	public static void setLoggedin(String username) {
 		loggedInPanel.setVisible(true);
+		abmeldenHyperlink.setVisible(true);
+		angemeldetAlsLabel2.setVisible(true);
 		angemeldetAlsLabel
 				.setText("Sie sind angemeldet als " + username + " [");
-		loggedInPanel.doLayout();
+		//loggedInPanel.doLayout();
 
 	}
 
