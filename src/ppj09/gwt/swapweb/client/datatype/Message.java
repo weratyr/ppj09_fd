@@ -35,6 +35,7 @@ public class Message implements Serializable {
 		this.author = author;
 		this.receiver = receiver;
 		this.topic = topic;
+		this.message = message;
 		this.isRead = isRead;
 	}
 	

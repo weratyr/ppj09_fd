@@ -790,9 +790,6 @@ public class DataBankerQueries {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				messages.add(new Message(rs.getInt("messageID"),rs.getInt("articleID"),rs.getString("author"),rs.getString("receiver"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
-
-				System.out.println(rs.getString("message"));
-
 			}
 			stmt.close();
 			rs.close();
