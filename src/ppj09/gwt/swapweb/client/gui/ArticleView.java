@@ -686,14 +686,15 @@ public class ArticleView extends Composite implements View {
 
 			public void onSuccess(ArrayList<SearchResult> results) {
 				System.out.println("success");
-				Panel offerPanel = new Panel();
-				offerPanel.setBorder(true);
 				for (SearchResult r : results) {
+					Panel offerPanel = new Panel();
+					offerPanel.setBorder(true);
+					offerPanel.setMargins(5);
 					for (SearchResult articleSearchResult : ((OfferSearchResult)r).getArticles())
 						offerPanel.add((ArticleSearchResultView) articleSearchResult.getView());
+					offerPanel.doLayout();
+					offeredArticles.add(offerPanel);
 				}
-				offerPanel.doLayout();
-				offeredArticles.add(offerPanel);
 			}
 		});
 		return offeredArticles;
