@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+
 import ppj09.gwt.swapweb.client.datatype.Message;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Offer;
+import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
@@ -721,15 +724,16 @@ public class ArticleView extends Composite implements View {
 		final VerticalPanel offeredArticles = new VerticalPanel();
 
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-
 		searchHandler.getOfferedArticles(article.getArticleId(), new AsyncCallback<ArrayList<SearchResult>>() {
-			public void onFailure(Throwable caught) {
-				System.out.println(caught.getMessage());
+			public void onFailure(Throwable e) {
+				e.printStackTrace();
 			}
 
 			public void onSuccess(ArrayList<SearchResult> results) {
+				System.out.println("success");
 				for (SearchResult r : results) {
-					offeredArticles.add((ArticleSearchResultView) r.getView());
+					for (SearchResult articleSearchResult : ((OfferSearchResult)r).getArticles())
+						offeredArticles.add((ArticleSearchResultView) articleSearchResult.getView());
 				}
 			}
 		});
