@@ -49,6 +49,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -89,7 +90,7 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink myRatingsHyperlink;
 	private Hyperlink myMessagesHyperlink;
 
-	private Panel navigationsContentPanel;
+	private static VerticalPanel navigationsContentPanel;
 	private static Panel navigationPanel;
 	private ArticleForm articleForm;
 	private UserForm userForm;
@@ -213,10 +214,10 @@ public class SwapWeb implements EntryPoint {
 		new Viewport(mainPanel);
 	}
 
-	private Panel createNavigationPanel() {
-		navigationsContentPanel = new Panel();
-		navigationsContentPanel.setBorder(false);
-		navigationsContentPanel.setId("navi-panel");
+	private VerticalPanel createNavigationPanel() {
+		navigationsContentPanel = new VerticalPanel();
+		//navigationsContentPanel.setBorder(false);
+		//navigationsContentPanel.setId("navi-panel");
 
 		// Mein SwapWeb
 		meinSwapWeb = new DisclosurePanel("Mein SwapWeb", false);
@@ -382,9 +383,10 @@ public class SwapWeb implements EntryPoint {
 
 	public static void toggleMeinSwapWeb() {
 		if (!meinSwapWeb.isAttached()) {
-			navigationPanel.add(meinSwapWeb);
+			navigationsContentPanel.insert(meinSwapWeb, 0);
+			//navigationsContentPanel.add(meinSwapWeb);
 		} else {
-			navigationPanel.remove(meinSwapWeb);
+			navigationsContentPanel.remove(meinSwapWeb);
 		}
 		meinSwapWeb.setOpen(true);
 		navigationPanel.doLayout();
