@@ -72,7 +72,7 @@ public class DataBankerQueries {
 
 				.getConnection()
 				.prepareStatement(
-				"INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email) VALUES(?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO user(username, pwd, firstName, lastName, street, houseNumber, zipCode, city, email,image) VALUES(?,?,?,?,?,?,?,?,?,?)");
 				stmt.setString(1, username);
 				stmt.setString(2, pwdHash);
 				stmt.setString(3, firstName);
@@ -82,6 +82,7 @@ public class DataBankerQueries {
 				stmt.setString(7, zipCode);
 				stmt.setString(8, city);
 				stmt.setString(9, email);
+				stmt.setString(10, "uploads/default.jpg");
 				System.out.println(stmt.toString());
 
 				stmt.executeUpdate();
@@ -578,7 +579,7 @@ public class DataBankerQueries {
 				articleList.add(new ArticleSearchResult(resultSet
 						.getString("title"), getUsername(resultSet
 								.getInt("userid")), resultSet.getString("image1"),
-								resultSet.getInt("id")));
+								resultSet.getInt("id"),resultSet.getString("amount")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);

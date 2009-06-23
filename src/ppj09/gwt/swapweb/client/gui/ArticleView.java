@@ -165,6 +165,7 @@ public class ArticleView extends Composite implements View {
 							showMessageForm();
 						}
 					});
+					
 					absolutePanel.add(messageHyperlink,2,158);
 					
 					rateHyperlink = new Hyperlink("",null);
@@ -172,7 +173,7 @@ public class ArticleView extends Composite implements View {
 						public void onClick(ClickEvent event) {
 						}
 					});
-					absolutePanel.add(rateHyperlink,2,172);
+					absolutePanel.add(rateHyperlink,2,176);
 
 					
 					// Rechtes Panel ArtikelInformationen

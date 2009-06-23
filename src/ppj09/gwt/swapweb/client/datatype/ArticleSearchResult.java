@@ -27,11 +27,13 @@ public class ArticleSearchResult implements SearchResult, Serializable {
 	private int id;
 	private String userName;
 	private String pictureUrl;
-	
+	private String offerScope;
+
 	public ArticleSearchResult() {
 		this.title = null;
 		this.pictureUrl = null;
 		this.userName = null;
+		this.offerScope = null;
 		this.id = 0;
 	}
 	
@@ -40,11 +42,12 @@ public class ArticleSearchResult implements SearchResult, Serializable {
 	}
 	
 	
-	public ArticleSearchResult(String title, String userName, String pictureUrl, int id) {
+	public ArticleSearchResult(String title, String userName, String pictureUrl, int id, String offerScope) {
 		this.title = title;
 		this.pictureUrl = pictureUrl;
 		this.userName = userName;
 		this.id = id;
+		this.offerScope = offerScope;
 	}
 
 	public int getId() {
@@ -74,6 +77,14 @@ public class ArticleSearchResult implements SearchResult, Serializable {
 
 	public void setPictureUrl(String pictureUrl) {
 		this.pictureUrl = pictureUrl;
+	}
+
+	public void setOfferScope(String offerScope) {
+		this.offerScope = offerScope;
+	}
+
+	public String getOfferScope() {
+		return offerScope;
 	}
 
 }
