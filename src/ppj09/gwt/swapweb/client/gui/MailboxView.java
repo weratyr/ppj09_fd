@@ -10,6 +10,7 @@ import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.Button;
@@ -25,6 +26,8 @@ public class MailboxView extends Composite{
 
 	private Panel inbox;
 	private Panel outbox;
+	
+
 	private ArrayList<Message> inboxMessages = new ArrayList<Message>();
 	private ArrayList<Message> outboxMessages = new ArrayList<Message>();
 	
@@ -49,6 +52,10 @@ public class MailboxView extends Composite{
 		ToolbarButton refresh = new ToolbarButton("Empfangen");
 		refresh.addListener(new ButtonListenerAdapter(){
 			 public void onClick(Button button, EventObject e) {
+					inbox.clear();
+					outbox.clear();
+					outboxMessages.clear();
+					inboxMessages.clear();
 					receiveMessages();
 			 }
 		});
@@ -139,23 +146,34 @@ public class MailboxView extends Composite{
 	}
 	
 	private void receiveMessages(){
-
-		System.out.println(SwapWeb.getUserNameFromSession());
 		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
 		messageHandler.getMessages(SwapWeb.getUserNameFromSession(), new AsyncCallback<ArrayList<Message>>(){
 			public void onFailure(Throwable caught) {
-				System.out.println("RPC failes @ MailboxView: " + caught);
+				System.out.println("RPC failed @ MailboxView: " + caught);
 			}
 			public void onSuccess(ArrayList<Message> result) {
 				for (int i = 0;i<result.size();i++){
 					if(!(result.get(i).getAuthor().equals(SwapWeb.getUserNameFromSession()))){
 						inboxMessages.add(result.get(i));
-						System.out.println(inboxMessages.get(i).getMessage());
 					} else {
 						outboxMessages.add(result.get(i));
 					}
 				}
+				fillMailbox(inboxMessages, outboxMessages);
 			}
 		});
+	}
+
+	private void fillMailbox(ArrayList<Message> inboxMessages, ArrayList<Message> outboxMessages) {
+		for (int i = 0;i<inboxMessages.size();i++){
+			final Hyperlink inboxItem = new Hyperlink(inboxMessages.get(i).getTopic(), null);
+			inbox.add(inboxItem);
+		}
+		for (int i = 0;i<outboxMessages.size();i++){
+			final Hyperlink outboxItem = new Hyperlink(outboxMessages.get(i).getTopic(), null);
+			outbox.add(outboxItem);
+		}
+		inbox.doLayout();
+		outbox.doLayout();
 	}
 }

@@ -29,11 +29,13 @@ public class Message implements Serializable {
 		
 	}
 	
-	public Message(int articleId, String author, String receiver, String topic, String message, int isRead){
+	public Message(int messageId, int articleId, String author, String receiver, String topic, String message, int isRead){
+		this.messageId = messageId;
 		this.articleId = articleId;
 		this.author = author;
 		this.receiver = receiver;
 		this.topic = topic;
+		this.message = message;
 		this.isRead = isRead;
 	}
 	

@@ -727,6 +727,7 @@ public class DataBankerQueries {
 			while (resultSet.next()) {
 				userList.add(new UserSearchResult(getUserProfile(resultSet.getString("username"))));
 			}
+			dbc.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -800,9 +801,10 @@ public class DataBankerQueries {
 		try {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				messages.add(new Message(rs.getInt("messageID"),rs.getString("articleID"),rs.getString("author"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
-				System.out.println(rs.getString("message"));
+				messages.add(new Message(rs.getInt("messageID"),rs.getInt("articleID"),rs.getString("author"),rs.getString("receiver"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
 			}
+			stmt.close();
+			rs.close();
 			dbc.close();
 		} catch (Exception e) {
 			System.out.println(e);
