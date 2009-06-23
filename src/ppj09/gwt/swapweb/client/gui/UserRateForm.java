@@ -7,8 +7,13 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.datatype.Rate;
 import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.serverInterface.RatingHandler;
+import ppj09.gwt.swapweb.client.serverInterface.RatingHandlerAsync;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
@@ -33,7 +38,6 @@ import com.gwtext.client.widgets.layout.FitLayout;
  */
 public class UserRateForm implements Form {
 	private User user;
-	private Label userToRate;
 	private Label BewerteUserLabel;
 
 	
@@ -70,26 +74,28 @@ public class UserRateForm implements Form {
 		
 		messagePanel.add(BewerteUserLabel);		
 		Object[][] optionsDelivery = new Object[][] {
-				new Object[] { "1", "1 Stern" },
-				new Object[] { "2", "2 Stern" },
-				new Object[] { "3", "3 Stern" },
-				new Object[] { "4", "4 Stern" },
-				new Object[] { "5", "5 Stern" }};
+				new Object[] { "1" },
+				new Object[] { "2"},
+				new Object[] { "3"},
+				new Object[] { "4"},
+				new Object[] { "5"}};
 
-		Store deliveryStore = new SimpleStore(new String[] { "1", "Stern" },
+		Store deliveryStore = new SimpleStore(new String[] { "1" },
 				optionsDelivery);
 		deliveryStore.load();
 
 		final ComboBox starsComboBox = new ComboBox();
 		starsComboBox.setFieldLabel("Bewertungspunkte");
 		starsComboBox.setStore(deliveryStore);
-		starsComboBox.setDisplayField("Stern");
+		
+		starsComboBox.setDisplayField("1");
 		starsComboBox.setMode(ComboBox.LOCAL);
 		starsComboBox.setTriggerAction(ComboBox.ALL);
-		starsComboBox.setEmptyText("1 Stern");
+		starsComboBox.setEmptyText("Sterne wählen");
 		starsComboBox.setForceSelection(true);
 		starsComboBox.setReadOnly(true);
 		starsComboBox.setWidth(120);
+		starsComboBox.setAllowBlank(false);
 		messagePanel.add(starsComboBox);
 
 		final TextArea textArea = new TextArea("Kommentar", "kommentar");
@@ -97,11 +103,24 @@ public class UserRateForm implements Form {
 		// anchor width by percentage and height by raw adjustment
 		// sets width to 100% and height to "remainder" height - 53px
 		messagePanel.add(textArea, new AnchorLayoutData("100% -163"));
-
+		
 		Button send = new Button("Bewertung absenden");
 		send.addListener(new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
+				Rate rate = new Rate();
+				rate.setStars(new Integer( starsComboBox.getValue() ));
+				RatingHandlerAsync ratingHandler = GWT.create(RatingHandler.class);
+				ratingHandler.sendRate(rate, new AsyncCallback<Integer>(){
+					public void onFailure(Throwable caught) {
+						System.out.println(starsComboBox.getValue()	);
+						System.out.println("RPC: Rating UserRateForm.java "+caught);
+						caught.printStackTrace();
+					}
 
+					public void onSuccess(Integer result) {
+						messageWindow.close();
+					}
+				});
 			}
 		});
 		send.setFormBind(true);

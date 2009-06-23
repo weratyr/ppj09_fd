@@ -116,5 +116,15 @@
  </servlet-mapping> 
  
 
+<servlet> 
+     <servlet-name>RatingHandler</servlet-name> 
+     <servlet-class>ppj09.gwt.swapweb.server.RatingHandlerImpl</servlet-class> 
+   </servlet> 
+   
+  <servlet-mapping>
+    <servlet-name>RatingHandler</servlet-name>
+    <url-pattern>/swapweb/RatingHandler</url-pattern>
+ </servlet-mapping> 
+ 
   
 </web-app>
