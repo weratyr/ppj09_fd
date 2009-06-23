@@ -47,6 +47,7 @@ public class MessageComposeView extends Composite {
 
 	public MessageComposeView(User user) {
 		this.user = user;
+		this.receiver = user.getUsername();
 		createMessagePopupWindow();
 		sentTo.setValue(user.getUsername());
 		sentTo.setDisabled(true);
