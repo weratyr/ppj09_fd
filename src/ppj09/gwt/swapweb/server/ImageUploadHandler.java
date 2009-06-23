@@ -61,7 +61,7 @@ public class ImageUploadHandler extends HttpServlet {
        boolean saved = dbq.saveImageToArticle(UPLOADDIR + newFileName, (String)l.get(1));
        
        if(saved) {
-    	   resp.getWriter().write(new String("Ihr Bild wurde erfolgreich gespeichert")); 
+    	   resp.getWriter().write(new String("Ihr Artikel wurde erfolgreich erstellt")); 
        } else {
     	   resp.getWriter().write(new String("Ihr Bild konnte nicht in der Datenbank gespeichert werden"));
        }
