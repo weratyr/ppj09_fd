@@ -4,6 +4,8 @@ import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.Toolbar;
+import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.event.ButtonListener;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Label;
@@ -28,17 +30,14 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		final SearchHandlerAsync sh = GWT.create(SearchHandler.class);
 		this.offerSearchResult = (OfferSearchResult) offerSearchResult;
 		Panel offerPanel = new Panel();
-		
-		Label title = new Label("Angebot von " + this.offerSearchResult.getOfferedBy());
-		offerPanel.add(title);
-		
-		offerPanel.setBorder(true);
-		offerPanel.setMargins(5);
+		offerPanel.setTitle("Angebot von " + this.offerSearchResult.getOfferedBy());
+		offerPanel.setWidth("90%");
+	
 		for (SearchResult articleSearchResult : this.offerSearchResult.getArticles())
 			offerPanel.add((ArticleSearchResultView) articleSearchResult.getView());
 		
-		HorizontalPanel horizontalButtonPanel = new HorizontalPanel();
-		Button annehmen = new Button("annehmen");
+		//HorizontalPanel horizontalButtonPanel = new HorizontalPanel();
+		ToolbarButton annehmen = new ToolbarButton("annehmen");
 		annehmen.addListener(new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
 				sh.acceptOffer(((OfferSearchResult)offerSearchResult).getId(), 
@@ -55,7 +54,7 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 				});
 			}
 		});
-		Button ablehnen = new Button("ablehnen");
+		ToolbarButton ablehnen = new ToolbarButton("ablehnen");
 		ablehnen.addListener(new ButtonListenerAdapter(){
 			public void onClick(Button button, EventObject e) {
 				sh.declineOffer(((OfferSearchResult)offerSearchResult).getId(), 
@@ -78,9 +77,11 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		 * Angebote anzunehmen und abzulehnen.
 		 */
 		if (this.offerSearchResult.getOfferedTo().equals(SwapWeb.getUserNameFromSession())) {
-			horizontalButtonPanel.add(annehmen);
-			horizontalButtonPanel.add(ablehnen);
-			offerPanel.add(horizontalButtonPanel);
+			Toolbar buttonToolbar = new Toolbar();
+			buttonToolbar.addButton(annehmen);
+			buttonToolbar.addButton(ablehnen);
+			offerPanel.setBottomToolbar(buttonToolbar);
+			//offerPanel.add(horizontalButtonPanel);
 		} else {
 			System.out.println(this.offerSearchResult.getOfferedTo() + " != " + SwapWeb.getUserNameFromSession());
 		}
