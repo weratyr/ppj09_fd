@@ -31,6 +31,7 @@ import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
+import ppj09.gwt.swapweb.client.gui.UserSearchForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
@@ -58,6 +59,7 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.ComboBox;
+import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
@@ -74,7 +76,7 @@ public class SwapWeb implements EntryPoint {
 
 	private Image image;
 	private static DisclosurePanel meinSwapWeb;
-	private DisclosurePanel kategorien;
+	private static DisclosurePanel kategorien;
 	private static Panel contentPanel;
 
 	private Hyperlink myProfileHyperlink;
@@ -89,6 +91,7 @@ public class SwapWeb implements EntryPoint {
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
+	private static Panel loggedInPanel;
 
 	/**
 	 * Die EntryPoint Methode
@@ -120,14 +123,25 @@ public class SwapWeb implements EntryPoint {
 		outerPanel.setAutoScroll(true);
 
 		/*
-		 * NORTH Header und Šu§eres TabPanel
+		 * NORTH Header und äußeres TabPanel
 		 */
 		image = new Image("http://www.renegade-station.de/swhead.jpg");
 		tabPanel = getUpperTabPanel();
 
+		loggedInPanel = new Panel();
+		loggedInPanel.setBorder(false);
+		loggedInPanel.setId("eingelogged-als-panel");
+
+		MultiFieldPanel northContainer = new MultiFieldPanel();
+		northContainer.setBorder(false);
+		northContainer.add(image);
+		northContainer.add(loggedInPanel);
+		loggedInPanel.setVisible(false);
+
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.setBorder(false);
-		northOuterPanel.add(image);
+		// northOuterPanel.add(image);
+		northOuterPanel.add(northContainer);
 		northOuterPanel.add(tabPanel);
 
 		outerPanel.add(northOuterPanel, new BorderLayoutData(
@@ -147,6 +161,9 @@ public class SwapWeb implements EntryPoint {
 
 		navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
+		
+		
+		
 		navigationPanel.add(createNavigationPanel());
 
 		// WEST
@@ -306,6 +323,7 @@ public class SwapWeb implements EntryPoint {
 		new AdvancedSearchForm(tabPanel);
 		new LoginForm(tabPanel);
 		new UserRegistrationForm(tabPanel);
+		new UserSearchForm(tabPanel);
 		return tabPanel;
 	}
 
@@ -319,7 +337,16 @@ public class SwapWeb implements EntryPoint {
 
 	public static void addMeinSwapWeb() {
 		navigationPanel.add(meinSwapWeb);
+		meinSwapWeb.setOpen(true);
 		navigationPanel.doLayout();
+	}
+
+	public static void setLoggedin(String username) {
+		loggedInPanel.setVisible(true);
+		loggedInPanel.add(new Label("Sie sind angemeldet als " + username));
+		loggedInPanel.add(new Hyperlink("abmelden", ""));
+		loggedInPanel.doLayout();
+
 	}
 
 	public static void getCategories(final Panel container,
