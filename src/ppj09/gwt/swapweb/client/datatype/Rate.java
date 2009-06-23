@@ -29,6 +29,30 @@ public class Rate implements Serializable {
 	private String ratedUser;
 	//Nutzer-ID des Nutzers der die Bewertung geschrieben hat -> wenn m�glich, notfalls auch ein User_objekt
 	private String ratingUser;
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public int getStars() {
+		return stars;
+	}
+	public void setStars(int stars) {
+		this.stars = stars;
+	}
+	public String getRatedUser() {
+		return ratedUser;
+	}
+	public void setRatedUser(String ratedUser) {
+		this.ratedUser = ratedUser;
+	}
+	public String getRatingUser() {
+		return ratingUser;
+	}
+	public void setRatingUser(String ratingUser) {
+		this.ratingUser = ratingUser;
+	}
 	
 	
 	
