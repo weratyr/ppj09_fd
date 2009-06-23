@@ -154,7 +154,7 @@ public class UserForm extends Composite implements View {
 					form.setWidget(panel);
 					// Create a FileUpload widget.
 					final FileUpload upload = new FileUpload();
-					upload.setWidth("280");
+					upload.setWidth("340");
 					upload.setName("uploadFormElement");
 					hiddenText = new TextField();
 					hiddenText.setName("uploadHiddenElement");
@@ -164,6 +164,7 @@ public class UserForm extends Composite implements View {
 					Panel beschreibung = new Panel();
 					beschreibung.setMargins(5);
 					beschreibung.setHtml("Mit einem Klick auf \"Datei auswählen\" können Sie ein Bild in den Formaten <b>\"jpg\"</b>, <b>\"png\"</b> oder <b>\"bmp\"</b> auswählen und anschließend hochladen.");
+					beschreibung.setWidth(350);
 					panel.add(beschreibung);
 
 					
@@ -237,8 +238,6 @@ public class UserForm extends Composite implements View {
 					window.setPaddings(5);
 					window.setTitle("Bild hochladen");
 					window.setClosable(true);
-					window.setWidth(320);
-					window.setHeight(160);
 					window.setPlain(true);
 					window.add(form);
 					window.setCloseAction(Window.HIDE);
@@ -481,6 +480,10 @@ public class UserForm extends Composite implements View {
 			public void onSuccess(Integer serverMsg) {
 				// :)
 				System.out.println("OK: " + serverMsg.toString());
+				MessageBox.alert("Ihr Profil wurde erfolgreich geändert");
+				SwapWeb.getContentPanel().clear();
+				SwapWeb.getContentPanel().add(new UserView(SwapWeb.getUserNameFromSession()));
+				SwapWeb.getContentPanel().doLayout();
 			}
 		});
 		return true;
@@ -860,6 +863,7 @@ public class UserForm extends Composite implements View {
 
 		String extension = filename.substring(indexPoint + 1, length);
 
+		extension=extension.toLowerCase();
 		if (extension.equals("jpg") || extension.equals("png")
 				|| extension.equals("bmp")) {
 			isAllowdExt = true;

@@ -104,6 +104,7 @@ public class ArticleSearchForm implements Form {
 										}
 
 										cp.add(listView);
+										cp.setTitle("Suchergebnisse für \""+searchField.getText()+"\"");
 										cp.doLayout();
 									}
 								});

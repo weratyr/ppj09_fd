@@ -99,6 +99,7 @@ public class SwapWeb implements EntryPoint {
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
+	private DisclosurePanel hilfe;
 	private static VerticalPanel verticalPanel;
 	private static Panel loggedInPanel2;
 	private static AbsolutePanel abPanel;
@@ -143,6 +144,12 @@ public class SwapWeb implements EntryPoint {
 
 		// eingellogt als
 		image = new Image("http://www.renegade-station.de/swhead.jpg");
+		image.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				getContentPanel().clear();
+				getContentPanel().setTitle("Startseite");
+			}
+		});
 		tabPanel = getUpperTabPanel();
 
 		loggedInPanel = new HorizontalPanel();
@@ -252,9 +259,14 @@ public class SwapWeb implements EntryPoint {
 		// Kategoriebaum
 		kategorien = new DisclosurePanel("Kategorien", false);
 		kategorien.setContent(getCategories());
-
+		
 		//navigationsContentPanel.add(kategorien);
 		verticalPanel.add(kategorien);
+		
+		// Hilfe
+		hilfe = new DisclosurePanel("Hilfe", false);
+		verticalPanel.add(hilfe);
+		
 		navigationsContentPanel.add(verticalPanel);
 		return navigationsContentPanel;
 	}

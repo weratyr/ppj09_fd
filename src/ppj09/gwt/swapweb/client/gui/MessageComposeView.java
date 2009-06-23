@@ -10,12 +10,10 @@ import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
-import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -26,7 +24,7 @@ import com.gwtext.client.widgets.layout.FitLayout;
 
 public class MessageComposeView extends Composite {
 	private Article article;
-	private int receiver;
+	private String receiver;
 	private int articleId;
 	private User user;
 
@@ -35,7 +33,7 @@ public class MessageComposeView extends Composite {
 
 	public MessageComposeView(Article article) {
 		this.article = article;
-		this.receiver = article.getUserId();
+		this.receiver = article.getUserName();
 		this.articleId = article.getArticleId();
 
 		createMessagePopupWindow();
@@ -49,6 +47,7 @@ public class MessageComposeView extends Composite {
 
 	public MessageComposeView(User user) {
 		this.user = user;
+		this.receiver = user.getUsername();
 		createMessagePopupWindow();
 		sentTo.setValue(user.getUsername());
 		sentTo.setDisabled(true);
@@ -96,6 +95,7 @@ public class MessageComposeView extends Composite {
 		messagePanel.add(textArea, new AnchorLayoutData("100% -53"));
 
 		Button send = new Button("Send");
+
 		send.addListener(new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
 				System.out.println("send me" + subject.getText());
@@ -119,10 +119,11 @@ public class MessageComposeView extends Composite {
 						MessageBox.alert("Deine Nachricht wurde versand");
 						messageWindow.close();
 					}
+					
+				 });
+				 
+			 }
 
-				});
-
-			}
 		});
 		send.setFormBind(true);
 		messagePanel.addButton(send);
