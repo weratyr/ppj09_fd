@@ -20,7 +20,16 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
 public class OfferSearchResult implements SearchResult, Serializable {
 	private ArrayList<ArticleSearchResult> articles;
 	private String offeredBy;
+	private int id;
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getOfferedBy() {
 		return offeredBy;
 	}
