@@ -10,7 +10,6 @@ package ppj09.gwt.swapweb.client.gui;
 import ppj09.gwt.swapweb.client.datatype.User;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,7 +17,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Window;
-import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.FitLayout;
 
@@ -34,9 +32,6 @@ import com.gwtext.client.widgets.layout.FitLayout;
 public class UserRateView extends Composite implements View {
 
 	private User user;
-	private HorizontalPanel dockPanel;
-	private AbsolutePanel absolutePanel;
-	private Label lblBewertungDesBenutzers;
 	private Hyperlink username;
 	private VerticalPanel verticalPanel;
 
@@ -58,7 +53,6 @@ public class UserRateView extends Composite implements View {
 		
 		TextField t = new TextField("fd");
 		messagePanel.add(t);
-		
 		
 		
 		messageWindow.setCloseAction(Window.HIDE);
