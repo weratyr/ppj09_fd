@@ -11,6 +11,7 @@ import java.util.Date;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
+import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
@@ -805,4 +806,12 @@ public class DataBankerQueries {
 		}
 		return userList;
 	}
+	
+	public int saveMessage(Message mesg) {
+		
+		
+		return 0;
+	}
+	
+	
 }
