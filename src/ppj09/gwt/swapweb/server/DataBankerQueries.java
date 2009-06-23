@@ -721,7 +721,7 @@ public class DataBankerQueries {
 		if (attrSpecified(sq.getCity()))
 			addCondition("city = '" + sq.getCity() + "'");
 		if (attrSpecified(sq.getHobbies()))
-			addCondition("category = '" + sq.getHobbies() + "'");
+			addCondition("hobbies = '" + sq.getHobbies() + "'");
 		if (attrSpecified(sq.getJob()))
 			addCondition("job = '" + sq.getJob() + "'");
 		if (sq.isOnlyPic())
