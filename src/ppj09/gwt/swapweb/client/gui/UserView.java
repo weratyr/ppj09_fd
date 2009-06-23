@@ -182,7 +182,7 @@ public class UserView extends Composite implements View {
 						messageUser = new Hyperlink("",null);
 						messageUser.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
-								//TODO mach was
+								new MessageComposeView(user);
 							}
 						});
 						verticalPanel_1.add(messageUser);

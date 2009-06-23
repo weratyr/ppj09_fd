@@ -3,6 +3,7 @@ package ppj09.gwt.swapweb.client.gui;
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.Message;
+import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.MessageHandler;
 import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
 
@@ -24,18 +25,33 @@ import com.gwtext.client.widgets.layout.FitLayout;
 
 public class MessageComposeView extends Composite{
 	private Article article;
+	private User user;
+
+	
+	private TextField subject; 
+	private TextField sentTo; 
+	
 	
 	public MessageComposeView(Article article) {
 		this.article = article;
-		
 		createMessagePopupWindow();
+		subject.setDisabled(true);
+		subject.setEmptyText("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
+		sentTo.setDisabled(true);
+		sentTo.setEmptyText(article.getUserName());
 			
+	}
+	
+	public MessageComposeView(User user) {
+		this.user = user;
+		createMessagePopupWindow();
 	}
 	
 	public MessageComposeView() {
 		
-		
+		createMessagePopupWindow();
 	}
+	
 	
 	public void createMessagePopupWindow() {
 		final Window messageWindow = new Window();
@@ -52,16 +68,15 @@ public class MessageComposeView extends Composite{
 		FormPanel messagePanel = new FormPanel();
 	
 		// anchor width by percentage
-		TextField sentTo = new TextField("Send To", "to");
-		sentTo.setEmptyText(article.getUserName());
-		sentTo.setDisabled(true);
+		sentTo = new TextField("Send To", "to");
+		
 		messagePanel.add(sentTo, new AnchorLayoutData(
 		"100%"));
 
 		// anchor width by percentage
-		final TextField subject = new TextField("Subject", "subject");
-		subject.setEmptyText("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
-		subject.setDisabled(true);
+		subject = new TextField("Subject", "subject");
+		
+		
 		messagePanel.add(subject,new AnchorLayoutData("100%"));
 		
 
