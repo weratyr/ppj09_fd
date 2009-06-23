@@ -131,55 +131,55 @@ public class DataBankerQueries {
 			String query = null;
 			if (updatedUser.getPassword().equals("")) {
 				query = "UPDATE user SET firstName='"
-						+ updatedUser.getFirstName() + "', " + "lastName='"
-						+ updatedUser.getLastName() + "', " + "street='"
-						+ updatedUser.getStreet() + "', " + "houseNumber='"
-						+ updatedUser.getHouseNumber() + "'," + "zipcode='"
-						+ updatedUser.getZip() + "', " + "city='"
-						+ updatedUser.getCity() + "'," + "email='"
-						+ updatedUser.getEmail() + "', " + "gender='"
-						+ updatedUser.getGender() + "', " + "birthdate='"
-						+ sdf.format(updatedUser.getBirthdate()) + "', "
-						+ "job='" + updatedUser.getJob() + "', " + "hobbies='"
-						+ updatedUser.getHobbys() + "', " + "music='"
-						+ updatedUser.getMusic() + "'," + "movies='"
-						+ updatedUser.getMovie() + "'," + "iLike='"
-						+ updatedUser.getILike() + "', " + "iDontLike='"
-						+ updatedUser.getIDontLike() + "', " + "aboutMe='"
-						+ updatedUser.getAboutMe() + "'," + "icq='"
-						+ updatedUser.getIcq() + "'," + " yahoo='"
-						+ updatedUser.getYahoo() + "'," + " aim='"
-						+ updatedUser.getAim() + "', " + "jabber='"
-						+ updatedUser.getJabber() + "', " + "msn='"
-						+ updatedUser.getMsn() + "', " + "homepage='"
-						+ updatedUser.getHomepage() + "' " + "WHERE username='"
-						+ userName + "' ";
+					+ updatedUser.getFirstName() + "', " + "lastName='"
+					+ updatedUser.getLastName() + "', " + "street='"
+					+ updatedUser.getStreet() + "', " + "houseNumber='"
+					+ updatedUser.getHouseNumber() + "'," + "zipcode='"
+					+ updatedUser.getZip() + "', " + "city='"
+					+ updatedUser.getCity() + "'," + "email='"
+					+ updatedUser.getEmail() + "', " + "gender='"
+					+ updatedUser.getGender() + "', " + "birthdate='"
+					+ sdf.format(updatedUser.getBirthdate()) + "', "
+					+ "job='" + updatedUser.getJob() + "', " + "hobbies='"
+					+ updatedUser.getHobbys() + "', " + "music='"
+					+ updatedUser.getMusic() + "'," + "movies='"
+					+ updatedUser.getMovie() + "'," + "iLike='"
+					+ updatedUser.getILike() + "', " + "iDontLike='"
+					+ updatedUser.getIDontLike() + "', " + "aboutMe='"
+					+ updatedUser.getAboutMe() + "'," + "icq='"
+					+ updatedUser.getIcq() + "'," + " yahoo='"
+					+ updatedUser.getYahoo() + "'," + " aim='"
+					+ updatedUser.getAim() + "', " + "jabber='"
+					+ updatedUser.getJabber() + "', " + "msn='"
+					+ updatedUser.getMsn() + "', " + "homepage='"
+					+ updatedUser.getHomepage() + "' " + "WHERE username='"
+					+ userName + "' ";
 
 			} else {
 				query = "UPDATE user SET pwd='" + pwd + "', " + "firstName='"
-						+ updatedUser.getFirstName() + "', " + "lastName='"
-						+ updatedUser.getLastName() + "', " + "street='"
-						+ updatedUser.getStreet() + "', " + "houseNumber='"
-						+ updatedUser.getHouseNumber() + "'," + "zipcode='"
-						+ updatedUser.getZip() + "', " + "city='"
-						+ updatedUser.getCity() + "'," + "email='"
-						+ updatedUser.getEmail() + "', " + "gender='"
-						+ updatedUser.getGender() + "', " + "birthdate='"
-						+ sdf.format(updatedUser.getBirthdate()) + "', "
-						+ "job='" + updatedUser.getJob() + "', " + "hobbies='"
-						+ updatedUser.getHobbys() + "', " + "music='"
-						+ updatedUser.getMusic() + "'," + "movies='"
-						+ updatedUser.getMovie() + "'," + "iLike='"
-						+ updatedUser.getILike() + "', " + "iDontLike='"
-						+ updatedUser.getIDontLike() + "', " + "aboutMe='"
-						+ updatedUser.getAboutMe() + "'," + "icq='"
-						+ updatedUser.getIcq() + "'," + " yahoo='"
-						+ updatedUser.getYahoo() + "'," + " aim='"
-						+ updatedUser.getAim() + "', " + "jabber='"
-						+ updatedUser.getJabber() + "', " + "msn='"
-						+ updatedUser.getMsn() + "', " + "homepage='"
-						+ updatedUser.getHomepage() + "' " + "WHERE username='"
-						+ userName + "' ";
+				+ updatedUser.getFirstName() + "', " + "lastName='"
+				+ updatedUser.getLastName() + "', " + "street='"
+				+ updatedUser.getStreet() + "', " + "houseNumber='"
+				+ updatedUser.getHouseNumber() + "'," + "zipcode='"
+				+ updatedUser.getZip() + "', " + "city='"
+				+ updatedUser.getCity() + "'," + "email='"
+				+ updatedUser.getEmail() + "', " + "gender='"
+				+ updatedUser.getGender() + "', " + "birthdate='"
+				+ sdf.format(updatedUser.getBirthdate()) + "', "
+				+ "job='" + updatedUser.getJob() + "', " + "hobbies='"
+				+ updatedUser.getHobbys() + "', " + "music='"
+				+ updatedUser.getMusic() + "'," + "movies='"
+				+ updatedUser.getMovie() + "'," + "iLike='"
+				+ updatedUser.getILike() + "', " + "iDontLike='"
+				+ updatedUser.getIDontLike() + "', " + "aboutMe='"
+				+ updatedUser.getAboutMe() + "'," + "icq='"
+				+ updatedUser.getIcq() + "'," + " yahoo='"
+				+ updatedUser.getYahoo() + "'," + " aim='"
+				+ updatedUser.getAim() + "', " + "jabber='"
+				+ updatedUser.getJabber() + "', " + "msn='"
+				+ updatedUser.getMsn() + "', " + "homepage='"
+				+ updatedUser.getHomepage() + "' " + "WHERE username='"
+				+ userName + "' ";
 			}
 			int resultCode = dbc.getStatement().executeUpdate(query);
 			dbc.close();
@@ -266,7 +266,7 @@ public class DataBankerQueries {
 		DataBankerConnection dbc = new DataBankerConnection();
 		try {
 			PreparedStatement stmt = dbc.getConnection().prepareStatement(
-					"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapStatusId) VALUES(?,?,?,?)");
+			"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapStatusId) VALUES(?,?,?,?)");
 			stmt.setInt(1, desiredArticleId);
 			stmt.setString(2, offerItemIds);
 			stmt.setString(3, offerComment);
@@ -294,7 +294,7 @@ public class DataBankerQueries {
 			try {
 				int resultCode = dbc.getStatement().executeUpdate(
 						"UPDATE article SET image1='" + url + "' WHERE id='"
-								+ id + "'");
+						+ id + "'");
 				dbc.close();
 				dbc.getStatement().close();
 
@@ -317,7 +317,7 @@ public class DataBankerQueries {
 			try {
 				int resultCode = dbc.getStatement().executeUpdate(
 						"UPDATE user SET image='" + url + "' WHERE id='" + id
-								+ "'");
+						+ "'");
 				dbc.close();
 				dbc.getStatement().close();
 
@@ -342,7 +342,7 @@ public class DataBankerQueries {
 			try {
 				int resultCode = dbc.getStatement().executeUpdate(
 						"UPDATE user SET image='" + url + "' WHERE username='"
-								+ user + "'");
+						+ user + "'");
 				dbc.close();
 				dbc.getStatement().close();
 
@@ -546,7 +546,6 @@ public class DataBankerQueries {
 		return user;
 	}
 
-
 	public ArrayList<SearchResult> getArticleSearchResults(ArticleSearchQuery sq) {
 		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
@@ -584,15 +583,14 @@ public class DataBankerQueries {
 						resultSet.getString("title"), 
 						getUsername(resultSet.getInt("userid")), 
 						resultSet.getString("image1"),
-					resultSet.getInt("id"),resultSet.getString("amount")));
+						resultSet.getInt("id"),resultSet.getString("amount")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
-			// TODO: handle exception
 		}
 		return articleList;
 	}
-	
+
 	/*
 	 * Liefert den Artikel über die ID
 	 */
@@ -621,17 +619,14 @@ public class DataBankerQueries {
 				article.setDesiredItemsComment(rs.getString("swaps"));
 				article.setDescription(rs.getString("description"));
 			}
-
 			rs.close();
 			dbc.close();
 			stmt.close();
 			dbc.closeStatement();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
-
 		return article;
 	}
 
@@ -680,30 +675,18 @@ public class DataBankerQueries {
 			e.printStackTrace();
 			return null;
 		}
-
 		return ownArticles;
 	}
-	
+
 
 	public ArrayList<SearchResult> getOfferedArticles(int articleId) {
 		ArrayList<SearchResult> offerList = new ArrayList<SearchResult>();
-		
-//		ArticleSearchResult asr = new ArticleSearchResult("a","b","c",5);
-//		ArrayList<SearchResult> asr_list = new ArrayList<SearchResult>();
-//		asr_list.add(asr);
-//		OfferSearchResult osr = new OfferSearchResult(asr_list);
-//		offerList.add(osr);
-//		return offerList;
-//		
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
 		ResultSet desiredItemsResultSet = null;
 		
-		String teststr = "";
-		
 		articleId = 76;
 		String query = "SELECT * FROM offer WHERE desiredItemId = '" + articleId + "'";
-		// desiredItemId, offerItemIds
 		try {
 			desiredItemsResultSet = stmt.executeQuery(query);
 			// for desiredItems
@@ -721,10 +704,9 @@ public class DataBankerQueries {
 
 				// Fetched Offer Objekte für die Ids
 				for (int id : ids) {
-					// DataBankerConnection dbc = new DataBankerConnection();
-					query = "SELECT * FROM article WHERE id = '" + id + "'";
 					stmt = dbc.getStatement();
-					ResultSet articleResultSet = stmt.executeQuery(query);
+					query = "SELECT * FROM article WHERE id = '" + id + "'";
+					ResultSet articleResultSet = stmt.executeQuery(query);;
 					while(articleResultSet.next()) {
 						articles.add(new ArticleSearchResult(
 								articleResultSet.getString("title"), 
@@ -733,44 +715,17 @@ public class DataBankerQueries {
 								articleResultSet.getInt("id"), 
 								articleResultSet.getString("amount")));
 					} 
-					System.out.println("neuer Result: " + id);
 				}
 				ids.clear();
-				//Offer o = new Offer(resultSet);
-			offerList.add(new OfferSearchResult(articles));
-				teststr = "";
-
+				offerList.add(new OfferSearchResult(articles));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return offerList;
 	}
-	
-	
-	// Helper mehtods
-	
-	/**
-	 * Fügt eine neue Bedingung an das Query an.
-	 */
-	public void addCondition(String condition) {
-		if (!queryHasCondition) {
-			query += condition;
-			queryHasCondition = true;
-		} else
-			query += " AND " + condition;
-	}
 
-	/**
-	 * Überprüft ob der angegebene Parameter definiert ist.
-	 */
-	public boolean attrSpecified(String str) {
-		if (str==null || str.trim().equals(""))
-			return false;
-		else
-			return true;
-	}
-	
+
 	public ArrayList<SearchResult> getUserSearchResults(UserSearchQuery sq) {
 		ArrayList<SearchResult> userList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
@@ -778,7 +733,7 @@ public class DataBankerQueries {
 
 		queryHasCondition = false;
 		query = "SELECT * FROM user WHERE ";
-		
+
 		if (attrSpecified(sq.getFirstname()))
 			addCondition("firstname ='" + sq.getFirstname() + "'");
 		if (attrSpecified(sq.getLastname()))
@@ -803,23 +758,19 @@ public class DataBankerQueries {
 			}
 		} catch (Exception e) {
 			System.out.println(e);
-			// TODO: handle exception
 		}
 		return userList;
 	}
-	
+
 	public int saveMessage(Message mesg) {
-		
 		DataBankerConnection dbc = new DataBankerConnection();
 		String query =
-		"INSERT INTO message (articleID, authorID, receiverID, topic, message, isRead) " +
-		"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"', '"+0+"')";
-		
+			"INSERT INTO message (articleID, authorID, receiverID, topic, message, isRead) " +
+			"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"', '"+0+"')";
 		try {
 			PreparedStatement stmt = dbc.getConnection().prepareStatement(query);
 			stmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("fehler DBQ - saveMessage(Message mesg) "+ e);
 		}
 		return 0;
@@ -853,5 +804,27 @@ public class DataBankerQueries {
 //				articleResultSet.getString("amount")));
 		
 	
-	
+
+	// Helper mehtods
+
+	/**
+	 * Fügt eine neue Bedingung an das Query an.
+	 */
+	public void addCondition(String condition) {
+		if (!queryHasCondition) {
+			query += condition;
+			queryHasCondition = true;
+		} else
+			query += " AND " + condition;
+	}
+
+	/**
+	 * Überprüft ob der angegebene (String) Parameter definiert ist.
+	 */
+	public boolean attrSpecified(String str) {
+		if (str==null || str.trim().equals(""))
+			return false;
+		else
+			return true;
+	}
 }

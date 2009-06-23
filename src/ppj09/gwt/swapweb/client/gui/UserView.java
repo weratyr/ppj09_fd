@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
@@ -23,6 +24,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
@@ -115,13 +117,6 @@ public class UserView extends Composite implements View {
 	private Label verticalSeperatorYahoo;
 	private Label verticalSeperatorAim;
 	private Label verticalSeperatorJabber;
-
-	/**
-	 * Constructor
-	 * 
-	 * @param username
-	 * 
-	 */
 
 	public UserView() {
 		createForm();
@@ -583,6 +578,9 @@ public class UserView extends Composite implements View {
 			public void onSuccess(ArrayList<SearchResult> results) {
 				for (SearchResult r : results) {
 					userArticleList.add((ArticleSearchResultView) r.getView());
+					DisclosurePanel angebote = new DisclosurePanel("Angebote");
+					angebote.setContent(SwapWeb.getVorliegendeAngebote(((ArticleSearchResult)r).getId()));
+					userArticleList.add(angebote);
 				}
 			}
 		});

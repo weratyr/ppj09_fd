@@ -27,6 +27,7 @@ import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
+import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Component;
@@ -153,14 +154,26 @@ public class UserForm extends Composite implements View {
 					form.setWidget(panel);
 					// Create a FileUpload widget.
 					final FileUpload upload = new FileUpload();
+					upload.setWidth("280");
 					upload.setName("uploadFormElement");
 					hiddenText = new TextField();
 					hiddenText.setName("uploadHiddenElement");
 					hiddenText.setVisible(false);
 
+					
+					Panel beschreibung = new Panel();
+					beschreibung.setMargins(5);
+					beschreibung.setHtml("Mit einem Klick auf \"Datei auswählen\" können Sie ein Bild in den Formaten <b>\"jpg\"</b>, <b>\"png\"</b> oder <b>\"bmp\"</b> auswählen und anschließend hochladen.");
+					panel.add(beschreibung);
+
+					
+					panel.setSpacing(2);
 					panel.add(upload);
 					panel.add(hiddenText);
-					Button button2 = new Button("Submit");
+
+					Button button2 = new Button("Bild hochladen");
+
+					
 					button2.addListener(new ButtonListenerAdapter() {
 						public void onClick(Button button, EventObject e) {
 							if (validateImageExtension(upload.getFilename())) {
@@ -173,6 +186,7 @@ public class UserForm extends Composite implements View {
 					});
 					// Add a 'submit' button.
 					panel.add(button2);
+
 					form.addSubmitHandler(new SubmitHandler() {
 						public void onSubmit(SubmitEvent event) {
 							if (upload.getFilename().length() == 0) {
@@ -220,10 +234,11 @@ public class UserForm extends Composite implements View {
 						}
 					});
 					window = new Window();
+					window.setPaddings(5);
 					window.setTitle("Bild hochladen");
 					window.setClosable(true);
-					window.setWidth(600);
-					window.setHeight(350);
+					window.setWidth(320);
+					window.setHeight(160);
 					window.setPlain(true);
 					window.add(form);
 					window.setCloseAction(Window.HIDE);
