@@ -13,17 +13,28 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.core.EventObject;
+import com.gwtext.client.data.ArrayReader;
+import com.gwtext.client.data.DateFieldDef;
+import com.gwtext.client.data.FieldDef;
+import com.gwtext.client.data.MemoryProxy;
+import com.gwtext.client.data.RecordDef;
+import com.gwtext.client.data.Store;
+import com.gwtext.client.data.StringFieldDef;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Toolbar;
 import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.grid.ColumnConfig;
+import com.gwtext.client.widgets.grid.ColumnModel;
+import com.gwtext.client.widgets.grid.GridPanel;
 import com.gwtext.client.widgets.layout.AccordionLayout;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
 
 public class MailboxView extends Composite{
 
+	private GridPanel inboxGrid;
 	private Panel inbox;
 	private Panel outbox;
 	
@@ -36,10 +47,10 @@ public class MailboxView extends Composite{
 		mainWindow.setBorder(false);
 		mainWindow.setCollapsible(true);
 		mainWindow.setPaddings(0);
-		mainWindow.setWidth(600);
+//		mainWindow.setWidth(600);
 		mainWindow.setLayout(new HorizontalLayout(0));
 
-		receiveMessages();
+//		receiveMessages();
 		
 		// composeMessage Button in bottom toolbar
 		ToolbarButton compose = new ToolbarButton("Nachricht verfassen");
@@ -68,7 +79,8 @@ public class MailboxView extends Composite{
 		
 		Panel accordionPanel = createAccordionPanel();
 		accordionPanel.setHeight(450);
-		accordionPanel.setWidth(180);
+//		accordionPanel.setAutoHeight(true);
+		accordionPanel.setWidth(308);
 		mainWindow.add(accordionPanel);
 		
 		Panel mailContents = new Panel();
@@ -134,7 +146,10 @@ public class MailboxView extends Composite{
 		accordionPanel.setLayout(new AccordionLayout(true));
 
 		inbox = new Panel("Posteingang");
+		inbox.add(createInbox());
 		inbox.setAutoScroll(true);
+		inbox.setAutoHeight(true);
+		inbox.setPaddings(0);
 		accordionPanel.add(inbox);
 		
 
@@ -177,95 +192,107 @@ public class MailboxView extends Composite{
 		outbox.doLayout();
 	}
 	
-//	private Panel createMailboxes(){
-//		 public void onModuleLoad() {  
+	private Panel createInbox(){
 //			         Panel panel = new Panel();  
 //			         panel.setBorder(false);  
 //			         panel.setPaddings(15);  
-//			   
-//			         RecordDef recordDef = new RecordDef(  
-//			                 new FieldDef[]{  
-//			                         new StringFieldDef("company"),  
-//			                         new FloatFieldDef("price"),  
-//			                         new FloatFieldDef("change"),  
-//			                         new FloatFieldDef("pctChange"),  
-//			                         new DateFieldDef("lastChanged", "n/j h:ia"),  
-//			                         new StringFieldDef("symbol"),  
-//			                         new StringFieldDef("industry")  
-//			                 }  
-//			         );  
-//			   
-//			         GridPanel grid = new GridPanel();  
-//			   
-//			         Object[][] data = getCompanyData();  
-//			         MemoryProxy proxy = new MemoryProxy(data);  
-//			   
-//			         ArrayReader reader = new ArrayReader(recordDef);  
-//			         Store store = new Store(proxy, reader);  
-//			         store.load();  
-//			         grid.setStore(store);  
-//			   
-//			   
-//			         ColumnConfig[] columns = new ColumnConfig[]{  
-//			                 //column ID is company which is later used in setAutoExpandColumn  
-//			                 new ColumnConfig("Company", "company", 160, true, null, "company"),  
-//			                 new ColumnConfig("Price", "price", 35),  
-//			                 new ColumnConfig("Change", "change", 45),  
-//			                 new ColumnConfig("% Change", "pctChange", 65),  
-//			                 new ColumnConfig("Last Updated", "lastChanged", 65),  
-//			                 new ColumnConfig("Industry", "industry", 60, true)  
-//			         };  
-//			   
-//			         ColumnModel columnModel = new ColumnModel(columns);  
-//			         grid.setColumnModel(columnModel);  
-//			   
-//			         grid.setFrame(true);  
-//			         grid.setStripeRows(true);  
-//			         grid.setAutoExpandColumn("company");  
-//			   
-//			         grid.setHeight(350);  
-//			         grid.setWidth(600);  
-//			         grid.setTitle("Array Grid");  
-//			   
-//			         Toolbar bottomToolbar = new Toolbar();  
-//			         bottomToolbar.addFill();  
-//			         bottomToolbar.addButton(new ToolbarButton("Clear Sort", new ButtonListenerAdapter() {  
-//			             public void onClick(Button button, EventObject e) {  
-//			                 grid.clearSortState(true);  
-//			             }  
-//			         }));  
-//			         grid.setBottomToolbar(bottomToolbar);  
-//			   
-//			         panel.add(grid);  
-//			   
-//			         RootPanel.get().add(panel);  
-//			     }  
-//			   
-//			     private Object[][] getCompanyData() {  
-//			         return new Object[][]{  
-//			                 new Object[]{"3m Co", new Double(71.72), new Double(0.02),  
-//			                         new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing"},  
-//			                 new Object[]{"Alcoa Inc", new Double(29.01), new Double(0.42),  
-//			                         new Double(1.47), "9/1 12:00am", "AA", "Manufacturing"},  
-//			                 new Object[]{"Altria Group Inc", new Double(83.81), new Double(0.28),  
-//			                         new Double(0.34), "9/1 12:00am", "MO", "Manufacturing"},  
-//			                 new Object[]{"American Express Company", new Double(52.55), new Double(0.01),  
-//			                         new Double(0.02), "9/1 12:00am", "AXP", "Finance"},  
-//			                 new Object[]{"American International Group, Inc.", new Double(64.13), new Double(0.31),  
-//			                         new Double(0.49), "9/1 12:00am", "AIG", "Services"},  
-//			                 new Object[]{"AT&T Inc.", new Double(31.61), new Double(-0.48),  
-//			                         new Double(-1.54), "9/1 12:00am", "T", "Services"},  
-//			                 new Object[]{"Boeing Co.", new Double(75.43), new Double(0.53),  
-//			                         new Double(0.71), "9/1 12:00am", "BA", "Manufacturing"},  
-//			                 new Object[]{"Caterpillar Inc.", new Double(67.27), new Double(0.92),  
-//			                         new Double(1.39), "9/1 12:00am", "CAT", "Services"},  
-//			                 new Object[]{"Citigroup, Inc.", new Double(49.37), new Double(0.02),  
-//			                         new Double(0.04), "9/1 12:00am", "C", "Finance"},  
-//			                 new Object[]{"E.I. du Pont de Nemours and Company", new Double(40.48), new Double(0.51),  
-//			                         new Double(1.28), "9/1 12:00am", "DD", "Manufacturing"}  
-//			         };  
-//			     }  
-//			 }  
-//		return null;
-//	}
+			   
+			         RecordDef recordDef = new RecordDef(  
+			                 new FieldDef[]{  
+			                         new DateFieldDef("date", "n/j h:ia"),  
+			                         new StringFieldDef("topic"),
+			                         new StringFieldDef("author")
+			                 }  
+			         );  
+			   
+			         inboxGrid = new GridPanel();  
+			   
+			         Object[][] data = getMessages();  
+			         MemoryProxy proxy = new MemoryProxy(data);  
+			   
+			         ArrayReader reader = new ArrayReader(recordDef);  
+			         Store store = new Store(proxy, reader);  
+			         store.load();  
+			         inboxGrid.setStore(store);  
+			   
+			   
+			         ColumnConfig[] columns = new ColumnConfig[]{  
+			                 //column ID is company which is later used in setAutoExpandColumn
+			                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
+			                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
+			                 new ColumnConfig("Von", "author", 110, true, null, "author")
+			         };  
+			   
+			         ColumnModel columnModel = new ColumnModel(columns);  
+			         inboxGrid.setColumnModel(columnModel);  
+			   
+//			         inboxGrid.setFrame(true);  
+			         inboxGrid.setStripeRows(true);  
+			         inboxGrid.setAutoExpandColumn("author");  
+			         inboxGrid.setHeight(399);
+			         inboxGrid.setWidth(300);
+			   
+				     return inboxGrid;
+	}
+	
+	private Object[][] getMessages() {  
+        return new Object[][]{  
+                new Object[]{"3m Co", new Double(71.72), new Double(0.02),  
+                        new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing"},  
+                new Object[]{"Alcoa Inc", new Double(29.01), new Double(0.42),  
+                        new Double(1.47), "9/1 12:00am", "AA", "Manufacturing"},  
+                new Object[]{"Altria Group Inc", new Double(83.81), new Double(0.28),  
+                        new Double(0.34), "9/1 12:00am", "MO", "Manufacturing"},  
+                new Object[]{"American Express Company", new Double(52.55), new Double(0.01),  
+                        new Double(0.02), "9/1 12:00am", "AXP", "Finance"},  
+                new Object[]{"American International Group, Inc.", new Double(64.13), new Double(0.31),  
+                        new Double(0.49), "9/1 12:00am", "AIG", "Services"},  
+                new Object[]{"AT&T Inc.", new Double(31.61), new Double(-0.48),  
+                        new Double(-1.54), "9/1 12:00am", "T", "Services"},  
+                new Object[]{"Boeing Co.", new Double(75.43), new Double(0.53),  
+                        new Double(0.71), "9/1 12:00am", "BA", "Manufacturing"},  
+                new Object[]{"Caterpillar Inc.", new Double(67.27), new Double(0.92),  
+                        new Double(1.39), "9/1 12:00am", "CAT", "Services"},  
+                new Object[]{"Citigroup, Inc.", new Double(49.37), new Double(0.02),  
+                        new Double(0.04), "9/1 12:00am", "C", "Finance"},  
+                new Object[]{"3m Co", new Double(71.72), new Double(0.02),  
+                        new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing"},  
+                new Object[]{"Alcoa Inc", new Double(29.01), new Double(0.42),  
+                        new Double(1.47), "9/1 12:00am", "AA", "Manufacturing"},  
+                new Object[]{"Altria Group Inc", new Double(83.81), new Double(0.28),  
+                        new Double(0.34), "9/1 12:00am", "MO", "Manufacturing"},  
+                new Object[]{"American Express Company", new Double(52.55), new Double(0.01),  
+                        new Double(0.02), "9/1 12:00am", "AXP", "Finance"},  
+                new Object[]{"American International Group, Inc.", new Double(64.13), new Double(0.31),  
+                        new Double(0.49), "9/1 12:00am", "AIG", "Services"},  
+                new Object[]{"AT&T Inc.", new Double(31.61), new Double(-0.48),  
+                        new Double(-1.54), "9/1 12:00am", "T", "Services"},  
+                new Object[]{"Boeing Co.", new Double(75.43), new Double(0.53),  
+                        new Double(0.71), "9/1 12:00am", "BA", "Manufacturing"},  
+                new Object[]{"Caterpillar Inc.", new Double(67.27), new Double(0.92),  
+                        new Double(1.39), "9/1 12:00am", "CAT", "Services"},  
+                new Object[]{"Citigroup, Inc.", new Double(49.37), new Double(0.02),  
+                        new Double(0.04), "9/1 12:00am", "C", "Finance"},  
+                new Object[]{"3m Co", new Double(71.72), new Double(0.02),  
+                        new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing"},  
+                new Object[]{"Alcoa Inc", new Double(29.01), new Double(0.42),  
+                        new Double(1.47), "9/1 12:00am", "AA", "Manufacturing"},  
+                new Object[]{"Altria Group Inc", new Double(83.81), new Double(0.28),  
+                        new Double(0.34), "9/1 12:00am", "MO", "Manufacturing"},  
+                new Object[]{"American Express Company", new Double(52.55), new Double(0.01),  
+                        new Double(0.02), "9/1 12:00am", "AXP", "Finance"},  
+                new Object[]{"American International Group, Inc.", new Double(64.13), new Double(0.31),  
+                        new Double(0.49), "9/1 12:00am", "AIG", "Services"},  
+                new Object[]{"AT&T Inc.", new Double(31.61), new Double(-0.48),  
+                        new Double(-1.54), "9/1 12:00am", "T", "Services"},  
+                new Object[]{"Boeing Co.", new Double(75.43), new Double(0.53),  
+                        new Double(0.71), "9/1 12:00am", "BA", "Manufacturing"},  
+                new Object[]{"Caterpillar Inc.", new Double(67.27), new Double(0.92),  
+                        new Double(1.39), "9/1 12:00am", "CAT", "Services"},  
+                new Object[]{"Citigroup, Inc.", new Double(49.37), new Double(0.02),  
+                        new Double(0.04), "9/1 12:00am", "C", "Finance"},  
+                new Object[]{"E.I. du Pont de Nemours and Company", new Double(40.48), new Double(0.51),  
+                        new Double(1.28), "9/1 12:00am", "DD", "Manufacturing"}  
+        };  
+    }
 }
