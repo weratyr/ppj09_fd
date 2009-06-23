@@ -658,8 +658,8 @@ public class UserView extends Composite implements View {
 			String username = user. getUsername();
 			SwapWeb.getContentPanel().setTitle(username+"'s Profil");
 			articlePanel.setTitle(username+"'s Artikel");
-			messageUser.setText(username+" eine Nachricht schicken");
-			userRatings.setText(username+"'s Bewertungen");
+			messageUser.setText("Nachricht an "+username);
+			userRatings.setText("Bewertungen von "+username);
 			reportUser.setText(username+" melden");
 			
 
