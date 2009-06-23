@@ -685,7 +685,11 @@ public class DataBankerQueries {
 
 				articles = fetchArticles(ids);
 				
-				offerList.add(new OfferSearchResult(offerResultSet.getInt("id"),articles.get(0).getUserName(),articles));
+				offerList.add(new OfferSearchResult(
+						offerResultSet.getInt("id"),	// offer Id
+						articles.get(0).getUserName(),	// offer from UserName
+						getUsername(getArticle(articleId).getUserId()),			// offer to UserName
+						articles));
 			}
 			dbc.close();
 		} catch (Exception e) {

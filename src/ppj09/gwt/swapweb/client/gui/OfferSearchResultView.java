@@ -9,6 +9,7 @@ import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.menu.Menu;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
@@ -71,9 +72,17 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 				});
 			}
 		});
-		horizontalButtonPanel.add(annehmen);
-		horizontalButtonPanel.add(ablehnen);
-		offerPanel.add(horizontalButtonPanel);
+		
+		/*
+		 * Wenn der user sein eigenes Profil ansieht.
+		 */
+		if (this.offerSearchResult.getOfferedTo().equals(SwapWeb.getUserNameFromSession())) {
+			horizontalButtonPanel.add(annehmen);
+			horizontalButtonPanel.add(ablehnen);
+			offerPanel.add(horizontalButtonPanel);
+		} else {
+			System.out.println(this.offerSearchResult.getOfferedTo() + " != " + SwapWeb.getUserNameFromSession());
+		}
 		
 		offerPanel.doLayout();
 		initWidget(offerPanel);

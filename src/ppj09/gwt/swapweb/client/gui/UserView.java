@@ -614,7 +614,6 @@ public class UserView extends Composite implements View {
 			public void onFailure(Throwable caught) {
 				// :(
 				System.out.println("fehler: getUser() :" + caught.getMessage());
-
 			}
 
 			public void onSuccess(User userProfile) {
