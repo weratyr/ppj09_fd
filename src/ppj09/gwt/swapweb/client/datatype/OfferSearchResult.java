@@ -14,6 +14,7 @@ import com.gwtext.client.widgets.Panel;
 
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultListView;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
+import ppj09.gwt.swapweb.client.gui.OfferSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
 public class OfferSearchResult implements SearchResult, Serializable {
@@ -36,6 +37,6 @@ public class OfferSearchResult implements SearchResult, Serializable {
 	}
 	
 	public SearchResultView getView() {
-		return null; //return new OfferSearchResultView(this);
+		return new OfferSearchResultView(this);
 	}
 }
