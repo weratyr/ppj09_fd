@@ -20,10 +20,14 @@ public class Message implements Serializable {
 	private int messageId; 		// eindeutige Nachrichten Nummer
 	private int articleId;		// falls sich eine Nachricht auf einen bestimmten Artikel bezieht
 	private String author;
-	private int receiver;
+	private String receiver;
 	private String topic;
 	private String message;
 	private boolean isRead;
+
+	public Message(){
+		
+	}
 	
 	public int getMessageId() {
 		return messageId;
@@ -43,10 +47,10 @@ public class Message implements Serializable {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public int getReceiver() {
+	public String getReceiver() {
 		return receiver;
 	}
-	public void setReceiver(int receiver) {
+	public void setReceiver(String receiver) {
 		this.receiver = receiver;
 	}
 	public String getTopic() {

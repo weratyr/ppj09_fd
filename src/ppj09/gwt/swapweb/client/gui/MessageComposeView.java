@@ -110,7 +110,6 @@ public class MessageComposeView extends Composite{
 					 
 				 });
 				 
-				 
 			 }
 		});
 		messageWindow.addButton(send);

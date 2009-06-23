@@ -1,5 +1,7 @@
 package ppj09.gwt.swapweb.client.gui;
 
+import java.util.ArrayList;
+
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.serverInterface.MessageHandler;
@@ -16,15 +18,14 @@ import com.gwtext.client.widgets.Toolbar;
 import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
-import com.gwtext.client.widgets.form.FormPanel;
-import com.gwtext.client.widgets.form.TextArea;
-import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.AccordionLayout;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
-import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class MailboxView extends Composite{
 
+	private Panel inbox;
+	private Panel outbox;
+	
 	public MailboxView() {
 		Panel mainWindow = new Panel();
 		mainWindow.setBorder(false);
@@ -107,16 +108,11 @@ public class MailboxView extends Composite{
 		mailContentToolbar.addButton(delete);
 		
 		messageWindow.setBottomToolbar(mailContentToolbar);
-
-//		Panel responsePanel = new Panel();
-//		responsePanel.setLayout(new VerticalLayout(0));
-//		responsePanel.setWidth(320);
-//		responsePanel.setHeight(40);
-//		responsePanel.setBorder(true);
-//		mailContents.add(responsePanel);
 		
 		Window window = new Window();
 		window.setTitle("Postfach");
+		window.setPaddings(0);
+		window.setBorder(false);
 		window.add(mainWindow);
 		window.show();
 
@@ -126,14 +122,29 @@ public class MailboxView extends Composite{
 		Panel accordionPanel = new Panel();
 		accordionPanel.setLayout(new AccordionLayout(true));
 
-		Panel panelOne = new Panel("Posteingang", "<p>Panel1 content!</p>");
-		panelOne.setAutoScroll(true);
-		accordionPanel.add(panelOne);
+		inbox = new Panel("Posteingang");
+		inbox.setAutoScroll(true);
+		accordionPanel.add(inbox);
+		
 
-		Panel panelTwo = new Panel("Postausgang", "<p>Panel2 content!</p>");
-		panelTwo.setAutoScroll(true);
-		accordionPanel.add(panelTwo);
+		outbox = new Panel("Postausgang");
+		outbox.setAutoScroll(true);
+		accordionPanel.add(outbox);
 		
 		return accordionPanel;
+	}
+	
+	private void setMessage(){
+		ArrayList<Message> inboxMessages = new ArrayList<Message>();
+		
+		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
+		messageHandler.retrieveMessages(SwapWeb.getUserNameFromSession(), new AsyncCallback<ArrayList<Message>>(){
+			public void onFailure(Throwable caught) {
+				System.out.println("RPC failes @ MailboxView: " + caught);
+			}
+			public void onSuccess(ArrayList<Message> result) {
+	
+			}
+		});
 	}
 }

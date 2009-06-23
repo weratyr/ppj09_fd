@@ -724,7 +724,7 @@ public class DataBankerQueries {
 					// DataBankerConnection dbc = new DataBankerConnection();
 					query = "SELECT * FROM article WHERE id = '" + id + "'";
 					stmt = dbc.getStatement();
-					ResultSet articleResultSet = stmt.executeQuery(query);;
+					ResultSet articleResultSet = stmt.executeQuery(query);
 					while(articleResultSet.next()) {
 						articles.add(new ArticleSearchResult(
 								articleResultSet.getString("title"), 
@@ -824,6 +824,34 @@ public class DataBankerQueries {
 		}
 		return 0;
 	}
+
+	public ArrayList<Message> getMessages(String username) {
+//		ArrayList<Message> messages = new ArrayList<Message>();
+//		DataBankerConnection dbc = new DataBankerConnection();
+//		Statement stmt = dbc.getStatement();
+//		
+//		String query = "SELECT * FROM message WHERE authorID = '" + username + "' OR receiverID = '" + username + "'";
+//
+//		ResultSet resultSet = null;
+//		try {
+//			ResultSet rs = stmt.executeQuery(query);
+//			while (rs.next()) {
+//				messages.add(o)
+//			}
+//		} catch (Exception e) {
+//		System.out.println(e);
+//		}
+		return null;
+	}
+		
+
+//		articles.add(new ArticleSearchResult(
+//				articleResultSet.getString("title"), 
+//				getUsername(articleResultSet.getInt("userid")), 
+//				articleResultSet.getString("image1"),
+//				articleResultSet.getInt("id"), 
+//				articleResultSet.getString("amount")));
+		
 	
 	
 }

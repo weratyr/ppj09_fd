@@ -1,6 +1,7 @@
 package ppj09.gwt.swapweb.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.serverInterface.MessageHandler;
@@ -16,6 +17,11 @@ public class MessageHandlerImpl extends RemoteServiceServlet implements MessageH
 			return 1;
 		}
 		return 0;
+	}
+
+	public ArrayList<Message> getMessages(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
