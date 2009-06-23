@@ -350,6 +350,13 @@ public class ArticleView extends Composite implements View {
 			articleDescription.setPaddings(5);
 			verticalPanel.add(articleDescription);
 			verticalPanel.setSpacing(10);
+			
+			Panel offeredArticles = new Panel();
+			offeredArticles.setTitle("Vorliegende Angebote:");
+			offeredArticles.setWidth(660);
+			offeredArticles.add(getArtikelListe());
+			verticalPanel.add(offeredArticles);
+			
 			createOwnArticlesForm();
 		}
 	}
@@ -387,11 +394,6 @@ public class ArticleView extends Composite implements View {
 									results.get(i).getOfferScope(),
 									results.get(i).getArticleId() };
 						}
-						Panel offeredArticles = new Panel();
-						offeredArticles.setTitle("Vorliegende Angebote:");
-						offeredArticles.setWidth(660);
-						offeredArticles.add(getArtikelListe());
-						verticalPanel.add(offeredArticles);
 
 						Panel ownArticles = new Panel();
 						ownArticles.setWidth(660);
