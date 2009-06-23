@@ -75,7 +75,6 @@ public class MessageComposeView extends Composite {
 
 		// anchor width by percentage
 		sentTo = new TextField("Send To", "to");
-		sentTo.setWidth("50%");
 		sentTo.setAllowBlank(false);
 		sentTo.setMinLength(5);
 		sentTo.setMinLengthText("Es muss ein empfänger angegeben werden!!");
@@ -85,11 +84,12 @@ public class MessageComposeView extends Composite {
 		// anchor width by percentage
 		subject = new TextField("Subject", "subject");
 		subject.setAllowBlank(false);
-		subject.setMinLength(4);
+		subject.setMinLength(2);
 		subject.setMinLengthText("Betreff ist leer!");
 		messagePanel.add(subject, new AnchorLayoutData("100%"));
 
 		final TextArea textArea = new TextArea("Subject", "subject");
+		textArea.setAllowBlank(false);
 		textArea.setHideLabel(true);
 		// anchor width by percentage and height by raw adjustment
 		// sets width to 100% and height to "remainder" height - 53px
