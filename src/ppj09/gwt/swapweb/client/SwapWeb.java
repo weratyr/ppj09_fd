@@ -463,5 +463,23 @@ public class SwapWeb implements EntryPoint {
 	public static void setUserNameFromSession(String userNameFromSession) {
 		SwapWeb.userNameFromSession = userNameFromSession;
 	}
+	
+	public static VerticalPanel getVorliegendeAngebote(int articleId) {
+		final VerticalPanel offeredArticles = new VerticalPanel();
+
+		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
+			public void onFailure(Throwable e) {
+				e.printStackTrace();
+			}
+
+			public void onSuccess(ArrayList<SearchResult> results) {
+				for (SearchResult r : results) {
+					offeredArticles.add((Widget) r.getView());
+				}
+			}
+		});
+		return offeredArticles;
+	}
 
 }

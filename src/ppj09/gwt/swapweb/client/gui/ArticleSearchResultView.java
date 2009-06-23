@@ -7,7 +7,6 @@ import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
@@ -37,7 +36,6 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 
 	public ArticleSearchResultView(final SearchResult searchResult) {
 		{
-			
 			this.searchResult = (ArticleSearchResult) searchResult;
 			
 			verticalPanel = new VerticalPanel();

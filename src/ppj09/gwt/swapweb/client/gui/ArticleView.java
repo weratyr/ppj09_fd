@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Ext;
 import com.gwtext.client.core.ExtElement;
@@ -124,17 +125,10 @@ public class ArticleView extends Composite implements View {
 	private Hyperlink rateHyperlink;
 	private int usernameVisitorId;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param username
-	 * 
-	 */
 	public ArticleView(int articleId) {
 		article = new Article();
 		getArticle(articleId);
 		createForm();
-
 	}
 
 	public void createForm() {
@@ -354,26 +348,18 @@ public class ArticleView extends Composite implements View {
 			Panel offeredArticles = new Panel();
 			offeredArticles.setTitle("Vorliegende Angebote:");
 			offeredArticles.setWidth(660);
-			offeredArticles.add(getVorliegendeAngebote());
+			offeredArticles.add(SwapWeb.getVorliegendeAngebote(article.getArticleId()));
 			verticalPanel.add(offeredArticles);
 			
 			createOwnArticlesForm();
 		}
 	}
 
-	// private Object[][] getOwnArticles() {
-	// return new Object[][]{
-	// new Object[]{"3m Co", new Double(71.72), new Double(0.02)}
-	// };
-	// }
-
 	private void createOwnArticlesForm() {
-
 		/**
 		 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt und
 		 * übergibt es per RPC an SearchHandler.search()
 		 */
-		// ArticleSearchQuery sq = new ArticleSearchQuery();
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 
 		articleManager
@@ -590,18 +576,6 @@ public class ArticleView extends Composite implements View {
 				});
 	}
 
-	// private void getUserSession(){
-	// UserManagerAsync usermanager = GWT.create(UserManager.class);
-	// usermanager.getSessionId(new AsyncCallback<Integer>(){
-	// public void onFailure(Throwable caught) {
-	// System.out.println("Fehler:Article View RPC");
-	// }
-	// public void onSuccess(Integer result) {
-	// userIdVisitor = result;
-	// }
-	// });
-	// }
-
 	private void getArticle(int articleId) {
 		System.out.println("test");
 
@@ -633,31 +607,4 @@ public class ArticleView extends Composite implements View {
 
 		});
 	}
-
-	
-	
-	private VerticalPanel getVorliegendeAngebote() {
-		final VerticalPanel offeredArticles = new VerticalPanel();
-
-		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-		searchHandler.getOfferedArticles(article.getArticleId(), new AsyncCallback<ArrayList<SearchResult>>() {
-			public void onFailure(Throwable e) {
-				e.printStackTrace();
-			}
-
-			public void onSuccess(ArrayList<SearchResult> results) {
-				for (SearchResult r : results) {
-					Panel offerPanel = new Panel();
-					offerPanel.setBorder(true);
-					offerPanel.setMargins(5);
-					for (SearchResult articleSearchResult : ((OfferSearchResult)r).getArticles())
-						offerPanel.add((ArticleSearchResultView) articleSearchResult.getView());
-					offerPanel.doLayout();
-					offeredArticles.add(offerPanel);
-				}
-			}
-		});
-		return offeredArticles;
-	}
-
 }
