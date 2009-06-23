@@ -580,6 +580,7 @@ public class UserView extends Composite implements View {
 				for (SearchResult r : results) {
 					userArticleList.add((ArticleSearchResultView) r.getView());
 					DisclosurePanel angebote = new DisclosurePanel("Angebote");
+					
 					angebote.setContent(SwapWeb.getVorliegendeAngebote(((ArticleSearchResult)r).getId()));
 					userArticleList.add(angebote);
 				}
@@ -614,7 +615,6 @@ public class UserView extends Composite implements View {
 			public void onFailure(Throwable caught) {
 				// :(
 				System.out.println("fehler: getUser() :" + caught.getMessage());
-
 			}
 
 			public void onSuccess(User userProfile) {
