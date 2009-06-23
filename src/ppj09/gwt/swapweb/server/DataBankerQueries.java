@@ -692,7 +692,7 @@ public class DataBankerQueries {
 			// for desiredItems
 			while (desiredItemsResultSet.next()) {
 				ArrayList<Integer> ids = new ArrayList<Integer>();
-				ArrayList<SearchResult> articles = new ArrayList<SearchResult>();
+				ArrayList<ArticleSearchResult> articles = new ArrayList<ArticleSearchResult>();
 				// Parsed die ids aus dem String
 				for (String strId : desiredItemsResultSet.getString("offerItemIds").split(",")) {
 					int intId = Integer.parseInt(strId);
@@ -700,7 +700,7 @@ public class DataBankerQueries {
 						ids.add(intId);
 					}
 				}
-				System.out.println("IDs: " + ids.toString());
+				// System.out.println("IDs: " + ids.toString());
 
 				// Fetched Offer Objekte für die Ids
 				for (int id : ids) {
@@ -717,7 +717,7 @@ public class DataBankerQueries {
 					} 
 				}
 				ids.clear();
-				offerList.add(new OfferSearchResult(articles));
+				offerList.add(new OfferSearchResult(articles.get(0).getUserName(),articles));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
