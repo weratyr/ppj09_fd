@@ -61,10 +61,17 @@ public class ArticleForm extends Composite implements Form {
 	private TextArea txtbxAmount;
 	private TextArea txtbxSwaps;
 	private TextArea txtbxDescription;
-	private final Window window;
+	private Window window;
 	TextField hiddenText;
 
+	public ArticleForm(Article article){
+		
+	}
+	
 	public ArticleForm() {
+		createFrom();
+	}
+		private void createFrom(){
 		{
 			VerticalPanel verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);

@@ -24,7 +24,7 @@ import com.gwtext.client.widgets.layout.FitLayout;
 
 public class MessageComposeView extends Composite {
 	private Article article;
-	private int receiver;
+	private String receiver;
 	private int articleId;
 	private User user;
 
@@ -33,7 +33,7 @@ public class MessageComposeView extends Composite {
 
 	public MessageComposeView(Article article) {
 		this.article = article;
-		this.receiver = article.getUserId();
+		this.receiver = article.getUserName();
 		this.articleId = article.getArticleId();
 
 		createMessagePopupWindow();
@@ -94,6 +94,7 @@ public class MessageComposeView extends Composite {
 		messagePanel.add(textArea, new AnchorLayoutData("100% -53"));
 
 		Button send = new Button("Send");
+
 		send.addListener(new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
 				System.out.println("send me" + subject.getText());
@@ -117,10 +118,11 @@ public class MessageComposeView extends Composite {
 						MessageBox.alert("Deine Nachricht wurde versand");
 						messageWindow.close();
 					}
+					
+				 });
+				 
+			 }
 
-				});
-
-			}
 		});
 		send.setFormBind(true);
 		messagePanel.addButton(send);
