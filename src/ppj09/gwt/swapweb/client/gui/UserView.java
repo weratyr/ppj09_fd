@@ -18,6 +18,8 @@ import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -29,10 +31,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.widgets.Panel;
 
 public class UserView extends Composite implements View {
-	private User user;
-	private Label usernameLabel1;
-	private Label usernameLabel2;
+	private Panel articlePanel;
 	private HorizontalPanel horizontalPanel2;
+	private VerticalPanel verticalPanel;
+
+	private User user;
 	private AbsolutePanel absolutePanel;
 	private HorizontalPanel horizontalPanel;
 	private Image image;
@@ -112,10 +115,6 @@ public class UserView extends Composite implements View {
 	private Label verticalSeperatorYahoo;
 	private Label verticalSeperatorAim;
 	private Label verticalSeperatorJabber;
-	private Panel articlePanel;
-	private VerticalPanel verticalPanel;
-	private Label usernameLabel3;
-	private Label usernameLabel4;
 
 	/**
 	 * Constructor
@@ -133,7 +132,6 @@ public class UserView extends Composite implements View {
 		getUser(username);
 
 		createForm();
-		setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
 
 	}
 
@@ -142,20 +140,20 @@ public class UserView extends Composite implements View {
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
 			SwapWeb.getContentPanel().setTitle("Benutzerprofil");
-			
-			
+
+
 			// Überschrift
 			{
-//				horizontalPanel2 = new HorizontalPanel();
-//				usernameLabel1 = new Label();
-//				horizontalPanel2.add(usernameLabel1);
-//				lblHorizontalSeperator = new Label();
-//				usernameLabel3 = new Label("'s Profil");
-//				horizontalPanel2.add(usernameLabel3);
-//				usernameLabel4 = new Label();
-//				horizontalPanel2.add(usernameLabel4);
-//
-//				verticalPanel.add(horizontalPanel2);
+				//				horizontalPanel2 = new HorizontalPanel();
+				//				usernameLabel1 = new Label();
+				//				horizontalPanel2.add(usernameLabel1);
+				//				lblHorizontalSeperator = new Label();
+				//				usernameLabel3 = new Label("'s Profil");
+				//				horizontalPanel2.add(usernameLabel3);
+				//				usernameLabel4 = new Label();
+				//				horizontalPanel2.add(usernameLabel4);
+				//
+				//				verticalPanel.add(horizontalPanel2);
 			}
 
 			{
@@ -163,7 +161,9 @@ public class UserView extends Composite implements View {
 				verticalPanel.add(horizontalPanel);
 				{
 					absolutePanel = new AbsolutePanel();
-					absolutePanel.setSize("200", "300");
+					absolutePanel.setSize("220", "300");
+					verticalPanel_1 = new VerticalPanel();
+					verticalPanel_1.setWidth("220");
 
 					// Bild
 					{
@@ -171,23 +171,41 @@ public class UserView extends Composite implements View {
 						image = new Image();
 						image.setPixelSize(150, 150);
 						//setImage("http://www.weltblick.ch/gallery/albums/pokerreise07/04_Zwei_Trottel_abnormal.jpg");
-						absolutePanel.add(image, 0, 0);
+						verticalPanel_1.add(image);
+						//absolutePanel.add(image, 0, 0);
 					}
 
 					// Links unter Bild
 					{
-						verticalPanel_1 = new VerticalPanel();
-						verticalPanel_1.setWidth("170");
+						
 
-						messageUser = new Hyperlink();
+						messageUser = new Hyperlink("",null);
+						messageUser.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								//TODO mach was
+							}
+						});
 						verticalPanel_1.add(messageUser);
 
-						userRatings = new Hyperlink();
+						userRatings = new Hyperlink("", null);
+						userRatings.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								//TODO mach was
+							}
+						});
 						verticalPanel_1.add(userRatings);
 
-						reportUser = new Hyperlink();
+						reportUser = new Hyperlink("", null);
+						reportUser.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								//TODO mach was
+							}
+						});
 						verticalPanel_1.add(reportUser);
-						absolutePanel.add(verticalPanel_1, 0, 460);
+						
+						
+						absolutePanel.add(verticalPanel_1, 0, 0);
+	
 						horizontalPanel.add(absolutePanel);
 
 					}
@@ -559,7 +577,7 @@ public class UserView extends Composite implements View {
 		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
 			public void onFailure(Throwable caught) {
 				System.out
-						.println("RPC UserView: fehler im user article liste");
+				.println("RPC UserView: fehler im user article liste");
 			}
 
 			public void onSuccess(ArrayList<SearchResult> results) {
@@ -609,7 +627,7 @@ public class UserView extends Composite implements View {
 		});
 
 	}
-	
+
 	public boolean attrSpecified(String str) {
 		if (str==null || str.trim().equals(""))
 			return false;
@@ -618,6 +636,7 @@ public class UserView extends Composite implements View {
 	}
 
 	public void fillForm() {
+		// braucht Zugriff auf den User
 		articlePanel.add(getArtikelListe());
 		articlePanel.doLayout();
 
@@ -639,9 +658,13 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 		try {
-			SwapWeb.getContentPanel().setTitle(user.getUsername()+"'s Profil");
-			articlePanel.setTitle(user.getUsername()+"'s Artikel");
-
+			String username = user. getUsername();
+			SwapWeb.getContentPanel().setTitle(username+"'s Profil");
+			articlePanel.setTitle(username+"'s Artikel");
+			messageUser.setText("Nachricht an "+username);
+			userRatings.setText("Bewertungen von "+username);
+			reportUser.setText(username+" melden");
+			
 
 		} catch (NullPointerException e) {
 		}
@@ -662,7 +685,7 @@ public class UserView extends Composite implements View {
 		// }
 		// } catch (NullPointerException e) {
 		// }
-		
+
 		try {
 
 			if (attrSpecified(user.getJob())) {
@@ -674,7 +697,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 
-		
+
 		try {
 			if (attrSpecified(user.getHomepage())) {
 				lblHomepage2.setText(user.getHomepage());

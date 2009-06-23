@@ -2,6 +2,8 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
+import org.apache.tools.ant.types.Assertions.EnabledAssertion;
+
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
@@ -25,6 +27,7 @@ import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.event.KeyListener;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
@@ -43,6 +46,8 @@ public class ArticleSearchForm implements Form {
 	private ComboBox categoryComboBox;
 
 	private TextField searchField;
+	private Button quickSearchButton;
+
 	public ArticleSearchForm(TabPanel outerTabPanel) {
 		categoryComboBox = new ComboBox();
 		containerFormPanel = new FormPanel();
@@ -53,52 +58,61 @@ public class ArticleSearchForm implements Form {
 
 		Label searchLabel = new Label("Suche: ");
 		searchField = new TextField("", "phrase", 120);
+		searchField.addKeyListener(13, new KeyListener() {
+	          public void onKey(int key, EventObject e) {	        	 
+	              quickSearchButton.focus();
+	            }
+	          });
 		searchPanel.add(searchLabel);
 		searchPanel.add(searchField);
 		// holt via rpc die Kategorienliste aus der Datenbank
-		
+
 		buttonPanel = new Panel();
 		buttonPanel.setBorder(false);
 		searchPanel.add(buttonPanel);
-		
-		SwapWeb.getCategories(buttonPanel, categoryComboBox); 
 
-		Button quickSearchButton = new Button("Suchen",
+		SwapWeb.getCategories(buttonPanel, categoryComboBox);
+
+		quickSearchButton = new Button("Suchen",
 				new ButtonListenerAdapter() {
-			public void onClick(Button button, EventObject e) {
-				ArticleSearchQuery sq = new ArticleSearchQuery();
-				sq.setSearchPhrase(searchField.getText());
-				sq.setCategory(categoryComboBox.getText());
+					public void onClick(Button button, EventObject e) {
+						ArticleSearchQuery sq = new ArticleSearchQuery();
+						sq.setSearchPhrase(searchField.getText());
+						sq.setCategory(categoryComboBox.getText());
 
-				final ExtElement element = Ext.get("mask-panel");  
-				element.mask("sucht...");  
+						final ExtElement element = Ext.get("mask-panel");
+						element.mask("sucht...");
 
-				SearchHandlerAsync searchHandler = GWT
-				.create(SearchHandler.class);
-				searchHandler.search(sq,
-						new AsyncCallback<ArrayList<SearchResult>>() {
-					public void onFailure(Throwable caught) {
-						System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
+						SearchHandlerAsync searchHandler = GWT
+								.create(SearchHandler.class);
+						searchHandler.search(sq,
+								new AsyncCallback<ArrayList<SearchResult>>() {
+									public void onFailure(Throwable caught) {
+										System.out
+												.println("RPC ArticleSearchForm: fehler im quickserach ");
+									}
+
+									public void onSuccess(
+											ArrayList<SearchResult> results) {
+										element.unmask();
+										Panel cp = SwapWeb.getContentPanel();
+										cp.clear();
+										Panel listView = new Panel();
+
+										for (SearchResult r : results) {
+											listView
+													.add((ArticleSearchResultView) r
+															.getView());
+										}
+
+										cp.add(listView);
+										cp.doLayout();
+									}
+								});
+
 					}
 
-					public void onSuccess(ArrayList<SearchResult> results) {
-						element.unmask();
-						Panel cp = SwapWeb.getContentPanel();
-						cp.clear();  
-						Panel listView = new Panel();
-
-						for (SearchResult r : results) {
-							listView.add( (ArticleSearchResultView) r.getView());
-						}
-
-						cp.add(listView);
-						cp.doLayout();
-					}
 				});
-
-			}
-
-		});
 
 		quickSearchButton.setIconCls("icon-search");
 		searchPanel.add(quickSearchButton);

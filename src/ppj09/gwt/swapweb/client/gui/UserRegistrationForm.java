@@ -484,7 +484,7 @@ public class UserRegistrationForm implements Form {
 			    } else if (serverMsg > 2) {
 			        //formPanel.getForm().reset();
 			        hiddenText.setRawValue(serverMsg.toString());
-			        window.show(regButton.getId());
+//			        window.show(regButton.getId());
 			    } else if (serverMsg == 0){
 			    	MessageBox.alert("FEHLER: Ihr Artikel konnte nicht angelegt werden.");
 			    }

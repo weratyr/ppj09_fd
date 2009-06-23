@@ -32,10 +32,8 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 	public ArrayList<ArticleSearchResult> search(MessageSearchQuery articleSearch) {
 		return null;
 	}
-	
-//	public ArrayList<SearchResult> search(SearchQuery searchQuery) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
+	public ArrayList<SearchResult> getOfferedArticles(int articleId) {
+		return db.getOfferedArticles(articleId);
+	}
 }
