@@ -29,6 +29,8 @@ import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
+import ppj09.gwt.swapweb.client.gui.MessageComposeView;
+import ppj09.gwt.swapweb.client.gui.MessageView;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserSearchForm;
@@ -49,6 +51,7 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.Ext;
 import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.core.RegionPosition;
@@ -88,6 +91,7 @@ public class SwapWeb implements EntryPoint {
 	private Panel navigationsContentPanel;
 	private static Panel navigationPanel;
 	private ArticleForm articleForm;
+	private MessageComposeView messageComposeView;
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
@@ -233,7 +237,16 @@ public class SwapWeb implements EntryPoint {
 
 		myRatingsHyperlink = new Hyperlink("Meine Bewertungen", null);
 		myMessagesHyperlink = new Hyperlink("Nachrichten", null);
+		myMessagesHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				messageComposeView = new MessageComposeView();
+				contentPanel.clear();
+				contentPanel.add(messageComposeView);
+				contentPanel.doLayout();
+			}
 
+		});
+		
 		verticalPanel.add(myProfileHyperlink);
 		verticalPanel.add(testProfileFormHyperlink);
 		verticalPanel.add(myArticlesHyperlink);

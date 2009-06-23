@@ -1,9 +1,8 @@
 package ppj09.gwt.swapweb.client.gui;
 
 /**
- * @author Daniel Abeska, Chrisitan Happ
- * 
- * Klasse User- Form ist zum ändern bzw. bearbeiten eines Profils
+ * Autor Daniel Abeska
+ * Klasse User- Form ist zum Ã¯Â¿Â½ndern bzw. bearbeiten eines Profils
  */
 import java.util.Date;
 
@@ -11,8 +10,7 @@ import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
-
-import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Timer; //import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -118,14 +116,14 @@ public class UserForm extends Composite implements View {
 		{
 			VerticalPanel verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
-//			horizontalPanel2 = new HorizontalPanel();
-//			usernameLabel1 = new Label("Profil von:\" ");
-//			horizontalPanel2.add(usernameLabel1);
-//			usernameLabel2 = new Label("");
-//			horizontalPanel2.add(usernameLabel2);
-//			usernameLabel3 = new Label("\"");
-//			horizontalPanel2.add(usernameLabel3);
-//			verticalPanel.add(horizontalPanel2);
+			// horizontalPanel2 = new HorizontalPanel();
+			// usernameLabel1 = new Label("Profil von:\" ");
+			// horizontalPanel2.add(usernameLabel1);
+			// usernameLabel2 = new Label("");
+			// horizontalPanel2.add(usernameLabel2);
+			// usernameLabel3 = new Label("\"");
+			// horizontalPanel2.add(usernameLabel3);
+			// verticalPanel.add(horizontalPanel2);
 			{
 				horizontalPanel = new HorizontalPanel();
 				verticalPanel.add(horizontalPanel);
@@ -432,13 +430,13 @@ public class UserForm extends Composite implements View {
 						submitButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								checkPasswordAndEmail(txtbxPwd.getText()); // fÃ¼hrt
-								// auch
-								// die
-								// submit
-								// methode
-								// im
-								// rpc
-								// auf
+																			// auch
+																			// die
+																			// submit
+																			// methode
+																			// im
+																			// rpc
+																			// auf
 							}
 						});
 						panelButton = new MultiFieldPanel();
@@ -967,8 +965,8 @@ public class UserForm extends Composite implements View {
 	 *            the username to set
 	 */
 	public void setUsername(String username) {
-		//this.usernameLabel2.setText(username);
-		SwapWeb.getContentPanel().setTitle(username+"'s Profil bearbeiten");
+		// this.usernameLabel2.setText(username);
+		SwapWeb.getContentPanel().setTitle(username + "'s Profil bearbeiten");
 	}
 
 	/**

@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.AnchorLayoutData;
@@ -17,7 +18,7 @@ public class MessageView extends Composite implements View {
 	private TextField txtSubject;
 	private VerticalPanel verticalPanel;
 	
-	public MessageView() {
+	public MessageView(TabPanel tabPanel) {
 		{
 			verticalPanel = new VerticalPanel();
 			absolutePanel = new AbsolutePanel();
@@ -50,6 +51,7 @@ public class MessageView extends Composite implements View {
 					formPanel.add(lblViewMessage, new AnchorLayoutData("99% 71%"));
 				}
 				absolutePanel.add(formPanel, 5, 5);
+				tabPanel.add(absolutePanel);
 			}
 		}
 	}
