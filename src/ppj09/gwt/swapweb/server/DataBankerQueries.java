@@ -11,6 +11,7 @@ import java.util.Date;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
+import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
@@ -583,7 +584,7 @@ public class DataBankerQueries {
 						resultSet.getString("title"), 
 						getUsername(resultSet.getInt("userid")), 
 						resultSet.getString("image1"),
-						resultSet.getInt("id"),resultSet.getString("amount")));
+					resultSet.getInt("id"),resultSet.getString("amount")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -736,8 +737,9 @@ public class DataBankerQueries {
 				}
 				ids.clear();
 				//Offer o = new Offer(resultSet);
-				offerList.add(new OfferSearchResult(articles));
+			offerList.add(new OfferSearchResult(articles));
 				teststr = "";
+
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -805,4 +807,12 @@ public class DataBankerQueries {
 		}
 		return userList;
 	}
+	
+	public int saveMessage(Message mesg) {
+		
+		
+		return 0;
+	}
+	
+	
 }
