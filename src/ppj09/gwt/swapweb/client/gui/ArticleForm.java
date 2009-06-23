@@ -29,6 +29,7 @@ import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.MessageBoxConfig;
+import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.WaitConfig;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
@@ -73,6 +74,8 @@ public class ArticleForm extends Composite implements Form {
 				formPanel.setBorder(false);
 				formPanel.setFooter(true);
 				formPanel.setWidth(480);
+				
+				SwapWeb.getContentPanel().setTitle("Angebot erstellen");
 				{
 					txtbxName = new TextField("Artikelname*", "text_field", 190);
 					txtbxName.setAllowBlank(false);
@@ -183,11 +186,19 @@ public class ArticleForm extends Composite implements Form {
 
 					VerticalPanel panel = new VerticalPanel();
 					imgform.setWidget(panel);
+					
+					Panel beschreibung = new Panel();
+					beschreibung.setMargins(5);
+					beschreibung.setHtml("Mit einem Klick auf \"Datei auswählen\" können Sie ein Bild in den Formaten <b>\"jpg\"</b>, <b>\"png\"</b> oder <b>\"bmp\"</b> auswählen und anschließend hochladen.");
+					panel.add(beschreibung);
+					
+					panel.setSpacing(2);
 
 					// Create a FileUpload widget.
 					final FileUpload upload = new FileUpload();
 					upload.setName("uploadFormElement");
 
+					
 					hiddenText = new TextField();
 					hiddenText.setName("uploadHiddenElement");
 					hiddenText.setVisible(false);
@@ -269,8 +280,9 @@ public class ArticleForm extends Composite implements Form {
 					window = new Window();
 					window.setTitle("Bild hochladen");
 					window.setClosable(true);
-					window.setWidth(600);
-					window.setHeight(350);
+					window.setPaddings(5);
+					window.setWidth(320);
+					window.setHeight(160);
 					window.setPlain(true);
 					window.add(imgform);
 					window.setCloseAction(Window.HIDE);
