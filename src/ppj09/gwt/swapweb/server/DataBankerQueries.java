@@ -14,7 +14,6 @@ import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
-import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
@@ -26,15 +25,6 @@ public class DataBankerQueries {
 
 	public DataBankerQueries() {
 		queryHasCondition = false;
-	}
-
-	public ArrayList<SearchResult> retriveArticles(
-			ArrayList<Parameter> parameters) {
-		return null;
-	}
-
-	public ArrayList<SearchResult> retriveUsers() {
-		return null;
 	}
 
 	/*

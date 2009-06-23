@@ -11,7 +11,6 @@ import java.io.Serializable;
 
 import com.gwtext.client.widgets.Panel;
 
-import ppj09.gwt.swapweb.client.gui.ArticleSearchResultListView;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 

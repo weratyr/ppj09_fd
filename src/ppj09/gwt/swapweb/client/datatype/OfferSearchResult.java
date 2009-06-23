@@ -10,10 +10,6 @@ package ppj09.gwt.swapweb.client.datatype;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.gwtext.client.widgets.Panel;
-
-import ppj09.gwt.swapweb.client.gui.ArticleSearchResultListView;
-import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.OfferSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
