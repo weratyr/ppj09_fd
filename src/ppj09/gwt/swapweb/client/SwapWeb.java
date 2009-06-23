@@ -48,6 +48,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -68,6 +69,7 @@ import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
+import com.gwtext.client.widgets.layout.HorizontalLayout;
 
 /**
  * Initialisiert das allgemeine Layout der Seite
@@ -77,7 +79,7 @@ public class SwapWeb implements EntryPoint {
 	private User user;
 	private Panel mainPanel;
 	private Panel outerPanel;
-	
+
 	private static TabPanel tabPanel;
 
 	private Image image;
@@ -97,9 +99,11 @@ public class SwapWeb implements EntryPoint {
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
+	private static VerticalPanel verticalPanel;
+	private static Panel loggedInPanel2;
+	private static AbsolutePanel abPanel;
 	private static Hyperlink abmeldenHyperlink;
 	private static Label angemeldetAlsLabel2;
-	private static Label angemeldetAlsLabel;
 
 	private static HorizontalPanel loggedInPanel;
 	private static String userNameFromSession;
@@ -142,10 +146,11 @@ public class SwapWeb implements EntryPoint {
 		tabPanel = getUpperTabPanel();
 
 		loggedInPanel = new HorizontalPanel();
-		
-		//loggedInPanel.setBorder(false);
-		angemeldetAlsLabel = new Label();
-		loggedInPanel.add(angemeldetAlsLabel);
+		loggedInPanel2 = new Panel();
+		loggedInPanel2.setBorder(false);
+
+		// loggedInPanel.setBorder(false);
+	
 
 		abmeldenHyperlink = new Hyperlink("abmelden", null);
 
@@ -166,9 +171,8 @@ public class SwapWeb implements EntryPoint {
 					public void onSuccess(Void result) {
 						// :)
 						loggedInPanel.setVisible(false);
-						angemeldetAlsLabel2.setVisible(false);
-						abmeldenHyperlink.setVisible(false);
-						
+				
+
 						new LoginForm(getTabPanel());
 						new UserRegistrationForm(getTabPanel());
 						toggleMeinSwapWeb();
@@ -177,23 +181,26 @@ public class SwapWeb implements EntryPoint {
 				});
 			}
 		});
+		loggedInPanel.add(loggedInPanel2);
 		loggedInPanel.add(abmeldenHyperlink);
-		
+
 		angemeldetAlsLabel2 = new Label("]");
 		loggedInPanel.add(angemeldetAlsLabel2);
-	
-		
+
 		loggedInPanel.setVisible(false);
-		angemeldetAlsLabel2.setVisible(false);
-		abmeldenHyperlink.setVisible(false);
-		
+
 
 		MultiFieldPanel northContainer = new MultiFieldPanel();
 		northContainer.setBorder(false);
 		northContainer.add(image);
-		northContainer.add(loggedInPanel);
-		
 
+		abPanel = new AbsolutePanel();
+		abPanel.setSize("600", "80");
+		abPanel.add(loggedInPanel, 320, 0);
+		northContainer.add(abPanel);
+
+		
+		
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.setBorder(false);
 		// northOuterPanel.add(image);
@@ -235,16 +242,20 @@ public class SwapWeb implements EntryPoint {
 		navigationsContentPanel.setBorder(false);
 		navigationsContentPanel.setId("navi-panel");
 
+		verticalPanel = new VerticalPanel();
+		
 		// Mein SwapWeb
 		meinSwapWeb = new DisclosurePanel("Mein SwapWeb", false);
 		meinSwapWeb.setContent(getMySwapWebPanel());
 
+		
 		// Kategoriebaum
 		kategorien = new DisclosurePanel("Kategorien", false);
 		kategorien.setContent(getCategories());
 
-		navigationsContentPanel.add(kategorien);
-
+		//navigationsContentPanel.add(kategorien);
+		verticalPanel.add(kategorien);
+		navigationsContentPanel.add(verticalPanel);
 		return navigationsContentPanel;
 	}
 
@@ -398,10 +409,10 @@ public class SwapWeb implements EntryPoint {
 
 	public static void toggleMeinSwapWeb() {
 		if (!meinSwapWeb.isAttached()) {
-			navigationPanel.add(meinSwapWeb);
-			//navigationsContentPanel.add(meinSwapWeb);
+			verticalPanel.insert(meinSwapWeb,0);
+			// navigationsContentPanel.add(meinSwapWeb);
 		} else {
-			navigationPanel.remove(meinSwapWeb);
+			verticalPanel.remove(meinSwapWeb);
 		}
 		meinSwapWeb.setOpen(true);
 		navigationPanel.doLayout();
@@ -409,11 +420,13 @@ public class SwapWeb implements EntryPoint {
 
 	public static void setLoggedin(String username) {
 		loggedInPanel.setVisible(true);
-		abmeldenHyperlink.setVisible(true);
-		angemeldetAlsLabel2.setVisible(true);
-		angemeldetAlsLabel
-				.setText("Sie sind angemeldet als " + username + " [");
-		//loggedInPanel.doLayout();
+		loggedInPanel2
+				.setHtml("Sie sind angemeldet als <b>"
+						+ username
+						+"</b> ["
+						);
+
+		
 
 	}
 
@@ -443,7 +456,6 @@ public class SwapWeb implements EntryPoint {
 		});
 	}
 
-	
 	public static String getUserNameFromSession() {
 		return userNameFromSession;
 	}
@@ -451,7 +463,5 @@ public class SwapWeb implements EntryPoint {
 	public static void setUserNameFromSession(String userNameFromSession) {
 		SwapWeb.userNameFromSession = userNameFromSession;
 	}
-	
-	
-	
+
 }
