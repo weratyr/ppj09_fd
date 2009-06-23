@@ -822,7 +822,6 @@ public class DataBankerQueries {
 			// TODO: handle exception
 			System.out.println("fehler DBQ - saveMessage(Message mesg) "+ e);
 		}
-		System.out.println(query);
 		return 0;
 	}
 	
