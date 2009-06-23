@@ -22,15 +22,20 @@ import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.ArrayReader;
 import com.gwtext.client.data.FieldDef;
@@ -109,6 +114,10 @@ public class ArticleView extends Composite implements View {
 
 	private Label lblCategory2;
 
+	private Hyperlink usernameHyperlink;
+
+	private Hyperlink categoryHyperlink;
+
 	/**
 	 * Constructor
 	 * 
@@ -153,14 +162,22 @@ public class ArticleView extends Composite implements View {
 						lblUsername = new Label("Anbieter:");
 						lblUsername.setWidth("160");
 						hpUsername.add(lblUsername);
-						lblUsername2 = new Label();
-						hpUsername.add(lblUsername2);
+						usernameHyperlink = new Hyperlink("",null);
+						usernameHyperlink.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								Panel contentPanel = SwapWeb.getContentPanel();
+								contentPanel.clear();
+								contentPanel.add(new UserView(usernameHyperlink.getText()));
+								contentPanel.doLayout();
+							}
+						});
+						hpUsername.add(usernameHyperlink);
 
 						lblHorizontalSeperator = new Label();
 						lblHorizontalSeperator.setWidth("5");
-						hpLocation.add(lblHorizontalSeperator);
+						hpUsername.add(lblHorizontalSeperator);
 
-						verticalPanel_2.add(hpLocation);
+						verticalPanel_2.add(hpUsername);
 
 						verticalSeperator1 = new Label();
 						verticalSeperator1.setHeight("5");
@@ -168,20 +185,45 @@ public class ArticleView extends Composite implements View {
 
 					}
 
-					// Kategorie
+//					// Kategorie
 					{
 						hpCategory = new HorizontalPanel();
 						lblCategory = new Label("Kategorie:");
 						lblCategory.setWidth("160");
 						hpCategory.add(lblCategory);
-						lblCategory2 = new Label();
-						hpCategory.add(lblCategory2);
+						categoryHyperlink = new Hyperlink("",null);
+						categoryHyperlink.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								// Setzt den Link auf die Kategorie
+								final Panel contentPanel = SwapWeb.getContentPanel();
+
+								ArticleSearchQuery sq = new ArticleSearchQuery();
+								sq.setCategoryPhrase(categoryHyperlink.getText());
+
+								SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+								searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
+													public void onFailure(Throwable caught) {
+														System.out.println("Fehler: ArticleView.java "+ caught.getMessage());
+													}
+													public void onSuccess(ArrayList<SearchResult> results) {
+														contentPanel.clear();
+														Panel listView = new Panel();
+														for (SearchResult r : results) {
+															listView.add((ArticleSearchResultView) r.getView());
+														}
+														contentPanel.add(listView);
+														contentPanel.doLayout();
+													}
+												});
+							}
+						});
+						hpCategory.add(categoryHyperlink);
 
 						lblHorizontalSeperator = new Label();
 						lblHorizontalSeperator.setWidth("5");
-						hpLocation.add(lblHorizontalSeperator);
+						hpCategory.add(lblHorizontalSeperator);
 
-						verticalPanel_2.add(hpLocation);
+						verticalPanel_2.add(hpCategory);
 
 						verticalSeperator1 = new Label();
 						verticalSeperator1.setHeight("5");
@@ -564,8 +606,9 @@ public class ArticleView extends Composite implements View {
 				SwapWeb.getContentPanel().setTitle(article.getTitle());
 				System.out.println(article.getTitle());
 				System.out.println(article.getUserId());
-				lblUsername2.setText(article.getUserName());
-				lblCategory2.setText(article.getCategory());
+				
+				usernameHyperlink.setText(article.getUserName());
+				categoryHyperlink.setText(article.getCategory());
 				lblLocation2.setText(article.getZipCode() + " "
 						+ article.getLocation());
 				lblCondition2.setText(article.getCondition());
