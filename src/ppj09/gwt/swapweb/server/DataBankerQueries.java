@@ -336,7 +336,7 @@ public class DataBankerQueries {
 		boolean saved = false;
 
 		DataBankerConnection dbc = new DataBankerConnection();
-
+		System.out.println("user: "+user);
 		if (attrSpecified(user)) {
 			try {
 				int resultCode = dbc.getStatement().executeUpdate(
