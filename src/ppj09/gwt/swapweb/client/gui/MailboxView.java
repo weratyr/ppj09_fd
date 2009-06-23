@@ -34,6 +34,8 @@ public class MailboxView extends Composite{
 		mainWindow.setWidth(600);
 		mainWindow.setLayout(new HorizontalLayout(0));
 
+		receiveMessages();
+		
 		// composeMessage Button in bottom toolbar
 		ToolbarButton compose = new ToolbarButton("Nachricht verfassen");
 		compose.addListener(new ButtonListenerAdapter(){
@@ -134,16 +136,18 @@ public class MailboxView extends Composite{
 		return accordionPanel;
 	}
 	
-	private void setMessage(){
+	private void receiveMessages(){
 		ArrayList<Message> inboxMessages = new ArrayList<Message>();
 		
 		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
-		messageHandler.retrieveMessages(SwapWeb.getUserNameFromSession(), new AsyncCallback<ArrayList<Message>>(){
+		messageHandler.getMessages(SwapWeb.getUserNameFromSession(), new AsyncCallback<ArrayList<Message>>(){
 			public void onFailure(Throwable caught) {
 				System.out.println("RPC failes @ MailboxView: " + caught);
 			}
 			public void onSuccess(ArrayList<Message> result) {
-	
+				for (int i = 0;i<result.size();i++){
+					result.get(i).getMessage();
+				}
 			}
 		});
 	}

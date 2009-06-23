@@ -777,21 +777,21 @@ public class DataBankerQueries {
 	}
 
 	public ArrayList<Message> getMessages(String username) {
-//		ArrayList<Message> messages = new ArrayList<Message>();
-//		DataBankerConnection dbc = new DataBankerConnection();
-//		Statement stmt = dbc.getStatement();
-//		
-//		String query = "SELECT * FROM message WHERE authorID = '" + username + "' OR receiverID = '" + username + "'";
-//
-//		ResultSet resultSet = null;
-//		try {
-//			ResultSet rs = stmt.executeQuery(query);
-//			while (rs.next()) {
-//				messages.add(o)
-//			}
-//		} catch (Exception e) {
-//		System.out.println(e);
-//		}
+		ArrayList<Message> messages = new ArrayList<Message>();
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		
+		String query = "SELECT * FROM message WHERE authorID = '" + username + "' OR receiverID = '" + username + "'";
+
+//		ResultSet rs = null;
+		try {
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				messages.add(new Message(rs.getInt("messageID"),rs.getString("article"),rs.getString("author"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
+			}
+		} catch (Exception e) {
+		System.out.println(e);
+		}
 		return null;
 	}
 		

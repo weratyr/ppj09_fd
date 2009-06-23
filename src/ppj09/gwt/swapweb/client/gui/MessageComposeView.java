@@ -94,7 +94,7 @@ public class MessageComposeView extends Composite{
 				 mesg.setArticleId(article.getArticleId());
 				 mesg.setAuthor(SwapWeb.getUserNameFromSession());
 				 mesg.setMessage(textArea.getText());
-				 mesg.setReceiver(article.getUserId());
+				 mesg.setReceiver(article.getUserName());
 				 mesg.setTopic("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
 				 MessageHandlerAsync messageProxy = GWT.create(MessageHandler.class);
 				 messageProxy.sendMessage(mesg, new AsyncCallback<Integer>(){

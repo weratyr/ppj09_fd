@@ -23,10 +23,18 @@ public class Message implements Serializable {
 	private String receiver;
 	private String topic;
 	private String message;
-	private boolean isRead;
+	private int isRead;
 
 	public Message(){
 		
+	}
+	
+	public Message(int articleId, String author, String receiver, String topic, String message, int isRead){
+		this.articleId = articleId;
+		this.author = author;
+		this.receiver = receiver;
+		this.topic = topic;
+		this.isRead = isRead;
 	}
 	
 	public int getMessageId() {
@@ -65,10 +73,10 @@ public class Message implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public boolean isRead() {
+	public int getIsRead() {
 		return isRead;
 	}
-	public void setRead(boolean isRead) {
+	public void setIsRead(int isRead) {
 		this.isRead = isRead;
 	}
 }
