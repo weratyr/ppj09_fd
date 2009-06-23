@@ -483,7 +483,7 @@ public class ArticleView extends Composite implements View {
 								splitShippingMethods());
 						shippingStore.load();
 
-						ComboBox shippingCB = new ComboBox();
+						final ComboBox shippingCB = new ComboBox();
 						shippingCB.setStore(shippingStore);
 						shippingCB.setFieldLabel("Versandart*");
 						shippingCB.setDisplayField("shipping");
@@ -529,7 +529,7 @@ public class ArticleView extends Composite implements View {
 								// Offer offer = new Offer();
 								Offer offer = new Offer(article.getArticleId(),
 										offerListIds, offerComment.getText(),
-										swapStatus);
+										swapStatus,shippingCB.getText());
 								OfferHandlerAsync offerHandler = GWT
 										.create(OfferHandler.class);
 								offerHandler.createOffer(offer,
