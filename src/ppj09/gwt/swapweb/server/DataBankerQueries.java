@@ -809,7 +809,13 @@ public class DataBankerQueries {
 	
 	public int saveMessage(Message mesg) {
 		
-		
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		String query =
+		"INSERT INTO message (articleID, authorID, receiverID, topic, message) " +
+		"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"')";
+	
+		System.out.println(query);
 		return 0;
 	}
 	

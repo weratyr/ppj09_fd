@@ -676,7 +676,7 @@ public class ArticleView extends Composite implements View {
 				 mesg.setAuthor(usernameVisitorId);
 				 mesg.setMessage(textArea.getText());
 				 mesg.setReceiver(article.getUserId());
-				 mesg.setTopic(subject.getText());
+				 mesg.setTopic("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
 				 MessageHandlerAsync messageProxy = GWT.create(MessageHandler.class);
 				 messageProxy.sendMessage(mesg, new AsyncCallback<Integer>(){
 					public void onFailure(Throwable caught) {
