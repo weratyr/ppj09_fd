@@ -72,6 +72,7 @@ public class ArticleForm extends Composite implements Form {
 
 	public ArticleForm() {
 		createFrom();
+		getArticle(82);
 	}
 
 	private void createFrom() {
@@ -470,6 +471,11 @@ public class ArticleForm extends Composite implements Form {
 		}
 		try {
 			this.txtbxDescription.setRawValue(article.getDescription());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.categoryComboBox.setRawValue(article.getCategory());
 		} catch (NullPointerException e) {
 			System.out.println("Fehler fillForm() " + e);
 		}

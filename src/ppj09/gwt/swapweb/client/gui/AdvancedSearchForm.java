@@ -160,7 +160,7 @@ public class AdvancedSearchForm implements Form{
 						for (SearchResult r : results) {
 							listView.add( (ArticleSearchResultView) r.getView());
 						}
-
+						cp.setTitle("Suchergebnisse");
 						cp.add(listView);
 						cp.doLayout();
 					}

@@ -143,7 +143,7 @@ public class UserSearchForm  implements Form {
 							for (SearchResult r : results) {
 								listView.add( (UserSearchResultView) r.getView());
 							}
-
+							cp.setTitle("Suchergebnisse");
 							cp.add(listView);
 							cp.doLayout();
 						}
