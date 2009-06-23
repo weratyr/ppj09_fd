@@ -95,6 +95,17 @@
 </servlet-mapping>
 
 <servlet> 
+     <servlet-name>OfferHandler</servlet-name> 
+     <servlet-class>ppj09.gwt.swapweb.server.OfferHandlerImpl</servlet-class> 
+   </servlet> 
+   
+  <servlet-mapping>
+    <servlet-name>OfferHandler</servlet-name>
+    <url-pattern>/swapweb/OfferHandler</url-pattern>
+ </servlet-mapping> 
+  
+
+<servlet> 
      <servlet-name>SessionManager</servlet-name> 
      <servlet-class>ppj09.gwt.swapweb.server.SessionManagerImpl</servlet-class> 
    </servlet> 
