@@ -374,9 +374,7 @@ public class UserRegistrationForm implements Form {
 					formPanel.addButton(regButton);
 					regButton.addListener(new ButtonListenerAdapter() {
 						public void onClick(Button button, EventObject e) {
-							if (validate()) {
-								submit();
-							}
+							submit();
 						}
 					});
 
@@ -406,39 +404,39 @@ public class UserRegistrationForm implements Form {
 		return isAllowdExt;
     }
 
-	public boolean validate() {
-		if (formPanel.getForm().isValid()) {
-
-			if (txtbxPassword.getText().length() < 8) {
-				MessageBox.alert("Fehler!", "Ihr Passwort ist zu kurz.");
-				txtbxPassword.reset();
-				txtbxPassword2.reset();
-				return false;
-			} else if (!validateEmail() && validatePassword()) {
-				MessageBox.alert("Fehler!", "eMails stimmen nicht �berein.");
-				return false;
-			} else if (!validatePassword() && validateEmail()) {
-				txtbxPassword.reset();
-				txtbxPassword2.reset();
-				MessageBox.alert("Fehler!",
-						"Passw&ooml;rter stimmen nicht �berein.");
-				return false;
-			} else if (!validateEmail() && !validatePassword()) {
-				txtbxPassword.reset();
-				txtbxPassword2.reset();
-				MessageBox.alert("Fehler!",
-						"Passw&ooml;rter und eMails stimmen nicht �berein.");
-				return false;
-			} else if (txtbxUserFree.isVisible()) {
-				MessageBox.alert("Fehler!",
-						"Der Benutzername ist schon vergeben.");
-			} else {
-				MessageBox.alert("kein Fehler", "Alles okay");
-				return true;
-			}
-		}
-		return false;
-	}
+//	public boolean validate() {
+//		if (formPanel.getForm().isValid()) {
+//
+//			if (txtbxPassword.getText().length() < 8) {
+//				MessageBox.alert("Fehler!", "Ihr Passwort ist zu kurz.");
+//				txtbxPassword.reset();
+//				txtbxPassword2.reset();
+//				return false;
+//			} else if (!validateEmail() && validatePassword()) {
+//				MessageBox.alert("Fehler!", "eMails stimmen nicht �berein.");
+//				return false;
+//			} else if (!validatePassword() && validateEmail()) {
+//				txtbxPassword.reset();
+//				txtbxPassword2.reset();
+//				MessageBox.alert("Fehler!",
+//						"Passw&ooml;rter stimmen nicht �berein.");
+//				return false;
+//			} else if (!validateEmail() && !validatePassword()) {
+//				txtbxPassword.reset();
+//				txtbxPassword2.reset();
+//				MessageBox.alert("Fehler!",
+//						"Passw&ooml;rter und eMails stimmen nicht �berein.");
+//				return false;
+//			} else if (txtbxUserFree.isVisible()) {
+//				MessageBox.alert("Fehler!",
+//						"Der Benutzername ist schon vergeben.");
+//			} else {
+//				MessageBox.alert("kein Fehler", "Alles okay");
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	public boolean validateEmail() {
 		if (txtbxEmail.getText().equals(txtbxEmail2.getText())) {
