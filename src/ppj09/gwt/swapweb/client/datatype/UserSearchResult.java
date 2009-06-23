@@ -19,12 +19,18 @@ import ppj09.gwt.swapweb.client.gui.UserSearchResultView;
  * @version 0.1, 04.05.09
  */
 public class UserSearchResult implements SearchResult, Serializable {
-	private String userName;
+	private String username;
 	private String userPicture;
+	private String firstname;
+	private String lastname;
+	private String city;
 	
 	public UserSearchResult(User user) {
-		this.userName = user.getUsername();
+		this.username = user.getUsername();
 		this.userPicture = user.getImage();
+		this.firstname = user.getFirstName();
+		this.lastname = user.getLastName();
+		this.city = user.getCity();
 	}
 	
 	public UserSearchResult(String string, String string2) {
@@ -44,8 +50,44 @@ public class UserSearchResult implements SearchResult, Serializable {
 	}
 
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return userName;
+		return username;
 	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUserPicture() {
+		return userPicture;
+	}
+
+	public void setUserPicture(String userPicture) {
+		this.userPicture = userPicture;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 
 }

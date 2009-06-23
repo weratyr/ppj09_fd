@@ -121,6 +121,7 @@ public class LoginForm implements Form {
  
       }
       outerTabPanel.add(formPanel);
+
     }
  
   }
@@ -146,9 +147,9 @@ public class LoginForm implements Form {
             if (serverMsg) {
               System.out.println("Eingeloggt");
               SwapWeb.setLoggedin(txtbxUsername.getText());
-              SwapWeb.addMeinSwapWeb();
-              SwapWeb.getTabPanel().remove("2");
-              SwapWeb.getTabPanel().remove("2");
+              SwapWeb.toggleMeinSwapWeb();
+              SwapWeb.getTabPanel().remove("3");
+              SwapWeb.getTabPanel().remove("3");
             } else
               System.out
                   .println("Benutzername oder Passwort falsch");

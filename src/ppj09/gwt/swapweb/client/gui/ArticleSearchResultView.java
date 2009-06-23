@@ -30,9 +30,9 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 	private Image articleImage;
 	private Label userLabel;
 	private Hyperlink articlenameHyperlink;
-	private Label shippingLabel;
+	private Label offerScopeLabel;
 	private Hyperlink userHyperlink;
-	private Label shippingLabel_1;
+	private Label offerScopeLabel2;
 	private ArticleSearchResult searchResult;
 
 	public ArticleSearchResultView(final SearchResult searchResult) {
@@ -48,7 +48,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 				absolutePanel = new AbsolutePanel();
 				absolutePanel.setSize("650", "90");
 				{
-					articleImage = new Image(null);
+					articleImage = new Image(this.searchResult.getPictureUrl());
 					absolutePanel.add(articleImage, 5, 5);
 					articleImage.setSize("80", "80");
 				}
@@ -71,8 +71,8 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 					articlenameHyperlink.setWidth("400");
 				}
 				{
-					shippingLabel = new Label("Versand:");
-					absolutePanel.add(shippingLabel, 105, 60);
+					offerScopeLabel = new Label("Artikelumfang:");
+					absolutePanel.add(offerScopeLabel, 105, 60);
 				}
 				{
 					userHyperlink = new Hyperlink(this.searchResult.getUserName(), false, "newHistoryToken");
@@ -88,9 +88,9 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 					userHyperlink.setWidth("300");
 				}
 				{
-					shippingLabel_1 = new Label("New label");
-					absolutePanel.add(shippingLabel_1, 180, 60);
-					shippingLabel_1.setWidth("300");
+					offerScopeLabel2 = new Label(this.searchResult.getOfferScope());
+					absolutePanel.add(offerScopeLabel2, 195, 60);
+					offerScopeLabel2.setWidth("300");
 				}
 				verticalPanel.add(absolutePanel);
 				
@@ -134,7 +134,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 	 * @return the shippingLabel text
 	 */
 	public String getShipping() {
-		return shippingLabel_1.getText();
+		return offerScopeLabel2.getText();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class ArticleSearchResultView extends Composite implements SearchResultVi
 	 * the shippingLabel to set
 	 */
 	public void setShipping(String shipping) {
-		this.shippingLabel_1.setText(shipping);
+		this.offerScopeLabel2.setText(shipping);
 	}
 
 	/**
