@@ -16,6 +16,7 @@ import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.UserSearchResult;
 
 public class DataBankerQueries {
 	private boolean queryHasCondition;
@@ -704,7 +705,7 @@ public class DataBankerQueries {
 	}
 	
 	public ArrayList<SearchResult> getUserSearchResults(UserSearchQuery sq) {
-		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
+		ArrayList<SearchResult> userList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
 
@@ -731,15 +732,12 @@ public class DataBankerQueries {
 		try {
 			resultSet = stmt.executeQuery(query);
 			while (resultSet.next()) {
-				articleList.add(new ArticleSearchResult(resultSet
-						.getString("title"), getUsername(resultSet
-								.getInt("userid")), resultSet.getString("image1"),
-								resultSet.getInt("id")));
+				userList.add(new UserSearchResult());
 			}
 		} catch (Exception e) {
 			System.out.println(e);
 			// TODO: handle exception
 		}
-		return articleList;
+		return userList;
 	}
 }
