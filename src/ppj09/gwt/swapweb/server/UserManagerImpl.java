@@ -2,6 +2,9 @@ package ppj09.gwt.swapweb.server;
 
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import ppj09.gwt.swapweb.client.datatype.User;
 
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
@@ -13,7 +16,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * The server side implementation of the RPC service.
  */
-public class UserManagerImpl extends RemoteServiceServlet implements		UserManager {
+public class UserManagerImpl extends RemoteServiceServlet implements UserManager {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,6 +67,11 @@ public class UserManagerImpl extends RemoteServiceServlet implements		UserManage
 			return db.getUserId(user);
 		}
 	}
+	
+	public String getUserSession() {
+		return sh.getSession(this.getThreadLocalRequest());
+	}
+	
 	
 	public User getUser() {
 		String user = sh.getSession(this.getThreadLocalRequest());
