@@ -138,6 +138,7 @@ public class UserSearchForm  implements Form {
 							Panel cp = SwapWeb.getContentPanel();
 							cp.clear();  
 							Panel listView = new Panel();
+							listView.setBorder(false);
 
 							for (SearchResult r : results) {
 								listView.add( (UserSearchResultView) r.getView());
