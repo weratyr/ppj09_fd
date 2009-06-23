@@ -15,6 +15,7 @@ import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
 
 public class DataBankerQueries {
 	private boolean queryHasCondition;
@@ -700,5 +701,45 @@ public class DataBankerQueries {
 			return false;
 		else
 			return true;
+	}
+	
+	public ArrayList<SearchResult> getUserSearchResults(UserSearchQuery sq) {
+		ArrayList<SearchResult> articleList = new ArrayList<SearchResult>();
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+
+		queryHasCondition = false;
+		query = "SELECT * FROM user WHERE ";
+		
+		if (attrSpecified(sq.getFirstname()))
+			addCondition("firstname ='" + sq.getFirstname() + "'");
+		if (attrSpecified(sq.getLastname()))
+			addCondition("lastname ='" + sq.getLastname() + "'");
+		if (attrSpecified(sq.getUsername()))
+			addCondition("username like '%" + sq.getUsername() + "%'");
+		if (attrSpecified(sq.getCity()))
+			addCondition("city = '" + sq.getCity() + "'");
+		if (attrSpecified(sq.getHobbies()))
+			addCondition("category = '" + sq.getHobbies() + "'");
+		if (attrSpecified(sq.getJob()))
+			addCondition("articlecondition = '" + sq.getJob() + "'");
+		if (sq.isOnlyPic())
+			addCondition("image1 is not null");
+
+		System.out.println(query);
+		ResultSet resultSet = null;
+		try {
+			resultSet = stmt.executeQuery(query);
+			while (resultSet.next()) {
+				articleList.add(new ArticleSearchResult(resultSet
+						.getString("title"), getUsername(resultSet
+								.getInt("userid")), resultSet.getString("image1"),
+								resultSet.getInt("id")));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			// TODO: handle exception
+		}
+		return articleList;
 	}
 }
