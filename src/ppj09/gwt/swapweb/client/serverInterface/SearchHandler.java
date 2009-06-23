@@ -27,7 +27,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
-@RemoteServiceRelativePath("gagaga")
+@RemoteServiceRelativePath("SearchHandler")
 public interface SearchHandler extends RemoteService {
 	public ArrayList<SearchResult> search(ArticleSearchQuery searchQuery);
 	public ArrayList<SearchResult> search(UserSearchQuery searchQuery);

@@ -162,7 +162,6 @@ public class LoginForm implements Form {
 				public void onSuccess(String result) {
 					// TODO Auto-generated method stub
 					SwapWeb.setUserNameFromSession(result);
-					System.out.println(result);
 				}
             	  
               });

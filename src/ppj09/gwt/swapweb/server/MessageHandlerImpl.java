@@ -12,10 +12,10 @@ public class MessageHandlerImpl extends RemoteServiceServlet implements MessageH
 	private DataBankerQueries db = new DataBankerQueries();
 	
 	public int sendMessage(Message mesg) {
-		System.out.println(mesg.getMessage());
-		db.saveMessage(mesg);
-		// TODO Auto-generated method stub
-		return 1;
+		if(db.saveMessage(mesg)==1) {
+			return 1;
+		}
+		return 0;
 	}
 
 
