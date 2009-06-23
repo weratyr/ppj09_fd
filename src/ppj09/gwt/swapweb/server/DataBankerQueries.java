@@ -586,7 +586,7 @@ public class DataBankerQueries {
 		}
 		return articleList;
 	}
-
+	
 	/*
 	 * Liefert den Artikel über die ID
 	 */
@@ -676,6 +676,31 @@ public class DataBankerQueries {
 		}
 
 		return ownArticles;
+	}
+	
+
+	public ArrayList<SearchResult> getOfferedArticles(int articleId) {
+		ArrayList<SearchResult> offerList = new ArrayList<SearchResult>();
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		ResultSet resultSet = null;
+		
+		// String query = "SELECT * FROM offer WHERE desiredItemId = '" + articleId + "'";
+		String query = "SELECT * FROM article WHERE category like 'Auto'";
+		// desiredItemId, offerItemIds
+		try {
+			resultSet = stmt.executeQuery(query);
+			while (resultSet.next()) {
+				//Offer o = new Offer(resultSet);
+				offerList.add(new ArticleSearchResult(resultSet
+						.getString("title"), getUsername(resultSet
+								.getInt("userid")), resultSet.getString("image1"),
+								resultSet.getInt("id")));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return offerList;
 	}
 	
 	

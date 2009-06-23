@@ -15,6 +15,7 @@ import ppj09.gwt.swapweb.client.datatype.SearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -30,4 +31,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface SearchHandler extends RemoteService {
 	public ArrayList<SearchResult> search(ArticleSearchQuery searchQuery);
 	public ArrayList<SearchResult> search(UserSearchQuery searchQuery);
+	public ArrayList<SearchResult> getOfferedArticles(int articleId);
 }

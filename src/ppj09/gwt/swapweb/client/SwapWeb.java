@@ -29,7 +29,6 @@ import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
-import ppj09.gwt.swapweb.client.gui.MessageComposeView;
 import ppj09.gwt.swapweb.client.gui.MessageView;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
@@ -91,7 +90,6 @@ public class SwapWeb implements EntryPoint {
 	private Panel navigationsContentPanel;
 	private static Panel navigationPanel;
 	private ArticleForm articleForm;
-	private MessageComposeView messageComposeView;
 	private UserForm userForm;
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
@@ -239,9 +237,7 @@ public class SwapWeb implements EntryPoint {
 		myMessagesHyperlink = new Hyperlink("Nachrichten", null);
 		myMessagesHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				messageComposeView = new MessageComposeView();
 				contentPanel.clear();
-				contentPanel.add(messageComposeView);
 				contentPanel.doLayout();
 			}
 

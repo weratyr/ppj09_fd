@@ -29,10 +29,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.widgets.Panel;
 
 public class UserView extends Composite implements View {
+	private Panel articlePanel;
+	private HorizontalPanel horizontalPanel2;
+	private VerticalPanel verticalPanel;
+
 	private User user;
 	private Label usernameLabel1;
 	private Label usernameLabel2;
-	private HorizontalPanel horizontalPanel2;
 	private AbsolutePanel absolutePanel;
 	private HorizontalPanel horizontalPanel;
 	private Image image;
@@ -112,8 +115,6 @@ public class UserView extends Composite implements View {
 	private Label verticalSeperatorYahoo;
 	private Label verticalSeperatorAim;
 	private Label verticalSeperatorJabber;
-	private Panel articlePanel;
-	private VerticalPanel verticalPanel;
 	private Label usernameLabel3;
 	private Label usernameLabel4;
 
@@ -142,20 +143,20 @@ public class UserView extends Composite implements View {
 			verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
 			SwapWeb.getContentPanel().setTitle("Benutzerprofil");
-			
-			
+
+
 			// Überschrift
 			{
-//				horizontalPanel2 = new HorizontalPanel();
-//				usernameLabel1 = new Label();
-//				horizontalPanel2.add(usernameLabel1);
-//				lblHorizontalSeperator = new Label();
-//				usernameLabel3 = new Label("'s Profil");
-//				horizontalPanel2.add(usernameLabel3);
-//				usernameLabel4 = new Label();
-//				horizontalPanel2.add(usernameLabel4);
-//
-//				verticalPanel.add(horizontalPanel2);
+				//				horizontalPanel2 = new HorizontalPanel();
+				//				usernameLabel1 = new Label();
+				//				horizontalPanel2.add(usernameLabel1);
+				//				lblHorizontalSeperator = new Label();
+				//				usernameLabel3 = new Label("'s Profil");
+				//				horizontalPanel2.add(usernameLabel3);
+				//				usernameLabel4 = new Label();
+				//				horizontalPanel2.add(usernameLabel4);
+				//
+				//				verticalPanel.add(horizontalPanel2);
 			}
 
 			{
@@ -559,7 +560,7 @@ public class UserView extends Composite implements View {
 		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
 			public void onFailure(Throwable caught) {
 				System.out
-						.println("RPC UserView: fehler im user article liste");
+				.println("RPC UserView: fehler im user article liste");
 			}
 
 			public void onSuccess(ArrayList<SearchResult> results) {
@@ -609,7 +610,7 @@ public class UserView extends Composite implements View {
 		});
 
 	}
-	
+
 	public boolean attrSpecified(String str) {
 		if (str==null || str.trim().equals(""))
 			return false;
@@ -618,6 +619,7 @@ public class UserView extends Composite implements View {
 	}
 
 	public void fillForm() {
+		// braucht Zugriff auf den User
 		articlePanel.add(getArtikelListe());
 		articlePanel.doLayout();
 
@@ -662,7 +664,7 @@ public class UserView extends Composite implements View {
 		// }
 		// } catch (NullPointerException e) {
 		// }
-		
+
 		try {
 
 			if (attrSpecified(user.getJob())) {
@@ -674,7 +676,7 @@ public class UserView extends Composite implements View {
 		} catch (NullPointerException e) {
 		}
 
-		
+
 		try {
 			if (attrSpecified(user.getHomepage())) {
 				lblHomepage2.setText(user.getHomepage());

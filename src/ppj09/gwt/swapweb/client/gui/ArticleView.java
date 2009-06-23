@@ -148,7 +148,6 @@ public class ArticleView extends Composite implements View {
 
 					// Bild
 					{
-
 						image = new Image();
 						image.setSize("150", "150");
 						absolutePanel.add(image, 0, 0);
@@ -182,7 +181,6 @@ public class ArticleView extends Composite implements View {
 						verticalSeperator1 = new Label();
 						verticalSeperator1.setHeight("5");
 						verticalPanel_2.add(verticalSeperator1);
-
 					}
 
 //					// Kategorie
@@ -191,7 +189,7 @@ public class ArticleView extends Composite implements View {
 						lblCategory = new Label("Kategorie:");
 						lblCategory.setWidth("160");
 						hpCategory.add(lblCategory);
-						categoryHyperlink = new Hyperlink("",null);
+						categoryHyperlink = new Hyperlink("", null);
 						categoryHyperlink.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
 								// Setzt den Link auf die Kategorie
@@ -228,7 +226,6 @@ public class ArticleView extends Composite implements View {
 						verticalSeperator1 = new Label();
 						verticalSeperator1.setHeight("5");
 						verticalPanel_2.add(verticalSeperator1);
-
 					}
 
 					// Standort
@@ -249,7 +246,6 @@ public class ArticleView extends Composite implements View {
 						verticalSeperator1 = new Label();
 						verticalSeperator1.setHeight("5");
 						verticalPanel_2.add(verticalSeperator1);
-
 					}
 
 					// Zustand
@@ -376,6 +372,7 @@ public class ArticleView extends Composite implements View {
 						Panel offeredArticles = new Panel();
 						offeredArticles.setTitle("Vorliegende Angebote:");
 						offeredArticles.setWidth(660);
+						offeredArticles.add(getArtikelListe());
 						verticalPanel.add(offeredArticles);
 
 						Panel ownArticles = new Panel();
@@ -662,6 +659,25 @@ public class ArticleView extends Composite implements View {
 
 		messageWindow.add(messagePanel);
 		messageWindow.show();
+	}
+	
+	private VerticalPanel getArtikelListe() {
+		final VerticalPanel offeredArticles = new VerticalPanel();
+
+		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+
+		searchHandler.getOfferedArticles(article.getArticleId(), new AsyncCallback<ArrayList<SearchResult>>() {
+			public void onFailure(Throwable caught) {
+				System.out.println(caught.getMessage());
+			}
+
+			public void onSuccess(ArrayList<SearchResult> results) {
+				for (SearchResult r : results) {
+					offeredArticles.add((ArticleSearchResultView) r.getView());
+				}
+			}
+		});
+		return offeredArticles;
 	}
 
 }

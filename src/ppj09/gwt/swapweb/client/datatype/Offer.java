@@ -24,6 +24,15 @@ public class Offer implements Serializable {
 	// speichert die Artikel Nummer der zu tauschenden Gegenstaende
 	private int desiredArticleId;
 	private String offeredArticleIds;
+	public ArrayList<SearchResult> getOfferedArticles() {
+		return offeredArticles;
+	}
+
+	public void setOfferedArticles(ArrayList<SearchResult> offeredArticles) {
+		this.offeredArticles = offeredArticles;
+	}
+
+	private ArrayList<SearchResult> offeredArticles;
 	private String offerComment;
 	// enthaelt die Id des Status; abgelehnt, noch offen des Tausches
 	private int swapStatus;
