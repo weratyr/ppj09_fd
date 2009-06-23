@@ -68,6 +68,7 @@ public class LoginForm implements Form {
         txtbxUsername
             .setBlankText("Bitte geben Sie ihren Benutzernamen ein");
         txtbxUsername.setTabIndex(1);
+        txtbxUsername.focus();
         txtbxUsername.addKeyListener(13, new KeyListener() {
           public void onKey(int key, EventObject e) {
             if (txtbxUsername.isValid() && txtbxPassword.isValid()) {

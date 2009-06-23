@@ -673,16 +673,7 @@ public class UserView extends Composite implements View {
 			}
 		} catch (NullPointerException e) {
 		}
-//		try {
-//
-//			if (!(user.getJob() == null || user.getJob().equals(""))) {
-//				lblJob2.setText(user.getJob());
-//				hpJob.setVisible(true);
-//				verticalSeperatorJob.setVisible(true);
-//
-//			}
-//		} catch (NullPointerException e) {
-//		}
+
 		
 		try {
 			if (attrSpecified(user.getHomepage())) {
@@ -769,6 +760,14 @@ public class UserView extends Composite implements View {
 				lblJabber2.setText(user.getJabber());
 				hpJabber.setVisible(true);
 				verticalSeperatorJabber.setVisible(true);
+			}
+		} catch (NullPointerException e) {
+		}
+		try {
+			if (attrSpecified(user.getAboutMe())) {
+				lblAboutMe2.setText(user.getAboutMe());
+				hpAboutMe.setVisible(true);
+				verticalSeperatorAboutMe.setVisible(true);
 			}
 		} catch (NullPointerException e) {
 		}

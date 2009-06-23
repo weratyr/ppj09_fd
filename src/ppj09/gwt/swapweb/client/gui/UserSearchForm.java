@@ -9,8 +9,10 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
+import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 
@@ -22,6 +24,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
@@ -44,7 +48,12 @@ import com.gwtext.client.widgets.layout.FitLayout;
  */
 public class UserSearchForm  implements Form {
 	private Panel containerPanel;
-	private VerticalPanel searchResultPanel;
+	private TextField username;
+	private TextField firstname;
+	private TextField lastname;
+	private TextField city;
+	private TextField job;
+	private TextField hobbies;
 	
 	public UserSearchForm(TabPanel tabPanel) {
 		
@@ -61,22 +70,28 @@ public class UserSearchForm  implements Form {
 			firstFormPanel.setBorder(false);
 			firstFormPanel.setLabelAlign(Position.TOP);
 			firstFormPanel.setPaddings(10,10,0,0);
-			firstFormPanel.add(new TextField("Benutzername", "", 110));
-			firstFormPanel.add(new TextField("Vorname", "", 110));
+			username = new TextField("Benutzername", "", 110);
+			firstFormPanel.add(username);
+			firstname = new TextField("Vorname", "", 110);
+			firstFormPanel.add(firstname);
 			
 			FormPanel secondFormPanel = new FormPanel();
 			secondFormPanel.setBorder(false);
 			secondFormPanel.setLabelAlign(Position.TOP);
 			secondFormPanel.setPaddings(10,10,0,0);
-			secondFormPanel.add(new TextField("Nachname", "", 110));
-			secondFormPanel.add(new TextField("Wohnort", "", 110));
+			lastname = new TextField("Nachname", "", 110);
+			secondFormPanel.add(lastname);
+			city  = new TextField("Wohnort", "", 110);
+			secondFormPanel.add(city);
 			
 			FormPanel thirdFormPanel = new FormPanel();
 			thirdFormPanel.setBorder(false);
 			thirdFormPanel.setLabelAlign(Position.TOP);
 			thirdFormPanel.setPaddings(10,10,0,0);
-			thirdFormPanel.add(new TextField("Job","", 110));
-			thirdFormPanel.add(new TextField("Hobbies","", 110));
+			job = new TextField("Job","", 110);
+			thirdFormPanel.add(job);
+			hobbies = new TextField("Hobbies","", 110);
+			thirdFormPanel.add(hobbies);
 			
 			
 			Panel fourthFormPanel = new Panel();
@@ -86,10 +101,10 @@ public class UserSearchForm  implements Form {
 			
 			Panel checkBoxPanel = new Panel();
 			checkBoxPanel.setBorder(false);
-			Checkbox activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
-			checkBoxPanel.add(activeArticleCheckBox);
-			Checkbox pictureArticlesCheckBox = new Checkbox("Nur mit Bild anzeigen");
-			checkBoxPanel.add(pictureArticlesCheckBox);
+			//Checkbox activeArticleCheckBox = new Checkbox("Nur aktive Artikel anzeigen");
+			//checkBoxPanel.add(activeArticleCheckBox);
+			final Checkbox pictureUserCheckBox = new Checkbox("Nur mit Bild anzeigen");
+			checkBoxPanel.add(pictureUserCheckBox);
 			fourthFormPanel.add(checkBoxPanel);
 			
 			Panel buttonPanel = new Panel();
@@ -97,29 +112,44 @@ public class UserSearchForm  implements Form {
 			buttonPanel.setBorder(false);
 			Button searchButton = new Button("Suchen", new ButtonListenerAdapter() {
 				public void onClick(Button button, EventObject e) {
+					UserSearchQuery sq = new UserSearchQuery();
+					sq.setUsername(username.getText());
+					sq.setFirstname(firstname.getText());
+					sq.setLastname(lastname.getText());
+					sq.setCity(city.getText());
+					sq.setJob(job.getText());
+					sq.setHobbies(hobbies.getText());
+					sq.setOnlyPic(pictureUserCheckBox.getValue());
 
-					System.out.println("gedrückt");
-					/**
-					 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt
-					 * und übergibt es per RPC an SearchHandler.search()
-					 */
+					final ExtElement element = Ext.get("mask-panel");  
+					element.mask("sucht...");  
+
 					SearchHandlerAsync searchHandler = GWT
-							.create(SearchHandler.class);
-					searchHandler.search(new ArticleSearchQuery(),
+					.create(SearchHandler.class);
+					searchHandler.search(sq,
 							new AsyncCallback<ArrayList<SearchResult>>() {
-								public void onFailure(Throwable caught) {
-									System.out.println("neeee: ");
-								}
+						public void onFailure(Throwable caught) {
+							System.out.println("RPC UserSearchForm: fehler im der  ");
+							caught.printStackTrace();
+						}
 
-								public void onSuccess(
-										ArrayList<SearchResult> results) {
-									System.out.println("neeee: ");
-									for (SearchResult r : results) {
-										searchResultPanel.add((Widget) r.getView());
-									}
-								}
-							});
+						public void onSuccess(ArrayList<SearchResult> results) {
+							element.unmask();
+							Panel cp = SwapWeb.getContentPanel();
+							cp.clear();  
+							Panel listView = new Panel();
+
+							for (SearchResult r : results) {
+								listView.add( (UserSearchResultView) r.getView());
+							}
+
+							cp.add(listView);
+							cp.doLayout();
+						}
+					});
+
 				}
+
 
 			});
 			searchButton.setIconCls("icon-search");
