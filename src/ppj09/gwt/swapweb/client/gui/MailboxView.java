@@ -25,6 +25,8 @@ public class MailboxView extends Composite{
 
 	private Panel inbox;
 	private Panel outbox;
+	private ArrayList<Message> inboxMessages = new ArrayList<Message>();
+	private ArrayList<Message> outboxMessages = new ArrayList<Message>();
 	
 	public MailboxView() {
 		Panel mainWindow = new Panel();
@@ -137,7 +139,7 @@ public class MailboxView extends Composite{
 	}
 	
 	private void receiveMessages(){
-		ArrayList<Message> inboxMessages = new ArrayList<Message>();
+
 		System.out.println(SwapWeb.getUserNameFromSession());
 		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
 		messageHandler.getMessages(SwapWeb.getUserNameFromSession(), new AsyncCallback<ArrayList<Message>>(){
@@ -146,7 +148,12 @@ public class MailboxView extends Composite{
 			}
 			public void onSuccess(ArrayList<Message> result) {
 				for (int i = 0;i<result.size();i++){
-					System.out.println(result.get(i).getMessage());
+					if(!(result.get(i).getAuthor().equals(SwapWeb.getUserNameFromSession()))){
+						inboxMessages.add(result.get(i));
+						System.out.println(inboxMessages.get(i).getMessage());
+					} else {
+						outboxMessages.add(result.get(i));
+					}
 				}
 			}
 		});
