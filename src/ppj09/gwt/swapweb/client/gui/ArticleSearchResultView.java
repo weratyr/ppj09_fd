@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Dieser View rendert ein einzelnes Suchergebnis vom Typ ArticleSearchResult.
  * Er wird zusammen mit anderen SearchResults innerhalb einer *SearchResultListView aufgerufen.
  *
- * @author Georg, Andre, Michael
+ * @author Georg, Andre, Michael, Chrisitan
  * @version 0.1, 15.05.09
  */
 
