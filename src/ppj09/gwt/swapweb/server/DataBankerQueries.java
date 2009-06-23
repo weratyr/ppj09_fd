@@ -730,7 +730,8 @@ public class DataBankerQueries {
 								articleResultSet.getString("title"), 
 								getUsername(articleResultSet.getInt("userid")), 
 								articleResultSet.getString("image1"),
-								articleResultSet.getInt("id"), articleResultSet.getString("amount")));
+								articleResultSet.getInt("id"), 
+								articleResultSet.getString("amount")));
 					} 
 					System.out.println("neuer Result: " + id);
 				}
@@ -809,7 +810,13 @@ public class DataBankerQueries {
 	
 	public int saveMessage(Message mesg) {
 		
-		
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		String query =
+		"INSERT INTO message (articleID, authorID, receiverID, topic, message) " +
+		"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"')";
+	
+		System.out.println(query);
 		return 0;
 	}
 	
