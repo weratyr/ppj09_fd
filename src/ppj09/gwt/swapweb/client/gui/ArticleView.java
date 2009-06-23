@@ -163,7 +163,7 @@ public class ArticleView extends Composite implements View {
 					messageHyperlink = new Hyperlink("",null);
 					messageHyperlink.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
-							showMessageForm();
+							new MessageComposeView(article);
 						}
 					});
 					
@@ -386,7 +386,6 @@ public class ArticleView extends Composite implements View {
 					}
 
 					public void onSuccess(ArrayList<Article> results) {
-						System.out.println("dskjf"+results.get(0).getUserId());
 						Object[][] ownArticleList = new Object[results.size()][10];
 						for (int i = 0; i < results.size(); i++) {
 							ownArticleList[i] = new Object[] {
@@ -635,92 +634,7 @@ public class ArticleView extends Composite implements View {
 		});
 	}
 
-	public void showMessageForm() {
-		final Window messageWindow = new Window();
-		messageWindow.setTitle("Resize Me");
-		messageWindow.setWidth(500);
-		messageWindow.setHeight(300);
-		messageWindow.setMinWidth(300);
-		messageWindow.setMinHeight(200);
-		messageWindow.setLayout(new FitLayout());
-		messageWindow.setPaddings(5);
-		messageWindow.setButtonAlign(Position.CENTER);
-		
-
-		FormPanel messagePanel = new FormPanel();
 	
-		// anchor width by percentage
-		TextField sentTo = new TextField("Send To", "to");
-		sentTo.setEmptyText(article.getUserName());
-		sentTo.setDisabled(true);
-		messagePanel.add(sentTo, new AnchorLayoutData(
-		"100%"));
-
-		// anchor width by percentage
-		final TextField subject = new TextField("Subject", "subject");
-		subject.setEmptyText("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
-		subject.setDisabled(true);
-		messagePanel.add(subject,new AnchorLayoutData("100%"));
-		
-
-		final TextArea textArea = new TextArea("Subject", "subject");
-		textArea.setHideLabel(true);
-		// anchor width by percentage and height by raw adjustment
-		// sets width to 100% and height to "remainder" height - 53px
-		messagePanel.add(textArea, new AnchorLayoutData("100% -53"));
-		
-		Button send = new Button("Send");
-		send.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 System.out.println("send me");
-				 Message mesg = new Message();
-				 mesg.setArticleId(article.getArticleId());
-				 mesg.setAuthor(usernameVisitorId);
-				 mesg.setMessage(textArea.getText());
-				 mesg.setReceiver(article.getUserId());
-				 mesg.setTopic("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
-				 MessageHandlerAsync messageProxy = GWT.create(MessageHandler.class);
-				 messageProxy.sendMessage(mesg, new AsyncCallback<Integer>(){
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					public void onSuccess(Integer result) {
-						// TODO Auto-generated method stub
-						
-					}
-					 
-				 });
-				 
-				 
-			 }
-		});
-		messageWindow.addButton(send);
-		Button cancel = new Button("Cancel");
-		cancel.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 System.out.println("send me");
-				 messageWindow.close();
-			 }
-		});
-		messageWindow.addButton(cancel);
-
-		messageWindow.setCloseAction(Window.HIDE);
-		messageWindow.setPlain(true);
-	// strips all Ext styling for the component
-		messagePanel.setBaseCls("x-plain");
-		messagePanel.setLabelWidth(55);
-		messagePanel.setUrl("save-form.php");
-
-		messagePanel.setWidth(500);
-		messagePanel.setHeight(300);
-
-		
-
-		messageWindow.add(messagePanel);
-		messageWindow.show();
-	}
 	
 	private VerticalPanel getArtikelListe() {
 		final VerticalPanel offeredArticles = new VerticalPanel();

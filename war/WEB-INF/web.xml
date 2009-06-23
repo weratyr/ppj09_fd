@@ -13,13 +13,13 @@
   <!-- Servlets -->
   
    <servlet> 
-     <servlet-name>gagagaServlet</servlet-name> 
+     <servlet-name>SearchHandler</servlet-name> 
      <servlet-class>ppj09.gwt.swapweb.server.SearchHandlerImpl</servlet-class> 
    </servlet> 
    
   <servlet-mapping>
-    <servlet-name>gagagaServlet</servlet-name>
-    <url-pattern>/swapweb/gagaga</url-pattern>
+    <servlet-name>SearchHandler</servlet-name>
+    <url-pattern>/swapweb/SearchHandler</url-pattern>
  </servlet-mapping> 
  
  
