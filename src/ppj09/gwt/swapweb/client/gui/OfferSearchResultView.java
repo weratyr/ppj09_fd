@@ -74,7 +74,8 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		});
 		
 		/*
-		 * Wenn der user sein eigenes Profil ansieht.
+		 * Wenn der user sein eigenes Profil ansieht hat er die Möglichkeit
+		 * Angebote anzunehmen und abzulehnen.
 		 */
 		if (this.offerSearchResult.getOfferedTo().equals(SwapWeb.getUserNameFromSession())) {
 			horizontalButtonPanel.add(annehmen);
