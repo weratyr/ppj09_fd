@@ -249,16 +249,18 @@ public class DataBankerQueries {
 		int desiredArticleId = newOffer.getDesiredArticleId();
 		String offerItemIds = newOffer.getOfferedArticleIds();
 		String offerComment = newOffer.getOfferComment();
+		String shippingMethod = newOffer.getShippingMethod();
 		int swapStatus = newOffer.getSwapStatus();
 
 		DataBankerConnection dbc = new DataBankerConnection();
 		try {
 			PreparedStatement stmt = dbc.getConnection().prepareStatement(
-			"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapStatusId) VALUES(?,?,?,?)");
+			"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapConcluded, shippingMethod) VALUES(?,?,?,?,?)");
 			stmt.setInt(1, desiredArticleId);
 			stmt.setString(2, offerItemIds);
 			stmt.setString(3, offerComment);
 			stmt.setInt(4, swapStatus);
+			stmt.setString(5, shippingMethod);
 
 			stmt.executeUpdate();
 

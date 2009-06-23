@@ -24,28 +24,30 @@ public class Offer implements Serializable {
 	// speichert die Artikel Nummer der zu tauschenden Gegenstaende
 	private int desiredArticleId;
 	private String offeredArticleIds;
-	public ArrayList<SearchResult> getOfferedArticles() {
-		return offeredArticles;
-	}
-
-	public void setOfferedArticles(ArrayList<SearchResult> offeredArticles) {
-		this.offeredArticles = offeredArticles;
-	}
+	private String shippingMethod;
 
 	private ArrayList<SearchResult> offeredArticles;
 	private String offerComment;
 	// enthaelt die Id des Status; abgelehnt, noch offen des Tausches
 	private int swapStatus;
 
-	public Offer(int desiredArticleId, String offeredArticleIds,
-			String offerComment, int swapStatus) {
+	public Offer(int desiredArticleId, String offeredArticleIds, String offerComment, int swapStatus, String shippingMethod) {
 		this.desiredArticleId = desiredArticleId;
 		this.offeredArticleIds = offeredArticleIds;
 		this.offerComment = offerComment;
 		this.setSwapStatus(swapStatus);
+		this.shippingMethod = shippingMethod;
 	}
 
 	public Offer() {
+	}
+	
+	public ArrayList<SearchResult> getOfferedArticles() {
+		return offeredArticles;
+	}
+
+	public void setOfferedArticles(ArrayList<SearchResult> offeredArticles) {
+		this.offeredArticles = offeredArticles;
 	}
 
 	public void setOfferId(int offerId) {
@@ -86,6 +88,14 @@ public class Offer implements Serializable {
 
 	public int getSwapStatus() {
 		return swapStatus;
+	}
+
+	public void setShippingMethod(String shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
+	public String getShippingMethod() {
+		return shippingMethod;
 	}
 
 }
