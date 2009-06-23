@@ -698,7 +698,7 @@ public class DataBankerQueries {
 				offerList.add(new ArticleSearchResult(resultSet
 						.getString("title"), getUsername(resultSet
 								.getInt("userid")), resultSet.getString("image1"),
-								resultSet.getInt("id")));
+								resultSet.getInt("id"),resultSet.getString("amount")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);

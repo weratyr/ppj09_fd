@@ -2,8 +2,6 @@ package ppj09.gwt.swapweb.client.gui;
 
 import java.util.ArrayList;
 
-import org.apache.tools.ant.types.Assertions.EnabledAssertion;
-
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.Validation;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
