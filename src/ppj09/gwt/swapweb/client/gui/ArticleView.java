@@ -386,7 +386,7 @@ public class ArticleView extends Composite implements View {
 					}
 
 					public void onSuccess(ArrayList<Article> results) {
-						usernameVisitorId =  results.get(0).getUserId();
+						System.out.println("dskjf"+results.get(0).getUserId());
 						Object[][] ownArticleList = new Object[results.size()][10];
 						for (int i = 0; i < results.size(); i++) {
 							ownArticleList[i] = new Object[] {

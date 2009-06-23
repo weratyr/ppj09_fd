@@ -811,11 +811,17 @@ public class DataBankerQueries {
 	public int saveMessage(Message mesg) {
 		
 		DataBankerConnection dbc = new DataBankerConnection();
-		Statement stmt = dbc.getStatement();
 		String query =
-		"INSERT INTO message (articleID, authorID, receiverID, topic, message) " +
-		"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"')";
-	
+		"INSERT INTO message (articleID, authorID, receiverID, topic, message, isRead) " +
+		"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"', '"+0+"')";
+		
+		try {
+			PreparedStatement stmt = dbc.getConnection().prepareStatement(query);
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("fehler DBQ - saveMessage(Message mesg) "+ e);
+		}
 		System.out.println(query);
 		return 0;
 	}

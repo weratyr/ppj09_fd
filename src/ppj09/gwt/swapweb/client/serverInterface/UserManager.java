@@ -9,6 +9,7 @@ package ppj09.gwt.swapweb.client.serverInterface;
 
 import ppj09.gwt.swapweb.client.datatype.User;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -29,6 +30,7 @@ public interface UserManager extends RemoteService {
 	public boolean checkUsername(String username);
 	public User getUser();
 	public User getUser(String userid);
+	public String getUserSession();
 	public int updateUser(User newUser);
 	public boolean checkPassword(String password);
 
