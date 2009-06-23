@@ -12,6 +12,7 @@ import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Offer;
+import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -577,10 +578,11 @@ public class DataBankerQueries {
 		try {
 			resultSet = stmt.executeQuery(query);
 			while (resultSet.next()) {
-				articleList.add(new ArticleSearchResult(resultSet
-						.getString("title"), getUsername(resultSet
-								.getInt("userid")), resultSet.getString("image1"),
-								resultSet.getInt("id")));
+				articleList.add(new ArticleSearchResult(
+						resultSet.getString("title"), 
+						getUsername(resultSet.getInt("userid")), 
+						resultSet.getString("image1"),
+						resultSet.getInt("id")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -683,21 +685,57 @@ public class DataBankerQueries {
 
 	public ArrayList<SearchResult> getOfferedArticles(int articleId) {
 		ArrayList<SearchResult> offerList = new ArrayList<SearchResult>();
+		
+//		ArticleSearchResult asr = new ArticleSearchResult("a","b","c",5);
+//		ArrayList<SearchResult> asr_list = new ArrayList<SearchResult>();
+//		asr_list.add(asr);
+//		OfferSearchResult osr = new OfferSearchResult(asr_list);
+//		offerList.add(osr);
+//		return offerList;
+//		
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		ResultSet resultSet = null;
+		ResultSet desiredItemsResultSet = null;
 		
-		// String query = "SELECT * FROM offer WHERE desiredItemId = '" + articleId + "'";
-		String query = "SELECT * FROM article WHERE category like 'Auto'";
+		String teststr = "";
+		
+		articleId = 76;
+		String query = "SELECT * FROM offer WHERE desiredItemId = '" + articleId + "'";
 		// desiredItemId, offerItemIds
 		try {
-			resultSet = stmt.executeQuery(query);
-			while (resultSet.next()) {
+			desiredItemsResultSet = stmt.executeQuery(query);
+			// for desiredItems
+			while (desiredItemsResultSet.next()) {
+				ArrayList<Integer> ids = new ArrayList<Integer>();
+				ArrayList<SearchResult> articles = new ArrayList<SearchResult>();
+				// Parsed die ids aus dem String
+				for (String strId : desiredItemsResultSet.getString("offerItemIds").split(",")) {
+					int intId = Integer.parseInt(strId);
+					if (intId != 0) {
+						ids.add(intId);
+					}
+				}
+				System.out.println("IDs: " + ids.toString());
+
+				// Fetched Offer Objekte für die Ids
+				for (int id : ids) {
+					// DataBankerConnection dbc = new DataBankerConnection();
+					query = "SELECT * FROM article WHERE id = '" + id + "'";
+					stmt = dbc.getStatement();
+					ResultSet articleResultSet = stmt.executeQuery(query);;
+					while(articleResultSet.next()) {
+						articles.add(new ArticleSearchResult(
+								articleResultSet.getString("title"), 
+								getUsername(articleResultSet.getInt("userid")), 
+								articleResultSet.getString("image1"),
+								articleResultSet.getInt("id")));
+					} 
+					System.out.println("neuer Result: " + id);
+				}
+				ids.clear();
 				//Offer o = new Offer(resultSet);
-				offerList.add(new ArticleSearchResult(resultSet
-						.getString("title"), getUsername(resultSet
-								.getInt("userid")), resultSet.getString("image1"),
-								resultSet.getInt("id")));
+				offerList.add(new OfferSearchResult(articles));
+				teststr = "";
 			}
 		} catch (Exception e) {
 			System.out.println(e);

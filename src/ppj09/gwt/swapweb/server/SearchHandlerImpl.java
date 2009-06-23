@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.MessageSearchQuery;
+import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
