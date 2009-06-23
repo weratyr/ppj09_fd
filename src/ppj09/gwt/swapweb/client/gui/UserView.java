@@ -98,7 +98,7 @@ public class UserView extends Composite implements View {
 	private Label lblHomepage2;
 	private Label lblHomepage;
 	private Label verticalSeperator1;
-	private Hyperlink userRatings;
+	private Label userRatings;
 	private Hyperlink messageUser;
 	private Hyperlink reportUser;
 	private Label verticalSeperatorGender;
@@ -179,24 +179,26 @@ public class UserView extends Composite implements View {
 						});
 						verticalPanel_1.add(messageUser);
 
-						userRatings = new Hyperlink("", null);
-						userRatings.addClickHandler(new ClickHandler() {
-							public void onClick(ClickEvent event) {
-								//TODO mach was
-								System.out.println("send user Ratings");
-								new UserRateView(user);
-							}
-						});
-						verticalPanel_1.add(userRatings);
-
-//						reportUser = new Hyperlink("", null);
-//						reportUser.addClickHandler(new ClickHandler() {
+						//userRatings = new Hyperlink("", null);
+//						userRatings.addClickHandler(new ClickHandler() {
 //							public void onClick(ClickEvent event) {
-//								
+//								//TODO mach was
+//								System.out.println("send user Ratings");
+//								//new UserRateView(user);
 //							}
 //						});
-//						verticalPanel_1.add(reportUser);
-//						
+						userRatings = new Label();
+						verticalPanel_1.add(userRatings);
+
+						reportUser = new Hyperlink("", null);
+						reportUser.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								new UserRateForm(user);
+							}
+						});
+						reportUser.setText("bewertung abgeben");
+						verticalPanel_1.add(reportUser);
+						
 						
 						absolutePanel.add(verticalPanel_1, 0, 0);
 	
@@ -659,8 +661,10 @@ public class UserView extends Composite implements View {
 			SwapWeb.getContentPanel().setTitle(username+"'s Profil");
 			articlePanel.setTitle(username+"'s Artikel");
 			messageUser.setText("Nachricht an "+username);
-			userRatings.setText("Bewertungen von "+username);
+		//	userRatings.setText("Bewertungen von "+username);
 			//reportUser.setText(username+" melden");
+			String t = "4";
+			userRatings.setText("Bewertung: ( "+t+"/5 ) Sternen");
 			
 
 		} catch (NullPointerException e) {
