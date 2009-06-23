@@ -98,6 +98,7 @@ public class SwapWeb implements EntryPoint {
 	private UserView myProfile;
 	private static Label angemeldetAlsLabel;
 	private static Panel loggedInPanel;
+	private static String userNameFromSession;
 
 	/**
 	 * Die EntryPoint Methode
@@ -424,4 +425,16 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 	}
+
+	
+	public static String getUserNameFromSession() {
+		return userNameFromSession;
+	}
+
+	public static void setUserNameFromSession(String userNameFromSession) {
+		SwapWeb.userNameFromSession = userNameFromSession;
+	}
+	
+	
+	
 }

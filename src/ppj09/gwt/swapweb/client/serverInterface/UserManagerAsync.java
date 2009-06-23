@@ -26,6 +26,7 @@ public interface UserManagerAsync {
 	public void getSessionId(AsyncCallback<Integer> callback);
 	public void checkUsername(String username, AsyncCallback<Boolean> callback);
 	public void getUser(AsyncCallback<User> callback);
+	public void getUserSession(AsyncCallback<String> callback);
 	public void getUser(String userid, AsyncCallback<User> callback);
 	public void updateUser(User newUser, AsyncCallback<Integer> callback);
 	public void checkPassword(String password, AsyncCallback<Boolean> callback);

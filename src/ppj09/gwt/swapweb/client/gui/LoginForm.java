@@ -7,6 +7,8 @@
  
 package ppj09.gwt.swapweb.client.gui;
  
+import javax.servlet.http.HttpSession;
+
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
@@ -43,6 +45,7 @@ public class LoginForm implements Form {
    * zu kommunizieren.
    */
   private final UserManagerAsync userManager = GWT.create(UserManager.class);
+  private final UserManagerAsync userManagerGetSession = GWT.create(UserManager.class);
   private TextField txtbxUsername;
   private FormPanel formPanel;
   private TextField txtbxPassword;
@@ -150,6 +153,22 @@ public class LoginForm implements Form {
               SwapWeb.toggleMeinSwapWeb();
               SwapWeb.getTabPanel().remove("3");
               SwapWeb.getTabPanel().remove("3");
+              userManagerGetSession.getUserSession(new AsyncCallback<String>() {
+
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					System.out.println("Fehler: LoginForm() getUserSession");
+				}
+
+				public void onSuccess(String result) {
+					// TODO Auto-generated method stub
+					SwapWeb.setUserNameFromSession(result);
+					System.out.println(result);
+				}
+            	  
+              });
+              
+              
             } else
               System.out
                   .println("Benutzername oder Passwort falsch");
