@@ -354,7 +354,7 @@ public class ArticleView extends Composite implements View {
 			Panel offeredArticles = new Panel();
 			offeredArticles.setTitle("Vorliegende Angebote:");
 			offeredArticles.setWidth(660);
-			offeredArticles.add(getArtikelListe());
+			offeredArticles.add(getVorliegendeAngebote());
 			verticalPanel.add(offeredArticles);
 			
 			createOwnArticlesForm();
@@ -636,7 +636,7 @@ public class ArticleView extends Composite implements View {
 
 	
 	
-	private VerticalPanel getArtikelListe() {
+	private VerticalPanel getVorliegendeAngebote() {
 		final VerticalPanel offeredArticles = new VerticalPanel();
 
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
@@ -646,7 +646,6 @@ public class ArticleView extends Composite implements View {
 			}
 
 			public void onSuccess(ArrayList<SearchResult> results) {
-				System.out.println("success");
 				for (SearchResult r : results) {
 					Panel offerPanel = new Panel();
 					offerPanel.setBorder(true);

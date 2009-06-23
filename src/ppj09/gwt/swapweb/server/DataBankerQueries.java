@@ -704,8 +704,8 @@ public class DataBankerQueries {
 
 				// Fetched Offer Objekte für die Ids
 				for (int id : ids) {
-					query = "SELECT * FROM article WHERE id = '" + id + "'";
 					stmt = dbc.getStatement();
+					query = "SELECT * FROM article WHERE id = '" + id + "'";
 					ResultSet articleResultSet = stmt.executeQuery(query);;
 					while(articleResultSet.next()) {
 						articles.add(new ArticleSearchResult(
