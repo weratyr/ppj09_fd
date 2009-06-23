@@ -7,7 +7,6 @@
  
 package ppj09.gwt.swapweb.client.gui;
  
-import javax.servlet.http.HttpSession;
 
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;

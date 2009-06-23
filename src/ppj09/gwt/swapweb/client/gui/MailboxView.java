@@ -37,7 +37,7 @@ public class MailboxView extends Composite{
 		ToolbarButton compose = new ToolbarButton("Nachricht verfassen");
 		compose.addListener(new ButtonListenerAdapter(){
 			 public void onClick(Button button, EventObject e) {
-				 
+				 new MessageComposeView();
 			 }
 		});
 		// Aktualisieren Button in bottom toolbar
