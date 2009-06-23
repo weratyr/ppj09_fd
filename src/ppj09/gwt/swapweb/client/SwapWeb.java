@@ -90,7 +90,7 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink myRatingsHyperlink;
 	private Hyperlink myMessagesHyperlink;
 
-	private static VerticalPanel navigationsContentPanel;
+	private Panel navigationsContentPanel;
 	private static Panel navigationPanel;
 	private ArticleForm articleForm;
 	private UserForm userForm;
@@ -214,10 +214,10 @@ public class SwapWeb implements EntryPoint {
 		new Viewport(mainPanel);
 	}
 
-	private VerticalPanel createNavigationPanel() {
-		navigationsContentPanel = new VerticalPanel();
-		//navigationsContentPanel.setBorder(false);
-		//navigationsContentPanel.setId("navi-panel");
+	private Panel createNavigationPanel() {
+		navigationsContentPanel = new Panel();
+		navigationsContentPanel.setBorder(false);
+		navigationsContentPanel.setId("navi-panel");
 
 		// Mein SwapWeb
 		meinSwapWeb = new DisclosurePanel("Mein SwapWeb", false);
@@ -382,10 +382,10 @@ public class SwapWeb implements EntryPoint {
 
 	public static void toggleMeinSwapWeb() {
 		if (!meinSwapWeb.isAttached()) {
-			navigationsContentPanel.insert(meinSwapWeb, 0);
+			navigationPanel.add(meinSwapWeb);
 			//navigationsContentPanel.add(meinSwapWeb);
 		} else {
-			navigationsContentPanel.remove(meinSwapWeb);
+			navigationPanel.remove(meinSwapWeb);
 		}
 		meinSwapWeb.setOpen(true);
 		navigationPanel.doLayout();
