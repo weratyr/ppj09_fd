@@ -147,7 +147,7 @@ public class AdvancedSearchForm implements Form{
 				searchHandler.search(sq,
 						new AsyncCallback<ArrayList<SearchResult>>() {
 					public void onFailure(Throwable caught) {
-						System.out.println("RPC ArticleSearchForm: fehler im quickserach ");
+						System.out.println("RPC AdvancedSearchForm FAILED");
 					}
 
 					public void onSuccess(ArrayList<SearchResult> results) {
