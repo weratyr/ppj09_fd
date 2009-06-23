@@ -473,6 +473,11 @@ public class ArticleForm extends Composite implements Form {
 		} catch (NullPointerException e) {
 			System.out.println("Fehler fillForm() " + e);
 		}
+		try {
+			this.categoryComboBox.setRawValue(article.getCategory());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
 		
 		
 	}

@@ -32,10 +32,10 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 	}
 	
 	public int acceptOffer(int offerId) {
-		return 1;
+		return db.acceptOffer(offerId);
 	}
 
 	public int declineOffer(int offerId) {
-		return 1;
+		return db.declineOffer(offerId);
 	}
 }

@@ -42,9 +42,10 @@ public class OfferSearchResult implements SearchResult, Serializable {
 		this.articles = articles;
 	}
 
-	public OfferSearchResult(String offeredBy, ArrayList<ArticleSearchResult> articles) {
+	public OfferSearchResult(int id, String offeredBy, ArrayList<ArticleSearchResult> articles) {
 		this.offeredBy = offeredBy;
 		this.articles = articles;
+		this.id = id;
 	}
 	
 	public OfferSearchResult() {
