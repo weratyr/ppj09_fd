@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
-import ppj09.gwt.swapweb.client.datatype.MessageSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
@@ -27,19 +26,16 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 		return db.getUserSearchResults(userSearch);
 	}
 
-	public ArrayList<ArticleSearchResult> search(MessageSearchQuery articleSearch) {
-		return null;
-	}
 
 	public ArrayList<SearchResult> getOfferedArticles(int articleId) {
 		return db.getOfferedArticles(articleId);
 	}
 	
 	public int acceptOffer(int offerId) {
-		return 1;
+		return db.acceptOffer(offerId);
 	}
 
 	public int declineOffer(int offerId) {
-		return 1;
+		return db.declineOffer(offerId);
 	}
 }

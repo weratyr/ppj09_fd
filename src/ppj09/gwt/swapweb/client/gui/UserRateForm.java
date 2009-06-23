@@ -7,34 +7,21 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
-import ppj09.gwt.swapweb.client.SwapWeb;
-import ppj09.gwt.swapweb.client.Validation;
-import ppj09.gwt.swapweb.client.datatype.Message;
-import ppj09.gwt.swapweb.client.datatype.Rate;
 import ppj09.gwt.swapweb.client.datatype.User;
-import ppj09.gwt.swapweb.client.serverInterface.MessageHandler;
-import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
-import ppj09.gwt.swapweb.client.serverInterface.SwapManager;
-import ppj09.gwt.swapweb.client.serverInterface.SwapManagerAsync;
-import ppj09.gwt.swapweb.client.serverInterface.UserManager;
-import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
+import com.gwtext.client.data.SimpleStore;
+import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Window;
-import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.TextArea;
-import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.AnchorLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
-import com.gwtext.client.core.EventObject;
-import com.gwtext.client.data.SimpleStore;
-import com.gwtext.client.data.Store;
 
 /**
  * Diese Klasse gibt die Möglichkeit einen anderen Benutzer zu bewerten.
