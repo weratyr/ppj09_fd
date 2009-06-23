@@ -683,42 +683,24 @@ public class DataBankerQueries {
 		ArrayList<SearchResult> offerList = new ArrayList<SearchResult>();
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
-		ResultSet desiredItemsResultSet = null;
+		ResultSet offerResultSet = null;
 		
 		articleId = 76;
 		String query = "SELECT * FROM offer WHERE desiredItemId = '" + articleId + "'";
 		try {
-			desiredItemsResultSet = stmt.executeQuery(query);
+			offerResultSet = stmt.executeQuery(query);
 			// for desiredItems
-			while (desiredItemsResultSet.next()) {
-				ArrayList<Integer> ids = new ArrayList<Integer>();
+			while (offerResultSet.next()) {
 				ArrayList<ArticleSearchResult> articles = new ArrayList<ArticleSearchResult>();
-				// Parsed die ids aus dem String
-				for (String strId : desiredItemsResultSet.getString("offerItemIds").split(",")) {
-					int intId = Integer.parseInt(strId);
-					if (intId != 0) {
-						ids.add(intId);
-					}
-				}
+				ArrayList<Integer> ids = parseForIds(offerResultSet.getString("offerItemIds"));
+				
 				// System.out.println("IDs: " + ids.toString());
 
-				// Fetched Offer Objekte für die Ids
-				for (int id : ids) {
-					stmt = dbc.getStatement();
-					query = "SELECT * FROM article WHERE id = '" + id + "'";
-					ResultSet articleResultSet = stmt.executeQuery(query);;
-					while(articleResultSet.next()) {
-						articles.add(new ArticleSearchResult(
-								articleResultSet.getString("title"), 
-								getUsername(articleResultSet.getInt("userid")), 
-								articleResultSet.getString("image1"),
-								articleResultSet.getInt("id"), 
-								articleResultSet.getString("amount")));
-					} 
-				}
-				ids.clear();
-				offerList.add(new OfferSearchResult(articles.get(0).getUserName(),articles));
+				articles = fetchArticles(ids);
+				
+				offerList.add(new OfferSearchResult(offerResultSet.getInt("id"),articles.get(0).getUserName(),articles));
 			}
+			dbc.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -776,6 +758,38 @@ public class DataBankerQueries {
 		return 0;
 	}
 	
+	public int acceptOffer(int offerId) {
+		DataBankerConnection dbc = new DataBankerConnection();
+		int statusCode = 0;
+		try {
+			Statement stmt = dbc.getStatement();
+			String query = "UPDATE offer SET swapConcluded = 1 WHERE id = '" + offerId + "'";
+			statusCode = stmt.executeUpdate(query);
+			
+			stmt = dbc.getStatement();
+			query = "SELECT * FROM offer WHERE id = '" + offerId + "'";
+			ResultSet offerResultSet = stmt.executeQuery(query);
+			offerResultSet.next();
+			for (int id : parseForIds(offerResultSet.getString("offerItemIds"))) {
+				stmt = dbc.getStatement();
+				query = "UPDATE article SET swapConcluded = 1 WHERE id = '" + id + "'";
+				int articleResultCode = stmt.executeUpdate(query);
+				System.out.println("articleResultCode: " + articleResultCode);
+			}
+			dbc.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return statusCode;
+	}
+	
+	public int declineOffer(int offerId) {
+		// DELETE from offer WHERE id = offerId;
+		return 1;
+	}
+	
 
 	// Helper mehtods
 
@@ -798,5 +812,47 @@ public class DataBankerQueries {
 			return false;
 		else
 			return true;
+	}
+	
+	/**
+	 * Nimmt eine Kommagetrennte Liste von Integers in Stringform
+	 * entgegen und gibt sie als ArrayList<Integer> zurück.
+	 */
+	public ArrayList<Integer> parseForIds(String strIdList) {
+		// Parsed die ids aus dem String
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (String strId : strIdList.split(",")) {
+			int intId = Integer.parseInt(strId);
+			if (intId != 0) {
+				ids.add(intId);
+			}
+		}
+		return ids;
+	}
+	
+	/**
+	 * Fetched die Article mit den übergebenen Ids und gibt sie als ArrayList
+	 * von ArticleSearchResults zurück.
+	 */
+	public ArrayList<ArticleSearchResult> fetchArticles(ArrayList<Integer> ids) throws SQLException {
+		// Fetched Offer Objekte für die Ids
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt;
+		ArrayList<ArticleSearchResult> articles = new ArrayList<ArticleSearchResult>();
+		for (int id : ids) {
+			stmt = dbc.getStatement();
+			query = "SELECT * FROM article WHERE id = '" + id + "'";
+			ResultSet articleResultSet = stmt.executeQuery(query);;
+			while(articleResultSet.next()) {
+				articles.add(new ArticleSearchResult(
+						articleResultSet.getString("title"), 
+						getUsername(articleResultSet.getInt("userid")), 
+						articleResultSet.getString("image1"),
+						articleResultSet.getInt("id"), 
+						articleResultSet.getString("amount")));
+			} 
+		}
+		dbc.close();
+		return articles;
 	}
 }
