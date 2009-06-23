@@ -144,7 +144,7 @@ public class ArticleView extends Composite implements View {
 				{
 					absolutePanel = new AbsolutePanel();
 					horizontalPanel.add(absolutePanel);
-					absolutePanel.setSize("200", "200");
+					absolutePanel.setSize("200", "500");
 
 					// Bild
 					{
