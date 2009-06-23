@@ -199,12 +199,10 @@ public class DataBankerQueries {
 		DataBankerConnection dbc = new DataBankerConnection();
 		if (userId != 0) { // User ist eingeloggt
 			try {
-				PreparedStatement stmt = dbc
-
-				.getConnection()
+				PreparedStatement stmt = dbc.getConnection()
 				.prepareStatement(
-				"INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) VALUES(?,?,?,?,?,?,?,?,?,?)");
-
+				"INSERT INTO article(userid, title, zipcode, category, city, articlecondition, shipping, amount, swaps, description) " +
+				"VALUES(?,?,?,?,?,?,?,?,?,?)");
 				stmt.setString(1, Integer.toString(userId));
 				stmt.setString(2, title);
 				stmt.setString(3, zipcode);
@@ -747,8 +745,14 @@ public class DataBankerQueries {
 		return 0;
 	}
 
-	
+	/**
+	 * Setzt das Feld `swapConcluded` in der Offer und den beteiligten
+	 * Articles auf 1.
+	 */
 	public int acceptOffer(int offerId) {
+		/*
+		 * INSERT INTO usr_web85_1.message (articleID, author, receiver, topic, message, isRead) VALUES(0,'SwapWeb System','geo21','Angebot angekommen','bla',0)
+		 */
 		DataBankerConnection dbc = new DataBankerConnection();
 		int statusCode = 0;
 		try {
@@ -775,6 +779,9 @@ public class DataBankerQueries {
 		return statusCode;
 	}
 	
+	/**
+	 * Löscht die Offer aus der Datenbank.
+	 */
 	public int declineOffer(int offerId) {
 		DataBankerConnection dbc = new DataBankerConnection();
 		int statusCode = 0;
@@ -811,7 +818,7 @@ public class DataBankerQueries {
 	}
 
 
-	// Helper mehtods
+	/* Helper mehtods */
 
 	/**
 	 * Fügt eine neue Bedingung an das Query an.
