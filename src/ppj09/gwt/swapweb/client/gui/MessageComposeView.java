@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
@@ -23,36 +24,41 @@ import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.AnchorLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
 
-public class MessageComposeView extends Composite{
+public class MessageComposeView extends Composite {
 	private Article article;
+	private int receiver;
+	private int articleId;
 	private User user;
 
-	
-	private TextField subject; 
-	private TextField sentTo; 
-	
-	
+	private TextField subject;
+	private TextField sentTo;
+
 	public MessageComposeView(Article article) {
 		this.article = article;
+		this.receiver = article.getUserId();
+		this.articleId = article.getArticleId();
+
 		createMessagePopupWindow();
+		subject.setValue("Artikel: " + article.getTitle() + " (ID: "
+				+ article.getArticleId() + ")");
 		subject.setDisabled(true);
-		subject.setEmptyText("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
+		sentTo.setValue(article.getUserName());
 		sentTo.setDisabled(true);
-		sentTo.setEmptyText(article.getUserName());
-			
+
 	}
-	
+
 	public MessageComposeView(User user) {
 		this.user = user;
 		createMessagePopupWindow();
+		sentTo.setValue(user.getUsername());
+		sentTo.setDisabled(true);
 	}
-	
+
 	public MessageComposeView() {
-		
+
 		createMessagePopupWindow();
 	}
-	
-	
+
 	public void createMessagePopupWindow() {
 		final Window messageWindow = new Window();
 		messageWindow.setTitle("Resize Me");
@@ -63,68 +69,74 @@ public class MessageComposeView extends Composite{
 		messageWindow.setLayout(new FitLayout());
 		messageWindow.setPaddings(5);
 		messageWindow.setButtonAlign(Position.CENTER);
-		
 
 		FormPanel messagePanel = new FormPanel();
-	
+		messagePanel.setMonitorValid(true);
+
 		// anchor width by percentage
 		sentTo = new TextField("Send To", "to");
-		
-		messagePanel.add(sentTo, new AnchorLayoutData(
-		"100%"));
+		sentTo.setAllowBlank(false);
+		sentTo.setMinLength(5);
+		sentTo.setMinLengthText("Es muss ein empfänger angegeben werden!!");
+
+		messagePanel.add(sentTo, new AnchorLayoutData("100%"));
 
 		// anchor width by percentage
 		subject = new TextField("Subject", "subject");
-		
-		
-		messagePanel.add(subject,new AnchorLayoutData("100%"));
-		
+		subject.setAllowBlank(false);
+		subject.setMinLength(2);
+		subject.setMinLengthText("Betreff ist leer!");
+		messagePanel.add(subject, new AnchorLayoutData("100%"));
 
 		final TextArea textArea = new TextArea("Subject", "subject");
+		textArea.setAllowBlank(false);
 		textArea.setHideLabel(true);
 		// anchor width by percentage and height by raw adjustment
 		// sets width to 100% and height to "remainder" height - 53px
 		messagePanel.add(textArea, new AnchorLayoutData("100% -53"));
-		
+
 		Button send = new Button("Send");
-		send.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 System.out.println("send me");
-				 Message mesg = new Message();
-				 mesg.setArticleId(article.getArticleId());
-				 mesg.setAuthor(SwapWeb.getUserNameFromSession());
-				 mesg.setMessage(textArea.getText());
-				 mesg.setReceiver(article.getUserId());
-				 mesg.setTopic("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
-				 MessageHandlerAsync messageProxy = GWT.create(MessageHandler.class);
-				 messageProxy.sendMessage(mesg, new AsyncCallback<Integer>(){
+		send.addListener(new ButtonListenerAdapter() {
+			public void onClick(Button button, EventObject e) {
+				System.out.println("send me" + subject.getText());
+				Message mesg = new Message();
+				mesg.setArticleId(articleId);
+				mesg.setAuthor(SwapWeb.getUserNameFromSession());
+				mesg.setMessage(textArea.getText());
+				mesg.setReceiver(receiver);
+				mesg.setTopic(subject.getText());
+
+				MessageHandlerAsync messageProxy = GWT
+						.create(MessageHandler.class);
+				messageProxy.sendMessage(mesg, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						
+
 					}
 
 					public void onSuccess(Integer result) {
 						// TODO Auto-generated method stub
-						
+						MessageBox.alert("Deine Nachricht wurde versand");
+						messageWindow.close();
 					}
-					 
-				 });
-				 
-				 
-			 }
+
+				});
+
+			}
 		});
-		messageWindow.addButton(send);
+		send.setFormBind(true);
+		messagePanel.addButton(send);
 		Button cancel = new Button("Cancel");
-		cancel.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 messageWindow.close();
-			 }
+		cancel.addListener(new ButtonListenerAdapter() {
+			public void onClick(Button button, EventObject e) {
+				messageWindow.close();
+			}
 		});
-		messageWindow.addButton(cancel);
+		messagePanel.addButton(cancel);
 
 		messageWindow.setCloseAction(Window.HIDE);
 		messageWindow.setPlain(true);
-	// strips all Ext styling for the component
+		// strips all Ext styling for the component
 		messagePanel.setBaseCls("x-plain");
 		messagePanel.setLabelWidth(55);
 		messagePanel.setUrl("save-form.php");
@@ -132,10 +144,8 @@ public class MessageComposeView extends Composite{
 		messagePanel.setWidth(500);
 		messagePanel.setHeight(300);
 
-		
-
 		messageWindow.add(messagePanel);
 		messageWindow.show();
-	
+
 	}
 }
