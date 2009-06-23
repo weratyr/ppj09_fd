@@ -60,12 +60,20 @@ public class ArticleForm extends Composite implements Form {
 	private TextArea txtbxAmount;
 	private TextArea txtbxSwaps;
 	private TextArea txtbxDescription;
-	private final Window window;
-	private TextField hiddenText;
+	private Window window;
+	TextField hiddenText;
+	private Article result;
 
-	
+	public ArticleForm(int articleID) {
+		fillForm(getArticle(articleID));
+		createFrom();
+	}
+
 	public ArticleForm() {
+		createFrom();
+	}
 
+	private void createFrom() {
 		{
 			VerticalPanel verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
@@ -405,4 +413,63 @@ public class ArticleForm extends Composite implements Form {
 	// }
 	// return true;
 	// }
+
+	public Article getArticle(int articleID) {
+		result = new Article();
+
+		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
+		articleManager.getArticle(articleID, new AsyncCallback<Article>() {
+
+			public void onSuccess(Article resultArticle) {
+				result = resultArticle;
+			}
+
+			public void onFailure(Throwable caught) {
+				System.out.println("Fehler in ArticleForm getArticle RPC");
+			}
+
+		});
+		return result;
+	}
+
+	public void fillForm(Article article) {
+		try {
+			this.txtbxName.setRawValue(article.getTitle());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxZip.setRawValue(article.getZipCode());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxCity.setRawValue(article.getLocation());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.combobxCondition.setRawValue(article.getCondition());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		//Shipping //TODO
+		try {
+			this.txtbxAmount.setRawValue(article.getOfferScope());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxSwaps.setRawValue(article.getDesiredItemsComment());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxDescription.setRawValue(article.getDescription());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+	}
+
+	
 }
