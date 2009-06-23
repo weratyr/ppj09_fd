@@ -250,16 +250,18 @@ public class DataBankerQueries {
 		int desiredArticleId = newOffer.getDesiredArticleId();
 		String offerItemIds = newOffer.getOfferedArticleIds();
 		String offerComment = newOffer.getOfferComment();
+		String shippingMethod = newOffer.getShippingMethod();
 		int swapStatus = newOffer.getSwapStatus();
 
 		DataBankerConnection dbc = new DataBankerConnection();
 		try {
 			PreparedStatement stmt = dbc.getConnection().prepareStatement(
-			"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapStatusId) VALUES(?,?,?,?)");
+			"INSERT INTO offer(desiredItemId, offerItemIds, offerComment, swapConcluded, shippingMethod) VALUES(?,?,?,?,?)");
 			stmt.setInt(1, desiredArticleId);
 			stmt.setString(2, offerItemIds);
 			stmt.setString(3, offerComment);
 			stmt.setInt(4, swapStatus);
+			stmt.setString(5, shippingMethod);
 
 			stmt.executeUpdate();
 
@@ -686,7 +688,11 @@ public class DataBankerQueries {
 
 				articles = fetchArticles(ids);
 				
-				offerList.add(new OfferSearchResult(offerResultSet.getInt("id"),articles.get(0).getUserName(),articles));
+				offerList.add(new OfferSearchResult(
+						offerResultSet.getInt("id"),	// offer Id
+						articles.get(0).getUserName(),	// offer from UserName
+						getUsername(getArticle(articleId).getUserId()),	 // offer to UserName
+						articles));
 			}
 			dbc.close();
 		} catch (Exception e) {
@@ -764,14 +770,34 @@ public class DataBankerQueries {
 			
 			stmt = dbc.getStatement();
 			query = "SELECT * FROM offer WHERE id = '" + offerId + "'";
-			ResultSet offerResultSet = stmt.executeQuery(query);
-			offerResultSet.next();
-			for (int id : parseForIds(offerResultSet.getString("offerItemIds"))) {
+			ResultSet offerResult = stmt.executeQuery(query);
+			offerResult.next();
+			
+			ArrayList<Integer> ids = parseForIds(offerResult.getString("offerItemIds"));
+			
+			stmt = dbc.getStatement();
+			query = "SELECT * FROM article WHERE id = '" + ids.get(0) + "'";
+			ResultSet articleResult = stmt.executeQuery(query);
+			articleResult.next();
+			String userName = getUsername(articleResult.getInt("userid"));
+			System.out.println("UserName: " + userName);
+			
+			for (int id : ids) {
 				stmt = dbc.getStatement();
 				query = "UPDATE article SET swapConcluded = 1 WHERE id = '" + id + "'";
 				int articleResultCode = stmt.executeUpdate(query);
 				System.out.println("articleResultCode: " + articleResultCode);
 			}
+			
+			query = "INSERT INTO message (articleID, author, receiver, topic, message, isRead) VALUES(?,?,?,?,?,?)";
+			PreparedStatement pStmt = dbc.getConnection().prepareStatement(query);
+			pStmt.setInt(1, 0);
+			pStmt.setString(2, "SwapWeb Notification");
+			pStmt.setString(3, userName);
+			pStmt.setString(4, "Angebot wurde angenommen!");
+			pStmt.setString(5, "Bla bla bla... ");
+			pStmt.setInt(6, 0);
+			statusCode = pStmt.executeUpdate();
 			dbc.close();
 		}
 		catch (Exception e) {
