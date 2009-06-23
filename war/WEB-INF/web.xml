@@ -53,6 +53,17 @@
     <url-pattern>/swapweb/GuiHelper</url-pattern>
  </servlet-mapping> 
   
+   <servlet> 
+     <servlet-name>MessageHandler</servlet-name> 
+     <servlet-class>ppj09.gwt.swapweb.server.MessageHandlerImpl</servlet-class> 
+   </servlet> 
+   
+  <servlet-mapping>
+    <servlet-name>MessageHandler</servlet-name>
+    <url-pattern>/swapweb/MessageHandler</url-pattern>
+ </servlet-mapping> 
+  
+ 
   <servlet>
   <servlet-name>imageUploadHandler</servlet-name> 
   <servlet-class>ppj09.gwt.swapweb.server.ImageUploadHandler</servlet-class>  

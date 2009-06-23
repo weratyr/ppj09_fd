@@ -10,12 +10,16 @@ import java.util.ArrayList;
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
+
+import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManager;
 import ppj09.gwt.swapweb.client.serverInterface.ArticleManagerAsync;
+import ppj09.gwt.swapweb.client.serverInterface.MessageHandler;
+import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.OfferHandler;
 import ppj09.gwt.swapweb.client.serverInterface.OfferHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
@@ -24,6 +28,7 @@ import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -53,6 +58,7 @@ import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Window;
+import com.gwtext.client.widgets.event.ButtonListener;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
@@ -69,6 +75,7 @@ import com.gwtext.client.widgets.layout.AnchorLayoutData;
 import com.gwtext.client.widgets.layout.BorderLayout;
 import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.layout.VerticalLayout;
+import com.gwtext.client.widgets.menu.Menu;
 
 public class ArticleView extends Composite implements View {
 	private Article article;
@@ -105,24 +112,17 @@ public class ArticleView extends Composite implements View {
 	private Label lblSwapIdea;
 	private Label description;
 	private String imageUrl;
-
 	private HorizontalPanel hpUsername;
 	private Label lblUsername;
 	private Label lblUsername2;
-
 	private HorizontalPanel hpCategory;
-
 	private Label lblCategory;
-
 	private Label lblCategory2;
-
 	private Hyperlink usernameHyperlink;
-
 	private Hyperlink categoryHyperlink;
-
 	private Hyperlink messageHyperlink;
-
 	private Hyperlink rateHyperlink;
+	private int usernameVisitorId;
 
 	/**
 	 * Constructor
@@ -386,6 +386,7 @@ public class ArticleView extends Composite implements View {
 					}
 
 					public void onSuccess(ArrayList<Article> results) {
+						usernameVisitorId =  results.get(0).getUserId();
 						Object[][] ownArticleList = new Object[results.size()][10];
 						for (int i = 0; i < results.size(); i++) {
 							ownArticleList[i] = new Object[] {
@@ -644,14 +645,70 @@ public class ArticleView extends Composite implements View {
 		messageWindow.setLayout(new FitLayout());
 		messageWindow.setPaddings(5);
 		messageWindow.setButtonAlign(Position.CENTER);
-		messageWindow.addButton(new Button("Send"));
-		messageWindow.addButton(new Button("Cancel"));
+		
+
+		FormPanel messagePanel = new FormPanel();
+	
+		// anchor width by percentage
+		TextField sentTo = new TextField("Send To", "to");
+		sentTo.setEmptyText(article.getUserName());
+		sentTo.setDisabled(true);
+		messagePanel.add(sentTo, new AnchorLayoutData(
+		"100%"));
+
+		// anchor width by percentage
+		final TextField subject = new TextField("Subject", "subject");
+		subject.setEmptyText("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
+		subject.setDisabled(true);
+		messagePanel.add(subject,new AnchorLayoutData("100%"));
+		
+
+		final TextArea textArea = new TextArea("Subject", "subject");
+		textArea.setHideLabel(true);
+		// anchor width by percentage and height by raw adjustment
+		// sets width to 100% and height to "remainder" height - 53px
+		messagePanel.add(textArea, new AnchorLayoutData("100% -53"));
+		
+		Button send = new Button("Send");
+		send.addListener(new ButtonListenerAdapter(){
+			 public void onClick(Button button, EventObject e) {
+				 System.out.println("send me");
+				 Message mesg = new Message();
+				 mesg.setArticleId(article.getArticleId());
+				 mesg.setAuthor(usernameVisitorId);
+				 mesg.setMessage(textArea.getText());
+				 mesg.setReceiver(article.getUserId());
+				 mesg.setTopic("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
+				 MessageHandlerAsync messageProxy = GWT.create(MessageHandler.class);
+				 messageProxy.sendMessage(mesg, new AsyncCallback<Integer>(){
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					public void onSuccess(Integer result) {
+						// TODO Auto-generated method stub
+						
+					}
+					 
+				 });
+				 
+				 
+			 }
+		});
+		messageWindow.addButton(send);
+		Button cancel = new Button("Cancel");
+		cancel.addListener(new ButtonListenerAdapter(){
+			 public void onClick(Button button, EventObject e) {
+				 System.out.println("send me");
+				 messageWindow.close();
+			 }
+		});
+		messageWindow.addButton(cancel);
 
 		messageWindow.setCloseAction(Window.HIDE);
 		messageWindow.setPlain(true);
-
-		FormPanel messagePanel = new FormPanel();
-		// strips all Ext styling for the component
+	// strips all Ext styling for the component
 		messagePanel.setBaseCls("x-plain");
 		messagePanel.setLabelWidth(55);
 		messagePanel.setUrl("save-form.php");
@@ -659,19 +716,7 @@ public class ArticleView extends Composite implements View {
 		messagePanel.setWidth(500);
 		messagePanel.setHeight(300);
 
-		// anchor width by percentage
-		messagePanel.add(new TextField("Send To", "to"), new AnchorLayoutData(
-				"100%"));
-
-		// anchor width by percentage
-		messagePanel.add(new TextField("Subject", "subject"),
-				new AnchorLayoutData("100%"));
-
-		TextArea textArea = new TextArea("Subject", "subject");
-		textArea.setHideLabel(true);
-		// anchor width by percentage and height by raw adjustment
-		// sets width to 100% and height to "remainder" height - 53px
-		messagePanel.add(textArea, new AnchorLayoutData("100% -53"));
+		
 
 		messageWindow.add(messagePanel);
 		messageWindow.show();
@@ -688,14 +733,15 @@ public class ArticleView extends Composite implements View {
 
 			public void onSuccess(ArrayList<SearchResult> results) {
 				System.out.println("success");
-				Panel offerPanel = new Panel();
-				offerPanel.setBorder(true);
 				for (SearchResult r : results) {
+					Panel offerPanel = new Panel();
+					offerPanel.setBorder(true);
+					offerPanel.setMargins(5);
 					for (SearchResult articleSearchResult : ((OfferSearchResult)r).getArticles())
 						offerPanel.add((ArticleSearchResultView) articleSearchResult.getView());
+					offerPanel.doLayout();
+					offeredArticles.add(offerPanel);
 				}
-				offerPanel.doLayout();
-				offeredArticles.add(offerPanel);
 			}
 		});
 		return offeredArticles;

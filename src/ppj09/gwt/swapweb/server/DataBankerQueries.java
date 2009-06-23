@@ -11,6 +11,7 @@ import java.util.Date;
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
+import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Parameter;
@@ -583,7 +584,7 @@ public class DataBankerQueries {
 						resultSet.getString("title"), 
 						getUsername(resultSet.getInt("userid")), 
 						resultSet.getString("image1"),
-						resultSet.getInt("id"),resultSet.getString("amount")));
+					resultSet.getInt("id"),resultSet.getString("amount")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -729,14 +730,16 @@ public class DataBankerQueries {
 								articleResultSet.getString("title"), 
 								getUsername(articleResultSet.getInt("userid")), 
 								articleResultSet.getString("image1"),
-								articleResultSet.getInt("id"), articleResultSet.getString("amount")));
+								articleResultSet.getInt("id"), 
+								articleResultSet.getString("amount")));
 					} 
 					System.out.println("neuer Result: " + id);
 				}
 				ids.clear();
 				//Offer o = new Offer(resultSet);
-				offerList.add(new OfferSearchResult(articles));
+			offerList.add(new OfferSearchResult(articles));
 				teststr = "";
+
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -804,4 +807,18 @@ public class DataBankerQueries {
 		}
 		return userList;
 	}
+	
+	public int saveMessage(Message mesg) {
+		
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		String query =
+		"INSERT INTO message (articleID, authorID, receiverID, topic, message) " +
+		"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"')";
+	
+		System.out.println(query);
+		return 0;
+	}
+	
+	
 }
