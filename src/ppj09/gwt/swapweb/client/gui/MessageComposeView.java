@@ -10,12 +10,10 @@ import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
-import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -49,6 +47,7 @@ public class MessageComposeView extends Composite {
 
 	public MessageComposeView(User user) {
 		this.user = user;
+		this.receiver = user.getUsername();
 		createMessagePopupWindow();
 		sentTo.setValue(user.getUsername());
 		sentTo.setDisabled(true);

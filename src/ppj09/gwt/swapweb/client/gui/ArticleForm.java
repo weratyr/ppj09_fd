@@ -57,24 +57,28 @@ public class ArticleForm extends Composite implements Form {
 	private Checkbox chkbxdelivery2;
 	private Checkbox chkbxdelivery3;
 	private Button submitButton;
-	private Button uploadWindowButton;
 	private TextArea txtbxAmount;
 	private TextArea txtbxSwaps;
 	private TextArea txtbxDescription;
 	private Window window;
 	TextField hiddenText;
+	private Article result;
 
-	public ArticleForm(Article article){
-		
+	public ArticleForm(int articleID) {
+		createFrom();
+		getArticle(articleID);
+
 	}
-	
+
 	public ArticleForm() {
 		createFrom();
 	}
-		private void createFrom(){
+
+	private void createFrom() {
 		{
 			VerticalPanel verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
+
 			{
 				formPanel = new FormPanel();
 				formPanel.setMonitorValid(true);
@@ -295,7 +299,8 @@ public class ArticleForm extends Composite implements Form {
 					// TODO
 					window.addListener(new WindowListenerAdapter() {
 						public void onHide(Component component) {
-							MessageBox.alert("Ihr Artikel wurde erfolgreich erstellt");
+							MessageBox
+									.alert("Ihr Artikel wurde erfolgreich erstellt");
 							SwapWeb.getContentPanel().clear();
 							SwapWeb.getContentPanel().add(
 									new ArticleView(Integer.parseInt(hiddenText
@@ -308,7 +313,6 @@ public class ArticleForm extends Composite implements Form {
 					window.add(imgform);
 					window.setCloseAction(Window.HIDE);
 
-					
 					// //// ENDE FORMS FÜR FILE UPLOAD
 					submitButton = new Button("Artikel Erstellen");
 					submitButton.setFormBind(true);
@@ -335,7 +339,7 @@ public class ArticleForm extends Composite implements Form {
 		int length = filename.length();
 
 		String extension = filename.substring(indexPoint + 1, length);
-		
+
 		extension = extension.toLowerCase();
 		if (extension.equals("jpg") || extension.equals("png")
 				|| extension.equals("bmp")) {
@@ -411,4 +415,66 @@ public class ArticleForm extends Composite implements Form {
 	// }
 	// return true;
 	// }
+
+	public Article getArticle(int articleID) {
+		result = new Article();
+
+		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
+		articleManager.getArticle(articleID, new AsyncCallback<Article>() {
+
+			public void onSuccess(Article resultArticle) {
+				System.out.println(resultArticle.getTitle());
+				result = resultArticle;
+				fillForm(resultArticle);
+			}
+
+			public void onFailure(Throwable caught) {
+				System.out.println("Fehler in ArticleForm getArticle RPC");
+			}
+
+		});
+		return result;
+	}
+
+	public void fillForm(Article article) {
+		try {
+			this.txtbxName.setRawValue(article.getTitle());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxZip.setRawValue(article.getZipCode());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxCity.setRawValue(article.getLocation());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.combobxCondition.setRawValue(article.getCondition());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		// Shipping //TODO
+		try {
+			this.txtbxAmount.setRawValue(article.getOfferScope());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxSwaps.setRawValue(article.getDesiredItemsComment());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		try {
+			this.txtbxDescription.setRawValue(article.getDescription());
+		} catch (NullPointerException e) {
+			System.out.println("Fehler fillForm() " + e);
+		}
+		
+		
+	}
+
 }
