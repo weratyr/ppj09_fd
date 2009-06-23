@@ -583,7 +583,7 @@ public class DataBankerQueries {
 						resultSet.getString("title"), 
 						getUsername(resultSet.getInt("userid")), 
 						resultSet.getString("image1"),
-						resultSet.getInt("id")));
+						resultSet.getInt("id"),resultSet.getString("amount")));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -729,7 +729,7 @@ public class DataBankerQueries {
 								articleResultSet.getString("title"), 
 								getUsername(articleResultSet.getInt("userid")), 
 								articleResultSet.getString("image1"),
-								articleResultSet.getInt("id")));
+								articleResultSet.getInt("id"), articleResultSet.getString("amount")));
 					} 
 					System.out.println("neuer Result: " + id);
 				}
