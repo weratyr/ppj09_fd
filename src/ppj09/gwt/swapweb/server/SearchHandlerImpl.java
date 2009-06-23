@@ -16,9 +16,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHandler {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private DataBankerQueries db = new DataBankerQueries();
 
@@ -36,5 +33,13 @@ public class SearchHandlerImpl extends RemoteServiceServlet implements SearchHan
 
 	public ArrayList<SearchResult> getOfferedArticles(int articleId) {
 		return db.getOfferedArticles(articleId);
+	}
+	
+	public int acceptOffer(int offerId) {
+		return 1;
+	}
+
+	public int declineOffer(int offerId) {
+		return 1;
 	}
 }

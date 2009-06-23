@@ -36,7 +36,6 @@ public class UserView extends Composite implements View {
 	private Panel articlePanel;
 	private HorizontalPanel horizontalPanel2;
 	private VerticalPanel verticalPanel;
-
 	private User user;
 	private AbsolutePanel absolutePanel;
 	private HorizontalPanel horizontalPanel;
@@ -125,9 +124,7 @@ public class UserView extends Composite implements View {
 
 	public UserView(String username) {
 		getUser(username);
-
 		createForm();
-
 	}
 
 	public void createForm() {
@@ -193,7 +190,7 @@ public class UserView extends Composite implements View {
 						reportUser = new Hyperlink("", null);
 						reportUser.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
-								//TODO mach was
+								new UserRateView(user);
 							}
 						});
 						verticalPanel_1.add(reportUser);

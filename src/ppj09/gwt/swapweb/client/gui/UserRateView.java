@@ -7,6 +7,8 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.datatype.User;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -15,24 +17,26 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Hyperlink;
 
 /**
- * Diese Klasse zeigt die Benutzerbewertungen an. Es können Bewertungen hinzugefügt werden.
- * Die Bewertungen (UserRate Objekte) werden über die Methode addUserRate() auf einem Vertical Panel
+ * Diese Klasse zeigt die Benutzerbewertungen an. Es kï¿½nnen Bewertungen hinzugefï¿½gt werden.
+ * Die Bewertungen (UserRate Objekte) werden ï¿½ber die Methode addUserRate() auf einem Vertical Panel
  * zur Anzeige gebracht.
  * 
- * @author Florian Liersch
+ * @author Florian Liersch, Christian Happ
  * @author Projekt Team 4711
- * @version 0.1, 19.05.09
+ * @version 0.1, 22.06.09
  */
 public class UserRateView extends Composite implements View{
 	
+	private User user;
 	private DockPanel dockPanel;
 	private AbsolutePanel absolutePanel;
 	private Label lblBewertungDesBenutzers;
 	private Hyperlink username;
 	private VerticalPanel verticalPanel;
 	
-	public UserRateView() {
+	public UserRateView(User user) {
 		{
+			this.user = user;
 			dockPanel = new DockPanel();
 			initWidget(dockPanel);
 			{
@@ -59,7 +63,7 @@ public class UserRateView extends Composite implements View{
 	}
 
 	/**
-	 * Gibt den Link auf den Nutzer der bewertet wurde zurück.
+	 * Gibt den Link auf den Nutzer der bewertet wurde zurï¿½ck.
 	 * @return the hyperlink
 	 */
 	public Hyperlink getUsername() {
@@ -75,7 +79,7 @@ public class UserRateView extends Composite implements View{
 	}
 	
 	/**
-	 * Fügt eine neue Bewertung für den Nutzer in die Liste ein.
+	 * Fï¿½gt eine neue Bewertung fï¿½r den Nutzer in die Liste ein.
 	 * @param UserRate to set
 	 */
 	public void addUserRate(UserRate rate){

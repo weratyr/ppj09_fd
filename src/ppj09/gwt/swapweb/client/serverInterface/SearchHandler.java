@@ -32,4 +32,6 @@ public interface SearchHandler extends RemoteService {
 	public ArrayList<SearchResult> search(ArticleSearchQuery searchQuery);
 	public ArrayList<SearchResult> search(UserSearchQuery searchQuery);
 	public ArrayList<SearchResult> getOfferedArticles(int articleId);
+	public int acceptOffer(int offerId);
+	public int declineOffer(int offerId);
 }
