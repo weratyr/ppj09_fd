@@ -700,7 +700,7 @@ public class DataBankerQueries {
 						ids.add(intId);
 					}
 				}
-				System.out.println("IDs: " + ids.toString());
+				// System.out.println("IDs: " + ids.toString());
 
 				// Fetched Offer Objekte für die Ids
 				for (int id : ids) {
