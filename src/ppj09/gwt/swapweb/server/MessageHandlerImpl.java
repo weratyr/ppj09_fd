@@ -10,6 +10,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 	
 
 public class MessageHandlerImpl extends RemoteServiceServlet implements MessageHandler {
+	
 	private DataBankerQueries db = new DataBankerQueries();
 	
 	public int sendMessage(Message mesg) {
@@ -20,8 +21,7 @@ public class MessageHandlerImpl extends RemoteServiceServlet implements MessageH
 	}
 
 	public ArrayList<Message> getMessages(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return db.getMessages(username);
 	}
 
 

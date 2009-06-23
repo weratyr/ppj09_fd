@@ -765,7 +765,7 @@ public class DataBankerQueries {
 	public int saveMessage(Message mesg) {
 		DataBankerConnection dbc = new DataBankerConnection();
 		String query =
-			"INSERT INTO message (articleID, authorID, receiverID, topic, message, isRead) " +
+			"INSERT INTO message (articleID, author, receiver, topic, message, isRead) " +
 			"VALUES('"+mesg.getArticleId()+"', '"+mesg.getAuthor()+"', '"+mesg.getReceiver()+"', '"+mesg.getTopic()+"', '"+mesg.getMessage()+"', '"+0+"')";
 		try {
 			PreparedStatement stmt = dbc.getConnection().prepareStatement(query);
@@ -781,29 +781,20 @@ public class DataBankerQueries {
 		DataBankerConnection dbc = new DataBankerConnection();
 		Statement stmt = dbc.getStatement();
 		
-		String query = "SELECT * FROM message WHERE authorID = '" + username + "' OR receiverID = '" + username + "'";
+		String query = "SELECT * FROM message WHERE author = '" + username + "' OR receiver = '" + username + "'";
 
 //		ResultSet rs = null;
 		try {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				messages.add(new Message(rs.getInt("messageID"),rs.getString("article"),rs.getString("author"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
+				messages.add(new Message(rs.getInt("messageID"),rs.getString("articleID"),rs.getString("author"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
+				System.out.println(rs.getString("message"));
 			}
 		} catch (Exception e) {
 		System.out.println(e);
 		}
-		return null;
+		return messages;
 	}
-		
-
-//		articles.add(new ArticleSearchResult(
-//				articleResultSet.getString("title"), 
-//				getUsername(articleResultSet.getInt("userid")), 
-//				articleResultSet.getString("image1"),
-//				articleResultSet.getInt("id"), 
-//				articleResultSet.getString("amount")));
-		
-	
 
 	// Helper mehtods
 

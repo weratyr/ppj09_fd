@@ -47,7 +47,7 @@ public class MailboxView extends Composite{
 		ToolbarButton refresh = new ToolbarButton("Empfangen");
 		refresh.addListener(new ButtonListenerAdapter(){
 			 public void onClick(Button button, EventObject e) {
-				 
+					receiveMessages();
 			 }
 		});
 		
@@ -138,7 +138,7 @@ public class MailboxView extends Composite{
 	
 	private void receiveMessages(){
 		ArrayList<Message> inboxMessages = new ArrayList<Message>();
-		
+		System.out.println(SwapWeb.getUserNameFromSession());
 		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
 		messageHandler.getMessages(SwapWeb.getUserNameFromSession(), new AsyncCallback<ArrayList<Message>>(){
 			public void onFailure(Throwable caught) {
@@ -146,7 +146,7 @@ public class MailboxView extends Composite{
 			}
 			public void onSuccess(ArrayList<Message> result) {
 				for (int i = 0;i<result.size();i++){
-					result.get(i).getMessage();
+					System.out.println(result.get(i).getMessage());
 				}
 			}
 		});
