@@ -29,7 +29,7 @@ import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
-import ppj09.gwt.swapweb.client.gui.MessageView;
+import ppj09.gwt.swapweb.client.gui.MailboxView;
 import ppj09.gwt.swapweb.client.gui.UserForm;
 import ppj09.gwt.swapweb.client.gui.UserRegistrationForm;
 import ppj09.gwt.swapweb.client.gui.UserSearchForm;
@@ -273,8 +273,7 @@ public class SwapWeb implements EntryPoint {
 		myMessagesHyperlink = new Hyperlink("Nachrichten", null);
 		myMessagesHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				contentPanel.clear();
-				contentPanel.doLayout();
+				contentPanel.add(new MailboxView());
 			}
 
 		});

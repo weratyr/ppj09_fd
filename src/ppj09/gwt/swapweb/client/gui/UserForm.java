@@ -216,6 +216,7 @@ public class UserForm extends Composite implements View {
 							// further explanation).
 							MessageBox.alert(event.getResults());
 							getuser();
+							window.close();
 						}
 					});
 					window = new Window();
@@ -430,13 +431,13 @@ public class UserForm extends Composite implements View {
 						submitButton.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
 								checkPasswordAndEmail(txtbxPwd.getText()); // fÃ¼hrt
-																			// auch
-																			// die
-																			// submit
-																			// methode
-																			// im
-																			// rpc
-																			// auf
+								// auch
+								// die
+								// submit
+								// methode
+								// im
+								// rpc
+								// auf
 							}
 						});
 						panelButton = new MultiFieldPanel();
@@ -745,6 +746,7 @@ public class UserForm extends Composite implements View {
 		}
 		try {
 			this.setUsername(user.getUsername());
+			this.setHiddenText(user.getUsername());
 		} catch (NullPointerException e) {
 			System.out.println("Fehler fillForm() " + e);
 		}
