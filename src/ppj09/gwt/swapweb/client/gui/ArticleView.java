@@ -118,6 +118,10 @@ public class ArticleView extends Composite implements View {
 
 	private Hyperlink categoryHyperlink;
 
+	private Hyperlink messageHyperlink;
+
+	private Hyperlink rateHyperlink;
+
 	/**
 	 * Constructor
 	 * 
@@ -144,7 +148,7 @@ public class ArticleView extends Composite implements View {
 				{
 					absolutePanel = new AbsolutePanel();
 					horizontalPanel.add(absolutePanel);
-					absolutePanel.setSize("200", "500");
+					absolutePanel.setSize("200", "210");
 
 					// Bild
 					{
@@ -153,7 +157,26 @@ public class ArticleView extends Composite implements View {
 						image.setSize("150", "150");
 						absolutePanel.add(image, 0, 0);
 					}
+					
+					// Nachricht senden + Bewerung einsehen (Links)
+					messageHyperlink = new Hyperlink("",null);
+					messageHyperlink.addClickHandler(new ClickHandler() {
+						public void onClick(ClickEvent event) {
+							showMessageForm();
+						}
+					});
+					absolutePanel.add(messageHyperlink,2,158);
+					
+					rateHyperlink = new Hyperlink("",null);
+					rateHyperlink.addClickHandler(new ClickHandler() {
+						public void onClick(ClickEvent event) {
+						}
+					});
+					absolutePanel.add(rateHyperlink,2,172);
 
+					
+					// Rechtes Panel ArtikelInformationen
+					
 					verticalPanel_2 = new VerticalPanel();
 
 					// Benutzername
@@ -329,15 +352,6 @@ public class ArticleView extends Composite implements View {
 			verticalPanel.add(articleDescription);
 			verticalPanel.setSpacing(10);
 			createOwnArticlesForm();
-
-			Button button = new Button("Show Anchor Form",
-					new ButtonListenerAdapter() {
-						public void onClick(Button button, EventObject e) {
-							showMessageForm();
-						}
-					});
-			verticalPanel.add(button);
-
 		}
 	}
 
@@ -600,17 +614,14 @@ public class ArticleView extends Composite implements View {
 
 			public void onSuccess(Article articleDatatype) {
 				article = articleDatatype;
+				SwapWeb.getContentPanel().setTitle("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
 
 				image.setUrl(article.getPictureUrl());
-				System.out.println(article.getPictureUrl());
-				SwapWeb.getContentPanel().setTitle(article.getTitle());
-				System.out.println(article.getTitle());
-				System.out.println(article.getUserId());
-				
 				usernameHyperlink.setText(article.getUserName());
 				categoryHyperlink.setText(article.getCategory());
-				lblLocation2.setText(article.getZipCode() + " "
-						+ article.getLocation());
+				messageHyperlink.setText("Nachricht an "+article.getUserName());
+				rateHyperlink.setText("Bewertungen von "+article.getUserName());
+				lblLocation2.setText(article.getZipCode() + " "+ article.getLocation());
 				lblCondition2.setText(article.getCondition());
 				lblDelivery2.setText(article.getShippingMethods());
 				lblAmount2.setText(article.getOfferScope());
