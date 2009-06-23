@@ -334,9 +334,10 @@ public class SwapWeb implements EntryPoint {
 		tabPanel.setWidth(885);
 		new ArticleSearchForm(tabPanel);
 		new AdvancedSearchForm(tabPanel);
+		new UserSearchForm(tabPanel);
 		new LoginForm(tabPanel);
 		new UserRegistrationForm(tabPanel);
-		new UserSearchForm(tabPanel);
+		
 		return tabPanel;
 	}
 
