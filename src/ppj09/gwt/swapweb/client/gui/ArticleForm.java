@@ -65,8 +65,9 @@ public class ArticleForm extends Composite implements Form {
 	private Article result;
 
 	public ArticleForm(int articleID) {
-		fillForm(getArticle(articleID));
 		createFrom();
+		getArticle(articleID);
+
 	}
 
 	public ArticleForm() {
@@ -77,6 +78,7 @@ public class ArticleForm extends Composite implements Form {
 		{
 			VerticalPanel verticalPanel = new VerticalPanel();
 			initWidget(verticalPanel);
+
 			{
 				formPanel = new FormPanel();
 				formPanel.setMonitorValid(true);
@@ -421,7 +423,9 @@ public class ArticleForm extends Composite implements Form {
 		articleManager.getArticle(articleID, new AsyncCallback<Article>() {
 
 			public void onSuccess(Article resultArticle) {
+				System.out.println(resultArticle.getTitle());
 				result = resultArticle;
+				fillForm(resultArticle);
 			}
 
 			public void onFailure(Throwable caught) {
@@ -453,7 +457,7 @@ public class ArticleForm extends Composite implements Form {
 		} catch (NullPointerException e) {
 			System.out.println("Fehler fillForm() " + e);
 		}
-		//Shipping //TODO
+		// Shipping //TODO
 		try {
 			this.txtbxAmount.setRawValue(article.getOfferScope());
 		} catch (NullPointerException e) {
@@ -469,7 +473,8 @@ public class ArticleForm extends Composite implements Form {
 		} catch (NullPointerException e) {
 			System.out.println("Fehler fillForm() " + e);
 		}
+		
+		
 	}
 
-	
 }
