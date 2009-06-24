@@ -25,9 +25,16 @@ public class MessageHandlerImpl extends RemoteServiceServlet implements
 		return db.getMessages(username);
 	}
 
+<<<<<<< HEAD:src/ppj09/gwt/swapweb/server/MessageHandlerImpl.java
+	public int setIsRead(int messageId) {
+		return db.setMessageIsRead(messageId);
+	}
+
+=======
 	public int getUnreadedMsgs() {
 		// TODO Auto-generated method stub
 		return db.getUnreaded(sh.getSession(this.getThreadLocalRequest()));
 	}
+>>>>>>> 608a45f4a2e1bc7151030ea842fe95b19d27fd18:src/ppj09/gwt/swapweb/server/MessageHandlerImpl.java
 
 }
