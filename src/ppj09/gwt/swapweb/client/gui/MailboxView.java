@@ -256,6 +256,7 @@ public class MailboxView extends Composite{
 
 								public void onSuccess(Integer result) {
 									System.out.println("erfolg");
+									SwapWeb.getUnreadedMsgs();
 								}
         	            	  
         	              });}

@@ -564,6 +564,9 @@ public class SwapWeb implements EntryPoint {
 					unreadedHorizontalPanel.setVisible(true);
 
 				}
+				else
+					unreadedHorizontalPanel.setVisible(false);
+
 
 				// System.out.println("ungelesene client:"+unreadedMsgs);
 
