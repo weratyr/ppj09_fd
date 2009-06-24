@@ -37,7 +37,7 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		offerPanelWrapper.setMargins(0,30,0,5);
 		
 		Panel offerPanel = new Panel();
-		offerPanel.setWidth("95%");
+		offerPanel.setWidth(550);
 		
 		if (this.offerSearchResult.isSwapConcluded()) {
 			offerPanel.setTitle("Abgeschlossener Swap mit " + this.offerSearchResult.getOfferedBy());
