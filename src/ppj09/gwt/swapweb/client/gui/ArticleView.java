@@ -56,11 +56,13 @@ import com.gwtext.client.data.Store;
 import com.gwtext.client.data.StringFieldDef;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Component;
+import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListener;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.event.WindowListenerAdapter;
 import com.gwtext.client.widgets.form.Checkbox;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -86,14 +88,8 @@ public class ArticleView extends Composite implements View {
 	private VerticalPanel verticalPanel_2;
 	private Label lblHorizontalSeperator;
 	private VerticalPanel verticalPanel;
-	private Label lblArticleName;
-	private TabPanel imagePanel;
 	private Image image;
-	private Image image2;
-	private Image image3;
-	private Panel ImagePanel2;
-	private Panel imagePanel1;
-	private Panel ImagePanel3;
+
 	private HorizontalPanel hpLocation;
 
 	private Label lblLocation;
@@ -112,13 +108,11 @@ public class ArticleView extends Composite implements View {
 	private Label lblSwapIdea2;
 	private Label lblSwapIdea;
 	private Label description;
-	private String imageUrl;
 	private HorizontalPanel hpUsername;
 	private Label lblUsername;
 	private Label lblUsername2;
 	private HorizontalPanel hpCategory;
 	private Label lblCategory;
-	private Label lblCategory2;
 	private Hyperlink usernameHyperlink;
 	private Hyperlink categoryHyperlink;
 	private Hyperlink messageHyperlink;
@@ -152,27 +146,26 @@ public class ArticleView extends Composite implements View {
 						image.setSize("150", "150");
 						absolutePanel.add(image, 0, 0);
 					}
-					
+
 					// Nachricht senden + Bewerung einsehen (Links)
-					messageHyperlink = new Hyperlink("",null);
+					messageHyperlink = new Hyperlink("", null);
 					messageHyperlink.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 							new MessageComposeView(article);
 						}
 					});
-					
-					absolutePanel.add(messageHyperlink,2,158);
-					
-					rateHyperlink = new Hyperlink("",null);
+
+					absolutePanel.add(messageHyperlink, 2, 158);
+
+					rateHyperlink = new Hyperlink("", null);
 					rateHyperlink.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 						}
 					});
-					absolutePanel.add(rateHyperlink,2,176);
+					absolutePanel.add(rateHyperlink, 2, 176);
 
-					
 					// Rechtes Panel ArtikelInformationen
-					
+
 					verticalPanel_2 = new VerticalPanel();
 
 					// Benutzername
@@ -181,12 +174,13 @@ public class ArticleView extends Composite implements View {
 						lblUsername = new Label("Anbieter:");
 						lblUsername.setWidth("160");
 						hpUsername.add(lblUsername);
-						usernameHyperlink = new Hyperlink("",null);
+						usernameHyperlink = new Hyperlink("", null);
 						usernameHyperlink.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
 								Panel contentPanel = SwapWeb.getContentPanel();
 								contentPanel.clear();
-								contentPanel.add(new UserView(usernameHyperlink.getText()));
+								contentPanel.add(new UserView(usernameHyperlink
+										.getText()));
 								contentPanel.doLayout();
 							}
 						});
@@ -203,7 +197,7 @@ public class ArticleView extends Composite implements View {
 						verticalPanel_2.add(verticalSeperator1);
 					}
 
-//					// Kategorie
+					// // Kategorie
 					{
 						hpCategory = new HorizontalPanel();
 						lblCategory = new Label("Kategorie:");
@@ -213,23 +207,38 @@ public class ArticleView extends Composite implements View {
 						categoryHyperlink.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
 								// Setzt den Link auf die Kategorie
-								final Panel contentPanel = SwapWeb.getContentPanel();
+								final Panel contentPanel = SwapWeb
+										.getContentPanel();
 
 								ArticleSearchQuery sq = new ArticleSearchQuery();
-								sq.setCategoryPhrase(categoryHyperlink.getText());
+								sq.setCategoryPhrase(categoryHyperlink
+										.getText());
 
-								SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-								searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
-													public void onFailure(Throwable caught) {
-														System.out.println("Fehler: ArticleView.java "+ caught.getMessage());
+								SearchHandlerAsync searchHandler = GWT
+										.create(SearchHandler.class);
+								searchHandler
+										.search(
+												sq,
+												new AsyncCallback<ArrayList<SearchResult>>() {
+													public void onFailure(
+															Throwable caught) {
+														System.out
+																.println("Fehler: ArticleView.java "
+																		+ caught
+																				.getMessage());
 													}
-													public void onSuccess(ArrayList<SearchResult> results) {
+
+													public void onSuccess(
+															ArrayList<SearchResult> results) {
 														contentPanel.clear();
 														Panel listView = new Panel();
 														for (SearchResult r : results) {
-															listView.add((ArticleSearchResultView) r.getView());
+															listView
+																	.add((ArticleSearchResultView) r
+																			.getView());
 														}
-														contentPanel.add(listView);
+														contentPanel
+																.add(listView);
 														contentPanel.doLayout();
 													}
 												});
@@ -344,13 +353,14 @@ public class ArticleView extends Composite implements View {
 			articleDescription.setPaddings(5);
 			verticalPanel.add(articleDescription);
 			verticalPanel.setSpacing(10);
-			
+
 			Panel offeredArticles = new Panel();
 			offeredArticles.setTitle("Vorliegende Angebote:");
 			offeredArticles.setWidth(660);
-			offeredArticles.add(SwapWeb.getVorliegendeAngebote(article.getArticleId()));
+			offeredArticles.add(SwapWeb.getVorliegendeAngebote(article
+					.getArticleId()));
 			verticalPanel.add(offeredArticles);
-			
+
 			createOwnArticlesForm();
 		}
 	}
@@ -365,6 +375,7 @@ public class ArticleView extends Composite implements View {
 		articleManager
 				.getOwnArticlesList(new AsyncCallback<ArrayList<Article>>() {
 					private Window offerWindow;
+					private FormPanel offerSubmitForm;
 
 					public void onFailure(Throwable caught) {
 						System.out
@@ -424,6 +435,12 @@ public class ArticleView extends Composite implements View {
 						grid.setTitle("Ihre eigenen Artikel");
 
 						offerWindow = new Window();
+						offerWindow.addListener(new WindowListenerAdapter() {
+							public void onHide(Component component) {
+								// TODO
+								offerSubmitForm.clear();
+							}
+						});
 						offerWindow.setTitle("Artikel zum Tausch anbieten");
 						offerWindow.setClosable(true);
 						offerWindow.setWidth(400);
@@ -438,23 +455,29 @@ public class ArticleView extends Composite implements View {
 												.getSelections();
 										String offerListIds = "";
 										String offerListTitles = "";
-										for (int i = 0; i < records.length; i++) {
-											Record record = records[i];
-											offerListIds += record
-													.getAsString("artikelId")
-													+ ",";
-											offerListTitles += "<li> - "
-													+ record
-															.getAsString("artikel")
-													+ " (ID: "
-													+ record
-															.getAsString("artikelId")
-													+ ")</li>";
-										}
+										if (records.length == 0) {
+											MessageBox
+													.alert("Sie haben keinen Artikel zum tauschen ausgewählt");
+										} else {
+											for (int i = 0; i < records.length; i++) {
+												Record record = records[i];
+												offerListIds += record
+														.getAsString("artikelId")
+														+ ",";
+												offerListTitles += "<li> - "
+														+ record
+																.getAsString("artikel")
+														+ " (ID: "
+														+ record
+																.getAsString("artikelId")
+														+ ")</li>";
+											}
 
-										offerWindow.add(getOfferSubmitForm(
-												offerListIds, offerListTitles));
-										offerWindow.show(button.getId());
+											offerWindow.add(getOfferSubmitForm(
+													offerListIds,
+													offerListTitles));
+											offerWindow.show(button.getId());
+										}
 									}
 								});
 
@@ -472,7 +495,8 @@ public class ArticleView extends Composite implements View {
 					private Component getOfferSubmitForm(
 							final String offerListIds, String offerListTitles) {
 
-						FormPanel offerSubmitForm = new FormPanel();
+						offerSubmitForm = new FormPanel();
+
 						offerSubmitForm.setBorder(false);
 						offerSubmitForm.setPaddings(6);
 						offerSubmitForm.setLabelAlign(Position.TOP);
@@ -510,7 +534,7 @@ public class ArticleView extends Composite implements View {
 						offerComment.setAllowBlank(false);
 						offerComment.setSize(365, 50);
 
-						Checkbox chkbxAccept = new Checkbox(
+						final Checkbox chkbxAccept = new Checkbox(
 								"Ja, ich möchte tauschen", "check_Box");
 						chkbxAccept.setValidateOnBlur(true);
 
@@ -524,28 +548,42 @@ public class ArticleView extends Composite implements View {
 
 						button.addListener(new ButtonListenerAdapter() {
 							public void onClick(Button button, EventObject e) {
-								System.out.println("lol");
-								int swapStatus = 0;
-								// Offer offer = new Offer();
-								Offer offer = new Offer(article.getArticleId(),
-										offerListIds, offerComment.getText(),
-										swapStatus,shippingCB.getText());
-								OfferHandlerAsync offerHandler = GWT
-										.create(OfferHandler.class);
-								offerHandler.createOffer(offer,
-										new AsyncCallback<Integer>() {
-											public void onFailure(
-													Throwable caught) {
-												System.out
-														.println("ArticleView failed");
-											}
 
-											public void onSuccess(Integer result) {
-												System.out
-														.println("ArticleView success");
-											}
+								if (!shippingCB.getText().equals("")
+										&& chkbxAccept.getValue()) {
+									int swapStatus = 0;
+									// Offer offer = new Offer();
+									Offer offer = new Offer(article
+											.getArticleId(), offerListIds,
+											offerComment.getText(), swapStatus,
+											shippingCB.getText());
+									OfferHandlerAsync offerHandler = GWT
+											.create(OfferHandler.class);
+									offerHandler.createOffer(offer,
+											new AsyncCallback<Integer>() {
+												public void onFailure(
+														Throwable caught) {
+													System.out
+															.println("ArticleView failed");
+												}
 
-										});
+												public void onSuccess(
+														Integer result) {
+													System.out
+															.println("ArticleView success");
+												}
+
+											});
+									MessageBox
+											.alert("Ihr Tauschangebot wurde erfolgreich an den Benutzer "
+													+ usernameHyperlink
+															.getText()
+													+ " geschickt!");
+									offerWindow.close();
+								} else {
+									MessageBox
+											.alert("Bitte wählen Sie eine Versandart und bestätigen Sie den Tausch");
+								}
 							}
 						});
 
@@ -590,14 +628,19 @@ public class ArticleView extends Composite implements View {
 
 			public void onSuccess(Article articleDatatype) {
 				article = articleDatatype;
-				SwapWeb.getContentPanel().setTitle("Artikel: "+article.getTitle()+" (ID: "+article.getArticleId()+")");
+				SwapWeb.getContentPanel().setTitle(
+						"Artikel: " + article.getTitle() + " (ID: "
+								+ article.getArticleId() + ")");
 
 				image.setUrl(article.getPictureUrl());
 				usernameHyperlink.setText(article.getUserName());
 				categoryHyperlink.setText(article.getCategory());
-				messageHyperlink.setText("Nachricht an "+article.getUserName());
-				rateHyperlink.setText("Bewertungen von "+article.getUserName());
-				lblLocation2.setText(article.getZipCode() + " "+ article.getLocation());
+				messageHyperlink.setText("Nachricht an "
+						+ article.getUserName());
+				rateHyperlink.setText("Bewertungen von "
+						+ article.getUserName());
+				lblLocation2.setText(article.getZipCode() + " "
+						+ article.getLocation());
 				lblCondition2.setText(article.getCondition());
 				lblDelivery2.setText(article.getShippingMethods());
 				lblAmount2.setText(article.getOfferScope());

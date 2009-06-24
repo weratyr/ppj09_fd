@@ -565,7 +565,7 @@ public class DataBankerQueries {
 		if (sq.isPicturesOnly())
 			addCondition("image1 is not null");
 
-		System.out.println(query);
+		System.out.println(query+" getArticleSearch");
 		ResultSet resultSet = null;
 		try {
 			resultSet = stmt.executeQuery(query);
