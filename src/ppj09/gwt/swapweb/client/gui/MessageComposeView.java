@@ -25,6 +25,7 @@ import com.gwtext.client.widgets.layout.FitLayout;
 public class MessageComposeView extends Composite {
 	private Article article;
 	private String receiver;
+	private String topic;
 	private int articleId;
 	private User user;
 
@@ -57,6 +58,15 @@ public class MessageComposeView extends Composite {
 
 		createMessagePopupWindow();
 	}
+	
+	public MessageComposeView(String receiver, String topic) {
+		this.receiver = receiver;
+		this.topic = topic;
+		createMessagePopupWindow();
+		sentTo.setValue(receiver);
+		sentTo.disable();
+		subject.setValue("RE: "+ topic);
+	}
 
 	public void createMessagePopupWindow() {
 		final Window messageWindow = new Window();
@@ -73,7 +83,7 @@ public class MessageComposeView extends Composite {
 		messagePanel.setMonitorValid(true);
 
 		// anchor width by percentage
-		sentTo = new TextField("Send To", "to");
+		sentTo = new TextField("Empfänger", "to");
 		sentTo.setAllowBlank(false);
 		sentTo.setMinLength(5);
 		sentTo.setMinLengthText("Es muss ein empfänger angegeben werden!!");
@@ -81,13 +91,13 @@ public class MessageComposeView extends Composite {
 		messagePanel.add(sentTo, new AnchorLayoutData("100%"));
 
 		// anchor width by percentage
-		subject = new TextField("Subject", "subject");
+		subject = new TextField("Betreff", "subject");
 		subject.setAllowBlank(false);
 		subject.setMinLength(2);
 		subject.setMinLengthText("Betreff ist leer!");
 		messagePanel.add(subject, new AnchorLayoutData("100%"));
 
-		final TextArea textArea = new TextArea("Subject", "subject");
+		final TextArea textArea = new TextArea("Betreff", "subject");
 		textArea.setAllowBlank(false);
 		textArea.setHideLabel(true);
 		// anchor width by percentage and height by raw adjustment
@@ -103,7 +113,7 @@ public class MessageComposeView extends Composite {
 				mesg.setArticleId(articleId);
 				mesg.setAuthor(SwapWeb.getUserNameFromSession());
 				mesg.setMessage(textArea.getText());
-				mesg.setReceiver(receiver);
+				mesg.setReceiver(sentTo.getText());
 				mesg.setTopic(subject.getText());
 
 				MessageHandlerAsync messageProxy = GWT

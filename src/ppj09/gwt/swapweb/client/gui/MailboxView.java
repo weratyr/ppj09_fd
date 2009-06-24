@@ -1,6 +1,8 @@
 package ppj09.gwt.swapweb.client.gui;
 
+
 import java.util.ArrayList;
+
 
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Message;
@@ -43,6 +45,8 @@ public class MailboxView extends Composite{
 	private Label message;
 	private Label subject;
 	private Label author;
+	private String authorTemp;
+	private String subjectTemp;
 	private ArrayList<Message> inboxItemsArrayList;
 	private ArrayList<Message> outboxItemsArrayList;
 
@@ -89,7 +93,6 @@ public class MailboxView extends Composite{
 		mainWindow.add(getMailContents());
 		
 		
-		
 		Window window = new Window();
 		window.setTitle("Postfach");
 		window.setPaddings(0);
@@ -128,6 +131,7 @@ public class MailboxView extends Composite{
 				System.out.println("RPC failed @ MailboxView: " + caught);
 			}
 			public void onSuccess(ArrayList<Message> result) {
+				System.out.println(result.get(0).getDate());
 				inboxItems = new Object[result.size()][10];
 				outboxItems = new Object[result.size()][10];
 				inboxItemsArrayList = new ArrayList<Message>();
@@ -137,11 +141,11 @@ public class MailboxView extends Composite{
 				for (int i = 0;i<result.size();i++){
 					if(!(result.get(i).getAuthor().equals(SwapWeb.getUserNameFromSession()))){
 						inboxItemsArrayList.add(result.get(i));
-						inboxItems[j] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getMessage() };
+						inboxItems[j] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getDate() };
 						j++;
 					} else {
 						outboxItemsArrayList.add(result.get(i));
-						outboxItems[k] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getMessage() };
+						outboxItems[k] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getDate() };
 						k++;
 					}
 				}
@@ -188,19 +192,12 @@ public class MailboxView extends Composite{
 		ToolbarButton respond = new ToolbarButton("Antworten");
 		respond.addListener(new ButtonListenerAdapter(){
 			 public void onClick(Button button, EventObject e) {
-				 
+				 new MessageComposeView(authorTemp,subjectTemp);
 			 }
 		});
-		// delete Button in bottom toolbar
-		ToolbarButton delete = new ToolbarButton("Löschen");
-		delete.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 
-			 }
-		});
+		
 		Toolbar mailContentToolbar = new Toolbar();
 		mailContentToolbar.addButton(respond);
-		mailContentToolbar.addButton(delete);
 		
 		messageWindow.setBottomToolbar(mailContentToolbar);
 		return mailContents;
@@ -243,6 +240,8 @@ public class MailboxView extends Composite{
 			         
 			          inboxGrid.addGridRowListener(new GridRowListener() {  
         	              public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+        	                  authorTemp = (inboxItemsArrayList.get(rowIndex).getAuthor());
+        	                  subjectTemp = (inboxItemsArrayList.get(rowIndex).getTopic());
         	            	  author.setText("Von: "+(inboxItemsArrayList.get(rowIndex).getAuthor()));
         	            	  subject.setText("Betreff: "+(inboxItemsArrayList.get(rowIndex).getTopic()));
         	            	  message.setText(inboxItemsArrayList.get(rowIndex).getMessage());
@@ -262,7 +261,7 @@ public class MailboxView extends Composite{
 							
 						}  
         	          });  
-			         
+			inboxGrid.doLayout();
 			return inboxGrid;
 	}
 	
@@ -303,6 +302,8 @@ public class MailboxView extends Composite{
         
         outboxGrid.addGridRowListener(new GridRowListener() {  
              public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+              authorTemp = (outboxItemsArrayList.get(rowIndex).getAuthor());
+              subjectTemp = (outboxItemsArrayList.get(rowIndex).getTopic());
            	  author.setText("Von: "+(outboxItemsArrayList.get(rowIndex).getAuthor()));
            	  subject.setText("Betreff: "+(outboxItemsArrayList.get(rowIndex).getTopic()));
            	  message.setText(outboxItemsArrayList.get(rowIndex).getMessage());           	  
@@ -320,7 +321,7 @@ public class MailboxView extends Composite{
 				
 			}  
          });  
-        
+         outboxGrid.doLayout();
 	     return outboxGrid;
 }
 }
