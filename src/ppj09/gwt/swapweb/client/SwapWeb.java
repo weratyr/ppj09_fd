@@ -28,6 +28,7 @@ import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
+import ppj09.gwt.swapweb.client.gui.HelpView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.MailboxView;
 import ppj09.gwt.swapweb.client.gui.UserForm;
@@ -36,6 +37,8 @@ import ppj09.gwt.swapweb.client.gui.UserSearchForm;
 import ppj09.gwt.swapweb.client.gui.UserView;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelper;
 import ppj09.gwt.swapweb.client.serverInterface.GuiHelperAsync;
+import ppj09.gwt.swapweb.client.serverInterface.MessageHandler;
+import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SessionManager;
@@ -65,6 +68,7 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.ComboBox;
+import com.gwtext.client.widgets.form.TextArea;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
@@ -100,6 +104,9 @@ public class SwapWeb implements EntryPoint {
 	private Hyperlink testProfileFormHyperlink;
 	private UserView myProfile;
 	private DisclosurePanel hilfe;
+	private Hyperlink unreadedMsgsHyperlink;
+	private static HorizontalPanel unreadedHorizontalPanel;
+	// private static int unreadedMsgs = 0;
 	private static VerticalPanel verticalPanel;
 	private static Panel loggedInPanel2;
 	private static AbsolutePanel abPanel;
@@ -108,6 +115,7 @@ public class SwapWeb implements EntryPoint {
 
 	private static HorizontalPanel loggedInPanel;
 	private static String userNameFromSession;
+	private static Label unreadMsgslbl;
 
 	/**
 	 * Die EntryPoint Methode
@@ -157,7 +165,6 @@ public class SwapWeb implements EntryPoint {
 		loggedInPanel2.setBorder(false);
 
 		// loggedInPanel.setBorder(false);
-	
 
 		abmeldenHyperlink = new Hyperlink("abmelden", null);
 
@@ -178,7 +185,7 @@ public class SwapWeb implements EntryPoint {
 					public void onSuccess(Void result) {
 						// :)
 						loggedInPanel.setVisible(false);
-				
+						unreadedHorizontalPanel.setVisible(false);
 						new LoginForm(getTabPanel());
 						new UserRegistrationForm(getTabPanel());
 						toggleMeinSwapWeb();
@@ -195,16 +202,36 @@ public class SwapWeb implements EntryPoint {
 
 		loggedInPanel.setVisible(false);
 
-
 		MultiFieldPanel northContainer = new MultiFieldPanel();
 		northContainer.setBorder(false);
 		northContainer.add(image);
 
 		abPanel = new AbsolutePanel();
 		abPanel.setSize("600", "80");
-		abPanel.add(loggedInPanel, 320, 0);
-		northContainer.add(abPanel);
+		abPanel.add(loggedInPanel, 290, 0);
+
+		unreadedHorizontalPanel = new HorizontalPanel();
+		unreadMsgslbl = new Label();
+		unreadedHorizontalPanel.add(unreadMsgslbl);
+		Label seperator = new Label();
+		seperator.setWidth("5");
+		unreadedHorizontalPanel.add(seperator);
+
+		unreadedMsgsHyperlink = new Hyperlink("Nachrichten", null);
 		
+		unreadedMsgsHyperlink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				contentPanel.add(new MailboxView());
+			}
+
+		});
+		unreadedHorizontalPanel.add(unreadedMsgsHyperlink);
+		unreadedHorizontalPanel.setVisible(false);
+
+		abPanel.add(unreadedHorizontalPanel, 290, 20);
+
+		northContainer.add(abPanel);
+
 		Panel northOuterPanel = new Panel();
 		northOuterPanel.setBorder(false);
 		northOuterPanel.add(northContainer);
@@ -224,7 +251,13 @@ public class SwapWeb implements EntryPoint {
 
 		contentPanel.setWidth(700);
 		contentPanel.setPaddings(10);
-
+		
+		Panel startMessage = new Panel();
+		startMessage.setBorder(false);
+		startMessage.setHtml("<b>Wilkommen bei SwapWeb</b></br></br> Bei SwapWeb wird alles getauscht, was nützlich ist und einen neuen Besitzer sucht. Waren jeder Art, egal ob Kleinigkeiten oder Dinge mit großem Wert. In unserer Tauschbörse das ein oder andere Schnäppchen machen. Stöbere in Ruhe in den  Rubriken. Finde heraus, was hier schon alles zum Tausch angeboten wird. SwapWeb ist nicht nur etwas für Flohmarkt-Fans oder Sammler. Hier findet man auch hochwertige Waren! Es ist nichts besonderes, hier im SwapWeb auch Autos, Häuser oder Grundstücke zu finden. Fast alles ist erlaubt! Solange es legal ist und nicht gegen gute Sitten verstößt.Die Teilnahme ist kostenlos. Es gibt definitiv keine versteckten Kosten. Hier wird also niemand zur Kasse gebeten. Man kann sich kostenlos anmelden, kostenlos Bilder hochladen und kostenlos Inserate schalten.");
+		contentPanel.add(startMessage);
+		contentPanel.setTitle("Start Seite");
+		
 		navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
 
@@ -246,23 +279,22 @@ public class SwapWeb implements EntryPoint {
 		navigationsContentPanel.setId("navi-panel");
 
 		verticalPanel = new VerticalPanel();
-		
+
 		// Mein SwapWeb
 		meinSwapWeb = new DisclosurePanel("Mein SwapWeb", false);
 		meinSwapWeb.setContent(getMySwapWebPanel());
 
-		
 		// Kategoriebaum
 		kategorien = new DisclosurePanel("Kategorien", false);
 		kategorien.setContent(getCategories());
-		
-		//navigationsContentPanel.add(kategorien);
+
 		verticalPanel.add(kategorien);
-		
+
 		// Hilfe
 		hilfe = new DisclosurePanel("Hilfe", false);
+		hilfe.add(new HelpView());
 		verticalPanel.add(hilfe);
-		
+
 		navigationsContentPanel.add(verticalPanel);
 		return navigationsContentPanel;
 	}
@@ -291,7 +323,7 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 
-		myArticlesHyperlink = new Hyperlink("Meine Artikel", null);
+		
 
 		insertArticleHyperlink = new Hyperlink("Artikel einstellen", null);
 		insertArticleHyperlink.addClickHandler(new ClickHandler() {
@@ -304,7 +336,7 @@ public class SwapWeb implements EntryPoint {
 
 		});
 
-		myRatingsHyperlink = new Hyperlink("Meine Bewertungen", null);
+		
 		myMessagesHyperlink = new Hyperlink("Nachrichten", null);
 		myMessagesHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -315,9 +347,7 @@ public class SwapWeb implements EntryPoint {
 
 		verticalPanel.add(myProfileHyperlink);
 		verticalPanel.add(testProfileFormHyperlink);
-		verticalPanel.add(myArticlesHyperlink);
 		verticalPanel.add(insertArticleHyperlink);
-		verticalPanel.add(myRatingsHyperlink);
 		verticalPanel.add(myMessagesHyperlink);
 
 		return verticalPanel;
@@ -348,38 +378,38 @@ public class SwapWeb implements EntryPoint {
 							element.mask("Lädt");
 
 							SearchHandlerAsync searchHandler = GWT
-							.create(SearchHandler.class);
+									.create(SearchHandler.class);
 							searchHandler
-							.search(
-									sq,
-									new AsyncCallback<ArrayList<SearchResult>>() {
-										public void onFailure(
-												Throwable caught) {
-											System.out
-											.println("Fehler: SwapWeb.java "
-													+ caught
-													.getMessage());
-										}
+									.search(
+											sq,
+											new AsyncCallback<ArrayList<SearchResult>>() {
+												public void onFailure(
+														Throwable caught) {
+													System.out
+															.println("Fehler: SwapWeb.java "
+																	+ caught
+																			.getMessage());
+												}
 
-										public void onSuccess(
-												ArrayList<SearchResult> results) {
-											element.unmask();
-											SwapWeb.getContentPanel()
-											.clear();
-											Panel listView = new Panel();
+												public void onSuccess(
+														ArrayList<SearchResult> results) {
+													element.unmask();
+													SwapWeb.getContentPanel()
+															.clear();
+													Panel listView = new Panel();
 
-											for (SearchResult r : results) {
-												listView
-												.add((ArticleSearchResultView) r
-														.getView());
-											}
+													for (SearchResult r : results) {
+														listView
+																.add((ArticleSearchResultView) r
+																		.getView());
+													}
 
-											SwapWeb.getContentPanel()
-											.add(listView);
-											SwapWeb.getContentPanel()
-											.doLayout();
-										}
-									});
+													SwapWeb.getContentPanel()
+															.add(listView);
+													SwapWeb.getContentPanel()
+															.doLayout();
+												}
+											});
 						}
 					});
 					categoryList.add(categoryLink);
@@ -413,7 +443,7 @@ public class SwapWeb implements EntryPoint {
 
 	public static void toggleMeinSwapWeb() {
 		if (!meinSwapWeb.isAttached()) {
-			verticalPanel.insert(meinSwapWeb,0);
+			verticalPanel.insert(meinSwapWeb, 0);
 			// navigationsContentPanel.add(meinSwapWeb);
 		} else {
 			verticalPanel.remove(meinSwapWeb);
@@ -424,11 +454,16 @@ public class SwapWeb implements EntryPoint {
 
 	public static void setLoggedin(String username) {
 		loggedInPanel.setVisible(true);
-		loggedInPanel2
-				.setHtml("Sie sind angemeldet als <b>"
-						+ username
-						+"</b> ["
-						);
+		loggedInPanel2.setHtml("Sie sind angemeldet als <b>" + username
+				+ "</b> [");
+
+		getUnreadedMsgs();
+		/*
+		 * if (unreadedMsgs != 0) { unreadMsgslbl.setText(unreadedMsgs +
+		 * " ungelesene ");
+		 * 
+		 * unreadedHorizontalPanel.setVisible(true); }
+		 */
 	}
 
 	public static void getCategories(final Panel container,
@@ -464,16 +499,18 @@ public class SwapWeb implements EntryPoint {
 	public static void setUserNameFromSession(String userNameFromSession) {
 		SwapWeb.userNameFromSession = userNameFromSession;
 	}
+
 	
-	public static HorizontalPanel getVorliegendeAngebotePanel(int articleId) {
-		final HorizontalPanel offeredArticles = new HorizontalPanel();
+	public static VerticalPanel getVorliegendeAngebotePanel(int articleId) {
+		System.out.println("ARTIKEL ID " + articleId);
+		final VerticalPanel offeredArticles = new VerticalPanel();
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
 			public void onFailure(Throwable e) {
 				e.printStackTrace();
 			}
 			public void onSuccess(ArrayList<SearchResult> results) {
-				System.out.println("Anzahl results: " + results.size());
+				System.out.println("Anzahl results (Vorliegende Angebote): " + results.size());
 				for (SearchResult r : results) {
 					offeredArticles.add((Widget) r.getView());
 				}
@@ -481,29 +518,57 @@ public class SwapWeb implements EntryPoint {
 		});
 		return offeredArticles;
 	}
-	
-	public static void getVorliegendeAngebotePanel(final Label title, final Panel outerPanel, int articleId) {
+
+	public static void getVorliegendeAngebotePanel(final Label title,
+			final Panel outerPanel, int articleId) {
 		final VerticalPanel offeredArticles = new VerticalPanel();
 
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
+		searchHandler.getOfferedArticles(articleId,
+				new AsyncCallback<ArrayList<SearchResult>>() {
+					public void onFailure(Throwable e) {
+						e.printStackTrace();
+					}
+
+					public void onSuccess(ArrayList<SearchResult> results) {
+						// DisclosurePanel angeboteDisclosurePanel = new
+						// DisclosurePanel();
+						title.setText("Angebote (" + results.size() + ")");
+						System.out.println("Anzahl results: " + results.size());
+						// angeboteDisclosurePanel.setTitle("Angebote (" +
+						// results.size() + ")");
+						for (SearchResult r : results) {
+							offeredArticles.add((Widget) r.getView());
+						}
+						// angeboteDisclosurePanel.setContent(offeredArticles);
+						outerPanel.add(title);
+						outerPanel.add(offeredArticles);
+						outerPanel.doLayout();
+					}
+				});
+	}
+
+	public static void getUnreadedMsgs() {
+		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
+		messageHandler.getUnreadedMsgs(new AsyncCallback<Integer>() {
 			public void onFailure(Throwable e) {
 				e.printStackTrace();
 			}
-			public void onSuccess(ArrayList<SearchResult> results) {
-				// DisclosurePanel angeboteDisclosurePanel = new DisclosurePanel();
-				title.setText("Angebote (" + results.size() + ")");
-				System.out.println("Anzahl results: " + results.size());
-				// angeboteDisclosurePanel.setTitle("Angebote (" + results.size() + ")");
-				for (SearchResult r : results) {
-					offeredArticles.add((Widget) r.getView());
+
+			public void onSuccess(Integer result) {
+				// unreadedMsgs = result;
+				System.out.println("ungelesene client result :" + result);
+				if (result != 0) {
+					unreadMsgslbl.setText(result.toString() + " ungelesene ");
+
+					unreadedHorizontalPanel.setVisible(true);
+
 				}
-				// angeboteDisclosurePanel.setContent(offeredArticles);
-				outerPanel.add(title);
-				outerPanel.add(offeredArticles);
-				outerPanel.doLayout();
+
+				// System.out.println("ungelesene client:"+unreadedMsgs);
+
 			}
 		});
 	}
-	
+
 }

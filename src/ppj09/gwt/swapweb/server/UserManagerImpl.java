@@ -56,6 +56,7 @@ public class UserManagerImpl extends RemoteServiceServlet implements UserManager
 
 	public boolean checkUsername(String username) {
 		// TODO Auto-generated method stub
+		System.out.println("check username test");
 		return db.checkUsername(username);
 	}
 

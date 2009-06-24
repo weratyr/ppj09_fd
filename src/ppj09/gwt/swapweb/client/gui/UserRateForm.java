@@ -116,7 +116,7 @@ public class UserRateForm implements Form {
 
 		final RateItWidget rateIt = new RateItWidget(
 
-			  3.0/*current rating*/, 5 /*max rating */, 
+			  1/*current rating*/, 5 /*max rating */, 
 
 			  whiteStarImg, yellowStarImg, deleteImg, deleteImg, yellowStarImg);
 		rateIt.addChangeListener(new ChangeListener() {

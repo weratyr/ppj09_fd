@@ -97,8 +97,10 @@ public class ArticleView extends Composite implements View {
 	private Hyperlink messageHyperlink;
 	private Hyperlink rateHyperlink;
 	private int usernameVisitorId;
+	private int articleId;
 
 	public ArticleView(int articleId) {
+		this.articleId = articleId;
 		article = new Article();
 		getArticle(articleId);
 		createForm();
@@ -336,7 +338,8 @@ public class ArticleView extends Composite implements View {
 			Panel offeredArticles = new Panel();
 			offeredArticles.setTitle("Vorliegende Angebote:");
 			offeredArticles.setWidth(660);
-			offeredArticles.add(SwapWeb.getVorliegendeAngebotePanel(article.getArticleId()));
+			offeredArticles.add(SwapWeb.getVorliegendeAngebotePanel(this.articleId));
+			offeredArticles.doLayout();
 			verticalPanel.add(offeredArticles);
 
 			createOwnArticlesForm();
@@ -348,6 +351,8 @@ public class ArticleView extends Composite implements View {
 		 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt und
 		 * übergibt es per RPC an SearchHandler.search()
 		 */
+	
+
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 
 		articleManager
@@ -369,6 +374,7 @@ public class ArticleView extends Composite implements View {
 									results.get(i).getArticleId() };
 						}
 
+
 						Panel ownArticles = new Panel();
 						ownArticles.setWidth(660);
 						ownArticles.setPaddings(0);
@@ -381,7 +387,6 @@ public class ArticleView extends Composite implements View {
 										new StringFieldDef("artikelId") });
 
 						GridPanel grid = new GridPanel();
-
 						Object[][] data = ownArticleList;
 						MemoryProxy proxy = new MemoryProxy(data);
 
@@ -593,15 +598,12 @@ public class ArticleView extends Composite implements View {
 	}
 
 	private void getArticle(int articleId) {
-		System.out.println("test");
-
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 
 		articleManager.getArticle(articleId, new AsyncCallback<Article>() {
 			public void onFailure(Throwable caught) {
 				// :(
 				System.out.println("fehler");
-
 			}
 
 			public void onSuccess(Article articleDatatype) {
