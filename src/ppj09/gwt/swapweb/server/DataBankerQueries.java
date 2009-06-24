@@ -796,7 +796,7 @@ public class DataBankerQueries {
 			pStmt.setString(2, "SwapWeb Notification");
 			pStmt.setString(3, userName);
 			pStmt.setString(4, "Angebot wurde angenommen!");
-			pStmt.setString(5, "Bla bla bla... ");
+			pStmt.setString(5, "Das Angebot mit der ID " + offerId + " wurde angenommen.");
 			pStmt.setInt(6, 0);
 			statusCode = pStmt.executeUpdate();
 			dbc.close();
