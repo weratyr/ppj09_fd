@@ -370,6 +370,8 @@ public class ArticleView extends Composite implements View {
 		 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt und
 		 * übergibt es per RPC an SearchHandler.search()
 		 */
+	
+
 		ArticleManagerAsync articleManager = GWT.create(ArticleManager.class);
 
 		articleManager
@@ -391,6 +393,7 @@ public class ArticleView extends Composite implements View {
 									results.get(i).getArticleId() };
 						}
 
+
 						Panel ownArticles = new Panel();
 						ownArticles.setWidth(660);
 						ownArticles.setPaddings(0);
@@ -403,7 +406,6 @@ public class ArticleView extends Composite implements View {
 										new StringFieldDef("artikelId") });
 
 						GridPanel grid = new GridPanel();
-
 						Object[][] data = ownArticleList;
 						MemoryProxy proxy = new MemoryProxy(data);
 
