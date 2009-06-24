@@ -15,6 +15,9 @@ import ppj09.gwt.swapweb.client.serverInterface.RatingHandlerAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
@@ -97,8 +100,27 @@ public class UserRateForm implements Form {
 		starsComboBox.setReadOnly(true);
 		starsComboBox.setWidth(120);
 		starsComboBox.setAllowBlank(false);
-		messagePanel.add(starsComboBox);
+		//messagePanel.add(starsComboBox);
 
+		Image whiteStarImg = new Image("uploads/whiteStar.png");
+		whiteStarImg.setSize("30", "30");
+		Image yellowStarImg = new Image("uploads/yellowStar.gif");
+		yellowStarImg.setSize("30", "30");
+		Image deleteImg = new Image("uploads/delete.png");
+		//deleteImg.setSize("30", "30");
+
+		final RateItWidget rateIt = new RateItWidget(
+
+			  3.0/*current rating*/, 5 /*max rating */, 
+
+			  whiteStarImg, yellowStarImg, deleteImg, deleteImg, yellowStarImg);
+		rateIt.addChangeListener(new ChangeListener() {
+			public void onChange(Widget sender) {
+			      // Window.alert("User rating: " + rateIt.getUserRating());
+			}
+			});
+		rateIt.setHeight("40");
+		messagePanel.add(rateIt);
 		final TextArea textArea = new TextArea("Kommentar", "kommentar");
 		textArea.setAllowBlank(false);
 		// anchor width by percentage and height by raw adjustment
