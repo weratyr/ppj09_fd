@@ -465,17 +465,19 @@ public class SwapWeb implements EntryPoint {
 		SwapWeb.userNameFromSession = userNameFromSession;
 	}
 	
-	public static HorizontalPanel getVorliegendeAngebotePanel(int articleId) {
-		final HorizontalPanel offeredArticles = new HorizontalPanel();
+	public static VerticalPanel getVorliegendeAngebotePanel(int articleId) {
+		System.out.println("ARTIKEL ID " + articleId);
+		final VerticalPanel offeredArticles = new VerticalPanel();
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
 			public void onFailure(Throwable e) {
 				e.printStackTrace();
 			}
 			public void onSuccess(ArrayList<SearchResult> results) {
-				System.out.println("Anzahl results: " + results.size());
+				System.out.println("Anzahl resultsss: " + results.size());
 				for (SearchResult r : results) {
 					offeredArticles.add((Widget) r.getView());
+					System.out.println("Widget gerender!");
 				}
 			}
 		});
@@ -491,14 +493,11 @@ public class SwapWeb implements EntryPoint {
 				e.printStackTrace();
 			}
 			public void onSuccess(ArrayList<SearchResult> results) {
-				// DisclosurePanel angeboteDisclosurePanel = new DisclosurePanel();
 				title.setText("Angebote (" + results.size() + ")");
 				System.out.println("Anzahl results: " + results.size());
-				// angeboteDisclosurePanel.setTitle("Angebote (" + results.size() + ")");
 				for (SearchResult r : results) {
 					offeredArticles.add((Widget) r.getView());
 				}
-				// angeboteDisclosurePanel.setContent(offeredArticles);
 				outerPanel.add(title);
 				outerPanel.add(offeredArticles);
 				outerPanel.doLayout();
