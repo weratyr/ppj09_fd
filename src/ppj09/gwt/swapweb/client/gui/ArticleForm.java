@@ -408,14 +408,6 @@ public class ArticleForm extends Composite implements Form {
 		return shippingMethods;
 	}
 
-	// private boolean checkboxValidate(){
-	// if(chkbxdelivery1.getValue() == false && chkbxdelivery2.getValue() ==
-	// false && chkbxdelivery3.getValue() == false){
-	// return false;
-	// }
-	// return true;
-	// }
-
 	public Article getArticle(int articleID) {
 		result = new Article();
 
@@ -457,7 +449,6 @@ public class ArticleForm extends Composite implements Form {
 		} catch (NullPointerException e) {
 			System.out.println("Fehler fillForm() " + e);
 		}
-		// Shipping //TODO
 		try {
 			this.txtbxAmount.setRawValue(article.getOfferScope());
 		} catch (NullPointerException e) {

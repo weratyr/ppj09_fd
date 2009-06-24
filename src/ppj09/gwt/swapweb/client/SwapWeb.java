@@ -56,6 +56,7 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.Ext;
@@ -68,12 +69,9 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.ComboBox;
-import com.gwtext.client.widgets.form.TextArea;
-import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
-import com.gwtext.client.widgets.layout.HorizontalLayout;
 
 /**
  * Initialisiert das allgemeine Layout der Seite
@@ -92,9 +90,7 @@ public class SwapWeb implements EntryPoint {
 	private static Panel contentPanel;
 
 	private Hyperlink myProfileHyperlink;
-	private Hyperlink myArticlesHyperlink;
 	private Hyperlink insertArticleHyperlink;
-	private Hyperlink myRatingsHyperlink;
 	private Hyperlink myMessagesHyperlink;
 
 	private Panel navigationsContentPanel;
@@ -106,7 +102,6 @@ public class SwapWeb implements EntryPoint {
 	private DisclosurePanel hilfe;
 	private Hyperlink unreadedMsgsHyperlink;
 	private static HorizontalPanel unreadedHorizontalPanel;
-	// private static int unreadedMsgs = 0;
 	private static VerticalPanel verticalPanel;
 	private static Panel loggedInPanel2;
 	private static AbsolutePanel abPanel;
@@ -164,7 +159,6 @@ public class SwapWeb implements EntryPoint {
 		loggedInPanel2 = new Panel();
 		loggedInPanel2.setBorder(false);
 
-		// loggedInPanel.setBorder(false);
 
 		abmeldenHyperlink = new Hyperlink("abmelden", null);
 
@@ -444,7 +438,6 @@ public class SwapWeb implements EntryPoint {
 	public static void toggleMeinSwapWeb() {
 		if (!meinSwapWeb.isAttached()) {
 			verticalPanel.insert(meinSwapWeb, 0);
-			// navigationsContentPanel.add(meinSwapWeb);
 		} else {
 			verticalPanel.remove(meinSwapWeb);
 		}
@@ -458,12 +451,7 @@ public class SwapWeb implements EntryPoint {
 				+ "</b> [");
 
 		getUnreadedMsgs();
-		/*
-		 * if (unreadedMsgs != 0) { unreadMsgslbl.setText(unreadedMsgs +
-		 * " ungelesene ");
-		 * 
-		 * unreadedHorizontalPanel.setVisible(true); }
-		 */
+		
 	}
 
 	public static void getCategories(final Panel container,
@@ -502,7 +490,6 @@ public class SwapWeb implements EntryPoint {
 
 	
 	public static VerticalPanel getVorliegendeAngebotePanel(int articleId) {
-		System.out.println("ARTIKEL ID " + articleId);
 		final VerticalPanel offeredArticles = new VerticalPanel();
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
@@ -510,7 +497,6 @@ public class SwapWeb implements EntryPoint {
 				e.printStackTrace();
 			}
 			public void onSuccess(ArrayList<SearchResult> results) {
-				System.out.println("Anzahl results (Vorliegende Angebote): " + results.size());
 				for (SearchResult r : results) {
 					offeredArticles.add((Widget) r.getView());
 				}
@@ -531,16 +517,12 @@ public class SwapWeb implements EntryPoint {
 					}
 
 					public void onSuccess(ArrayList<SearchResult> results) {
-						// DisclosurePanel angeboteDisclosurePanel = new
-						// DisclosurePanel();
 						title.setText("Angebote (" + results.size() + ")");
 						System.out.println("Anzahl results: " + results.size());
-						// angeboteDisclosurePanel.setTitle("Angebote (" +
-						// results.size() + ")");
+				
 						for (SearchResult r : results) {
 							offeredArticles.add((Widget) r.getView());
 						}
-						// angeboteDisclosurePanel.setContent(offeredArticles);
 						outerPanel.add(title);
 						outerPanel.add(offeredArticles);
 						outerPanel.doLayout();
@@ -556,7 +538,6 @@ public class SwapWeb implements EntryPoint {
 			}
 
 			public void onSuccess(Integer result) {
-				// unreadedMsgs = result;
 				System.out.println("ungelesene client result :" + result);
 				if (result != 0) {
 					unreadMsgslbl.setText(result.toString() + " ungelesene ");
@@ -568,7 +549,6 @@ public class SwapWeb implements EntryPoint {
 					unreadedHorizontalPanel.setVisible(false);
 
 
-				// System.out.println("ungelesene client:"+unreadedMsgs);
 
 			}
 		});

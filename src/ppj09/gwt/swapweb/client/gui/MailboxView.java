@@ -1,8 +1,6 @@
 package ppj09.gwt.swapweb.client.gui;
 
-
 import java.util.ArrayList;
-
 
 import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Message;
@@ -33,7 +31,7 @@ import com.gwtext.client.widgets.grid.event.GridRowListener;
 import com.gwtext.client.widgets.layout.AccordionLayout;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
 
-public class MailboxView extends Composite{
+public class MailboxView extends Composite {
 
 	private GridPanel inboxGrid;
 	private GridPanel outboxGrid;
@@ -50,8 +48,6 @@ public class MailboxView extends Composite{
 	private ArrayList<Message> inboxItemsArrayList;
 	private ArrayList<Message> outboxItemsArrayList;
 
-
-	
 	public MailboxView() {
 		Panel mainWindow = new Panel();
 		mainWindow.setBorder(false);
@@ -59,40 +55,36 @@ public class MailboxView extends Composite{
 		mainWindow.setPaddings(0);
 		mainWindow.setLayout(new HorizontalLayout(0));
 
-		
 		// composeMessage Button in bottom toolbar
 		ToolbarButton compose = new ToolbarButton("Nachricht verfassen");
-		compose.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 new MessageComposeView();
-			 }
+		compose.addListener(new ButtonListenerAdapter() {
+			public void onClick(Button button, EventObject e) {
+				new MessageComposeView();
+			}
 		});
 		// Aktualisieren Button in bottom toolbar
 		ToolbarButton refresh = new ToolbarButton("Empfangen");
-		refresh.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-					inbox.clear();
-					outbox.clear();
-					receiveMessages();
-			 }
+		refresh.addListener(new ButtonListenerAdapter() {
+			public void onClick(Button button, EventObject e) {
+				inbox.clear();
+				outbox.clear();
+				receiveMessages();
+			}
 		});
-		
+
 		Toolbar mainWindowToolbar = new Toolbar();
 		mainWindowToolbar.addButton(compose);
 		mainWindowToolbar.addButton(refresh);
-		
+
 		mainWindow.setTopToolbar(mainWindowToolbar);
-		
-		 
+
 		accordionPanel = createAccordionPanel();
 		accordionPanel.setHeight(450);
-//		accordionPanel.setAutoHeight(true);
 		accordionPanel.setWidth(408);
-		
+
 		mainWindow.add(accordionPanel);
 		mainWindow.add(getMailContents());
-		
-		
+
 		Window window = new Window();
 		window.setTitle("Postfach");
 		window.setPaddings(0);
@@ -111,60 +103,68 @@ public class MailboxView extends Composite{
 		inbox.setAutoHeight(true);
 		inbox.setPaddings(0);
 		accordionPanel.add(inbox);
-		
 
 		outbox = new Panel("Postausgang");
 		outbox.setAutoScroll(true);
 		outbox.setAutoHeight(true);
 		outbox.setPaddings(0);
 		accordionPanel.add(outbox);
-		
+
 		receiveMessages();
 
 		return accordionPanel;
 	}
-	
-	private void receiveMessages(){
-		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
-		messageHandler.getMessages(SwapWeb.getUserNameFromSession(), new AsyncCallback<ArrayList<Message>>(){
-			public void onFailure(Throwable caught) {
-				System.out.println("RPC failed @ MailboxView: " + caught);
-			}
-			public void onSuccess(ArrayList<Message> result) {
-				System.out.println(result.get(0).getDate());
-				inboxItems = new Object[result.size()][10];
-				outboxItems = new Object[result.size()][10];
-				inboxItemsArrayList = new ArrayList<Message>();
-				outboxItemsArrayList = new ArrayList<Message>();
-				int j = 0;
-				int k = 0;
-				for (int i = 0;i<result.size();i++){
-					if(!(result.get(i).getAuthor().equals(SwapWeb.getUserNameFromSession()))){
-						inboxItemsArrayList.add(result.get(i));
-						inboxItems[j] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getDate() };
-						j++;
-					} else {
-						outboxItemsArrayList.add(result.get(i));
-						outboxItems[k] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getDate() };
-						k++;
-					}
-				}
-				inbox.add(createInbox());
-				outbox.add(createOutbox());
-				inbox.doLayout();
-				outbox.doLayout();
-			    accordionPanel.doLayout();
-			}
-			});
-		}
-	
 
-	private Panel getMailContents(){
+	private void receiveMessages() {
+		MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
+		messageHandler.getMessages(SwapWeb.getUserNameFromSession(),
+				new AsyncCallback<ArrayList<Message>>() {
+					public void onFailure(Throwable caught) {
+						System.out.println("RPC failed @ MailboxView: "
+								+ caught);
+					}
+
+					public void onSuccess(ArrayList<Message> result) {
+						System.out.println(result.get(0).getDate());
+						inboxItems = new Object[result.size()][10];
+						outboxItems = new Object[result.size()][10];
+						inboxItemsArrayList = new ArrayList<Message>();
+						outboxItemsArrayList = new ArrayList<Message>();
+						int j = 0;
+						int k = 0;
+						for (int i = 0; i < result.size(); i++) {
+							if (!(result.get(i).getAuthor().equals(SwapWeb
+									.getUserNameFromSession()))) {
+								inboxItemsArrayList.add(result.get(i));
+								inboxItems[j] = new Object[] {
+										result.get(i).getAuthor(),
+										result.get(i).getTopic(),
+										result.get(i).getDate() };
+								j++;
+							} else {
+								outboxItemsArrayList.add(result.get(i));
+								outboxItems[k] = new Object[] {
+										result.get(i).getAuthor(),
+										result.get(i).getTopic(),
+										result.get(i).getDate() };
+								k++;
+							}
+						}
+						inbox.add(createInbox());
+						outbox.add(createOutbox());
+						inbox.doLayout();
+						outbox.doLayout();
+						accordionPanel.doLayout();
+					}
+				});
+	}
+
+	private Panel getMailContents() {
 		Panel mailContents = new Panel();
 		mailContents.setBorder(false);
 		mailContents.setWidth(420);
 		mailContents.setHeight(450);
-		
+
 		Panel messageWindow = new Panel();
 		messageWindow.setTitle("Nachricht");
 		messageWindow.setPaddings(5);
@@ -173,190 +173,173 @@ public class MailboxView extends Composite{
 		messageWindow.setBorder(true);
 		messageWindow.setAutoScroll(true);
 		mailContents.add(messageWindow);
-		
+
 		author = new Label();
 		messageWindow.add(author);
-		
+
 		subject = new Label();
 		messageWindow.add(subject);
-		
+
 		Label messageSeperator = new Label();
 		messageSeperator.setHeight("10");
 		messageWindow.add(messageSeperator);
-		
+
 		message = new Label();
 		messageWindow.add(message);
-		
-		
+
 		// respond Button in bottom toolbar
 		ToolbarButton respond = new ToolbarButton("Antworten");
-		respond.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 new MessageComposeView(authorTemp,subjectTemp);
-			 }
+		respond.addListener(new ButtonListenerAdapter() {
+			public void onClick(Button button, EventObject e) {
+				new MessageComposeView(authorTemp, subjectTemp);
+			}
 		});
-		
+
 		Toolbar mailContentToolbar = new Toolbar();
 		mailContentToolbar.addButton(respond);
-		
+
 		messageWindow.setBottomToolbar(mailContentToolbar);
 		return mailContents;
 	};
-	
-	private Panel createInbox(){
-			   
-			         RecordDef recordDef = new RecordDef(  
-			                 new FieldDef[]{  
-			                         new StringFieldDef("author"),
-			                         new StringFieldDef("topic"),
-			                         new StringFieldDef("date")
-			                 }  
-			         );  
-			   
-			         inboxGrid = new GridPanel();  
-			   
-			         Object[][] data = inboxItems;  
-			         MemoryProxy proxy = new MemoryProxy(data);  
-			   
-			         ArrayReader reader = new ArrayReader(recordDef);  
-			         Store store = new Store(proxy, reader);  
-			         store.load();  
-			         inboxGrid.setStore(store);  
-			   
-			   
-			         ColumnConfig[] columns = new ColumnConfig[]{  
-			                 new ColumnConfig("Datum", "date", 90, true, null, "date"),
-			                 new ColumnConfig("Betreff", "topic", 170, true, null, "topic"),
-			                 new ColumnConfig("Von", "author", 120, true, null, "author")
-			         };  
-			   
-			         ColumnModel columnModel = new ColumnModel(columns);  
-			         inboxGrid.setColumnModel(columnModel);  
-			   
-			         inboxGrid.setStripeRows(true);  
-			         inboxGrid.setAutoExpandColumn("topic");  
-			         inboxGrid.setHeight(399);
-			         inboxGrid.setWidth(400);
-			         
-			          inboxGrid.addGridRowListener(new GridRowListener() {  
-        	              public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
-        	                  authorTemp = (inboxItemsArrayList.get(rowIndex).getAuthor());
-        	                  subjectTemp = (inboxItemsArrayList.get(rowIndex).getTopic());
-        	            	  author.setText("Von: "+(inboxItemsArrayList.get(rowIndex).getAuthor()));
-        	            	  subject.setText("Betreff: "+(inboxItemsArrayList.get(rowIndex).getTopic()));
-        	            	  message.setText(inboxItemsArrayList.get(rowIndex).getMessage());
-        	            	  
-        	            	  MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
-        	            	  messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex).getMessageId(), new AsyncCallback<Integer>(){
 
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-									
-								}
+	private Panel createInbox() {
 
-								public void onSuccess(Integer result) {
-									System.out.println("erfolg");
-									SwapWeb.getUnreadedMsgs();
-								}
-        	            	  
-        	              });}
-        	              
-//        	            	  messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex).getMessageId(), AsyncCallback<String>(){
-//        	          			public void onFailure(Throwable caught) {
-//        	        				System.out.println("RPC failed @ MailboxView: " + caught);
-//        	        			}
-//        	        			public void onSuccess(ArrayList<Message> result) {
-//        	              });
-//        	            	  }}}
+		RecordDef recordDef = new RecordDef(new FieldDef[] {
+				new StringFieldDef("author"), new StringFieldDef("topic"),
+				new StringFieldDef("date") });
 
-						public void onRowContextMenu(GridPanel grid,
-								int rowIndex, EventObject e) {
-							// TODO Auto-generated method stub
-							
-						}
+		inboxGrid = new GridPanel();
 
-						public void onRowDblClick(GridPanel grid,
-								int rowIndex, EventObject e) {
-							// TODO Auto-generated method stub
-							
-						}  
-        	          });  
-			inboxGrid.doLayout();
-			return inboxGrid;
-	}
-	
-	private Panel createOutbox(){
-		   
-        RecordDef recordDef = new RecordDef(  
-                new FieldDef[]{  
-                        new StringFieldDef("date"),  
-                        new StringFieldDef("topic"),
-                        new StringFieldDef("author")
-                }  
-        );  
-  
-        outboxGrid = new GridPanel();  
-  
-        Object[][] data = outboxItems;  
-        MemoryProxy proxy = new MemoryProxy(data);  
-  
-        ArrayReader reader = new ArrayReader(recordDef);  
-        Store store = new Store(proxy, reader);  
-        store.load();  
-        outboxGrid.setStore(store);  
-  
-  
-        ColumnConfig[] columns = new ColumnConfig[]{  
-                new ColumnConfig("Datum", "date", 90, true, null, "date"),
-                new ColumnConfig("Betreff", "topic", 170, true, null, "topic"),
-                new ColumnConfig("Von", "author", 120, true, null, "author")
-        };  
-  
-        ColumnModel columnModel = new ColumnModel(columns);  
-        outboxGrid.setColumnModel(columnModel);  
-  
-        outboxGrid.setStripeRows(true);  
-        outboxGrid.setAutoExpandColumn("topic");  
-        outboxGrid.setHeight(399);
-        outboxGrid.setWidth(400);
-        
-        outboxGrid.addGridRowListener(new GridRowListener() {  
-             public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
-              authorTemp = (outboxItemsArrayList.get(rowIndex).getAuthor());
-              subjectTemp = (outboxItemsArrayList.get(rowIndex).getTopic());
-           	  author.setText("Von: "+(outboxItemsArrayList.get(rowIndex).getAuthor()));
-           	  subject.setText("Betreff: NEU "+(outboxItemsArrayList.get(rowIndex).getTopic()));
-           	  message.setText(outboxItemsArrayList.get(rowIndex).getMessage());
-           	  
-           	MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
-      	    messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex).getMessageId(), new AsyncCallback<Integer>(){
+		Object[][] data = inboxItems;
+		MemoryProxy proxy = new MemoryProxy(data);
 
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
+		ArrayReader reader = new ArrayReader(recordDef);
+		Store store = new Store(proxy, reader);
+		store.load();
+		inboxGrid.setStore(store);
 
-				public void onSuccess(Integer result) {
-					System.out.println("erfolg");
-					
-					
-				}
-      	  
-         });}
+		ColumnConfig[] columns = new ColumnConfig[] {
+				new ColumnConfig("Datum", "date", 90, true, null, "date"),
+				new ColumnConfig("Betreff", "topic", 170, true, null, "topic"),
+				new ColumnConfig("Von", "author", 120, true, null, "author") };
 
-			public void onRowContextMenu(GridPanel grid,
-					int rowIndex, EventObject e) {
-				// TODO Auto-generated method stub
-				
+		ColumnModel columnModel = new ColumnModel(columns);
+		inboxGrid.setColumnModel(columnModel);
+
+		inboxGrid.setStripeRows(true);
+		inboxGrid.setAutoExpandColumn("topic");
+		inboxGrid.setHeight(399);
+		inboxGrid.setWidth(400);
+
+		inboxGrid.addGridRowListener(new GridRowListener() {
+			public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+				authorTemp = (inboxItemsArrayList.get(rowIndex).getAuthor());
+				subjectTemp = (inboxItemsArrayList.get(rowIndex).getTopic());
+				author.setText("Von: "
+						+ (inboxItemsArrayList.get(rowIndex).getAuthor()));
+				subject.setText("Betreff: "
+						+ (inboxItemsArrayList.get(rowIndex).getTopic()));
+				message.setText(inboxItemsArrayList.get(rowIndex).getMessage());
+
+				MessageHandlerAsync messageHandler = GWT
+						.create(MessageHandler.class);
+				messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex)
+						.getMessageId(), new AsyncCallback<Integer>() {
+
+					public void onFailure(Throwable caught) {
+						System.out.println("Fehler: " + caught);
+
+					}
+
+					public void onSuccess(Integer result) {
+						SwapWeb.getUnreadedMsgs();
+					}
+
+				});
 			}
 
-			public void onRowDblClick(GridPanel grid,
-					int rowIndex, EventObject e) {
-				// TODO Auto-generated method stub
-				
-			}  
-         });  
-         outboxGrid.doLayout();
-	     return outboxGrid;
-}
+			public void onRowContextMenu(GridPanel grid, int rowIndex,
+					EventObject e) {
+
+			}
+
+			public void onRowDblClick(GridPanel grid, int rowIndex,
+					EventObject e) {
+
+			}
+		});
+		inboxGrid.doLayout();
+		return inboxGrid;
+	}
+
+	private Panel createOutbox() {
+
+		RecordDef recordDef = new RecordDef(new FieldDef[] {
+				new StringFieldDef("date"), new StringFieldDef("topic"),
+				new StringFieldDef("author") });
+
+		outboxGrid = new GridPanel();
+
+		Object[][] data = outboxItems;
+		MemoryProxy proxy = new MemoryProxy(data);
+
+		ArrayReader reader = new ArrayReader(recordDef);
+		Store store = new Store(proxy, reader);
+		store.load();
+		outboxGrid.setStore(store);
+
+		ColumnConfig[] columns = new ColumnConfig[] {
+				new ColumnConfig("Datum", "date", 90, true, null, "date"),
+				new ColumnConfig("Betreff", "topic", 170, true, null, "topic"),
+				new ColumnConfig("Von", "author", 120, true, null, "author") };
+
+		ColumnModel columnModel = new ColumnModel(columns);
+		outboxGrid.setColumnModel(columnModel);
+
+		outboxGrid.setStripeRows(true);
+		outboxGrid.setAutoExpandColumn("topic");
+		outboxGrid.setHeight(399);
+		outboxGrid.setWidth(400);
+
+		outboxGrid.addGridRowListener(new GridRowListener() {
+			public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+				authorTemp = (outboxItemsArrayList.get(rowIndex).getAuthor());
+				subjectTemp = (outboxItemsArrayList.get(rowIndex).getTopic());
+				author.setText("Von: "
+						+ (outboxItemsArrayList.get(rowIndex).getAuthor()));
+				subject.setText("Betreff: NEU "
+						+ (outboxItemsArrayList.get(rowIndex).getTopic()));
+				message
+						.setText(outboxItemsArrayList.get(rowIndex)
+								.getMessage());
+
+				MessageHandlerAsync messageHandler = GWT
+						.create(MessageHandler.class);
+				messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex)
+						.getMessageId(), new AsyncCallback<Integer>() {
+
+					public void onFailure(Throwable caught) {
+						System.out.println("Fehler: " + caught);
+					}
+
+					public void onSuccess(Integer result) {
+
+					}
+
+				});
+			}
+
+			public void onRowContextMenu(GridPanel grid, int rowIndex,
+					EventObject e) {
+
+			}
+
+			public void onRowDblClick(GridPanel grid, int rowIndex,
+					EventObject e) {
+
+			}
+		});
+		outboxGrid.doLayout();
+		return outboxGrid;
+	}
 }
