@@ -48,6 +48,7 @@ public class UserRateForm implements Form {
 	
 	public UserRateForm(String user, int offerId) {
 		this.username = user;
+		this.offerId = offerId;
 		createMessagePopupWindow();
 	}
 
@@ -78,30 +79,30 @@ public class UserRateForm implements Form {
 		BewerteUserLabel = new Label ("Bewerte Benutzer "+username);
 		
 		messagePanel.add(BewerteUserLabel);		
-		Object[][] optionsDelivery = new Object[][] {
-				new Object[] { "1" },
-				new Object[] { "2"},
-				new Object[] { "3"},
-				new Object[] { "4"},
-				new Object[] { "5"}};
-
-		Store deliveryStore = new SimpleStore(new String[] { "1" },
-				optionsDelivery);
-		deliveryStore.load();
-
-		final ComboBox starsComboBox = new ComboBox();
-		starsComboBox.setFieldLabel("Bewertungspunkte");
-		starsComboBox.setStore(deliveryStore);
-		
-		starsComboBox.setDisplayField("1");
-		starsComboBox.setMode(ComboBox.LOCAL);
-		starsComboBox.setTriggerAction(ComboBox.ALL);
-		starsComboBox.setEmptyText("Sterne wählen");
-		starsComboBox.setForceSelection(true);
-		starsComboBox.setReadOnly(true);
-		starsComboBox.setWidth(120);
-		starsComboBox.setAllowBlank(false);
-		//messagePanel.add(starsComboBox);
+//		Object[][] optionsDelivery = new Object[][] {
+//				new Object[] { "1" },
+//				new Object[] { "2"},
+//				new Object[] { "3"},
+//				new Object[] { "4"},
+//				new Object[] { "5"}};
+//
+//		Store deliveryStore = new SimpleStore(new String[] { "1" },
+//				optionsDelivery);
+//		deliveryStore.load();
+//
+//		final ComboBox starsComboBox = new ComboBox();
+//		starsComboBox.setFieldLabel("Bewertungspunkte");
+//		starsComboBox.setStore(deliveryStore);
+//		
+//		starsComboBox.setDisplayField("1");
+//		starsComboBox.setMode(ComboBox.LOCAL);
+//		starsComboBox.setTriggerAction(ComboBox.ALL);
+//		starsComboBox.setEmptyText("Sterne wählen");
+//		starsComboBox.setForceSelection(true);
+//		starsComboBox.setReadOnly(true);
+//		starsComboBox.setWidth(120);
+//		starsComboBox.setAllowBlank(false);
+//		messagePanel.add(starsComboBox);
 
 		Image whiteStarImg = new Image("uploads/whiteStar.png");
 		whiteStarImg.setSize("28", "28");
@@ -132,7 +133,7 @@ public class UserRateForm implements Form {
 		send.addListener(new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
 				Rate rate = new Rate();
-				rate.setStars(new Integer( starsComboBox.getValue() ));
+				rate.setStars(rateIt.getUserRating());
 				rate.setRatedUser(SwapWeb.getUserNameFromSession());
 				rate.setRatingUser(username);
 				rate.setComment(textArea.getText());
@@ -141,7 +142,6 @@ public class UserRateForm implements Form {
 				RatingHandlerAsync ratingHandler = GWT.create(RatingHandler.class);
 				ratingHandler.sendRate(rate, new AsyncCallback<Integer>(){
 					public void onFailure(Throwable caught) {
-						System.out.println(starsComboBox.getValue()	);
 						System.out.println("RPC: Rating UserRateForm.java "+caught);
 						caught.printStackTrace();
 					}

@@ -198,7 +198,7 @@ public class UserView extends Composite implements View {
 						reportUser.setText("bewertung abgeben");
 						reportUser.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
-								new UserRateForm(user);
+								new UserRateForm(user.getUsername(),2);
 							}
 						});
 						verticalPanel_1.add(reportUser);
