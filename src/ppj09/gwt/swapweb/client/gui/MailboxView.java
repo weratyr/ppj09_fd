@@ -324,9 +324,24 @@ public class MailboxView extends Composite{
               authorTemp = (outboxItemsArrayList.get(rowIndex).getAuthor());
               subjectTemp = (outboxItemsArrayList.get(rowIndex).getTopic());
            	  author.setText("Von: "+(outboxItemsArrayList.get(rowIndex).getAuthor()));
-           	  subject.setText("Betreff: "+(outboxItemsArrayList.get(rowIndex).getTopic()));
-           	  message.setText(outboxItemsArrayList.get(rowIndex).getMessage());           	  
-             }
+           	  subject.setText("Betreff: NEU "+(outboxItemsArrayList.get(rowIndex).getTopic()));
+           	  message.setText(outboxItemsArrayList.get(rowIndex).getMessage());
+           	  
+           	MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
+      	    messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex).getMessageId(), new AsyncCallback<Integer>(){
+
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				public void onSuccess(Integer result) {
+					System.out.println("erfolg");
+					
+					
+				}
+      	  
+         });}
 
 			public void onRowContextMenu(GridPanel grid,
 					int rowIndex, EventObject e) {
