@@ -336,8 +336,7 @@ public class ArticleView extends Composite implements View {
 			Panel offeredArticles = new Panel();
 			offeredArticles.setTitle("Vorliegende Angebote:");
 			offeredArticles.setWidth(660);
-			offeredArticles.add(SwapWeb.getVorliegendeAngebote(article
-					.getArticleId()));
+			offeredArticles.add(SwapWeb.getVorliegendeAngebotePanel(article.getArticleId()));
 			verticalPanel.add(offeredArticles);
 
 			createOwnArticlesForm();

@@ -29,9 +29,16 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 	public OfferSearchResultView(final SearchResult offerSearchResult) {
 		final SearchHandlerAsync sh = GWT.create(SearchHandler.class);
 		this.offerSearchResult = (OfferSearchResult) offerSearchResult;
+		Panel offerPanelWrapper = new Panel();
+		offerPanelWrapper.setBorder(false);
+		offerPanelWrapper.setMargins(0,30,0,5);
+		
 		Panel offerPanel = new Panel();
+		offerPanel.setWidth("95%");
 		offerPanel.setTitle("Angebot von " + this.offerSearchResult.getOfferedBy());
-		offerPanel.setWidth("90%");
+		offerPanel.setCollapsible(true);
+		offerPanel.setCollapsed(true);
+		//offerPanel.setWidth("90%");
 	
 		for (SearchResult articleSearchResult : this.offerSearchResult.getArticles())
 			offerPanel.add((ArticleSearchResultView) articleSearchResult.getView());
@@ -77,16 +84,22 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		 * Angebote anzunehmen und abzulehnen.
 		 */
 		if (this.offerSearchResult.getOfferedTo().equals(SwapWeb.getUserNameFromSession())) {
-			Toolbar buttonToolbar = new Toolbar();
-			buttonToolbar.addButton(annehmen);
-			buttonToolbar.addButton(ablehnen);
-			offerPanel.setBottomToolbar(buttonToolbar);
-			//offerPanel.add(horizontalButtonPanel);
+			if (this.offerSearchResult.isSwapConcluded()) {
+				System.out.println("Swap concluded!");
+			} else {
+				Toolbar buttonToolbar = new Toolbar();
+				buttonToolbar.addButton(annehmen);
+				buttonToolbar.addButton(ablehnen);
+				offerPanel.setBottomToolbar(buttonToolbar);
+				//offerPanel.add(horizontalButtonPanel);
+			}
 		} else {
 			System.out.println(this.offerSearchResult.getOfferedTo() + " != " + SwapWeb.getUserNameFromSession());
 		}
 		
 		offerPanel.doLayout();
-		initWidget(offerPanel);
+		offerPanelWrapper.add(offerPanel);
+		offerPanelWrapper.doLayout();
+		initWidget(offerPanelWrapper);
 	}
 }

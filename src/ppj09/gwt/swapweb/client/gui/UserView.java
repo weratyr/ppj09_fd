@@ -564,16 +564,10 @@ public class UserView extends Composite implements View {
 	}
 
 	private VerticalPanel getArtikelListe() {
-		final VerticalPanel userArticleList = new VerticalPanel();
-
-		/**
-		 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt und
-		 * übergibt es per RPC an SearchHandler.search()
-		 */
+		final VerticalPanel offerList = new VerticalPanel();
 		ArticleSearchQuery sq = new ArticleSearchQuery();
 		sq.setUserName(user.getUsername());
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-
 		searchHandler.search(sq, new AsyncCallback<ArrayList<SearchResult>>() {
 			public void onFailure(Throwable caught) {
 				System.out
@@ -582,16 +576,23 @@ public class UserView extends Composite implements View {
 
 			public void onSuccess(ArrayList<SearchResult> results) {
 				for (SearchResult r : results) {
-					userArticleList.add((ArticleSearchResultView) r.getView());
-					DisclosurePanel angebote = new DisclosurePanel("Angebote");
+					// Artikel
+					int articleId = ((ArticleSearchResult)r).getId();
+					offerList.add((ArticleSearchResultView) r.getView());
+					// Angebote auf Artikel
+					Panel angebotePanel = new Panel();
+					angebotePanel.setBorder(false);
+					angebotePanel.setMargins(0,0,0,10);
 					
+					Label title = new Label("Angebote (loading...)");
 					
-					angebote.setContent(SwapWeb.getVorliegendeAngebote(((ArticleSearchResult)r).getId()));
-					userArticleList.add(angebote);
+					SwapWeb.getVorliegendeAngebotePanel(title, angebotePanel, articleId);
+					offerList.add(title);
+					offerList.add(angebotePanel);
 				}
 			}
 		});
-		return userArticleList;
+		return offerList;
 	}
 
 	private void getUser(String username) {
