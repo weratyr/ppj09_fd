@@ -53,6 +53,7 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		
 		//HorizontalPanel horizontalButtonPanel = new HorizontalPanel();
 		final ToolbarButton ablehnen = new ToolbarButton("ablehnen");
+		final ToolbarButton annehmen = new ToolbarButton("annehmen");
 		ablehnen.addListener(new ButtonListenerAdapter(){
 			public void onClick(Button button, EventObject e) {
 				sh.declineOffer(((OfferSearchResult)offerSearchResult).getId(), 
@@ -65,14 +66,15 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 							System.out.println("Angebot erfolgreich abgelehnt.");
 						else 
 							System.out.println("Fehlgeschlagen!");
+						annehmen.disable();
+						ablehnen.disable();
+						ablehnen.setText("Angebot wurde abgelehnt!");
 					}
 				});
 			}
 		});
-		final ToolbarButton annehmen = new ToolbarButton("annehmen");
 		annehmen.addListener(new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
-				annehmen.disable();
 				sh.acceptOffer(((OfferSearchResult)offerSearchResult).getId(), 
 						new AsyncCallback<Integer>(){
 					public void onFailure(Throwable caught) {
@@ -81,6 +83,8 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 					public void onSuccess(Integer result) {
 						if (result==1) {
 							System.out.println("Angebot erfolgreich angenommen.");
+							annehmen.disable();
+							annehmen.setText("Angebot erfolgreich angenommen!");
 							ablehnen.disable();
 						}
 						else 

@@ -152,6 +152,7 @@ public class UserRateForm implements Form {
 					public void onSuccess(Integer result) {
 						messageWindow.close();
 						bewertungAbgeben.disable();
+						bewertungAbgeben.setText("bewertung wurde abgegeben!");
 					}
 				});
 			}
