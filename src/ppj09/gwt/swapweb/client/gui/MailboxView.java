@@ -27,17 +27,25 @@ import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.grid.ColumnConfig;
 import com.gwtext.client.widgets.grid.ColumnModel;
 import com.gwtext.client.widgets.grid.GridPanel;
+import com.gwtext.client.widgets.grid.event.GridRowListener;
 import com.gwtext.client.widgets.layout.AccordionLayout;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
 
 public class MailboxView extends Composite{
 
 	private GridPanel inboxGrid;
+	private GridPanel outboxGrid;
 	private Panel inbox;
 	private Panel outbox;
-	protected Object[][] inboxItems;
-	protected Object[][] outboxItems;
-	
+	private Object[][] inboxItems;
+	private Object[][] outboxItems;
+	private Panel accordionPanel;
+	private Label message;
+	private Label subject;
+	private Label author;
+	private ArrayList<Message> inboxItemsArrayList;
+	private ArrayList<Message> outboxItemsArrayList;
+
 
 	
 	public MailboxView() {
@@ -47,7 +55,6 @@ public class MailboxView extends Composite{
 		mainWindow.setPaddings(0);
 		mainWindow.setLayout(new HorizontalLayout(0));
 
-		receiveMessages();
 		
 		// composeMessage Button in bottom toolbar
 		ToolbarButton compose = new ToolbarButton("Nachricht verfassen");
@@ -72,60 +79,16 @@ public class MailboxView extends Composite{
 		
 		mainWindow.setTopToolbar(mainWindowToolbar);
 		
-		Panel accordionPanel = createAccordionPanel();
+		 
+		accordionPanel = createAccordionPanel();
 		accordionPanel.setHeight(450);
 //		accordionPanel.setAutoHeight(true);
 		accordionPanel.setWidth(308);
+		
 		mainWindow.add(accordionPanel);
-		
-		Panel mailContents = new Panel();
-		mailContents.setBorder(false);
-		mailContents.setWidth(420);
-		mailContents.setHeight(450);
-		mainWindow.add(mailContents);
-		
-		Panel messageWindow = new Panel();
-		messageWindow.setTitle("Nachricht");
-		messageWindow.setPaddings(5);
-		messageWindow.setWidth(420);
-		messageWindow.setHeight(450);
-		messageWindow.setBorder(true);
-		messageWindow.setAutoScroll(true);
-		mailContents.add(messageWindow);
-		
-		Label author = new Label("Von: ");
-		messageWindow.add(author);
-		
-		Label subject = new Label("Betreff: ");
-		messageWindow.add(subject);
-		
-		Label messageSeperator = new Label();
-		messageSeperator.setHeight("10");
-		messageWindow.add(messageSeperator);
-		
-		Label message = new Label("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur");
-		messageWindow.add(message);
+		mainWindow.add(getMailContents());
 		
 		
-		// respond Button in bottom toolbar
-		ToolbarButton respond = new ToolbarButton("Antworten");
-		respond.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 
-			 }
-		});
-		// delete Button in bottom toolbar
-		ToolbarButton delete = new ToolbarButton("Löschen");
-		delete.addListener(new ButtonListenerAdapter(){
-			 public void onClick(Button button, EventObject e) {
-				 
-			 }
-		});
-		Toolbar mailContentToolbar = new Toolbar();
-		mailContentToolbar.addButton(respond);
-		mailContentToolbar.addButton(delete);
-		
-		messageWindow.setBottomToolbar(mailContentToolbar);
 		
 		Window window = new Window();
 		window.setTitle("Postfach");
@@ -149,8 +112,12 @@ public class MailboxView extends Composite{
 
 		outbox = new Panel("Postausgang");
 		outbox.setAutoScroll(true);
+		outbox.setAutoHeight(true);
+		outbox.setPaddings(0);
 		accordionPanel.add(outbox);
 		
+		receiveMessages();
+
 		return accordionPanel;
 	}
 	
@@ -163,88 +130,197 @@ public class MailboxView extends Composite{
 			public void onSuccess(ArrayList<Message> result) {
 				inboxItems = new Object[result.size()][10];
 				outboxItems = new Object[result.size()][10];
+				inboxItemsArrayList = new ArrayList<Message>();
+				outboxItemsArrayList = new ArrayList<Message>();
+				int j = 0;
+				int k = 0;
 				for (int i = 0;i<result.size();i++){
 					if(!(result.get(i).getAuthor().equals(SwapWeb.getUserNameFromSession()))){
-						inboxItems[i] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getTopic() };
+						inboxItemsArrayList.add(result.get(i));
+						inboxItems[j] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getMessage() };
+						j++;
 					} else {
-						outboxItems[i] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getTopic() };
+						outboxItemsArrayList.add(result.get(i));
+						outboxItems[k] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getMessage() };
+						k++;
 					}
 				}
-				RecordDef recordDef = new RecordDef(  
-		                 new FieldDef[]{  
-		                         new StringFieldDef("date"),  
-		                         new StringFieldDef("topic"),
-		                         new StringFieldDef("author")
-		                 }  
-		         );  
-		   
-		         inboxGrid = new GridPanel();  
-		   
-		         Object[][] data = inboxItems;  
-		         MemoryProxy proxy = new MemoryProxy(data);  
-		   
-		         ArrayReader reader = new ArrayReader(recordDef);  
-		         Store store = new Store(proxy, reader);  
-		         store.load();  
-		         inboxGrid.setStore(store);  
-		   
-		   
-		         ColumnConfig[] columns = new ColumnConfig[]{  
-		                 //column ID is company which is later used in setAutoExpandColumn
-		                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
-		                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
-		                 new ColumnConfig("Von", "author", 110, true, null, "author")
-		         };  
-		   
-		         ColumnModel columnModel = new ColumnModel(columns);  
-		         inboxGrid.setColumnModel(columnModel);  
-		   
-		         inboxGrid.setStripeRows(true);  
-		         inboxGrid.setAutoExpandColumn("author");  
-		         inboxGrid.setHeight(399);
-		         inboxGrid.setWidth(300);
-			     inbox.add(inboxGrid);
+				inbox.add(createInbox());
+				outbox.add(createOutbox());
+				inbox.doLayout();
+				outbox.doLayout();
+			    accordionPanel.doLayout();
 			}
-		});
+			});
 		}
+	
+
+	private Panel getMailContents(){
+		Panel mailContents = new Panel();
+		mailContents.setBorder(false);
+		mailContents.setWidth(420);
+		mailContents.setHeight(450);
+		
+		Panel messageWindow = new Panel();
+		messageWindow.setTitle("Nachricht");
+		messageWindow.setPaddings(5);
+		messageWindow.setWidth(420);
+		messageWindow.setHeight(450);
+		messageWindow.setBorder(true);
+		messageWindow.setAutoScroll(true);
+		mailContents.add(messageWindow);
+		
+		author = new Label();
+		messageWindow.add(author);
+		
+		subject = new Label();
+		messageWindow.add(subject);
+		
+		Label messageSeperator = new Label();
+		messageSeperator.setHeight("10");
+		messageWindow.add(messageSeperator);
+		
+		message = new Label();
+		messageWindow.add(message);
+		
+		
+		// respond Button in bottom toolbar
+		ToolbarButton respond = new ToolbarButton("Antworten");
+		respond.addListener(new ButtonListenerAdapter(){
+			 public void onClick(Button button, EventObject e) {
+				 
+			 }
+		});
+		// delete Button in bottom toolbar
+		ToolbarButton delete = new ToolbarButton("Löschen");
+		delete.addListener(new ButtonListenerAdapter(){
+			 public void onClick(Button button, EventObject e) {
+				 
+			 }
+		});
+		Toolbar mailContentToolbar = new Toolbar();
+		mailContentToolbar.addButton(respond);
+		mailContentToolbar.addButton(delete);
+		
+		messageWindow.setBottomToolbar(mailContentToolbar);
+		return mailContents;
+	};
+	
+	private Panel createInbox(){
+			   
+			         RecordDef recordDef = new RecordDef(  
+			                 new FieldDef[]{  
+			                         new StringFieldDef("date"),  
+			                         new StringFieldDef("topic"),
+			                         new StringFieldDef("author")
+			                 }  
+			         );  
+			   
+			         inboxGrid = new GridPanel();  
+			   
+			         Object[][] data = inboxItems;  
+			         MemoryProxy proxy = new MemoryProxy(data);  
+			   
+			         ArrayReader reader = new ArrayReader(recordDef);  
+			         Store store = new Store(proxy, reader);  
+			         store.load();  
+			         inboxGrid.setStore(store);  
+			   
+			   
+			         ColumnConfig[] columns = new ColumnConfig[]{  
+			                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
+			                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
+			                 new ColumnConfig("Von", "author", 110, true, null, "author")
+			         };  
+			   
+			         ColumnModel columnModel = new ColumnModel(columns);  
+			         inboxGrid.setColumnModel(columnModel);  
+			   
+			         inboxGrid.setStripeRows(true);  
+			         inboxGrid.setAutoExpandColumn("topic");  
+			         inboxGrid.setHeight(399);
+			         inboxGrid.setWidth(300);
+			         
+			          inboxGrid.addGridRowListener(new GridRowListener() {  
+        	              public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+        	            	  author.setText("Von: "+(inboxItemsArrayList.get(rowIndex).getAuthor()));
+        	            	  subject.setText("Betreff: "+(inboxItemsArrayList.get(rowIndex).getTopic()));
+        	            	  message.setText(inboxItemsArrayList.get(rowIndex).getMessage());
+
+        	            	  
+        	              }
+
+						public void onRowContextMenu(GridPanel grid,
+								int rowIndex, EventObject e) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						public void onRowDblClick(GridPanel grid,
+								int rowIndex, EventObject e) {
+							// TODO Auto-generated method stub
+							
+						}  
+        	          });  
+			         
+			return inboxGrid;
 	}
 	
-//	private Panel createInbox(){
-//			   
-//			         RecordDef recordDef = new RecordDef(  
-//			                 new FieldDef[]{  
-//			                         new StringFieldDef("date"),  
-//			                         new StringFieldDef("topic"),
-//			                         new StringFieldDef("author")
-//			                 }  
-//			         );  
-//			   
-//			         inboxGrid = new GridPanel();  
-//			   
-//			         Object[][] data = inboxItems;  
-//			         MemoryProxy proxy = new MemoryProxy(data);  
-//			   
-//			         ArrayReader reader = new ArrayReader(recordDef);  
-//			         Store store = new Store(proxy, reader);  
-//			         store.load();  
-//			         inboxGrid.setStore(store);  
-//			   
-//			   
-//			         ColumnConfig[] columns = new ColumnConfig[]{  
-//			                 //column ID is company which is later used in setAutoExpandColumn
-//			                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
-//			                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
-//			                 new ColumnConfig("Von", "author", 110, true, null, "author")
-//			         };  
-//			   
-//			         ColumnModel columnModel = new ColumnModel(columns);  
-//			         inboxGrid.setColumnModel(columnModel);  
-//			   
-//			         inboxGrid.setStripeRows(true);  
-//			         inboxGrid.setAutoExpandColumn("author");  
-//			         inboxGrid.setHeight(399);
-//			         inboxGrid.setWidth(300);
-//			   
-//				     return inboxGrid;
-//	}
-//}
+	private Panel createOutbox(){
+		   
+        RecordDef recordDef = new RecordDef(  
+                new FieldDef[]{  
+                        new StringFieldDef("date"),  
+                        new StringFieldDef("topic"),
+                        new StringFieldDef("author")
+                }  
+        );  
+  
+        outboxGrid = new GridPanel();  
+  
+        Object[][] data = outboxItems;  
+        MemoryProxy proxy = new MemoryProxy(data);  
+  
+        ArrayReader reader = new ArrayReader(recordDef);  
+        Store store = new Store(proxy, reader);  
+        store.load();  
+        outboxGrid.setStore(store);  
+  
+  
+        ColumnConfig[] columns = new ColumnConfig[]{  
+                new ColumnConfig("Datum", "date", 60, true, null, "date"),
+                new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
+                new ColumnConfig("Von", "author", 110, true, null, "author")
+        };  
+  
+        ColumnModel columnModel = new ColumnModel(columns);  
+        outboxGrid.setColumnModel(columnModel);  
+  
+        outboxGrid.setStripeRows(true);  
+        outboxGrid.setAutoExpandColumn("topic");  
+        outboxGrid.setHeight(399);
+        outboxGrid.setWidth(300);
+        
+        outboxGrid.addGridRowListener(new GridRowListener() {  
+             public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+           	  author.setText("Von: "+(outboxItemsArrayList.get(rowIndex).getAuthor()));
+           	  subject.setText("Betreff: "+(outboxItemsArrayList.get(rowIndex).getTopic()));
+           	  message.setText(outboxItemsArrayList.get(rowIndex).getMessage());           	  
+             }
+
+			public void onRowContextMenu(GridPanel grid,
+					int rowIndex, EventObject e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onRowDblClick(GridPanel grid,
+					int rowIndex, EventObject e) {
+				// TODO Auto-generated method stub
+				
+			}  
+         });  
+        
+	     return outboxGrid;
+}
+}
