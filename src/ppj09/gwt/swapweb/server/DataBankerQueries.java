@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import ppj09.gwt.swapweb.client.datatype.Article;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
@@ -796,7 +795,7 @@ public class DataBankerQueries {
 			pStmt.setString(2, "SwapWeb Notification");
 			pStmt.setString(3, userName);
 			pStmt.setString(4, "Angebot wurde angenommen!");
-			pStmt.setString(5, "Bla bla bla... ");
+			pStmt.setString(5, "Das Angebot mit der ID " + offerId + " wurde angenommen.");
 			pStmt.setInt(6, 0);
 			statusCode = pStmt.executeUpdate();
 			dbc.close();
@@ -815,9 +814,34 @@ public class DataBankerQueries {
 		DataBankerConnection dbc = new DataBankerConnection();
 		int statusCode = 0;
 		try {
+			// get UserName
 			Statement stmt = dbc.getStatement();
+			query = "SELECT * FROM offer WHERE id = '" + offerId + "'";
+			ResultSet offerResult = stmt.executeQuery(query);
+			offerResult.next();
+			
+			ArrayList<Integer> ids = parseForIds(offerResult.getString("offerItemIds"));
+			
+			stmt = dbc.getStatement();
+			query = "SELECT * FROM article WHERE id = '" + ids.get(0) + "'";
+			ResultSet articleResult = stmt.executeQuery(query);
+			articleResult.next();
+			String userName = getUsername(articleResult.getInt("userid"));
+			
+			stmt = dbc.getStatement();
 			String query = "DELETE FROM offer WHERE id = '" + offerId + "'";
 			statusCode = stmt.executeUpdate(query);
+			
+			query = "INSERT INTO message (articleID, author, receiver, topic, message, isRead) VALUES(?,?,?,?,?,?)";
+			PreparedStatement pStmt = dbc.getConnection().prepareStatement(query);
+			pStmt.setInt(1, 0);
+			pStmt.setString(2, "SwapWeb Notification");
+			pStmt.setString(3, userName);
+			pStmt.setString(4, "Angebot wurde abgelehnt!");
+			pStmt.setString(5, "Das Angebot mit der ID " + offerId + " wurde abgelehnt.");
+			pStmt.setInt(6, 0);
+			statusCode = pStmt.executeUpdate();
+			dbc.close();
 			dbc.close();
 		}
 		catch (Exception e) {
@@ -836,7 +860,7 @@ public class DataBankerQueries {
 		try {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				messages.add(new Message(rs.getInt("messageID"),rs.getInt("articleID"),rs.getString("author"),rs.getString("receiver"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead")));
+				messages.add(new Message(rs.getInt("messageID"),rs.getInt("articleID"),rs.getString("author"),rs.getString("receiver"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead"),rs.getTimestamp("Date").toString()));
 			}
 			stmt.close();
 			rs.close();

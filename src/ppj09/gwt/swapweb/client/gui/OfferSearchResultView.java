@@ -52,24 +52,8 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 			offerPanel.add((ArticleSearchResultView) articleSearchResult.getView());
 		
 		//HorizontalPanel horizontalButtonPanel = new HorizontalPanel();
-		ToolbarButton annehmen = new ToolbarButton("annehmen");
-		annehmen.addListener(new ButtonListenerAdapter() {
-			public void onClick(Button button, EventObject e) {
-				sh.acceptOffer(((OfferSearchResult)offerSearchResult).getId(), 
-						new AsyncCallback<Integer>(){
-					public void onFailure(Throwable caught) {
-						caught.printStackTrace();
-					}
-					public void onSuccess(Integer result) {
-						if (result==1)
-							System.out.println("Angebot erfolgreich angenommen.");
-						else 
-							System.out.println("Fehlgeschlagen!");
-					}
-				});
-			}
-		});
-		ToolbarButton ablehnen = new ToolbarButton("ablehnen");
+		final ToolbarButton ablehnen = new ToolbarButton("ablehnen");
+		final ToolbarButton annehmen = new ToolbarButton("annehmen");
 		ablehnen.addListener(new ButtonListenerAdapter(){
 			public void onClick(Button button, EventObject e) {
 				sh.declineOffer(((OfferSearchResult)offerSearchResult).getId(), 
@@ -80,6 +64,29 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 					public void onSuccess(Integer result) {
 						if (result==1)
 							System.out.println("Angebot erfolgreich abgelehnt.");
+						else 
+							System.out.println("Fehlgeschlagen!");
+						annehmen.disable();
+						ablehnen.disable();
+						ablehnen.setText("Angebot wurde abgelehnt!");
+					}
+				});
+			}
+		});
+		annehmen.addListener(new ButtonListenerAdapter() {
+			public void onClick(Button button, EventObject e) {
+				sh.acceptOffer(((OfferSearchResult)offerSearchResult).getId(), 
+						new AsyncCallback<Integer>(){
+					public void onFailure(Throwable caught) {
+						caught.printStackTrace();
+					}
+					public void onSuccess(Integer result) {
+						if (result==1) {
+							System.out.println("Angebot erfolgreich angenommen.");
+							annehmen.disable();
+							annehmen.setText("Angebot erfolgreich angenommen!");
+							ablehnen.disable();
+						}
 						else 
 							System.out.println("Fehlgeschlagen!");
 					}
@@ -94,14 +101,15 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		if (this.offerSearchResult.getOfferedTo().equals(SwapWeb.getUserNameFromSession())) {
 			Toolbar buttonToolbar = new Toolbar();
 			if (this.offerSearchResult.isSwapConcluded()) {
-				ToolbarButton reportUser = new ToolbarButton("bewertung abgeben");
-				reportUser.addListener(new ButtonListenerAdapter(){
+				final ToolbarButton bewertungAbgeben = new ToolbarButton("bewertung abgeben");
+				bewertungAbgeben.addListener(new ButtonListenerAdapter(){
 					public void onClick(Button button, EventObject e) {
 						new UserRateForm(((OfferSearchResult) offerSearchResult).getOfferedBy(), 
-								((OfferSearchResult) offerSearchResult).getId());
+								((OfferSearchResult) offerSearchResult).getId(),
+								bewertungAbgeben);
 					}
 				});
-				buttonToolbar.addButton(reportUser);
+				buttonToolbar.addButton(bewertungAbgeben);
 			} else {
 				buttonToolbar.addButton(annehmen);
 				buttonToolbar.addButton(ablehnen);

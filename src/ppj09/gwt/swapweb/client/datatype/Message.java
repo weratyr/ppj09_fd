@@ -8,6 +8,7 @@
 package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Stellt eine Nachricht da, welche zwischen zwei Benutzern ausgetauscht wird.
@@ -24,12 +25,12 @@ public class Message implements Serializable {
 	private String topic;
 	private String message;
 	private int isRead;
-
+	private String date;
 	public Message(){
 		
 	}
 	
-	public Message(int messageId, int articleId, String author, String receiver, String topic, String message, int isRead){
+	public Message(int messageId, int articleId, String author, String receiver, String topic, String message, int isRead, String date){
 		this.messageId = messageId;
 		this.articleId = articleId;
 		this.author = author;
@@ -37,6 +38,7 @@ public class Message implements Serializable {
 		this.topic = topic;
 		this.message = message;
 		this.isRead = isRead;
+		this.date = date;
 	}
 	
 	public int getMessageId() {
@@ -81,4 +83,14 @@ public class Message implements Serializable {
 	public void setIsRead(int isRead) {
 		this.isRead = isRead;
 	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+
 }
