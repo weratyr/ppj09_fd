@@ -25,10 +25,18 @@ public class Rate implements Serializable {
 	//Anzahl der Sterne (1-5) 
 	private int stars;
 	
-	//Nutzer-ID des Nutzers der bewertet werden soll -> wenn m�glich, notfalls auch ein User_objekt
+	//Nutzer-ID des Nutzers der bewertet werden soll -> wenn möglich, notfalls auch ein User_objekt
 	private String ratedUser;
-	//Nutzer-ID des Nutzers der die Bewertung geschrieben hat -> wenn m�glich, notfalls auch ein User_objekt
+	//Nutzer-ID des Nutzers der die Bewertung geschrieben hat -> wenn möglich, notfalls auch ein User_objekt
 	private String ratingUser;
+	private int offerId;
+	
+	public int getOfferId() {
+		return offerId;
+	}
+	public void setOfferId(int offerId) {
+		this.offerId = offerId;
+	}
 	public String getComment() {
 		return comment;
 	}

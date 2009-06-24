@@ -13,6 +13,8 @@ import ppj09.gwt.swapweb.client.datatype.ArticleSearchQuery;
 import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
+import ppj09.gwt.swapweb.client.serverInterface.RatingHandler;
+import ppj09.gwt.swapweb.client.serverInterface.RatingHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandler;
 import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
@@ -116,6 +118,8 @@ public class UserView extends Composite implements View {
 	private Label verticalSeperatorYahoo;
 	private Label verticalSeperatorAim;
 	private Label verticalSeperatorJabber;
+	
+	private int userStars;
 
 	public UserView() {
 		createForm();
@@ -189,14 +193,14 @@ public class UserView extends Composite implements View {
 //						});
 						userRatings = new Label();
 						verticalPanel_1.add(userRatings);
-
+						
 						reportUser = new Hyperlink("", null);
+						reportUser.setText("bewertung abgeben");
 						reportUser.addClickHandler(new ClickHandler() {
 							public void onClick(ClickEvent event) {
 								new UserRateForm(user);
 							}
 						});
-						reportUser.setText("bewertung abgeben");
 						verticalPanel_1.add(reportUser);
 						
 						
@@ -662,11 +666,20 @@ public class UserView extends Composite implements View {
 			SwapWeb.getContentPanel().setTitle(username+"'s Profil");
 			articlePanel.setTitle(username+"'s Artikel");
 			messageUser.setText("Nachricht an "+username);
-		//	userRatings.setText("Bewertungen von "+username);
-			//reportUser.setText(username+" melden");
-			String t = "4";
-			userRatings.setText("Bewertung: ( "+t+"/5 ) Sternen");
 			
+			RatingHandlerAsync ratingHandler = GWT.create(RatingHandler.class);
+			ratingHandler.getRate(username, new AsyncCallback<Integer>(){
+				public void onFailure(Throwable caught) {
+					System.out.println("RPC UserView.java ratingHandler "+caught.getMessage());
+				}
+				public void onSuccess(Integer result) {
+					userStars = result;
+					if(result==0){
+						userStars = 0;
+					}
+					userRatings.setText("Bewertung: ( "+userStars+"/5 ) Sternen");
+				}
+			});
 
 		} catch (NullPointerException e) {
 		}
@@ -809,7 +822,7 @@ public class UserView extends Composite implements View {
 	public void setUserName(String userName) {
 		articlePanel.setTitle(userName + "'s Artikel");
 		this.messageUser.setText("Nachricht an " + userName);
-		this.userRatings.setText(userName + "'s Bewertungen");
+		//this.userRatings.setText(userName + "'s Bewertungen");
 	//	this.reportUser.setText(userName + " melden");
 	}
 

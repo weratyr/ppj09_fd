@@ -115,7 +115,6 @@
     <url-pattern>/swapweb/SessionManager</url-pattern>
  </servlet-mapping> 
  
-
 <servlet> 
      <servlet-name>RatingHandler</servlet-name> 
      <servlet-class>ppj09.gwt.swapweb.server.RatingHandlerImpl</servlet-class> 

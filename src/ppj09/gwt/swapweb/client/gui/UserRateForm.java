@@ -7,6 +7,7 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.Rate;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.RatingHandler;
@@ -109,6 +110,11 @@ public class UserRateForm implements Form {
 			public void onClick(Button button, EventObject e) {
 				Rate rate = new Rate();
 				rate.setStars(new Integer( starsComboBox.getValue() ));
+				rate.setRatedUser(SwapWeb.getUserNameFromSession());
+				rate.setRatingUser(user.getUsername());
+				rate.setComment(textArea.getText());
+				rate.setOfferId(2);
+				
 				RatingHandlerAsync ratingHandler = GWT.create(RatingHandler.class);
 				ratingHandler.sendRate(rate, new AsyncCallback<Integer>(){
 					public void onFailure(Throwable caught) {

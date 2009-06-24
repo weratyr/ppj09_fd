@@ -6,4 +6,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface RatingHandlerAsync {
 	public void sendRate(Rate rate, AsyncCallback<Integer> callback);
+	public void getRate(String username, AsyncCallback<Integer> callback);
 }

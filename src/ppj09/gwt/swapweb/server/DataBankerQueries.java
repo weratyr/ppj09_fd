@@ -14,6 +14,7 @@ import ppj09.gwt.swapweb.client.datatype.ArticleSearchResult;
 import ppj09.gwt.swapweb.client.datatype.Message;
 import ppj09.gwt.swapweb.client.datatype.Offer;
 import ppj09.gwt.swapweb.client.datatype.OfferSearchResult;
+import ppj09.gwt.swapweb.client.datatype.Rate;
 import ppj09.gwt.swapweb.client.datatype.SearchResult;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.datatype.UserSearchQuery;
@@ -909,4 +910,39 @@ public class DataBankerQueries {
 		dbc.close();
 		return articles;
 	}
+	
+	public int saveRate(Rate rate) {
+		DataBankerConnection dbc = new DataBankerConnection();
+		try {
+			PreparedStatement stmt = dbc.getConnection().prepareStatement("INSERT " +
+					"INTO rate (offerId, ratedUserName, ratingUserName, comment, stars) VALUES('"+rate.getOfferId()+"','"+rate.getRatedUser()+"','"+rate.getRatingUser()+"','"+rate.getComment()+"','"+rate.getStars()+"')");
+			stmt.executeUpdate();
+			stmt.close();
+			dbc.close();
+			return 1;
+		}catch (Exception e) {
+			System.out.println("fehler DB dbq saveRate(Rate rate) "+e);
+			return 0;
+		}
+	}
+	
+	public int getRate(String username) {
+		DataBankerConnection dbc = new DataBankerConnection();
+		try {
+			Statement stmt = dbc.getStatement();
+			query = "SELECT avg(stars) AS average FROM rate WHERE ratingUserName = '" + username + "'";
+			ResultSet rateResultSet = stmt.executeQuery(query);
+			rateResultSet.next();
+			int rateAverage = rateResultSet.getInt("average");
+			stmt.close();
+			dbc.close();
+			
+			return rateAverage;
+		}catch (Exception e) {
+			System.out.println("fehler db getRate(String username) "+e);
+		}
+		return 0;
+	}
+	
+		
 }
