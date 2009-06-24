@@ -74,7 +74,7 @@ public class ArticleSearchForm implements Form {
 		quickSearchButton = new Button("Suchen",
 				new ButtonListenerAdapter() {
 					public void onClick(Button button, EventObject e) {
-						ArticleSearchQuery sq = new ArticleSearchQuery();
+						final ArticleSearchQuery sq = new ArticleSearchQuery();
 						sq.setSearchPhrase(searchField.getText());
 						sq.setCategory(categoryComboBox.getText());
 

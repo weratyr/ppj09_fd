@@ -17,7 +17,26 @@ public class OfferSearchResult implements SearchResult, Serializable {
 	private ArrayList<ArticleSearchResult> articles;
 	private String offeredBy;
 	private String offeredTo;
+	private boolean swapConcluded;
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	private User user;
+	
+	public boolean isSwapConcluded() {
+		return swapConcluded;
+	}
+
+	public void setSwapConcluded(boolean swapConcluded) {
+		this.swapConcluded = swapConcluded;
+	}
+
 	public String getOfferedTo() {
 		return offeredTo;
 	}
@@ -52,11 +71,12 @@ public class OfferSearchResult implements SearchResult, Serializable {
 		this.articles = articles;
 	}
 
-	public OfferSearchResult(int id, String offeredBy, String offeredTo, ArrayList<ArticleSearchResult> articles) {
+	public OfferSearchResult(int id, String offeredBy, String offeredTo, ArrayList<ArticleSearchResult> articles, boolean swapConcluded) {
 		this.offeredBy = offeredBy;
 		this.offeredTo = offeredTo;
 		this.articles = articles;
 		this.id = id;
+		this.swapConcluded = swapConcluded;
 	}
 	
 	public OfferSearchResult() {
