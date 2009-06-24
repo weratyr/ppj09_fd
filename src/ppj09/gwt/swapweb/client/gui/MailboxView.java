@@ -245,9 +245,28 @@ public class MailboxView extends Composite{
         	            	  author.setText("Von: "+(inboxItemsArrayList.get(rowIndex).getAuthor()));
         	            	  subject.setText("Betreff: "+(inboxItemsArrayList.get(rowIndex).getTopic()));
         	            	  message.setText(inboxItemsArrayList.get(rowIndex).getMessage());
-
         	            	  
-        	              }
+        	            	  MessageHandlerAsync messageHandler = GWT.create(MessageHandler.class);
+        	            	  messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex).getMessageId(), new AsyncCallback<Integer>(){
+
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+									
+								}
+
+								public void onSuccess(Integer result) {
+									System.out.println("erfolg");
+								}
+        	            	  
+        	              });}
+        	              
+//        	            	  messageHandler.setIsRead(inboxItemsArrayList.get(rowIndex).getMessageId(), AsyncCallback<String>(){
+//        	          			public void onFailure(Throwable caught) {
+//        	        				System.out.println("RPC failed @ MailboxView: " + caught);
+//        	        			}
+//        	        			public void onSuccess(ArrayList<Message> result) {
+//        	              });
+//        	            	  }}}
 
 						public void onRowContextMenu(GridPanel grid,
 								int rowIndex, EventObject e) {

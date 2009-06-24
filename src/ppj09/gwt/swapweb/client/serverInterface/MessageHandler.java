@@ -10,5 +10,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("MessageHandler")
 public interface MessageHandler extends RemoteService {
 	public int sendMessage(Message mesg);
+	public int setIsRead(int messageId);
 	public ArrayList<Message> getMessages(String username);
 }

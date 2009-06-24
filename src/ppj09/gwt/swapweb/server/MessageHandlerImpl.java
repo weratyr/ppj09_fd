@@ -24,5 +24,9 @@ public class MessageHandlerImpl extends RemoteServiceServlet implements MessageH
 		return db.getMessages(username);
 	}
 
+	public int setIsRead(int messageId) {
+		return db.setMessageIsRead(messageId);
+	}
+
 
 }

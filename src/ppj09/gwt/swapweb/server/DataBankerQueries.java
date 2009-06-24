@@ -968,6 +968,22 @@ public class DataBankerQueries {
 		}
 		return 0;
 	}
+
+	public int setMessageIsRead(int messageId) {
+		DataBankerConnection dbc = new DataBankerConnection();
+		Statement stmt = dbc.getStatement();
+		String query = "UPDATE message SET isRead = 1 WHERE messageID = '" + messageId + "'";
+		try {
+			stmt.executeUpdate(query);
+			stmt.close();
+			dbc.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return 1;
+	}
 	
 		
 }
