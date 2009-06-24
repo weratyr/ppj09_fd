@@ -249,13 +249,14 @@ public class SwapWeb implements EntryPoint {
 
 		contentPanel.setWidth(700);
 		contentPanel.setPaddings(10);
-		
+
 		Panel startMessage = new Panel();
 		startMessage.setBorder(false);
-		startMessage.setHtml("<b>Wilkommen bei SwapWeb</b></br></br> Bei SwapWeb wird alles getauscht, was nützlich ist und einen neuen Besitzer sucht. Waren jeder Art, egal ob Kleinigkeiten oder Dinge mit großem Wert. In unserer Tauschbörse das ein oder andere Schnäppchen machen. Stöbere in Ruhe in den  Rubriken. Finde heraus, was hier schon alles zum Tausch angeboten wird. SwapWeb ist nicht nur etwas für Flohmarkt-Fans oder Sammler. Hier findet man auch hochwertige Waren! Es ist nichts besonderes, hier im SwapWeb auch Autos, Häuser oder Grundstücke zu finden. Fast alles ist erlaubt! Solange es legal ist und nicht gegen gute Sitten verstößt.Die Teilnahme ist kostenlos. Es gibt definitiv keine versteckten Kosten. Hier wird also niemand zur Kasse gebeten. Man kann sich kostenlos anmelden, kostenlos Bilder hochladen und kostenlos Inserate schalten.");
+		startMessage
+				.setHtml("<b>Wilkommen bei SwapWeb</b></br></br> Bei SwapWeb wird alles getauscht, was nützlich ist und einen neuen Besitzer sucht. Waren jeder Art, egal ob Kleinigkeiten oder Dinge mit großem Wert. In unserer Tauschbörse das ein oder andere Schnäppchen machen. Stöbere in Ruhe in den  Rubriken. Finde heraus, was hier schon alles zum Tausch angeboten wird. SwapWeb ist nicht nur etwas für Flohmarkt-Fans oder Sammler. Hier findet man auch hochwertige Waren! Es ist nichts besonderes, hier im SwapWeb auch Autos, Häuser oder Grundstücke zu finden. Fast alles ist erlaubt! Solange es legal ist und nicht gegen gute Sitten verstößt.Die Teilnahme ist kostenlos. Es gibt definitiv keine versteckten Kosten. Hier wird also niemand zur Kasse gebeten. Man kann sich kostenlos anmelden, kostenlos Bilder hochladen und kostenlos Inserate schalten.");
 		contentPanel.add(startMessage);
 		contentPanel.setTitle("Start Seite");
-		
+
 		navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
 
@@ -500,8 +501,9 @@ public class SwapWeb implements EntryPoint {
 		SwapWeb.userNameFromSession = userNameFromSession;
 	}
 
-	public static HorizontalPanel getVorliegendeAngebotePanel(int articleId) {
-		final HorizontalPanel offeredArticles = new HorizontalPanel();
+	public static VerticalPanel getVorliegendeAngebotePanel(int articleId) {
+		System.out.println("ARTIKEL ID " + articleId);
+		final VerticalPanel offeredArticles = new VerticalPanel();
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 		searchHandler.getOfferedArticles(articleId,
 				new AsyncCallback<ArrayList<SearchResult>>() {
@@ -510,9 +512,11 @@ public class SwapWeb implements EntryPoint {
 					}
 
 					public void onSuccess(ArrayList<SearchResult> results) {
-						System.out.println("Anzahl results: " + results.size());
+						System.out.println("Anzahl resultsss: "
+								+ results.size());
 						for (SearchResult r : results) {
 							offeredArticles.add((Widget) r.getView());
+							System.out.println("Widget gerender!");
 						}
 					}
 				});
@@ -565,6 +569,7 @@ public class SwapWeb implements EntryPoint {
 				}
 
 				// System.out.println("ungelesene client:"+unreadedMsgs);
+
 			}
 		});
 	}
