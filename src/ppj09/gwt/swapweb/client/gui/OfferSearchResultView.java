@@ -19,9 +19,12 @@ import ppj09.gwt.swapweb.client.serverInterface.SearchHandlerAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 
 public class OfferSearchResultView extends Composite implements SearchResultView {
 	private OfferSearchResult offerSearchResult;
@@ -35,7 +38,12 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		
 		Panel offerPanel = new Panel();
 		offerPanel.setWidth("95%");
-		offerPanel.setTitle("Angebot von " + this.offerSearchResult.getOfferedBy());
+		
+		if (this.offerSearchResult.isSwapConcluded()) {
+			offerPanel.setTitle("Abgeschlossener Swap mit " + this.offerSearchResult.getOfferedBy());
+		} else {
+			offerPanel.setTitle("Angebot von " + this.offerSearchResult.getOfferedBy());
+		}
 		offerPanel.setCollapsible(true);
 		offerPanel.setCollapsed(true);
 		//offerPanel.setWidth("90%");
@@ -84,15 +92,22 @@ public class OfferSearchResultView extends Composite implements SearchResultView
 		 * Angebote anzunehmen und abzulehnen.
 		 */
 		if (this.offerSearchResult.getOfferedTo().equals(SwapWeb.getUserNameFromSession())) {
+			Toolbar buttonToolbar = new Toolbar();
 			if (this.offerSearchResult.isSwapConcluded()) {
-				System.out.println("Swap concluded!");
+				ToolbarButton reportUser = new ToolbarButton("bewertung abgeben");
+				reportUser.addListener(new ButtonListenerAdapter(){
+					public void onClick(Button button, EventObject e) {
+						new UserRateForm(((OfferSearchResult) offerSearchResult).getOfferedBy(), 
+								((OfferSearchResult) offerSearchResult).getId());
+					}
+				});
+				buttonToolbar.addButton(reportUser);
 			} else {
-				Toolbar buttonToolbar = new Toolbar();
 				buttonToolbar.addButton(annehmen);
 				buttonToolbar.addButton(ablehnen);
-				offerPanel.setBottomToolbar(buttonToolbar);
 				//offerPanel.add(horizontalButtonPanel);
 			}
+			offerPanel.setBottomToolbar(buttonToolbar);
 		} else {
 			System.out.println(this.offerSearchResult.getOfferedTo() + " != " + SwapWeb.getUserNameFromSession());
 		}
