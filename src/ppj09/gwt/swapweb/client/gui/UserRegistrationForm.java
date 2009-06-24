@@ -7,18 +7,14 @@
 
 package ppj09.gwt.swapweb.client.gui;
 
-import ppj09.gwt.swapweb.client.Validation;
+import ppj09.gwt.swapweb.client.SwapWeb;
 import ppj09.gwt.swapweb.client.datatype.User;
 import ppj09.gwt.swapweb.client.serverInterface.UserManager;
 import ppj09.gwt.swapweb.client.serverInterface.UserManagerAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
-//import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,15 +22,15 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
-import com.gwtext.client.widgets.Window;
-import com.gwtext.client.core.Position;
 import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Position;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.MessageBoxConfig;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.WaitConfig;
+import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.FormPanel;
@@ -375,6 +371,8 @@ public class UserRegistrationForm implements Form {
 					regButton.addListener(new ButtonListenerAdapter() {
 						public void onClick(Button button, EventObject e) {
 							submit();
+							MessageBox.alert("Sie haben sich erfolgreich registriert.");
+							SwapWeb.getTabPanel().remove("4");
 						}
 					});
 
@@ -485,7 +483,7 @@ public class UserRegistrationForm implements Form {
 			        hiddenText.setRawValue(serverMsg.toString());
 //			        window.show(regButton.getId());
 			    } else if (serverMsg == 0){
-			    	MessageBox.alert("FEHLER: Ihr Artikel konnte nicht angelegt werden.");
+			    	MessageBox.alert("FEHLER: Ihr Profil konnte nicht angelegt werden.");
 			    }
 			}
 		});

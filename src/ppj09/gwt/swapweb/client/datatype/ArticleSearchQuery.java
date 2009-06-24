@@ -15,6 +15,11 @@ package ppj09.gwt.swapweb.client.datatype;
  * @version 0.1, 17.05.09
  */
 public class ArticleSearchQuery extends Article implements SearchQuery {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	// primitive Suche
 	private String searchPhrase;
 	private String userNamePhrase;

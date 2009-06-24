@@ -9,8 +9,6 @@ package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
 
-import com.gwtext.client.widgets.Panel;
-
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
@@ -22,6 +20,11 @@ import ppj09.gwt.swapweb.client.gui.SearchResultView;
  * @version 0.1, 14.06.09
  */
 public class ArticleSearchResult implements SearchResult, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String title;
 	private int id;
 	private String userName;
