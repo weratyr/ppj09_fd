@@ -396,7 +396,8 @@ public class UserRegistrationForm implements Form {
 	    int length = filename.length();
 	       
 	    String extension = filename.substring(indexPoint+1, length);
-		
+		extension = extension.toLowerCase();
+	    
 	    if (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp")) {
 	    	isAllowdExt = true;
 	    }
@@ -519,22 +520,21 @@ public class UserRegistrationForm implements Form {
 		// TODO rpc zum �berpr�fen ob der Benutzername noch frei ist
 		// Sende Daten an Server
 
-		System.out.println("test2");
 
 		UserManagerAsync userManager = GWT.create(UserManager.class);
 
 		userManager.checkUsername(username, new AsyncCallback<Boolean>() {
 			public void onFailure(Throwable caught) {
 				// :(
-				//Window.alert("fehler");
+				//MessageBox.alert("fehler");
 
 			}
 
 			public void onSuccess(Boolean serverMsg) {
 				// :)
-				if (serverMsg) {
-				//Window.alert("test");
 
+				if (serverMsg) {
+				
 				txtbxUserFree.setVisible(true);
 				} else {
 					txtbxUserFree.setVisible(false);
