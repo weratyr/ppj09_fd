@@ -65,7 +65,7 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.ComboBox;
-import com.gwtext.client.widgets.form.Label;
+import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
@@ -465,7 +465,7 @@ public class SwapWeb implements EntryPoint {
 		SwapWeb.userNameFromSession = userNameFromSession;
 	}
 	
-	public static HorizontalPanel getVorliegendeAngebote(int articleId) {
+	public static HorizontalPanel getVorliegendeAngebotePanel(int articleId) {
 		final HorizontalPanel offeredArticles = new HorizontalPanel();
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
 		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
@@ -473,6 +473,7 @@ public class SwapWeb implements EntryPoint {
 				e.printStackTrace();
 			}
 			public void onSuccess(ArrayList<SearchResult> results) {
+				System.out.println("Anzahl results: " + results.size());
 				for (SearchResult r : results) {
 					offeredArticles.add((Widget) r.getView());
 				}
@@ -480,5 +481,29 @@ public class SwapWeb implements EntryPoint {
 		});
 		return offeredArticles;
 	}
+	
+	public static void getVorliegendeAngebotePanel(final Label title, final Panel outerPanel, int articleId) {
+		final VerticalPanel offeredArticles = new VerticalPanel();
 
+		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
+		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
+			public void onFailure(Throwable e) {
+				e.printStackTrace();
+			}
+			public void onSuccess(ArrayList<SearchResult> results) {
+				// DisclosurePanel angeboteDisclosurePanel = new DisclosurePanel();
+				title.setText("Angebote (" + results.size() + ")");
+				System.out.println("Anzahl results: " + results.size());
+				// angeboteDisclosurePanel.setTitle("Angebote (" + results.size() + ")");
+				for (SearchResult r : results) {
+					offeredArticles.add((Widget) r.getView());
+				}
+				// angeboteDisclosurePanel.setContent(offeredArticles);
+				outerPanel.add(title);
+				outerPanel.add(offeredArticles);
+				outerPanel.doLayout();
+			}
+		});
+	}
+	
 }
