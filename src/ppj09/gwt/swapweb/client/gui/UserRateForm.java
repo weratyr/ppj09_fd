@@ -41,12 +41,13 @@ import com.gwtext.client.widgets.layout.FitLayout;
  * @version 0.1, 19.05.09
  */
 public class UserRateForm implements Form {
-	private User user;
+	private String username;
+	private int offerId;
 	private Label BewerteUserLabel;
 
 	
-	public UserRateForm(User user) {
-		this.user = user;
+	public UserRateForm(String user, int offerId) {
+		this.username = user;
 		createMessagePopupWindow();
 	}
 
@@ -74,7 +75,7 @@ public class UserRateForm implements Form {
 		messagePanel.setMonitorValid(true);
 
 		// anchor width by percentage
-		BewerteUserLabel = new Label ("Bewerte Benutzer "+user.getUsername());
+		BewerteUserLabel = new Label ("Bewerte Benutzer "+username);
 		
 		messagePanel.add(BewerteUserLabel);		
 		Object[][] optionsDelivery = new Object[][] {
@@ -103,7 +104,7 @@ public class UserRateForm implements Form {
 		//messagePanel.add(starsComboBox);
 
 		Image whiteStarImg = new Image("uploads/whiteStar.png");
-		whiteStarImg.setSize("30", "30");
+		whiteStarImg.setSize("28", "28");
 		Image yellowStarImg = new Image("uploads/yellowStar.gif");
 		yellowStarImg.setSize("30", "30");
 		Image deleteImg = new Image("uploads/delete.png");
@@ -133,9 +134,9 @@ public class UserRateForm implements Form {
 				Rate rate = new Rate();
 				rate.setStars(new Integer( starsComboBox.getValue() ));
 				rate.setRatedUser(SwapWeb.getUserNameFromSession());
-				rate.setRatingUser(user.getUsername());
+				rate.setRatingUser(username);
 				rate.setComment(textArea.getText());
-				rate.setOfferId(2);
+				rate.setOfferId(offerId);
 				
 				RatingHandlerAsync ratingHandler = GWT.create(RatingHandler.class);
 				ratingHandler.sendRate(rate, new AsyncCallback<Integer>(){
