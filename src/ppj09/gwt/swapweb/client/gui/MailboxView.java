@@ -10,11 +10,9 @@ import ppj09.gwt.swapweb.client.serverInterface.MessageHandlerAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.data.ArrayReader;
-import com.gwtext.client.data.DateFieldDef;
 import com.gwtext.client.data.FieldDef;
 import com.gwtext.client.data.MemoryProxy;
 import com.gwtext.client.data.RecordDef;
@@ -37,20 +35,19 @@ public class MailboxView extends Composite{
 	private GridPanel inboxGrid;
 	private Panel inbox;
 	private Panel outbox;
+	protected Object[][] inboxItems;
+	protected Object[][] outboxItems;
 	
 
-	private ArrayList<Message> inboxMessages = new ArrayList<Message>();
-	private ArrayList<Message> outboxMessages = new ArrayList<Message>();
 	
 	public MailboxView() {
 		Panel mainWindow = new Panel();
 		mainWindow.setBorder(false);
 		mainWindow.setCollapsible(true);
 		mainWindow.setPaddings(0);
-//		mainWindow.setWidth(600);
 		mainWindow.setLayout(new HorizontalLayout(0));
 
-//		receiveMessages();
+		receiveMessages();
 		
 		// composeMessage Button in bottom toolbar
 		ToolbarButton compose = new ToolbarButton("Nachricht verfassen");
@@ -65,8 +62,6 @@ public class MailboxView extends Composite{
 			 public void onClick(Button button, EventObject e) {
 					inbox.clear();
 					outbox.clear();
-					outboxMessages.clear();
-					inboxMessages.clear();
 					receiveMessages();
 			 }
 		});
@@ -146,7 +141,6 @@ public class MailboxView extends Composite{
 		accordionPanel.setLayout(new AccordionLayout(true));
 
 		inbox = new Panel("Posteingang");
-		inbox.add(createInbox());
 		inbox.setAutoScroll(true);
 		inbox.setAutoHeight(true);
 		inbox.setPaddings(0);
@@ -167,132 +161,90 @@ public class MailboxView extends Composite{
 				System.out.println("RPC failed @ MailboxView: " + caught);
 			}
 			public void onSuccess(ArrayList<Message> result) {
+				inboxItems = new Object[result.size()][10];
+				outboxItems = new Object[result.size()][10];
 				for (int i = 0;i<result.size();i++){
 					if(!(result.get(i).getAuthor().equals(SwapWeb.getUserNameFromSession()))){
-						inboxMessages.add(result.get(i));
+						inboxItems[i] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getTopic() };
 					} else {
-						outboxMessages.add(result.get(i));
+						outboxItems[i] = new Object[] {result.get(i).getAuthor(),result.get(i).getTopic(),result.get(i).getTopic() };
 					}
 				}
-				fillMailbox(inboxMessages, outboxMessages);
+				RecordDef recordDef = new RecordDef(  
+		                 new FieldDef[]{  
+		                         new StringFieldDef("date"),  
+		                         new StringFieldDef("topic"),
+		                         new StringFieldDef("author")
+		                 }  
+		         );  
+		   
+		         inboxGrid = new GridPanel();  
+		   
+		         Object[][] data = inboxItems;  
+		         MemoryProxy proxy = new MemoryProxy(data);  
+		   
+		         ArrayReader reader = new ArrayReader(recordDef);  
+		         Store store = new Store(proxy, reader);  
+		         store.load();  
+		         inboxGrid.setStore(store);  
+		   
+		   
+		         ColumnConfig[] columns = new ColumnConfig[]{  
+		                 //column ID is company which is later used in setAutoExpandColumn
+		                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
+		                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
+		                 new ColumnConfig("Von", "author", 110, true, null, "author")
+		         };  
+		   
+		         ColumnModel columnModel = new ColumnModel(columns);  
+		         inboxGrid.setColumnModel(columnModel);  
+		   
+		         inboxGrid.setStripeRows(true);  
+		         inboxGrid.setAutoExpandColumn("author");  
+		         inboxGrid.setHeight(399);
+		         inboxGrid.setWidth(300);
+			     inbox.add(inboxGrid);
 			}
 		});
-	}
-
-	private void fillMailbox(ArrayList<Message> inboxMessages, ArrayList<Message> outboxMessages) {
-		for (int i = 0;i<inboxMessages.size();i++){
-			final Hyperlink inboxItem = new Hyperlink(inboxMessages.get(i).getTopic(), null);
-			inbox.add(inboxItem);
 		}
-		for (int i = 0;i<outboxMessages.size();i++){
-			final Hyperlink outboxItem = new Hyperlink(outboxMessages.get(i).getTopic(), null);
-			outbox.add(outboxItem);
-		}
-		inbox.doLayout();
-		outbox.doLayout();
 	}
 	
-	private Panel createInbox(){
-//			         Panel panel = new Panel();  
-//			         panel.setBorder(false);  
-//			         panel.setPaddings(15);  
-			   
-			         RecordDef recordDef = new RecordDef(  
-			                 new FieldDef[]{  
-			                         new DateFieldDef("date", "n/j h:ia"),  
-			                         new StringFieldDef("topic"),
-			                         new StringFieldDef("author")
-			                 }  
-			         );  
-			   
-			         inboxGrid = new GridPanel();  
-			   
-			         Object[][] data = getMessages();  
-			         MemoryProxy proxy = new MemoryProxy(data);  
-			   
-			         ArrayReader reader = new ArrayReader(recordDef);  
-			         Store store = new Store(proxy, reader);  
-			         store.load();  
-			         inboxGrid.setStore(store);  
-			   
-			   
-			         ColumnConfig[] columns = new ColumnConfig[]{  
-			                 //column ID is company which is later used in setAutoExpandColumn
-			                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
-			                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
-			                 new ColumnConfig("Von", "author", 110, true, null, "author")
-			         };  
-			   
-			         ColumnModel columnModel = new ColumnModel(columns);  
-			         inboxGrid.setColumnModel(columnModel);  
-			   
-//			         inboxGrid.setFrame(true);  
-			         inboxGrid.setStripeRows(true);  
-			         inboxGrid.setAutoExpandColumn("author");  
-			         inboxGrid.setHeight(399);
-			         inboxGrid.setWidth(300);
-			   
-				     return inboxGrid;
-	}
-	
-	private Object[][] getMessages() {  
-        return new Object[][]{  
-                new Object[]{"3m Co", new Double(71.72), new Double(0.02),  
-                        new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing"},  
-                new Object[]{"Alcoa Inc", new Double(29.01), new Double(0.42),  
-                        new Double(1.47), "9/1 12:00am", "AA", "Manufacturing"},  
-                new Object[]{"Altria Group Inc", new Double(83.81), new Double(0.28),  
-                        new Double(0.34), "9/1 12:00am", "MO", "Manufacturing"},  
-                new Object[]{"American Express Company", new Double(52.55), new Double(0.01),  
-                        new Double(0.02), "9/1 12:00am", "AXP", "Finance"},  
-                new Object[]{"American International Group, Inc.", new Double(64.13), new Double(0.31),  
-                        new Double(0.49), "9/1 12:00am", "AIG", "Services"},  
-                new Object[]{"AT&T Inc.", new Double(31.61), new Double(-0.48),  
-                        new Double(-1.54), "9/1 12:00am", "T", "Services"},  
-                new Object[]{"Boeing Co.", new Double(75.43), new Double(0.53),  
-                        new Double(0.71), "9/1 12:00am", "BA", "Manufacturing"},  
-                new Object[]{"Caterpillar Inc.", new Double(67.27), new Double(0.92),  
-                        new Double(1.39), "9/1 12:00am", "CAT", "Services"},  
-                new Object[]{"Citigroup, Inc.", new Double(49.37), new Double(0.02),  
-                        new Double(0.04), "9/1 12:00am", "C", "Finance"},  
-                new Object[]{"3m Co", new Double(71.72), new Double(0.02),  
-                        new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing"},  
-                new Object[]{"Alcoa Inc", new Double(29.01), new Double(0.42),  
-                        new Double(1.47), "9/1 12:00am", "AA", "Manufacturing"},  
-                new Object[]{"Altria Group Inc", new Double(83.81), new Double(0.28),  
-                        new Double(0.34), "9/1 12:00am", "MO", "Manufacturing"},  
-                new Object[]{"American Express Company", new Double(52.55), new Double(0.01),  
-                        new Double(0.02), "9/1 12:00am", "AXP", "Finance"},  
-                new Object[]{"American International Group, Inc.", new Double(64.13), new Double(0.31),  
-                        new Double(0.49), "9/1 12:00am", "AIG", "Services"},  
-                new Object[]{"AT&T Inc.", new Double(31.61), new Double(-0.48),  
-                        new Double(-1.54), "9/1 12:00am", "T", "Services"},  
-                new Object[]{"Boeing Co.", new Double(75.43), new Double(0.53),  
-                        new Double(0.71), "9/1 12:00am", "BA", "Manufacturing"},  
-                new Object[]{"Caterpillar Inc.", new Double(67.27), new Double(0.92),  
-                        new Double(1.39), "9/1 12:00am", "CAT", "Services"},  
-                new Object[]{"Citigroup, Inc.", new Double(49.37), new Double(0.02),  
-                        new Double(0.04), "9/1 12:00am", "C", "Finance"},  
-                new Object[]{"3m Co", new Double(71.72), new Double(0.02),  
-                        new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing"},  
-                new Object[]{"Alcoa Inc", new Double(29.01), new Double(0.42),  
-                        new Double(1.47), "9/1 12:00am", "AA", "Manufacturing"},  
-                new Object[]{"Altria Group Inc", new Double(83.81), new Double(0.28),  
-                        new Double(0.34), "9/1 12:00am", "MO", "Manufacturing"},  
-                new Object[]{"American Express Company", new Double(52.55), new Double(0.01),  
-                        new Double(0.02), "9/1 12:00am", "AXP", "Finance"},  
-                new Object[]{"American International Group, Inc.", new Double(64.13), new Double(0.31),  
-                        new Double(0.49), "9/1 12:00am", "AIG", "Services"},  
-                new Object[]{"AT&T Inc.", new Double(31.61), new Double(-0.48),  
-                        new Double(-1.54), "9/1 12:00am", "T", "Services"},  
-                new Object[]{"Boeing Co.", new Double(75.43), new Double(0.53),  
-                        new Double(0.71), "9/1 12:00am", "BA", "Manufacturing"},  
-                new Object[]{"Caterpillar Inc.", new Double(67.27), new Double(0.92),  
-                        new Double(1.39), "9/1 12:00am", "CAT", "Services"},  
-                new Object[]{"Citigroup, Inc.", new Double(49.37), new Double(0.02),  
-                        new Double(0.04), "9/1 12:00am", "C", "Finance"},  
-                new Object[]{"E.I. du Pont de Nemours and Company", new Double(40.48), new Double(0.51),  
-                        new Double(1.28), "9/1 12:00am", "DD", "Manufacturing"}  
-        };  
-    }
-}
+//	private Panel createInbox(){
+//			   
+//			         RecordDef recordDef = new RecordDef(  
+//			                 new FieldDef[]{  
+//			                         new StringFieldDef("date"),  
+//			                         new StringFieldDef("topic"),
+//			                         new StringFieldDef("author")
+//			                 }  
+//			         );  
+//			   
+//			         inboxGrid = new GridPanel();  
+//			   
+//			         Object[][] data = inboxItems;  
+//			         MemoryProxy proxy = new MemoryProxy(data);  
+//			   
+//			         ArrayReader reader = new ArrayReader(recordDef);  
+//			         Store store = new Store(proxy, reader);  
+//			         store.load();  
+//			         inboxGrid.setStore(store);  
+//			   
+//			   
+//			         ColumnConfig[] columns = new ColumnConfig[]{  
+//			                 //column ID is company which is later used in setAutoExpandColumn
+//			                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
+//			                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
+//			                 new ColumnConfig("Von", "author", 110, true, null, "author")
+//			         };  
+//			   
+//			         ColumnModel columnModel = new ColumnModel(columns);  
+//			         inboxGrid.setColumnModel(columnModel);  
+//			   
+//			         inboxGrid.setStripeRows(true);  
+//			         inboxGrid.setAutoExpandColumn("author");  
+//			         inboxGrid.setHeight(399);
+//			         inboxGrid.setWidth(300);
+//			   
+//				     return inboxGrid;
+//	}
+//}
