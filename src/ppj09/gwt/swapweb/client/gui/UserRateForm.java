@@ -23,6 +23,7 @@ import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.ComboBox;
@@ -41,12 +42,16 @@ import com.gwtext.client.widgets.layout.FitLayout;
  * @version 0.1, 19.05.09
  */
 public class UserRateForm implements Form {
-	private User user;
+	private String username;
+	private int offerId;
 	private Label BewerteUserLabel;
+	ToolbarButton bewertungAbgeben;
 
 	
-	public UserRateForm(User user) {
-		this.user = user;
+	public UserRateForm(String user, int offerId, ToolbarButton bewertungAbgeben) {
+		this.username = user;
+		this.bewertungAbgeben = bewertungAbgeben;
+		this.offerId = offerId;
 		createMessagePopupWindow();
 	}
 
@@ -74,36 +79,36 @@ public class UserRateForm implements Form {
 		messagePanel.setMonitorValid(true);
 
 		// anchor width by percentage
-		BewerteUserLabel = new Label ("Bewerte Benutzer "+user.getUsername());
+		BewerteUserLabel = new Label ("Bewerte Benutzer "+username);
 		
 		messagePanel.add(BewerteUserLabel);		
-		Object[][] optionsDelivery = new Object[][] {
-				new Object[] { "1" },
-				new Object[] { "2"},
-				new Object[] { "3"},
-				new Object[] { "4"},
-				new Object[] { "5"}};
-
-		Store deliveryStore = new SimpleStore(new String[] { "1" },
-				optionsDelivery);
-		deliveryStore.load();
-
-		final ComboBox starsComboBox = new ComboBox();
-		starsComboBox.setFieldLabel("Bewertungspunkte");
-		starsComboBox.setStore(deliveryStore);
-		
-		starsComboBox.setDisplayField("1");
-		starsComboBox.setMode(ComboBox.LOCAL);
-		starsComboBox.setTriggerAction(ComboBox.ALL);
-		starsComboBox.setEmptyText("Sterne wählen");
-		starsComboBox.setForceSelection(true);
-		starsComboBox.setReadOnly(true);
-		starsComboBox.setWidth(120);
-		starsComboBox.setAllowBlank(false);
-		//messagePanel.add(starsComboBox);
+//		Object[][] optionsDelivery = new Object[][] {
+//				new Object[] { "1" },
+//				new Object[] { "2"},
+//				new Object[] { "3"},
+//				new Object[] { "4"},
+//				new Object[] { "5"}};
+//
+//		Store deliveryStore = new SimpleStore(new String[] { "1" },
+//				optionsDelivery);
+//		deliveryStore.load();
+//
+//		final ComboBox starsComboBox = new ComboBox();
+//		starsComboBox.setFieldLabel("Bewertungspunkte");
+//		starsComboBox.setStore(deliveryStore);
+//		
+//		starsComboBox.setDisplayField("1");
+//		starsComboBox.setMode(ComboBox.LOCAL);
+//		starsComboBox.setTriggerAction(ComboBox.ALL);
+//		starsComboBox.setEmptyText("Sterne wählen");
+//		starsComboBox.setForceSelection(true);
+//		starsComboBox.setReadOnly(true);
+//		starsComboBox.setWidth(120);
+//		starsComboBox.setAllowBlank(false);
+//		messagePanel.add(starsComboBox);
 
 		Image whiteStarImg = new Image("uploads/whiteStar.png");
-		whiteStarImg.setSize("30", "30");
+		whiteStarImg.setSize("28", "28");
 		Image yellowStarImg = new Image("uploads/yellowStar.gif");
 		yellowStarImg.setSize("30", "30");
 		Image deleteImg = new Image("uploads/delete.png");
@@ -111,7 +116,7 @@ public class UserRateForm implements Form {
 
 		final RateItWidget rateIt = new RateItWidget(
 
-			  3.0/*current rating*/, 5 /*max rating */, 
+			  1/*current rating*/, 5 /*max rating */, 
 
 			  whiteStarImg, yellowStarImg, deleteImg, deleteImg, yellowStarImg);
 		rateIt.addChangeListener(new ChangeListener() {
@@ -131,22 +136,23 @@ public class UserRateForm implements Form {
 		send.addListener(new ButtonListenerAdapter() {
 			public void onClick(Button button, EventObject e) {
 				Rate rate = new Rate();
-				rate.setStars(new Integer( starsComboBox.getValue() ));
+				rate.setStars(rateIt.getUserRating());
 				rate.setRatedUser(SwapWeb.getUserNameFromSession());
-				rate.setRatingUser(user.getUsername());
+				rate.setRatingUser(username);
 				rate.setComment(textArea.getText());
-				rate.setOfferId(2);
+				rate.setOfferId(offerId);
 				
 				RatingHandlerAsync ratingHandler = GWT.create(RatingHandler.class);
 				ratingHandler.sendRate(rate, new AsyncCallback<Integer>(){
 					public void onFailure(Throwable caught) {
-						System.out.println(starsComboBox.getValue()	);
 						System.out.println("RPC: Rating UserRateForm.java "+caught);
 						caught.printStackTrace();
 					}
 
 					public void onSuccess(Integer result) {
 						messageWindow.close();
+						bewertungAbgeben.disable();
+						bewertungAbgeben.setText("bewertung wurde abgegeben!");
 					}
 				});
 			}

@@ -28,6 +28,7 @@ import ppj09.gwt.swapweb.client.gui.AdvancedSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchForm;
 import ppj09.gwt.swapweb.client.gui.ArticleSearchResultView;
+import ppj09.gwt.swapweb.client.gui.HelpView;
 import ppj09.gwt.swapweb.client.gui.LoginForm;
 import ppj09.gwt.swapweb.client.gui.MailboxView;
 import ppj09.gwt.swapweb.client.gui.UserForm;
@@ -67,6 +68,7 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.ComboBox;
+import com.gwtext.client.widgets.form.TextArea;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtext.client.widgets.form.MultiFieldPanel;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
@@ -247,7 +249,13 @@ public class SwapWeb implements EntryPoint {
 
 		contentPanel.setWidth(700);
 		contentPanel.setPaddings(10);
-
+		
+		Panel startMessage = new Panel();
+		startMessage.setBorder(false);
+		startMessage.setHtml("<b>Wilkommen bei SwapWeb</b></br></br> Bei SwapWeb wird alles getauscht, was nützlich ist und einen neuen Besitzer sucht. Waren jeder Art, egal ob Kleinigkeiten oder Dinge mit großem Wert. In unserer Tauschbörse das ein oder andere Schnäppchen machen. Stöbere in Ruhe in den  Rubriken. Finde heraus, was hier schon alles zum Tausch angeboten wird. SwapWeb ist nicht nur etwas für Flohmarkt-Fans oder Sammler. Hier findet man auch hochwertige Waren! Es ist nichts besonderes, hier im SwapWeb auch Autos, Häuser oder Grundstücke zu finden. Fast alles ist erlaubt! Solange es legal ist und nicht gegen gute Sitten verstößt.Die Teilnahme ist kostenlos. Es gibt definitiv keine versteckten Kosten. Hier wird also niemand zur Kasse gebeten. Man kann sich kostenlos anmelden, kostenlos Bilder hochladen und kostenlos Inserate schalten.");
+		contentPanel.add(startMessage);
+		contentPanel.setTitle("Start Seite");
+		
 		navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
 
@@ -282,6 +290,7 @@ public class SwapWeb implements EntryPoint {
 
 		// Hilfe
 		hilfe = new DisclosurePanel("Hilfe", false);
+		hilfe.add(new HelpView());
 		verticalPanel.add(hilfe);
 
 		navigationsContentPanel.add(verticalPanel);

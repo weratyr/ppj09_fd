@@ -195,13 +195,7 @@ public class UserView extends Composite implements View {
 						verticalPanel_1.add(userRatings);
 						
 						reportUser = new Hyperlink("", null);
-						reportUser.setText("bewertung abgeben");
-						reportUser.addClickHandler(new ClickHandler() {
-							public void onClick(ClickEvent event) {
-								new UserRateForm(user);
-							}
-						});
-						verticalPanel_1.add(reportUser);
+						
 						
 						
 						absolutePanel.add(verticalPanel_1, 0, 0);
