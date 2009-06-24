@@ -87,7 +87,7 @@ public class MailboxView extends Composite{
 		accordionPanel = createAccordionPanel();
 		accordionPanel.setHeight(450);
 //		accordionPanel.setAutoHeight(true);
-		accordionPanel.setWidth(308);
+		accordionPanel.setWidth(408);
 		
 		mainWindow.add(accordionPanel);
 		mainWindow.add(getMailContents());
@@ -207,9 +207,9 @@ public class MailboxView extends Composite{
 			   
 			         RecordDef recordDef = new RecordDef(  
 			                 new FieldDef[]{  
-			                         new StringFieldDef("date"),  
+			                         new StringFieldDef("author"),
 			                         new StringFieldDef("topic"),
-			                         new StringFieldDef("author")
+			                         new StringFieldDef("date")
 			                 }  
 			         );  
 			   
@@ -225,9 +225,9 @@ public class MailboxView extends Composite{
 			   
 			   
 			         ColumnConfig[] columns = new ColumnConfig[]{  
-			                 new ColumnConfig("Datum", "date", 60, true, null, "date"),
-			                 new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
-			                 new ColumnConfig("Von", "author", 110, true, null, "author")
+			                 new ColumnConfig("Datum", "date", 90, true, null, "date"),
+			                 new ColumnConfig("Betreff", "topic", 170, true, null, "topic"),
+			                 new ColumnConfig("Von", "author", 120, true, null, "author")
 			         };  
 			   
 			         ColumnModel columnModel = new ColumnModel(columns);  
@@ -236,7 +236,7 @@ public class MailboxView extends Composite{
 			         inboxGrid.setStripeRows(true);  
 			         inboxGrid.setAutoExpandColumn("topic");  
 			         inboxGrid.setHeight(399);
-			         inboxGrid.setWidth(300);
+			         inboxGrid.setWidth(400);
 			         
 			          inboxGrid.addGridRowListener(new GridRowListener() {  
         	              public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
@@ -287,9 +287,9 @@ public class MailboxView extends Composite{
   
   
         ColumnConfig[] columns = new ColumnConfig[]{  
-                new ColumnConfig("Datum", "date", 60, true, null, "date"),
-                new ColumnConfig("Betreff", "topic", 130, true, null, "topic"),
-                new ColumnConfig("Von", "author", 110, true, null, "author")
+                new ColumnConfig("Datum", "date", 90, true, null, "date"),
+                new ColumnConfig("Betreff", "topic", 170, true, null, "topic"),
+                new ColumnConfig("Von", "author", 120, true, null, "author")
         };  
   
         ColumnModel columnModel = new ColumnModel(columns);  
@@ -298,7 +298,7 @@ public class MailboxView extends Composite{
         outboxGrid.setStripeRows(true);  
         outboxGrid.setAutoExpandColumn("topic");  
         outboxGrid.setHeight(399);
-        outboxGrid.setWidth(300);
+        outboxGrid.setWidth(400);
         
         outboxGrid.addGridRowListener(new GridRowListener() {  
              public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
