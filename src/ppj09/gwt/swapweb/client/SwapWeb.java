@@ -218,10 +218,12 @@ public class SwapWeb implements EntryPoint {
 		unreadedHorizontalPanel.add(seperator);
 
 		unreadedMsgsHyperlink = new Hyperlink("Nachrichten", null);
+		
 		unreadedMsgsHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-
+				contentPanel.add(new MailboxView());
 			}
+
 		});
 		unreadedHorizontalPanel.add(unreadedMsgsHyperlink);
 		unreadedHorizontalPanel.setVisible(false);
@@ -249,14 +251,13 @@ public class SwapWeb implements EntryPoint {
 
 		contentPanel.setWidth(700);
 		contentPanel.setPaddings(10);
-
+		
 		Panel startMessage = new Panel();
 		startMessage.setBorder(false);
-		startMessage
-				.setHtml("<b>Wilkommen bei SwapWeb</b></br></br> Bei SwapWeb wird alles getauscht, was nützlich ist und einen neuen Besitzer sucht. Waren jeder Art, egal ob Kleinigkeiten oder Dinge mit großem Wert. In unserer Tauschbörse das ein oder andere Schnäppchen machen. Stöbere in Ruhe in den  Rubriken. Finde heraus, was hier schon alles zum Tausch angeboten wird. SwapWeb ist nicht nur etwas für Flohmarkt-Fans oder Sammler. Hier findet man auch hochwertige Waren! Es ist nichts besonderes, hier im SwapWeb auch Autos, Häuser oder Grundstücke zu finden. Fast alles ist erlaubt! Solange es legal ist und nicht gegen gute Sitten verstößt.Die Teilnahme ist kostenlos. Es gibt definitiv keine versteckten Kosten. Hier wird also niemand zur Kasse gebeten. Man kann sich kostenlos anmelden, kostenlos Bilder hochladen und kostenlos Inserate schalten.");
+		startMessage.setHtml("<b>Wilkommen bei SwapWeb</b></br></br> Bei SwapWeb wird alles getauscht, was nützlich ist und einen neuen Besitzer sucht. Waren jeder Art, egal ob Kleinigkeiten oder Dinge mit großem Wert. In unserer Tauschbörse das ein oder andere Schnäppchen machen. Stöbere in Ruhe in den  Rubriken. Finde heraus, was hier schon alles zum Tausch angeboten wird. SwapWeb ist nicht nur etwas für Flohmarkt-Fans oder Sammler. Hier findet man auch hochwertige Waren! Es ist nichts besonderes, hier im SwapWeb auch Autos, Häuser oder Grundstücke zu finden. Fast alles ist erlaubt! Solange es legal ist und nicht gegen gute Sitten verstößt.Die Teilnahme ist kostenlos. Es gibt definitiv keine versteckten Kosten. Hier wird also niemand zur Kasse gebeten. Man kann sich kostenlos anmelden, kostenlos Bilder hochladen und kostenlos Inserate schalten.");
 		contentPanel.add(startMessage);
 		contentPanel.setTitle("Start Seite");
-
+		
 		navigationPanel = new Panel("Navigation");
 		navigationPanel.setWidth(181);
 
@@ -322,7 +323,7 @@ public class SwapWeb implements EntryPoint {
 			}
 		});
 
-		myArticlesHyperlink = new Hyperlink("Meine Artikel", null);
+		
 
 		insertArticleHyperlink = new Hyperlink("Artikel einstellen", null);
 		insertArticleHyperlink.addClickHandler(new ClickHandler() {
@@ -335,7 +336,7 @@ public class SwapWeb implements EntryPoint {
 
 		});
 
-		myRatingsHyperlink = new Hyperlink("Meine Bewertungen", null);
+		
 		myMessagesHyperlink = new Hyperlink("Nachrichten", null);
 		myMessagesHyperlink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -346,9 +347,7 @@ public class SwapWeb implements EntryPoint {
 
 		verticalPanel.add(myProfileHyperlink);
 		verticalPanel.add(testProfileFormHyperlink);
-		verticalPanel.add(myArticlesHyperlink);
 		verticalPanel.add(insertArticleHyperlink);
-		verticalPanel.add(myRatingsHyperlink);
 		verticalPanel.add(myMessagesHyperlink);
 
 		return verticalPanel;
@@ -501,25 +500,23 @@ public class SwapWeb implements EntryPoint {
 		SwapWeb.userNameFromSession = userNameFromSession;
 	}
 
+	
 	public static VerticalPanel getVorliegendeAngebotePanel(int articleId) {
 		System.out.println("ARTIKEL ID " + articleId);
 		final VerticalPanel offeredArticles = new VerticalPanel();
 		SearchHandlerAsync searchHandler = GWT.create(SearchHandler.class);
-		searchHandler.getOfferedArticles(articleId,
-				new AsyncCallback<ArrayList<SearchResult>>() {
-					public void onFailure(Throwable e) {
-						e.printStackTrace();
-					}
-
-					public void onSuccess(ArrayList<SearchResult> results) {
-						System.out.println("Anzahl resultsss: "
-								+ results.size());
-						for (SearchResult r : results) {
-							offeredArticles.add((Widget) r.getView());
-							System.out.println("Widget gerender!");
-						}
-					}
-				});
+		searchHandler.getOfferedArticles(articleId, new AsyncCallback<ArrayList<SearchResult>>() {
+			public void onFailure(Throwable e) {
+				e.printStackTrace();
+			}
+			public void onSuccess(ArrayList<SearchResult> results) {
+				System.out.println("Anzahl resultsss: " + results.size());
+				for (SearchResult r : results) {
+					offeredArticles.add((Widget) r.getView());
+					System.out.println("Widget gerender!");
+				}
+			}
+		});
 		return offeredArticles;
 	}
 
