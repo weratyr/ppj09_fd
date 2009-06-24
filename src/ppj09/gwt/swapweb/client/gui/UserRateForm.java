@@ -23,6 +23,7 @@ import com.gwtext.client.core.Position;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.Window;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.ComboBox;
@@ -44,10 +45,12 @@ public class UserRateForm implements Form {
 	private String username;
 	private int offerId;
 	private Label BewerteUserLabel;
+	ToolbarButton bewertungAbgeben;
 
 	
-	public UserRateForm(String user, int offerId) {
+	public UserRateForm(String user, int offerId, ToolbarButton bewertungAbgeben) {
 		this.username = user;
+		this.bewertungAbgeben = bewertungAbgeben;
 		createMessagePopupWindow();
 	}
 
@@ -148,6 +151,7 @@ public class UserRateForm implements Form {
 
 					public void onSuccess(Integer result) {
 						messageWindow.close();
+						bewertungAbgeben.disable();
 					}
 				});
 			}
