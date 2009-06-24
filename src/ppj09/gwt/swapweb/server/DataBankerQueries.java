@@ -811,7 +811,8 @@ public class DataBankerQueries {
 			pStmt.setString(2, "SwapWeb Notification");
 			pStmt.setString(3, userName);
 			pStmt.setString(4, "Angebot wurde angenommen!");
-			pStmt.setString(5, "Das Angebot mit der ID " + offerId + " wurde angenommen.");
+			pStmt.setString(5, "Das Angebot mit der ID " + offerId
+					+ " wurde angenommen.");
 			pStmt.setInt(6, 0);
 			statusCode = pStmt.executeUpdate();
 			dbc.close();
@@ -834,26 +835,29 @@ public class DataBankerQueries {
 			query = "SELECT * FROM offer WHERE id = '" + offerId + "'";
 			ResultSet offerResult = stmt.executeQuery(query);
 			offerResult.next();
-			
-			ArrayList<Integer> ids = parseForIds(offerResult.getString("offerItemIds"));
-			
+
+			ArrayList<Integer> ids = parseForIds(offerResult
+					.getString("offerItemIds"));
+
 			stmt = dbc.getStatement();
 			query = "SELECT * FROM article WHERE id = '" + ids.get(0) + "'";
 			ResultSet articleResult = stmt.executeQuery(query);
 			articleResult.next();
 			String userName = getUsername(articleResult.getInt("userid"));
-			
+
 			stmt = dbc.getStatement();
 			String query = "DELETE FROM offer WHERE id = '" + offerId + "'";
 			statusCode = stmt.executeUpdate(query);
-			
+
 			query = "INSERT INTO message (articleID, author, receiver, topic, message, isRead) VALUES(?,?,?,?,?,?)";
-			PreparedStatement pStmt = dbc.getConnection().prepareStatement(query);
+			PreparedStatement pStmt = dbc.getConnection().prepareStatement(
+					query);
 			pStmt.setInt(1, 0);
 			pStmt.setString(2, "SwapWeb Notification");
 			pStmt.setString(3, userName);
 			pStmt.setString(4, "Angebot wurde abgelehnt!");
-			pStmt.setString(5, "Das Angebot mit der ID " + offerId + " wurde abgelehnt.");
+			pStmt.setString(5, "Das Angebot mit der ID " + offerId
+					+ " wurde abgelehnt.");
 			pStmt.setInt(6, 0);
 			statusCode = pStmt.executeUpdate();
 			dbc.close();
@@ -875,7 +879,11 @@ public class DataBankerQueries {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 
-				messages.add(new Message(rs.getInt("messageID"),rs.getInt("articleID"),rs.getString("author"),rs.getString("receiver"),rs.getString("topic"),rs.getString("message"),rs.getInt("isRead"),rs.getTimestamp("Date").toString()));
+				messages.add(new Message(rs.getInt("messageID"), rs
+						.getInt("articleID"), rs.getString("author"), rs
+						.getString("receiver"), rs.getString("topic"), rs
+						.getString("message"), rs.getInt("isRead"), rs
+						.getTimestamp("Date").toString()));
 			}
 			stmt.close();
 			rs.close();
@@ -997,13 +1005,15 @@ public class DataBankerQueries {
 
 		int anzahl = 0;
 		DataBankerConnection dbc = new DataBankerConnection();
-		System.out.println("USERNAME: "+username);
+		System.out.println("USERNAME: " + username);
 		try {
 			Statement stmt = dbc.getStatement();
-			query = "SELECT isRead FROM message WHERE receiver ='"+username+"'";
+			query = "SELECT isRead FROM message WHERE receiver ='" + username
+					+ "'";
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				anzahl++;
+				if (rs.getInt("isRead") == 0)
+					anzahl++;
 				System.out.println("FOUND ANZ: " + anzahl);
 			}
 			stmt.close();

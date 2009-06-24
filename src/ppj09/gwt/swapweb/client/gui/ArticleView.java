@@ -95,7 +95,7 @@ public class ArticleView extends Composite implements View {
 	private Hyperlink usernameHyperlink;
 	private Hyperlink categoryHyperlink;
 	private Hyperlink messageHyperlink;
-	private Hyperlink rateHyperlink;
+	//private Hyperlink rateHyperlink;
 	private int usernameVisitorId;
 	private int articleId;
 
@@ -138,12 +138,12 @@ public class ArticleView extends Composite implements View {
 
 					absolutePanel.add(messageHyperlink, 2, 158);
 
-					rateHyperlink = new Hyperlink("", null);
-					rateHyperlink.addClickHandler(new ClickHandler() {
-						public void onClick(ClickEvent event) {
-						}
-					});
-					absolutePanel.add(rateHyperlink, 2, 176);
+//					rateHyperlink = new Hyperlink("", null);
+//					rateHyperlink.addClickHandler(new ClickHandler() {
+//						public void onClick(ClickEvent event) {
+//						}
+//					});
+//					absolutePanel.add(rateHyperlink, 2, 176);
 
 					// Rechtes Panel ArtikelInformationen
 
@@ -617,8 +617,8 @@ public class ArticleView extends Composite implements View {
 				categoryHyperlink.setText(article.getCategory());
 				messageHyperlink.setText("Nachricht an "
 						+ article.getUserName());
-				rateHyperlink.setText("Bewertungen von "
-						+ article.getUserName());
+				//rateHyperlink.setText("Bewertungen von "
+					//	+ article.getUserName());
 				lblLocation2.setText(article.getZipCode() + " "
 						+ article.getLocation());
 				lblCondition2.setText(article.getCondition());
