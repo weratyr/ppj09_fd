@@ -484,10 +484,9 @@ public class SwapWeb implements EntryPoint {
 				e.printStackTrace();
 			}
 			public void onSuccess(ArrayList<SearchResult> results) {
-				System.out.println("Anzahl resultsss: " + results.size());
+				System.out.println("Anzahl results (Vorliegende Angebote): " + results.size());
 				for (SearchResult r : results) {
 					offeredArticles.add((Widget) r.getView());
-					System.out.println("Widget gerender!");
 				}
 			}
 		});
@@ -504,7 +503,7 @@ public class SwapWeb implements EntryPoint {
 			}
 			public void onSuccess(ArrayList<SearchResult> results) {
 				title.setText("Angebote (" + results.size() + ")");
-				System.out.println("Anzahl results: " + results.size());
+				// System.out.println("Anzahl results: " + results.size());
 				for (SearchResult r : results) {
 					offeredArticles.add((Widget) r.getView());
 				}
