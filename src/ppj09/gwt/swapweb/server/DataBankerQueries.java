@@ -691,7 +691,8 @@ public class DataBankerQueries {
 						offerResultSet.getInt("id"),	// offer Id
 						articles.get(0).getUserName(),	// offer from UserName
 						getUsername(getArticle(articleId).getUserId()),	 // offer to UserName
-						articles));
+						articles,
+						offerResultSet.getBoolean("swapConcluded")));
 			}
 			dbc.close();
 		} catch (Exception e) {
