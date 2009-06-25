@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Der Datentyp welcher zwischen Client und Server ausgetauscht wird, und ueber
  * den DataBanker in die DB abgelegt wird.
  * 
- * @author Christian Happ
+ * @author Christian Happ, Michael Lukaszczyk
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */

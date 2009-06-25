@@ -14,11 +14,16 @@ import java.util.ArrayList;
  * Der Datentyp welcher zwischen Client und Server ausgetauscht wird, und ueber
  * den DataBanker in die DB abgelegt wird.
  * 
- * @author Christian Happ
+ * @author Christian Happ, Michael
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
 public class Offer implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	// offerId ist eindeutig
 	private int offerId;
 	// speichert die Artikel Nummer der zu tauschenden Gegenstaende

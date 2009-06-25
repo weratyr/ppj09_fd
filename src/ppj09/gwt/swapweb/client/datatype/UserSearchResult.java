@@ -19,6 +19,11 @@ import ppj09.gwt.swapweb.client.gui.UserSearchResultView;
  * @version 0.1, 04.05.09
  */
 public class UserSearchResult implements SearchResult, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String username;
 	private String userPicture;
 	private String firstname;

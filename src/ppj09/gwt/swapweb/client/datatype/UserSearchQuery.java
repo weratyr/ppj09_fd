@@ -14,6 +14,11 @@ package ppj09.gwt.swapweb.client.datatype;
  * @version 0.1, 20.06.09
  */
 public class UserSearchQuery implements SearchQuery {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String username;
 	private String firstname;
 	private String lastname;

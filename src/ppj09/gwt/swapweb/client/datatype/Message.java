@@ -8,15 +8,19 @@
 package ppj09.gwt.swapweb.client.datatype;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * Stellt eine Nachricht da, welche zwischen zwei Benutzern ausgetauscht wird.
  * 
- * @author Christian, André
+ * @author Christian, André, Michael
  * @version 0.1, 17.05.09
  */
 public class Message implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private int messageId; 		// eindeutige Nachrichten Nummer
 	private int articleId;		// falls sich eine Nachricht auf einen bestimmten Artikel bezieht

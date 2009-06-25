@@ -20,6 +20,10 @@ import java.io.Serializable;
  */
 public class Rate implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Bewertungskommentar
 	private String comment;
 	//Anzahl der Sterne (1-5) 

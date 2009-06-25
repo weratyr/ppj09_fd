@@ -14,6 +14,11 @@ import ppj09.gwt.swapweb.client.gui.OfferSearchResultView;
 import ppj09.gwt.swapweb.client.gui.SearchResultView;
 
 public class OfferSearchResult implements SearchResult, Serializable {
+	/**
+	 * 	@author André Wagner
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private ArrayList<ArticleSearchResult> articles;
 	private String offeredBy;
 	private String offeredTo;

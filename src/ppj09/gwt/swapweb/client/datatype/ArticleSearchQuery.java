@@ -73,18 +73,4 @@ public class ArticleSearchQuery extends Article implements SearchQuery {
 		return userIdPhrase;
 	}
 
-	/*
-	 * Auf diese Weise würden die Parameter in eine universelle Form gebracht
-	 * werden, die vom Databanker unabhängig vom Inhalt verarbeitet werden kann.
-	 * 
-	 * public ArrayList<Parameter> getParameters() { ArrayList<Parameter> params
-	 * = new ArrayList<Parameter>(); params.add(new Parameter("searchPhrase",
-	 * Operator.LIKE, searchPhrase)); params.add(new Parameter("pictureUrls",
-	 * Operator.MIN_LENGTH, 1)); params.add(new Parameter("conditionCodes",
-	 * Operator.HAS, conditionCodes)); params.add(new Parameter("categoryIds",
-	 * Operator.HAS, categoryIds)); params.add(new
-	 * Parameter("shippingMethodIds", Operator.HAS, shippingMethodIds)); return
-	 * params; }
-	 */
-
 }

@@ -10,17 +10,20 @@ package ppj09.gwt.swapweb.client.datatype;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.google.gwt.user.client.ui.Image;
-
 /**
  * Der Datentyp welcher zwischen Client und Server ausgetauscht wird, und ueber
  * den DataBanker in die DB abgelegt wird.
  * 
- * @author Christian Happ
+ * @author Christian Happ, Michael Lukaszczyk
  * @author Projekt Team 4711
  * @version 0.1, 04.05.09
  */
 public class User implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String firstName;
 	private String lastName;

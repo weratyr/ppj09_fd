@@ -33,6 +33,11 @@ import com.gwtext.client.widgets.grid.event.GridRowListener;
 import com.gwtext.client.widgets.layout.AccordionLayout;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
 
+/**
+ * @author Michael Lukaszczyk
+ * @author Projekt Team 4711
+ */
+
 public class MailboxView extends Composite{
 
 	private GridPanel inboxGrid;
