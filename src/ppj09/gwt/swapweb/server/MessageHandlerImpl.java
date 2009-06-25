@@ -1,6 +1,5 @@
 package ppj09.gwt.swapweb.server;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import ppj09.gwt.swapweb.client.datatype.Message;
@@ -11,6 +10,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class MessageHandlerImpl extends RemoteServiceServlet implements
 		MessageHandler {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DataBankerQueries db = new DataBankerQueries();
 	private SessionHandler sh = new SessionHandler();
 
@@ -30,7 +33,6 @@ public class MessageHandlerImpl extends RemoteServiceServlet implements
 	}
 
 	public int getUnreadedMsgs() {
-		// TODO Auto-generated method stub
 		return db.getUnreaded(sh.getSession(this.getThreadLocalRequest()));
 	}
 

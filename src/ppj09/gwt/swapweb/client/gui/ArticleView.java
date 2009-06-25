@@ -95,8 +95,6 @@ public class ArticleView extends Composite implements View {
 	private Hyperlink usernameHyperlink;
 	private Hyperlink categoryHyperlink;
 	private Hyperlink messageHyperlink;
-	//private Hyperlink rateHyperlink;
-	private int usernameVisitorId;
 	private int articleId;
 
 	public ArticleView(int articleId) {
@@ -138,12 +136,7 @@ public class ArticleView extends Composite implements View {
 
 					absolutePanel.add(messageHyperlink, 2, 158);
 
-//					rateHyperlink = new Hyperlink("", null);
-//					rateHyperlink.addClickHandler(new ClickHandler() {
-//						public void onClick(ClickEvent event) {
-//						}
-//					});
-//					absolutePanel.add(rateHyperlink, 2, 176);
+
 
 					// Rechtes Panel ArtikelInformationen
 
@@ -348,7 +341,7 @@ public class ArticleView extends Composite implements View {
 
 	private void createOwnArticlesForm() {
 		/**
-		 * TODO erstellt aus den Formulardaten ein ArticleSearch Objekt und
+		 * erstellt aus den Formulardaten ein ArticleSearch Objekt und
 		 * übergibt es per RPC an SearchHandler.search()
 		 */
 	
@@ -397,8 +390,6 @@ public class ArticleView extends Composite implements View {
 
 						BaseColumnConfig[] columns = new BaseColumnConfig[] {
 								new CheckboxColumnConfig(cbSelectionModel),
-								// column ID is company which is later used in
-								// setAutoExpandColumn
 								new ColumnConfig("Artikel", "artikel", 400,
 										true, null, "artikel"),
 								new ColumnConfig("Angebotsumfang",
@@ -420,7 +411,6 @@ public class ArticleView extends Composite implements View {
 						offerWindow = new Window();
 						offerWindow.addListener(new WindowListenerAdapter() {
 							public void onHide(Component component) {
-								// TODO
 								offerSubmitForm.clear();
 							}
 						});
@@ -522,7 +512,6 @@ public class ArticleView extends Composite implements View {
 						chkbxAccept.setValidateOnBlur(true);
 
 						Button button = new Button("Angebot senden");
-						// button.setFormBind(true);
 
 						offerSubmitForm.add(shippingCB);
 						offerSubmitForm.add(offerComment);
@@ -535,7 +524,6 @@ public class ArticleView extends Composite implements View {
 								if (!shippingCB.getText().equals("")
 										&& chkbxAccept.getValue()) {
 									int swapStatus = 0;
-									// Offer offer = new Offer();
 									Offer offer = new Offer(article
 											.getArticleId(), offerListIds,
 											offerComment.getText(), swapStatus,
@@ -617,8 +605,6 @@ public class ArticleView extends Composite implements View {
 				categoryHyperlink.setText(article.getCategory());
 				messageHyperlink.setText("Nachricht an "
 						+ article.getUserName());
-				//rateHyperlink.setText("Bewertungen von "
-					//	+ article.getUserName());
 				lblLocation2.setText(article.getZipCode() + " "
 						+ article.getLocation());
 				lblCondition2.setText(article.getCondition());
